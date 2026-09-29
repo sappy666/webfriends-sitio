@@ -1,18 +1,22 @@
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { load } from 'js-yaml';
 
 /**
- * Genera dist/client/_redirects (formato nativo de Cloudflare) a partir del
+ * Genera _redirects en el directorio de salida del cliente (formato nativo de Cloudflare) a partir del
  * campo previousSlugs de cada singleton de página, para que las URLs viejas
  * respondan con un 301 real hacia el slug actual y no se pierda el SEO
  * acumulado cuando alguien cambia una URL desde Keystatic.
+ *
+ * Con { format: 'htaccess' } genera en cambio un .htaccess para Apache (cPanel).
  */
-export default function legacySlugRedirects() {
+export default function legacySlugRedirects({ format = 'cloudflare' } = {}) {
   return {
     name: 'legacy-slug-redirects',
     hooks: {
-      'astro:build:done': async () => {
+      'astro:build:done': async ({ dir }) => {
+        const outDir = fileURLToPath(dir);
         const contentDir = join(process.cwd(), 'src/content/site');
         const files = readdirSync(contentDir).filter(
           (f) => f.startsWith('page-') && f.endsWith('.yaml')
@@ -41,7 +45,19 @@ export default function legacySlugRedirects() {
           }
         }
 
-        if (lines.length > 0) {
+        if (format === 'htaccess') {
+          const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const htaccess = [
+            'DirectoryIndex index.html',
+            'ErrorDocument 404 /404.html',
+            '',
+            ...lines.map((l) => {
+              const [from, to] = l.split(' ');
+              return `RedirectMatch 301 ^${escape(from)}$ ${to}`;
+            }),
+          ];
+          writeFileSync(join(outDir, '.htaccess'), htaccess.join('\n') + '\n');
+        } else if (lines.length > 0) {
           writeFileSync(join(process.cwd(), 'dist/client/_redirects'), lines.join('\n') + '\n');
         }
       },
