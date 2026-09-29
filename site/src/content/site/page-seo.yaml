@@ -1,7 +1,8 @@
 urlSlug: seo
-previousSlugs: []
-metaTitle: "Posicionamiento SEO — Webfriends"
-metaDescription: "Posicionamiento SEO técnico, de contenido y local en Chile. Planes desde $190.000 mensuales."
+previousSlugs:
+  - auditoria-seo
+metaTitle: "Posicionamiento SEO y Optimización Web | Webfriends"
+metaDescription: "Mejora tu posicionamiento orgánico en Google y consigue aumentar tus visitas y ventas sin invertir presupuesto mensual en anuncios. Mejora el SEO de tu sitio con Webfriends."
 ogImage:
   image: /assets/img/seo.webp
 heroEyebrow: Posicionamiento SEO

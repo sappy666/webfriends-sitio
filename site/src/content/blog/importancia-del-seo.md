@@ -1,5 +1,6 @@
 ---
 title: "Importancia posicionamiento SEO"
+metaTitle: "Importancia posicionamiento SEO - Webfriends"
 description: "Qué es el SEO, cómo funciona el posicionamiento orgánico con optimizaciones on-page y off-page, y por qué conviene contar con un especialista."
 excerpt: "Qué es el SEO, cómo funciona y por qué estar en los primeros resultados de Google le da credibilidad a tu marca."
 category: seo

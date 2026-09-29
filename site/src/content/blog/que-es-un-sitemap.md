@@ -1,5 +1,6 @@
 ---
 title: "¿Qué es un sitemap?"
+metaTitle: "¿Qué es un sitemap? - Webfriends"
 description: "Qué es un sitemap o mapa del sitio, por qué es importante para usuarios, buscadores y desarrolladores, y cómo ayuda al SEO."
 excerpt: "Qué es el mapa del sitio y por qué ayuda a Google a rastrear e indexar tus páginas."
 category: seo

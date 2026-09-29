@@ -7,6 +7,8 @@ date: 2026-10-31
 readingTime: "5 min de lectura"
 coverIcon: chart-bars
 relatedService: page-seo
+previousSlugs:
+  - velocidad-de-carga
 ---
 
 Google dejó de medir la calidad de un sitio solo por sus palabras clave. Hoy también mide cómo se siente usarlo de verdad: qué tan rápido carga, qué tan rápido responde y qué tan estable se ve mientras carga. A ese conjunto de métricas se le llama Core Web Vitals.

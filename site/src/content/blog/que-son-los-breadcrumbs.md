@@ -1,5 +1,6 @@
 ---
 title: "¿Qué son los Breadcrumbs?"
+metaTitle: "¿Que son los Breadcrumbs? - Webfriends Chile"
 description: "Qué son los breadcrumbs o migas de pan, para qué sirven en la navegación de un sitio web y qué ventajas tienen para la usabilidad y el SEO."
 excerpt: "Las migas de pan: qué son, para qué sirven y por qué ayudan a la usabilidad y al SEO."
 category: seo

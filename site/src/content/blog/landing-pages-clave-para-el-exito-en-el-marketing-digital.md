@@ -1,6 +1,7 @@
 ---
 title: "Landing Pages: Clave para el Éxito en el Marketing Digital"
-description: "Qué es una landing page, cómo diseñarla, optimizarla para SEO y campañas de Google Ads, y cómo aumentar su tasa de conversión."
+metaTitle: "Landing Pages: Clave para el Éxito en el Marketing Digital"
+description: "Landing Pages que impulsan la conversión. Aprende estrategias, diseño y optimización para crear páginas de destino efectivas."
 excerpt: "Diseño, estructura, SEO y conversión: todo lo que necesita una landing page que vende."
 category: web
 previousSlugs:

@@ -47,14 +47,32 @@ export default function legacySlugRedirects({ format = 'cloudflare' } = {}) {
 
         if (format === 'htaccess') {
           const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const slash = (to) => (to.endsWith('/') ? to : `${to}/`); // destino final directo, sin 2º salto
+          // Un solo RewriteRule por URL antigua; acepta con y sin "/" final.
+          const seen = new Set();
+          const slugRules = lines
+            .map((l) => l.split(' '))
+            .map(([from, to]) => [from.replace(/\/+$/, ''), to])
+            .filter(([from]) => from && !seen.has(from) && seen.add(from))
+            .map(([from, to]) => `RewriteRule ^${escape(from.slice(1))}/?$ ${slash(to)} [R=301,L]`);
           const htaccess = [
             'DirectoryIndex index.html',
             'ErrorDocument 404 /404.html',
             '',
-            ...lines.map((l) => {
-              const [from, to] = l.split(' ');
-              return `RedirectMatch 301 ^${escape(from)}$ ${to}`;
-            }),
+            'RewriteEngine On',
+            '',
+            '# Dominio canónico: https y sin www',
+            'RewriteCond %{HTTPS} off [OR]',
+            'RewriteCond %{HTTP_HOST} ^www\\. [NC]',
+            'RewriteRule ^(.*)$ https://webfriends.cl/$1 [R=301,L]',
+            '',
+            '# URLs antiguas (previousSlugs de páginas y artículos)',
+            ...slugRules,
+            '',
+            '# Secciones del WordPress anterior que ya no existen',
+            'RewriteRule ^tienda-virtual/?$ /producto/tienda-virtual/ [R=301,L]',
+            'RewriteRule ^(category|tag)(/.*)?$ /blog/ [R=301,L]',
+            'RewriteRule ^(carrito|mi-cuenta|categoria-producto)(/.*)?$ /tienda/ [R=301,L]',
           ];
           writeFileSync(join(outDir, '.htaccess'), htaccess.join('\n') + '\n');
         } else if (lines.length > 0) {

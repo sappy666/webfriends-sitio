@@ -1,7 +1,8 @@
 urlSlug: sitios-web
-previousSlugs: []
-metaTitle: "Sitios y tiendas web — Webfriends"
-metaDescription: "Desarrollo de sitios web y tiendas en línea en Chile. Planes desde $190.000 con hosting y SSL incluidos."
+previousSlugs:
+  - planes-web
+metaTitle: "Diseño y Desarrollo de Sitios Web | WebFriends Chile"
+metaDescription: "Desarrollamos sitios web intuitivos, autoadministrables y que se adaptan a la necesidad del cliente. Cotiza tu One Page, Multi Page o tienda virtual."
 ogImage:
   image: /assets/img/web.webp
 heroEyebrow: Plataformas web

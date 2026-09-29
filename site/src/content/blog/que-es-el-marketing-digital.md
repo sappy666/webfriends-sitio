@@ -1,5 +1,6 @@
 ---
 title: "¿Qué es el Marketing Digital?"
+metaTitle: "¿Qué es el Marketing Digital? - Webfriends Chile"
 description: "Qué es el marketing digital explicado simple: cómo definir tu público, tu mensaje y tus canales, y las estrategias más efectivas como SEM, redes sociales y SEO."
 excerpt: "El marketing digital explicado simple: público, mensaje, canales y las estrategias que mejor funcionan."
 category: marketing

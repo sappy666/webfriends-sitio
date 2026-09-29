@@ -16,10 +16,13 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title, description, themeColor = '#F5F5F7', ogImage, ogImageAlt, noindex = false } = Astro.props;
+// Páginas sin imagen propia comparten una imagen de marca (1200×630) al compartirse en redes.
+const DEFAULT_OG = { image: '/assets/img/og-default.jpg', alt: 'Webfriends, agencia de marketing digital en Chile' };
+const { title, description, themeColor = '#F5F5F7', ogImage, noindex = false } = Astro.props;
+const ogImageAlt = ogImage ? Astro.props.ogImageAlt : DEFAULT_OG.alt;
 const currentPath = Astro.url.pathname;
 const canonicalUrl = new URL(currentPath, Astro.site ?? Astro.url.origin).toString();
-const ogImageUrl = ogImage ? new URL(ogImage, Astro.site ?? Astro.url.origin).toString() : undefined;
+const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.origin).toString();
 ---
 <!DOCTYPE html>
 <html lang="es-CL">

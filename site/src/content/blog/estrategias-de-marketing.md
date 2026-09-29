@@ -1,6 +1,7 @@
 ---
 title: "Mejor Estrategia de Marketing este 2023"
-description: "Los principios de una buena estrategia de marketing: especialización, diferenciación, segmentación y concentración, y cómo aplicarlos con el quién, qué, dónde, cuándo y por qué."
+metaTitle: "Mejor Estrategia de Marketing este 2023 - Webfriends Chile"
+description: "Descubre las estrategias de marketing más efectivas para impulsar tus ventas. Aprende a aprovechar las tendencias y tecnologías emergentes."
 excerpt: "Especialización, diferenciación, segmentación y concentración: los principios para que tu negocio llame la atención."
 category: marketing
 previousSlugs:

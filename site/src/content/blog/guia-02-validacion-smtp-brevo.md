@@ -1,5 +1,6 @@
 ---
 title: "Guía 02 - Validación SMTP Brevo"
+metaTitle: "Guía 02 - Validación SMTP Brevo - Webfriends"
 description: "Cómo conectar tu sitio WordPress con Brevo usando WP Mail SMTP y autenticar tu dominio (DKIM/DMARC) para que tus correos no caigan en spam."
 excerpt: "Brevo, WP Mail SMTP y autenticación DNS: cómo lograr que los correos de tu sitio lleguen a la bandeja de entrada."
 category: web

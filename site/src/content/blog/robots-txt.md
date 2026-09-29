@@ -1,5 +1,6 @@
 ---
 title: "Robots.txt"
+metaTitle: "¿Qué es el archivo Robots.txt y para que sirve? - Webfriends"
 description: "Qué es el archivo robots.txt, para qué sirve, cómo usar la instrucción Disallow y qué cuidados tener para no bloquear páginas importantes en Google."
 excerpt: "Qué es el robots.txt, para qué sirve Disallow y cómo evitar bloquear por error páginas importantes."
 category: seo

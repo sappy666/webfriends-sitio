@@ -1,5 +1,6 @@
 ---
 title: "Atributo ALT de imágenes"
+metaTitle: "Atributo ALT de imágenes - Webfriends"
 description: "Qué es el atributo ALT de una imagen, para qué sirve en SEO y accesibilidad, y cómo escribirlo bien sin caer en relleno de palabras clave."
 excerpt: "Qué es el texto alternativo de las imágenes y cómo escribirlo para SEO y accesibilidad."
 category: seo

@@ -1,7 +1,9 @@
 urlSlug: google-ads
-previousSlugs: []
-metaTitle: "Google Ads — Webfriends"
-metaDescription: "Gestión profesional de campañas de Google Ads en Chile. Planes desde $240.000 mensuales con comisión incluida."
+previousSlugs:
+  - plan-inicial-ads
+  - plan-negocios-ads
+metaTitle: "Campañas Google Ads y Publicidad en Google | Webfriends"
+metaDescription: "Consigue que más clientes llamen por teléfono, accedan a tu sitio y visiten tu tienda de manera inmediata con tu campaña de anuncios de Google Ads."
 ogImage:
   image: /assets/img/google-ads.webp
 heroEyebrow: Google Ads

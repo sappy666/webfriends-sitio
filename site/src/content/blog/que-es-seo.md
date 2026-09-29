@@ -1,5 +1,6 @@
 ---
 title: "¿Qué es SEO?"
+metaTitle: "¿Qué es el SEO y para que sirve? - Webfriends"
 description: "Qué es el SEO (Search Engine Optimization), qué hace un SEO Manager y qué factores considera el posicionamiento web en Google."
 excerpt: "Qué significa SEO, qué hace un SEO Manager y qué factores trabaja el posicionamiento web."
 category: seo
