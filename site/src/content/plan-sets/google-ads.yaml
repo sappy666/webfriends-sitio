@@ -1,0 +1,59 @@
+id: google-ads
+plans:
+  - name: Plan Inicial
+    tagline: Para quienes recién empiezan a invertir en buscadores.
+    price: $240.000
+    renewalTerms: "Mensual + IVA · Comisión 30% incluida"
+    featured: false
+    badge: ""
+    features:
+      - label: Análisis de palabras clave
+        description: Identificamos por qué términos te conviene competir y por cuáles no
+      - label: Creación de anuncios
+        description: Varias versiones de texto por grupo, para comparar cuál rinde
+      - label: Seguimiento de conversiones
+        description: Sabrás qué anuncio trae contactos, no solo visitas
+      - label: Informe mensual
+        description: "Inversión, contactos y costo por contacto, en lenguaje claro"
+    ctaLabel: Cotizar Plan Inicial
+    deliveryNote: Cancela avisando con 30 días
+  - name: Plan Negocio
+    tagline: Para negocios en crecimiento con varias líneas de servicio.
+    price: $390.000
+    renewalTerms: "Mensual + IVA · Comisión 30% incluida"
+    featured: true
+    badge: Más elegido
+    features:
+      - label: Todo lo del Plan Inicial
+        description: "Sin recortes: se suma, no se reemplaza"
+      - label: Ejecutivo asignado
+        description: Una persona fija que conoce tu cuenta, con WhatsApp directo
+      - label: Optimización quincenal
+        description: "Ajuste de pujas, pausa de lo que no rinde y nuevas negativas"
+      - label: Campañas por servicio
+        description: Presupuesto separado por línea de negocio, para no canibalizar
+      - label: Palabras negativas
+        description: Filtramos búsquedas que gastan sin convertir
+      - label: Reunión mensual
+        description: 30 minutos para revisar resultados y decidir el mes siguiente
+    ctaLabel: Cotizar Plan Negocio
+    deliveryNote: Cancela avisando con 30 días
+  - name: Plan Empresa
+    tagline: Para un flujo alto de clientes y campañas simultáneas.
+    price: $600.000
+    renewalTerms: "Mensual + IVA · Comisión 30% incluida"
+    featured: false
+    badge: ""
+    features:
+      - label: Todo lo del Plan Negocio
+        description: Incluye ejecutivo y reunión mensual
+      - label: Optimización semanal
+        description: "Revisión cada semana, no cada quince días"
+      - label: Display y remarketing
+        description: Vuelves a aparecer ante quien ya visitó tu sitio
+      - label: Reporte personalizado
+        description: "Con las métricas que a ti te importan, no una plantilla"
+      - label: Panel en tiempo real
+        description: Acceso permanente para ver el rendimiento cuando quieras
+    ctaLabel: Cotizar Plan Empresa
+    deliveryNote: Cancela avisando con 30 días

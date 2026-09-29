@@ -1,0 +1,4 @@
+question: ¿Se integra con el sistema que ya usamos?
+category: salud
+order: 1
+answer: Depende del sistema. Si tiene API o permite exportar disponibilidad, sí. Lo revisamos en la reunión inicial antes de comprometer nada.

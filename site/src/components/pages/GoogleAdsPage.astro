@@ -1,0 +1,315 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FaqSchema from '../FaqSchema.astro';
+
+const faqs = (await getCollection('faqs', ({ data }) => data.category === 'ads')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const page = (await getEntry('pages', 'page-google-ads'))!.data;
+const sec = (id: string) => page.sections.find((s) => s.id === id)!;
+const adsPlans = (await getEntry('planSets', 'google-ads'))!.data.plans;
+const problemaIcons = [
+  '<use href="#i-trending"></use>',
+  '<use href="#i-chart-bars"></use>',
+  '<use href="#i-monitor"></use>',
+  '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+];
+// Cotizador: los planes en forma simple, y como "extras" las funciones que solo trae
+// un plan superior (Negocio o Empresa), para que la elección suba de plan sola.
+const quoterPlans = adsPlans.map((p) => ({
+  name: p.name,
+  tagline: p.tagline,
+  renewal: p.renewalTerms,
+  cta: p.ctaLabel,
+  note: p.deliveryNote,
+  features: p.features.map((f) => f.label),
+}));
+// Ejecutivo, reunión y panel vienen incluidos siempre: no se ofrecen como opción.
+const incluidos = ['Ejecutivo asignado', 'Reunión mensual', 'Panel en tiempo real'];
+const quoterExtras = adsPlans.slice(1).flatMap((p) =>
+  p.features
+    .filter((f) => !/^Todo lo del/.test(f.label) && !incluidos.includes(f.label))
+    .map((f) => ({ label: f.label })),
+);
+const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw', '#i-file-text'];
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogImage={page.ogImage?.image}
+  ogImageAlt={page.ogImage?.alt}
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/service.css" />
+  </Fragment>
+
+  <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
+    <div class="wrap hero-split-grid" data-hero-seq>
+      <div>
+        <p class="eyebrow">{page.heroEyebrow}</p>
+        <h1 style="font-size:var(--s-4);max-width:15ch;margin:0 0 22px;font-weight:800;letter-spacing:-.045em">{page.heroH1}</h1>
+        <p class="lede" style="max-width:46ch">{page.heroLede}</p>
+        <div class="hero-actions" style="justify-content:flex-start">
+          <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </a>
+          <a class="btn btn-soft" href="#planes">Ver planes</a>
+        </div>
+      </div>
+
+      <div class="hero-img" data-reveal="scale">
+        <img src="/assets/img/google-ads.webp" alt="Panel de resultados de campañas de Google Ads de Webfriends" width="1200" height="720" loading="eager">
+      </div>
+    </div>
+  </section>
+  <section style="padding-block:0" aria-labelledby="stats-h">
+    <div class="wrap">
+      <h2 id="stats-h" class="sr-only">Cifras</h2>
+      <div class="metrics-grid" data-reveal-group>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n is-text">Búsqueda con intención</p>
+          <p class="metric-l">Llegamos a personas que buscan tus servicios</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n is-text">Implementación</p>
+          <p class="metric-l">Configuramos campañas, conversiones y medición</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">$500M+</p>
+          <p class="metric-l">en gestión publicitaria</p>
+          <p class="metric-src">Acumulado 2019–2026</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">30%</p>
+          <p class="metric-l">Comisión incluida</p>
+          <p class="metric-src">Sin costos ocultos</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="problema" aria-labelledby="problema-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{sec('problema-h').eyebrow}</p>
+      <h2 id="problema-h" class="h-sec" data-reveal>{sec('problema-h').heading}</h2>
+      <p class="lede" data-reveal style="margin-top:18px">No es falta de presupuesto. Casi siempre es falta de estructura, seguimiento y decisiones basadas en datos.</p>
+      <div class="cards cards-4" data-reveal-group>
+        {sec('problema-h').cards.map((card, i) => (
+          <article class="card" data-reveal data-parallax="soft">
+            <span class="card-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={problemaIcons[i]} /></span>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="metodo" class="dark-band" aria-labelledby="metodo-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{sec('metodo-h').eyebrow}</p>
+      <h2 id="metodo-h" class="h-sec" data-reveal>{sec('metodo-h').heading}</h2>
+      <p class="lede" data-reveal style="margin-top:18px">Cada peso invertido tiene una razón y un número asociado. Esto es lo que ocurre desde que firmas.</p>
+
+      <div class="local-cta" data-reveal>
+        <a class="btn btn-accent" href="/contacto">
+          Quiero invertir mejor
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <p class="local-cta-note">Sabrás en qué se va cada peso, mes a mes.</p>
+      </div>
+
+      <div class="local-steps cols-5" id="metodoSteps" data-reveal-group>
+        {sec('metodo-h').steps.map((step, i) => (
+          <div class="local-step" data-reveal="fade">
+            {i > 0 && <span class="local-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span>}
+            <div class="local-step-top">
+              <span class="local-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="local-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href={metodoIcons[i]}></use></svg></span>
+            </div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+            <div class="chips">{step.chips.map((chip) => <span class="chip">{chip}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="planes" aria-labelledby="planes-h">
+    <div class="wrap" style="text-align:center">
+      <p class="eyebrow" data-reveal>{sec('planes-h').eyebrow}</p>
+      <h2 id="planes-h" class="h-sec" data-reveal style="margin-inline:auto">{sec('planes-h').heading}</h2>
+      <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">Todos incluyen comisión de gestión del 30% y ejecutivo asignado. El presupuesto de medios es aparte y lo defines tú.</p>
+    </div>
+    <div class="wrap">
+      <!-- Cotizador: reemplaza las tarjetas de planes. Usa los mismos datos de Keystatic
+           (precio, qué incluye y condiciones); la recomendación sale de las respuestas. -->
+      <form class="quoter" id="quoter" data-reveal data-plans={JSON.stringify(quoterPlans)} onsubmit="return false">
+        <div class="q-questions">
+          <fieldset class="q-block">
+            <legend>1. ¿Cuánto quieres invertir en anuncios al mes?</legend>
+            <p class="q-budget"><output id="qBudgetOut" for="qBudget">$500.000</output><span>presupuesto de medios, lo pagas directo a Google</span></p>
+            <input type="range" id="qBudget" name="budget" min="100000" max="3000000" step="50000" value="500000" aria-describedby="qBudgetHint">
+            <p class="field-hint" id="qBudgetHint">Mueve la barra. Es aparte del plan y lo puedes cambiar cuando quieras.</p>
+          </fieldset>
+
+          <fieldset class="q-block">
+            <legend>2. ¿Cuántas líneas de servicio quieres promocionar?</legend>
+            <div class="q-chips">
+              <label><input type="radio" name="lines" value="1" checked><span>Una</span></label>
+              <label><input type="radio" name="lines" value="2"><span>2 a 3</span></label>
+              <label><input type="radio" name="lines" value="4"><span>4 o más</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q-block">
+            <legend>3. ¿Qué necesitas además de los anuncios?</legend>
+            <div class="q-chips q-multi">
+              {quoterExtras.map((x) => (
+                <label><input type="checkbox" name="extra" value={x.label}><span>{x.label}</span></label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+
+        <aside class="q-result" aria-live="polite">
+          <p class="q-kicker">Te recomendamos</p>
+          <p class="q-plan" id="qPlan"></p>
+          <p class="q-for" id="qFor"></p>
+          <dl class="q-lines">
+            <div><dt>Gestión (30% de la inversión)</dt><dd id="qFee"></dd></div>
+            <div><dt>IVA de la gestión (19%)</dt><dd id="qIva"></dd></div>
+            <div><dt>Presupuesto en anuncios</dt><dd id="qMedia"></dd></div>
+            <div class="q-total"><dt>Total mensual estimado</dt><dd id="qTotal"></dd></div>
+          </dl>
+          <p class="q-renew" id="qRenew"></p>
+          <ul class="q-feats" id="qFeats"></ul>
+          <a class="btn btn-accent btn-block" id="qCta" href="/contacto">Cotizar</a>
+          <p class="plan-fine" id="qNote"></p>
+        </aside>
+      </form>
+      <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
+        ¿Necesitas algo distinto? <a href="/contacto" style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
+      </p>
+      <p data-reveal style="text-align:center;margin-top:10px;color:var(--label-3);font-size:var(--s--1)">
+        Si manejas un presupuesto de medios más alto, consulta por planes con comisión reducida.
+      </p>
+    </div>
+  </section>
+  <section id="faq-ads" aria-labelledby="faq-ads-h">
+    <div class="wrap">
+      <div class="faq-card">
+        <p class="eyebrow" data-reveal>{sec('faq-ads-h').eyebrow}</p>
+        <h2 id="faq-ads-h" class="h-sec" data-reveal>{sec('faq-ads-h').heading}</h2>
+        <p class="lede" data-reveal>Reunimos las respuestas a las preguntas más comunes sobre Google Ads.</p>
+
+        <div class="faq-grid" data-reveal-group>
+          {faqs.map((faq) => (
+            <details class="faq-item" data-reveal="fade">
+              <summary>{faq.data.question}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><use href="#i-chevron-down"></use></svg></summary>
+              <p>{faq.data.answer}</p>
+            </details>
+          ))}
+        </div>
+        <FaqSchema faqs={faqs.map((f) => f.data)} />
+      </div>
+    </div>
+  </section>
+  <section class="grid-bg" aria-labelledby="cta-h">
+    <div class="wrap">
+      <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">
+        <div>
+          <p class="eyebrow">{sec('cta-h').eyebrow}</p>
+          <h2 id="cta-h" style="font-size:var(--s-3)">{sec('cta-h').heading}</h2>
+          <p class="lede" style="margin:18px auto 0;font-size:var(--s-0);text-align:center">Te hacemos una auditoría gratuita de tu cuenta actual y te decimos con franqueza si conviene optimizarla o empezar de nuevo.</p>
+          <div class="hero-actions" style="justify-content:center;margin-top:30px">
+            <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+            <a class="btn btn-soft" href="https://wa.me/56931971436">Escribir por WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+// Cotizador de Google Ads: elige el plan más simple que cubre lo pedido y suma el presupuesto de medios.
+const form = document.getElementById('quoter') as HTMLFormElement | null;
+if (form) {
+  type Plan = { name: string; tagline: string; renewal: string; cta: string; note: string; features: string[] };
+  const plans: Plan[] = JSON.parse(form.dataset.plans!);
+  const clp = (n: number) => '$' + Math.round(n).toLocaleString('es-CL');
+  const $ = (id: string) => document.getElementById(id)!;
+
+  // Plan mínimo por líneas de servicio: 1 → Inicial, 2–3 → Negocio, 4+ → Empresa.
+  const byLines: Record<string, number> = { '1': 0, '2': 1, '4': 2 };
+
+  const update = () => {
+    const data = new FormData(form);
+    const budget = Number(data.get('budget'));
+    const extras = data.getAll('extra') as string[];
+    let idx = byLines[String(data.get('lines'))] ?? 0;
+    extras.forEach((x) => {
+      const need = plans.findIndex((p) => p.features.includes(x));
+      if (need > idx) idx = need;
+    });
+    const plan = plans[idx];
+    const fee = budget * 0.3; // la gestión es el 30% de la inversión en anuncios
+    const iva = fee * 0.19;
+
+    $('qBudgetOut').textContent = clp(budget);
+    $('qPlan').textContent = plan.name;
+    $('qFor').textContent = plan.tagline;
+    $('qFee').textContent = clp(fee);
+    $('qIva').textContent = clp(iva);
+    $('qMedia').textContent = clp(budget);
+    $('qTotal').textContent = clp(fee + iva + budget);
+    $('qRenew').textContent = plan.renewal;
+    $('qNote').textContent = plan.note;
+    $('qFeats').innerHTML = plan.features.map((f) => `<li>${f}</li>`).join('');
+    const cta = $('qCta') as HTMLAnchorElement;
+    cta.textContent = plan.cta;
+    cta.href = `/contacto?plan=${encodeURIComponent(plan.name)}&presupuesto=${budget}`;
+    const range = form.budget as HTMLInputElement;
+    range.style.setProperty('--fill', ((budget - +range.min) / (+range.max - +range.min)) * 100 + '%');
+  };
+  form.addEventListener('input', update);
+  update();
+}
+</script>
+<script>
+// Cómo trabajamos: las etapas se encienden de a una con el scroll (mismo efecto que el proceso del home).
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
+const grid = document.getElementById('metodoSteps');
+if (grid) {
+  const steps = [...grid.querySelectorAll<HTMLElement>('.local-step')];
+  const mm = gsap.matchMedia();
+  const setup = () => {
+    grid.classList.add('lit-scroll');
+    steps.forEach((s) => s.removeAttribute('data-reveal'));
+    return () => { grid.classList.remove('lit-scroll'); steps.forEach((s) => s.classList.remove('is-lit')); };
+  };
+  // Escritorio: etapas en fila, se encienden según el avance del scroll por la sección.
+  mm.add('(min-width: 1001px) and (prefers-reduced-motion: no-preference)', () => {
+    const undo = setup();
+    const light = (p: number) => steps.forEach((s, k) => s.classList.toggle('is-lit', p >= k / steps.length + 0.02));
+    gsap.fromTo(grid, { '--p': 0 }, {
+      '--p': 1, ease: 'none',
+      scrollTrigger: { trigger: grid, start: 'top 80%', end: 'top 25%', scrub: 0.6, onUpdate: (st) => light(st.progress), onRefresh: (st) => light(st.progress) },
+    });
+    return undo;
+  });
+  // Tablet y celular: etapas apiladas, cada una se enciende al llegar a media pantalla.
+  mm.add('(max-width: 1000px) and (prefers-reduced-motion: no-preference)', () => {
+    const undo = setup();
+    steps.forEach((s) => ScrollTrigger.create({ trigger: s, start: 'top 62%', end: 'max', toggleClass: 'is-lit' }));
+    return undo;
+  });
+}
+</script>
+</BaseLayout>

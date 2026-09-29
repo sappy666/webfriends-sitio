@@ -1,0 +1,78 @@
+---
+import '../styles/global.css';
+import Sprite from '../components/Sprite.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatButtons from '../components/FloatButtons.astro';
+import SiteScripts from '../components/SiteScripts.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  themeColor?: string;
+  ogImage?: string | null;
+  ogImageAlt?: string;
+  noindex?: boolean;
+}
+
+const { title, description, themeColor = '#F5F5F7', ogImage, ogImageAlt, noindex = false } = Astro.props;
+const currentPath = Astro.url.pathname;
+const canonicalUrl = new URL(currentPath, Astro.site ?? Astro.url.origin).toString();
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site ?? Astro.url.origin).toString() : undefined;
+---
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}>
+  <meta name="theme-color" content={themeColor}>
+  <script is:inline>(function(){try{var t=localStorage.getItem("wf-theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t);}else if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <title>{title}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonicalUrl}>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonicalUrl}>
+  {ogImageUrl && <meta property="og:image" content={ogImageUrl}>}
+  {ogImageUrl && ogImageAlt && <meta property="og:image:alt" content={ogImageAlt}>}
+  <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'}>
+  {ogImageUrl && ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt}>}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <LocalBusinessSchema />
+  <slot name="head" />
+</head>
+<body>
+  <Sprite />
+  <a class="skip" href="#contenido">Ir al contenido</a>
+  <div class="readbar" aria-hidden="true"></div>
+  <div class="page-loader" id="pageLoader" aria-hidden="true"></div>
+  <script is:inline>
+  (function(){
+    try{
+      if(!sessionStorage.getItem('wf-loaded')){
+        sessionStorage.setItem('wf-loaded','1');
+        document.getElementById('pageLoader').classList.add('run');
+      }
+    }catch(e){}
+  })();
+  </script>
+
+  <Header currentPath={currentPath} />
+
+  <main id="contenido">
+    <slot />
+  </main>
+
+  <Footer />
+
+  <FloatButtons />
+  <SiteScripts />
+  <slot name="scripts" />
+</body>
+</html>

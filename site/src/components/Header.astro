@@ -1,0 +1,136 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props { currentPath?: string }
+const { currentPath = '/' } = Astro.props;
+
+const pages = await getCollection('pages');
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+
+const contactoHref = slug('page-contacto');
+const googleAdsHref = slug('page-google-ads');
+const seoHref = slug('page-seo');
+const sitiosWebHref = slug('page-sitios-web');
+const uxUiHref = slug('page-ux-ui');
+const saludHref = slug('page-salud');
+const nosotrosHref = slug('page-nosotros');
+const casosHref = slug('page-casos');
+---
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a class="logo" href="/" aria-current={currentPath === '/' ? 'page' : undefined}><span class="logo-mark" aria-hidden="true"><img class="logo-img-dark" src="/assets/img/logo-webfriends-blanco.webp" alt="Webfriends"><img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.png" alt="Webfriends"></span></a>
+
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainnav" aria-label="Abrir menú">
+      <svg class="ico-hub" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle class="dot" cx="7" cy="7" r="2.1"/><circle class="dot" cx="17" cy="7" r="2.1"/><circle class="dot" cx="7" cy="17" r="2.1"/><circle class="dot" cx="17" cy="17" r="2.1"/></svg>
+      <svg class="ico-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><use href="#i-close"></use></svg>
+    </button>
+
+    <nav class="mainnav" id="mainnav" aria-label="Navegación principal">
+
+      <div class="navitem" data-mega>
+        <button class="navlink" aria-expanded="false" aria-controls="mega-mkt">
+          Marketing
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+        </button>
+        <div class="mega" id="mega-mkt">
+          <div class="mega-grid">
+
+            <div class="mega-promo">
+              <div>
+                <p class="mega-promo-tag">Asesoría gratuita</p>
+                <h3>Sabemos qué frena<br>tu <em>crecimiento</em>.</h3>
+                <p class="mega-promo-txt">Auditamos tu cuenta y tu posicionamiento actual, sin costo ni compromiso.</p>
+              </div>
+              <a class="btn btn-accent btn-sm" href={contactoHref}>
+                Agendar reunión
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </a>
+            </div>
+
+            <div class="mega-links">
+              <p class="mega-col-h">Atraer clientes</p>
+              <a class="mega-link" href={googleAdsHref}>
+                <span class="mega-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-trending"></use></svg></span>
+                <span><strong>Google Ads</strong><span>Aparece cuando ya te buscan</span></span>
+              </a>
+              <a class="mega-link" href={seoHref}>
+                <span class="mega-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-search"></use></svg></span>
+                <span><strong>Posicionamiento SEO</strong><span>Tráfico que no se apaga</span></span>
+              </a>
+            </div>
+
+            <div class="mega-links">
+              <p class="mega-col-h">Más cerca del cliente</p>
+              <a class="mega-link" href={`${seoHref}#local`}>
+                <span class="mega-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-pin"></use></svg></span>
+                <span><strong>SEO local</strong><span>Aparece en el mapa</span></span>
+              </a>
+              <a class="mega-link" href={`${googleAdsHref}#planes`}>
+                <span class="mega-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-chart-bars"></use></svg></span>
+                <span><strong>Planes y precios</strong><span>Valores publicados</span></span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="navitem" data-mega>
+        <button class="navlink" aria-expanded="false" aria-controls="mega-web">
+          Plataformas
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+        </button>
+        <div class="mega" id="mega-web">
+          <div class="mega-grid">
+
+            <div class="mega-promo mega-promo-alt">
+              <div>
+                <p class="mega-promo-tag">Desde $190.000</p>
+                <h3>Tu sitio, listo en<br><em>dos semanas</em>.</h3>
+                <p class="mega-promo-txt">Hosting, SSL y configuración SEO incluidos el primer año.</p>
+              </div>
+              <a class="btn btn-accent btn-sm" href={`${sitiosWebHref}#planes`}>
+                Ver planes web
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </a>
+            </div>
+
+            <div class="mega-links">
+              <p class="mega-col-h">Construir</p>
+              <a class="mega-link" href={sitiosWebHref}>
+                <span class="mega-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-monitor"></use></svg></span>
+                <span><strong>Sitios web</strong><span>Rápidos y administrables</span></span>
+              </a>
+              <a class="mega-link" href={`${sitiosWebHref}#tienda`}>
+                <span class="mega-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-cart"></use></svg></span>
+                <span><strong>Tienda virtual</strong><span>Webpay y Mercado Pago</span></span>
+              </a>
+            </div>
+
+            <div class="mega-links">
+              <p class="mega-col-h">Diseñar</p>
+              <a class="mega-link" href={uxUiHref}>
+                <span class="mega-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-gem"></use></svg></span>
+                <span><strong>Diseño UX/UI</strong><span>Investigación e interfaz</span></span>
+              </a>
+              <a class="mega-link" href={saludHref}>
+                <span class="mega-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-shield-check"></use></svg></span>
+                <span><strong>Soluciones para salud</strong><span>Reserva de horas y fichas</span></span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <a class="navlink" href={nosotrosHref} aria-current={currentPath === nosotrosHref ? 'page' : undefined}>Nosotros</a>
+      <a class="navlink" href={casosHref} aria-current={currentPath === casosHref ? 'page' : undefined}>Casos</a>
+      <a class="navlink" href="/blog" aria-current={currentPath.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+      <button class="theme-btn" id="themeBtn" role="switch" aria-checked="false" aria-label="Activar tema oscuro">
+        <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><use href="#i-sun"></use></svg>
+        <svg class="ico-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-moon"></use></svg>
+      </button>
+      <a class="btn btn-accent btn-sm" href={contactoHref}><span class="btn-txt">Agendar reunión</span></a>
+    </nav>
+  </div>
+</header>

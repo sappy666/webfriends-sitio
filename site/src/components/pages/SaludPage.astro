@@ -1,0 +1,193 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FaqSchema from '../FaqSchema.astro';
+
+const faqs = (await getCollection('faqs', ({ data }) => data.category === 'salud')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const page = (await getEntry('pages', 'page-salud'))!.data;
+const sec = (id: string) => page.sections.find((s) => s.id === id)!;
+const saludPlans = (await getEntry('planSets', 'salud'))!.data.plans;
+const funcionesIcons = [
+  '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  '<circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><path d="M16 5.2a3.2 3.2 0 010 5.6M17 14.4a6.5 6.5 0 014.5 5.6"/>',
+  '<path d="M12 3l8 3v6c0 4.4-3.2 7.9-8 9-4.8-1.1-8-4.6-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  '<use href="#i-pin"></use>',
+];
+const flujoIcons = ['#i-search', '#i-check-circle', '#i-calendar', '#i-map-pin-check'];
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogImage={page.ogImage?.image}
+  ogImageAlt={page.ogImage?.alt}
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/service.css" />
+  </Fragment>
+
+  <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
+    <div class="wrap hero-split-grid" data-hero-seq>
+      <div>
+        <p class="eyebrow">{page.heroEyebrow}</p>
+        <h1 style="font-size:var(--s-4);max-width:15ch;margin:0 0 22px;font-weight:800;letter-spacing:-.045em">{page.heroH1}</h1>
+        <p class="lede" style="max-width:46ch">{page.heroLede}</p>
+        <div class="hero-actions" style="justify-content:flex-start">
+          <a class="btn btn-accent" href="/contacto">Cotizar mi plataforma
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </a>
+          <a class="btn btn-soft" href="#funciones">Ver funcionalidades</a>
+        </div>
+      </div>
+
+      <div class="hero-img" data-reveal="scale">
+        <img src="/assets/img/salud.webp" alt="Plataforma web para centros médicos desarrollada por Webfriends" width="1200" height="720" loading="eager">
+      </div>
+    </div>
+  </section>
+  <section style="padding-block:0" aria-labelledby="stats-h">
+    <div class="wrap">
+      <h2 id="stats-h" class="sr-only">Cifras</h2>
+      <div class="metrics-grid" data-reveal-group>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">101</p>
+          <p class="metric-l">Sesiones al mes</p>
+          <p class="metric-src">En nuestra página de salud</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">6</p>
+          <p class="metric-l">Centros de salud</p>
+          <p class="metric-src">Clientes del rubro</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">2–4</p>
+          <p class="metric-l">Semanas de entrega</p>
+          <p class="metric-src">Según funcionalidades</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">24/7</p>
+          <p class="metric-l">Reserva en línea</p>
+          <p class="metric-src">El paciente agenda cuando quiere</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="funciones" aria-labelledby="funciones-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{sec('funciones-h').eyebrow}</p>
+      <h2 id="funciones-h" class="h-sec" data-reveal>{sec('funciones-h').heading}</h2>
+      <p class="lede" data-reveal style="margin-top:18px">Un sitio genérico no resuelve el flujo real de un paciente: buscar especialista, verificar convenio y agendar.</p>
+      <div class="cards cards-4" data-reveal-group>
+        {sec('funciones-h').cards.map((card, i) => (
+          <article class="card" data-reveal data-parallax="soft">
+            <span class="card-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={funcionesIcons[i]} /></span>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="flujo" class="dark-band" aria-labelledby="flujo-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{sec('flujo-h').eyebrow}</p>
+      <h2 id="flujo-h" class="h-sec" data-reveal>{sec('flujo-h').heading}</h2>
+      <p class="lede" data-reveal style="margin-top:18px">Analizamos el flujo completo, desde la búsqueda hasta la confirmación, y eliminamos los pasos que hacen abandonar.</p>
+
+      <div class="local-cta" data-reveal>
+        <a class="btn btn-accent" href="/contacto">
+          Quiero mi plataforma
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <p class="local-cta-note">Menos pasos entre la búsqueda y la hora confirmada.</p>
+      </div>
+
+      <div class="local-steps" data-reveal-group>
+        {sec('flujo-h').steps.map((step, i) => (
+          <div class="local-step" data-reveal="fade">
+            {i > 0 && <span class="local-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span>}
+            <div class="local-step-top">
+              <span class="local-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="local-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href={flujoIcons[i]}></use></svg></span>
+            </div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+            <div class="chips">{step.chips.map((chip) => <span class="chip">{chip}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="planes" aria-labelledby="planes-h">
+    <div class="wrap" style="text-align:center">
+      <p class="eyebrow" data-reveal>{sec('planes-h').eyebrow}</p>
+      <h2 id="planes-h" class="h-sec" data-reveal style="margin-inline:auto">{sec('planes-h').heading}</h2>
+      <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">Partimos del plan web y sumamos las funcionalidades clínicas que tu centro necesite.</p>
+    </div>
+    <div class="wrap">
+      <div class="pricing" data-reveal-group style="margin-top:44px">
+          {saludPlans.map((plan) => (
+            <article class={`plan${plan.featured ? ' is-featured' : ''}`} data-reveal="scale">
+              {plan.badge && <span class="plan-badge">{plan.badge}</span>}
+              <h3>{plan.name}</h3>
+              <p class="plan-for">{plan.tagline}</p>
+              <p class="plan-price">{plan.price}</p>
+              <p class="plan-renew">{plan.renewalTerms}</p>
+              <ul>
+                {plan.features.map((f) => (
+                  <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" aria-hidden="true"><use href="#i-check"></use></svg>{f.label}</li>
+                ))}
+              </ul>
+              <div class="plan-cta">
+                <a class={`btn btn-block ${plan.featured ? 'btn-accent' : 'btn-soft'}`} href="/contacto">{plan.ctaLabel}</a>
+                <p class="plan-fine">{plan.deliveryNote}</p>
+              </div>
+            </article>
+          ))}
+      </div>
+      <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
+        ¿Necesitas algo distinto? <a href="/contacto" style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
+      </p>
+    </div>
+  </section>
+  <section id="faq-salud" aria-labelledby="faq-salud-h">
+    <div class="wrap">
+      <div class="faq-card">
+        <p class="eyebrow" data-reveal>{sec('faq-salud-h').eyebrow}</p>
+        <h2 id="faq-salud-h" class="h-sec" data-reveal>{sec('faq-salud-h').heading}</h2>
+        <p class="lede" data-reveal>Reunimos las respuestas a las preguntas más comunes sobre nuestras plataformas para salud.</p>
+
+        <div class="faq-grid" data-reveal-group>
+          {faqs.map((faq) => (
+            <details class="faq-item" data-reveal="fade">
+              <summary>{faq.data.question}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><use href="#i-chevron-down"></use></svg></summary>
+              <p>{faq.data.answer}</p>
+            </details>
+          ))}
+        </div>
+        <FaqSchema faqs={faqs.map((f) => f.data)} />
+      </div>
+    </div>
+  </section>
+  <section class="grid-bg" aria-labelledby="cta-h">
+    <div class="wrap">
+      <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">
+        <div>
+          <p class="eyebrow">{sec('cta-h').eyebrow}</p>
+          <h2 id="cta-h" style="font-size:var(--s-3)">{sec('cta-h').heading}</h2>
+          <p class="lede" style="margin:18px auto 0;font-size:var(--s-0);text-align:center">Cuéntanos cuántos profesionales y sedes tienes, y te decimos qué plan te sirve.</p>
+          <div class="hero-actions" style="justify-content:center;margin-top:30px">
+            <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+            <a class="btn btn-soft" href="https://wa.me/56931971436">Escribir por WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

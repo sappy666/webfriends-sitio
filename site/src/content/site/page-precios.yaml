@@ -1,0 +1,13 @@
+urlSlug: precios
+previousSlugs: []
+metaTitle: "Precios y cotizador — Webfriends"
+metaDescription: "Cotiza en línea sitios web, Google Ads, SEO y GEO, plataformas para salud y diseño UX/UI. Precios publicados en pesos chilenos, sin letra chica."
+heroEyebrow: Precios
+heroH1: Arma tu cotización en un minuto
+heroLede: "Elige los servicios que necesitas y el tipo de cada uno. Verás al tiro cuánto es el pago inicial y cuánto el mensual, con precios publicados y sin letra chica."
+sections:
+  - id: cotizador-h
+    eyebrow: Cotizador
+    heading: ¿Qué necesitas?
+    cards: []
+    steps: []

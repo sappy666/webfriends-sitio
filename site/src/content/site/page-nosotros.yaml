@@ -1,0 +1,57 @@
+urlSlug: nosotros
+previousSlugs: []
+metaTitle: "Nosotros — Webfriends"
+metaDescription: "Agencia digital chilena fundada en 2019. Equipo de marketing, diseño y desarrollo en Viña del Mar y Santiago."
+heroEyebrow: Nosotros
+heroH1: Una agencia que muestra los números, no solo los promete
+heroLede: "Somos un equipo chileno de marketing, diseño y desarrollo. Trabajamos con pocas cuentas a la vez para poder responder por cada una."
+sections:
+  - id: principios-h
+    eyebrow: Cómo pensamos
+    heading: Cuatro principios que aplicamos siempre
+    cards:
+      - title: Si no se mide, no se propone
+        description: Cada recomendación viene con la métrica que la respalda y la que usaremos para evaluarla.
+        chips: []
+      - title: Pocas cuentas, mejor atendidas
+        description: Preferimos crecer despacio antes que aceptar más clientes de los que podemos atender bien.
+        chips: []
+      - title: Todo queda documentado
+        description: "Accesos, cuentas y documentación son tuyos. Si un día te vas, te llevas todo."
+        chips: []
+      - title: Respuesta en 24 horas hábiles
+        description: Es el compromiso que asumimos y el que puedes exigirnos.
+        chips: []
+    steps: []
+  - id: proceso-h
+    eyebrow: Cómo trabajamos
+    heading: Seis etapas, cero entregables a medias
+    cards: []
+    steps: []
+  - id: certificaciones-h
+    eyebrow: Certificaciones
+    heading: Con qué respaldo trabajamos
+    cards:
+      - title: Google Partner
+        description: "Certificación oficial de Google, verificable en su directorio público de partners."
+        chips: []
+      - title: Cuentas a tu nombre
+        description: Todas las plataformas quedan bajo tu propiedad, con acceso completo de administrador.
+        chips: []
+      - title: Formación continua
+        description: El equipo mantiene sus certificaciones de Google Ads y Analytics al día.
+        chips: []
+      - title: Experiencia en salud
+        description: "Trabajo específico con centros médicos y dentales, con sus requisitos particulares."
+        chips: []
+    steps: []
+  - id: oficinas-h
+    eyebrow: Dónde estamos
+    heading: 100% online, en todo Chile
+    cards: []
+    steps: []
+  - id: cta-h
+    eyebrow: Conversemos
+    heading: "¿Trabajamos juntos?"
+    cards: []
+    steps: []

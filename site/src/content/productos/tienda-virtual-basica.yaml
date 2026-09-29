@@ -1,0 +1,10 @@
+name: Tienda Virtual Básica
+tagline: Para empezar a vender en línea con un catálogo acotado.
+description: "Una tienda en línea para dar tus primeros pasos en el comercio electrónico. Cotizamos según el tamaño de tu catálogo."
+price: A cotizar
+renewalTerms: Pago único + IVA · según alcance
+deliveryNote: ""
+image: /assets/img/web-1.webp
+order: 4
+hidden: true
+features: []

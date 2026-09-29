@@ -1,0 +1,59 @@
+urlSlug: seo
+previousSlugs: []
+metaTitle: "Posicionamiento SEO — Webfriends"
+metaDescription: "Posicionamiento SEO técnico, de contenido y local en Chile. Planes desde $190.000 mensuales."
+ogImage:
+  image: /assets/img/seo.webp
+heroEyebrow: Posicionamiento SEO
+heroH1: Tráfico que no se apaga cuando pausas el presupuesto
+heroLede: "El SEO construye un activo: posiciones que siguen trayendo clientes mes a mes sin pagar por cada clic."
+sections:
+  - id: capas-h
+    eyebrow: Qué incluye
+    heading: Las tres capas del posicionamiento
+    cards:
+      - title: SEO técnico
+        description: "Velocidad de carga, indexación, estructura de URLs, datos estructurados y errores que impiden que Google entienda tu sitio."
+        chips: []
+      - title: Contenido
+        description: "Páginas que responden lo que tu cliente realmente busca, con la estructura de encabezados y el enfoque que Google premia."
+        chips: []
+      - title: Autoridad
+        description: "Enlaces de calidad y menciones que le dicen a Google que tu sitio es una fuente confiable en tu rubro."
+        chips: []
+      - title: SEO local
+        description: "Ficha de Google Mi Negocio optimizada para aparecer en el mapa cuando buscan cerca de ti."
+        chips: []
+    steps: []
+  - id: local-h
+    eyebrow: Google Mi Negocio
+    heading: Aparece en el mapa de tu ciudad
+    cards: []
+    steps:
+      - title: Ficha de Google Mi Negocio
+        description: "Configuración completa: categorías correctas, horarios, servicios, fotos y descripción optimizada."
+        chips: [Categorías, Horarios, Fotos]
+      - title: Validación y verificación
+        description: Te acompañamos en el proceso de verificación de Google, que suele ser el paso donde más gente se traba.
+        chips: [Verificación, Documentación]
+      - title: Reseñas
+        description: "Estrategia para pedir reseñas de forma sistemática y responderlas, porque influyen en el ranking local."
+        chips: [Solicitud, Respuestas]
+      - title: Citas locales
+        description: "Presencia consistente de tu nombre, dirección y teléfono en los directorios que Google consulta."
+        chips: [Directorios, Consistencia]
+  - id: planes-h
+    eyebrow: Planes
+    heading: Planes de SEO
+    cards: []
+    steps: []
+  - id: faq-seo-h
+    eyebrow: Preguntas frecuentes
+    heading: Tus dudas, nuestra experiencia
+    cards: []
+    steps: []
+  - id: cta-h
+    eyebrow: Conversemos
+    heading: "¿Auditamos tu sitio?"
+    cards: []
+    steps: []

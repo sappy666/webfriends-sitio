@@ -1,0 +1,67 @@
+id: desarrollo-web
+plans:
+  - name: One Page
+    tagline: Para partir con una landing enfocada en campañas.
+    price: $190.000
+    renewalTerms: "Pago único · Renovación $45.000 + IVA al año"
+    featured: false
+    badge: ""
+    features:
+      - label: 1 página
+        description: Todo el contenido en una sola vista con scroll, ideal para una oferta puntual
+      - label: 1 GB de almacenamiento
+        description: Alcanza para unas 400 imágenes optimizadas
+      - label: Hosting gratis el primer año
+        description: Servidor en Chile, con respaldo diario automático
+      - label: 3 correos corporativos
+        description: "Con tu dominio: nombre@tuempresa.cl"
+      - label: Formulario y WhatsApp
+        description: Los mensajes llegan a tu correo y al chat, sin intermediarios
+    ctaLabel: Cotizar One Page
+    deliveryNote: "Entrega estimada: 2 semanas"
+  - name: Sitio Emprende
+    tagline: Para negocios que ya venden y necesitan explicar bien su oferta.
+    price: $260.000
+    renewalTerms: "Pago único · Renovación $45.000 + IVA al año"
+    featured: true
+    badge: Más elegido
+    features:
+      - label: 5 páginas
+        description: Inicio, servicios, nosotros, contacto y una libre
+      - label: 1 GB de almacenamiento
+        description: Ampliable después sin rehacer el sitio
+      - label: Hosting gratis el primer año
+        description: Certificado SSL incluido, sin costo adicional
+      - label: 5 correos corporativos
+        description: Compatibles con Gmail y Outlook
+      - label: Formulario y WhatsApp
+        description: Con aviso automático de nuevo contacto
+      - label: Setup SEO inicial
+        description: "Metadatos, encabezados e indexación en Search Console"
+      - label: Capacitación de 1 hora
+        description: Para que edites textos e imágenes sin depender de nosotros
+    ctaLabel: Cotizar Sitio Emprende
+    deliveryNote: "Entrega estimada: 3 semanas"
+  - name: Tienda Virtual
+    tagline: Para vender en línea con pago integrado.
+    price: $450.000
+    renewalTerms: "Pago único · Renovación $60.000 + IVA al año"
+    featured: false
+    badge: ""
+    features:
+      - label: Hasta 40 productos
+        description: "Con variantes de talla, color y stock por variante"
+      - label: 2 GB de almacenamiento
+        description: Para fotos de catálogo en alta resolución
+      - label: Hosting gratis el primer año
+        description: "Con SSL, obligatorio para procesar pagos"
+      - label: 5 correos corporativos
+        description: Incluye una casilla de ventas
+      - label: Webpay o Mercado Pago
+        description: El dinero llega directo a tu cuenta, sin pasar por nosotros
+      - label: Categorías personalizadas
+        description: "Filtros por precio, tipo o marca"
+      - label: Despacho y retiro
+        description: Zonas de envío con costo configurable y retiro en tienda
+    ctaLabel: Cotizar Tienda Virtual
+    deliveryNote: "Entrega estimada: 4 semanas"

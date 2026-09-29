@@ -1,0 +1,188 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const page = (await getEntry('pages', 'page-precios'))!.data;
+const sec = (id: string) => page.sections.find((s) => s.id === id)!;
+const pages = await getCollection('pages');
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+const plansOf = async (id: string) => (await getEntry('planSets', id))!.data.plans;
+
+// Precio de Keystatic → número. "Desde $890.000" queda como mínimo; "A cotizar" queda en null.
+const toOption = (p: Awaited<ReturnType<typeof plansOf>>[number]) => ({
+  name: p.name,
+  tagline: p.tagline,
+  price: /\d/.test(p.price) ? Number(p.price.replace(/\D/g, '')) : null,
+  from: /desde/i.test(p.price),
+  monthly: /mensual/i.test(p.renewalTerms),
+  terms: p.renewalTerms,
+  featured: p.featured,
+});
+
+// Google Ads no tiene precio fijo: la gestión es el 30% de la inversión en anuncios.
+const services = [
+  { id: 'web', name: 'Sitio o tienda web', href: slug('page-sitios-web'), art: 'web-1', options: (await plansOf('desarrollo-web')).map(toOption) },
+  {
+    id: 'ads', name: 'Google Ads', href: slug('page-google-ads'), art: 'ads', budget: true,
+    options: (await plansOf('google-ads')).map((p) => ({ ...toOption(p), price: null, monthly: true, terms: 'Gestión: 30% de la inversión + IVA' })),
+  },
+  { id: 'seo', name: 'SEO y GEO', href: slug('page-seo'), art: 'seo-1', multi: true, options: (await plansOf('seo')).map(toOption) },
+  { id: 'salud', name: 'Plataforma para salud', href: slug('page-salud'), art: 'medical-1', options: (await plansOf('salud')).map(toOption) },
+  {
+    id: 'ux', name: 'Diseño UX/UI', href: slug('page-ux-ui'), art: 'uxui-1',
+    options: [
+      { name: 'Auditoría UX', tagline: 'Revisión de un producto existente con propuesta priorizada de mejoras.', price: null, from: false, monthly: false, terms: 'Proyecto · a cotizar', featured: false },
+      { name: 'Diseño de producto', tagline: 'Investigación, arquitectura, prototipos y diseño de interfaces.', price: null, from: false, monthly: false, terms: 'Proyecto · a cotizar', featured: true },
+      { name: 'Diseño + desarrollo', tagline: 'Diseñamos y construimos el producto completo.', price: null, from: false, monthly: false, terms: 'Proyecto · a cotizar', featured: false },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogImage={page.ogImage?.image}
+  ogImageAlt={page.ogImage?.alt}
+>
+  <section class="hero grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(28px,4vw,48px)">
+    <div class="wrap" data-hero-seq>
+      <p class="eyebrow">{page.heroEyebrow}</p>
+      <h1 style="font-size:var(--s-4);max-width:17ch;margin:0 auto 22px;font-weight:800;letter-spacing:-.045em">{page.heroH1}</h1>
+      <p class="lede" style="margin:0 auto;text-align:center;max-width:56ch">{page.heroLede}</p>
+    </div>
+  </section>
+
+  <section id="cotizador" aria-labelledby="cotizador-h" style="padding-top:0">
+    <div class="wrap">
+      <form class="pq" id="pq" onsubmit="return false">
+        <div class="pq-main">
+          <fieldset class="pq-step">
+            <legend><span class="pq-n">1</span>{sec('cotizador-h').heading} <small>Puedes elegir más de uno</small></legend>
+            <div class="pq-services">
+              {services.map((s) => (
+                <label class="pq-svc">
+                  <input type="checkbox" name="svc" value={s.id} />
+                  <img src={`/assets/img/${s.art}.webp`} alt="" width="1312" height="1199" loading="lazy" />
+                  <span>{s.name}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <p class="pq-empty" id="pqEmpty"><span class="pq-n">2</span>Elige al menos un servicio para ver sus opciones.</p>
+
+          {services.map((s) => (
+            <fieldset class="pq-step pq-detail" data-svc={s.id} hidden>
+              <legend><span class="pq-n">2</span>¿Qué tipo de {s.name.toLowerCase()}? <a href={s.href}>Ver detalle</a></legend>
+              <div class="pq-options">
+                {s.options.map((o, k) => (
+                  <label class="pq-opt">
+                    <input
+                      type={s.multi ? 'checkbox' : 'radio'}
+                      name={`opt-${s.id}`}
+                      value={k}
+                      checked={s.multi ? k === 0 : (o.featured || (k === 0 && !s.options.some((x) => x.featured)))}
+                    />
+                    <span class="pq-opt-body">
+                      <strong>{o.name}{o.featured && <em>Más elegido</em>}</strong>
+                      <span>{o.tagline}</span>
+                      <b>{o.price === null ? (s.budget ? '30% de la inversión' : 'A cotizar') : `${o.from ? 'Desde ' : ''}$${o.price.toLocaleString('es-CL')}`}</b>
+                      <small>{o.terms}</small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+              {s.budget && (
+                <div class="pq-budget">
+                  <label for="pqBudget">Inversión mensual en anuncios: <output id="pqBudgetOut">$500.000</output></label>
+                  <input type="range" id="pqBudget" name="budget" min="100000" max="3000000" step="50000" value="500000" />
+                  <p class="field-hint">La pagas directo a Google. Nuestra gestión es el 30% de este monto.</p>
+                </div>
+              )}
+            </fieldset>
+          ))}
+        </div>
+
+        <aside class="pq-sum" aria-live="polite">
+          <p class="q-kicker">Tu cotización</p>
+          <ul class="pq-items" id="pqItems"><li class="pq-none">Aún no eliges servicios.</li></ul>
+          <dl class="q-lines">
+            <div><dt>Pago inicial</dt><dd id="pqOnce">$0</dd></div>
+            <div><dt>Mensual</dt><dd id="pqMonthly">$0</dd></div>
+            <div><dt>Inversión en anuncios</dt><dd id="pqMedia">—</dd></div>
+          </dl>
+          <p class="q-renew">Valores + IVA. La inversión en anuncios la pagas directo a Google.</p>
+          <p class="pq-quote" id="pqQuote" hidden></p>
+          <a class="btn btn-accent btn-block" id="pqCta" href="/contacto">Enviar cotización</a>
+        </aside>
+      </form>
+      <script type="application/json" id="pqData" set:html={JSON.stringify(services)} />
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+type Opt = { name: string; price: number | null; from: boolean; monthly: boolean };
+type Svc = { id: string; name: string; budget?: boolean; options: Opt[] };
+
+const form = document.getElementById('pq') as HTMLFormElement | null;
+if (form) {
+  const services: Svc[] = JSON.parse(document.getElementById('pqData')!.textContent!);
+  const clp = (n: number) => '$' + Math.round(n).toLocaleString('es-CL');
+  const $ = (id: string) => document.getElementById(id)!;
+
+  const update = () => {
+    const data = new FormData(form);
+    const chosen = data.getAll('svc') as string[];
+    const budget = Number(data.get('budget') ?? 500000);
+    let once = 0, monthly = 0, media = 0, minNote = false;
+    const quote: string[] = [], lines: string[] = [], msg: string[] = [];
+
+    document.querySelectorAll<HTMLFieldSetElement>('.pq-detail').forEach((fs) => {
+      fs.hidden = !chosen.includes(fs.dataset.svc!);
+    });
+    $('pqEmpty').hidden = chosen.length > 0;
+
+    services.filter((s) => chosen.includes(s.id)).forEach((s) => {
+      (data.getAll(`opt-${s.id}`) as string[]).forEach((k) => {
+        const o = s.options[+k];
+        let price = o.price;
+        if (s.budget) { price = budget * 0.3; media = budget; }
+        if (price === null) { quote.push(`${s.name}: ${o.name}`); lines.push(`<li><span>${o.name}</span><b>A cotizar</b></li>`); }
+        else {
+          if (o.monthly) monthly += price; else once += price;
+          if (o.from) minNote = true;
+          lines.push(`<li><span>${o.name}</span><b>${o.from ? 'desde ' : ''}${clp(price)}${o.monthly ? '/mes' : ''}</b></li>`);
+        }
+        msg.push(`${s.name}: ${o.name}`);
+      });
+    });
+
+    $('pqItems').innerHTML = lines.join('') || '<li class="pq-none">Aún no eliges servicios.</li>';
+    $('pqOnce').textContent = (minNote ? 'desde ' : '') + clp(once);
+    $('pqMonthly').textContent = clp(monthly);
+    $('pqMedia').textContent = media ? clp(media) + '/mes' : '—';
+    const q = $('pqQuote');
+    q.hidden = !quote.length;
+    q.textContent = quote.length ? 'Te enviaremos el valor de: ' + quote.join(', ') + '.' : '';
+
+    const out = document.getElementById('pqBudgetOut');
+    if (out) {
+      out.textContent = clp(budget);
+      const r = form.budget as HTMLInputElement;
+      r.style.setProperty('--fill', ((budget - +r.min) / (+r.max - +r.min)) * 100 + '%');
+    }
+    // El link a contacto lo convierte en WhatsApp SiteScripts, con este detalle en el mensaje.
+    const detail = msg.join('; ') + (media ? `; inversión en anuncios ${clp(media)}/mes` : '');
+    ($('pqCta') as HTMLAnchorElement).href = '/contacto' + (detail ? '?detalle=' + encodeURIComponent(detail) : '');
+  };
+  // /precios?servicio=ads,seo llega con esos servicios ya elegidos (links desde cada página de servicio).
+  (new URLSearchParams(location.search).get('servicio') ?? '').split(',').forEach((id) => {
+    const box = form.querySelector<HTMLInputElement>(`input[name="svc"][value="${CSS.escape(id)}"]`);
+    if (box) box.checked = true;
+  });
+  form.addEventListener('input', update);
+  update();
+}
+</script>

@@ -1,0 +1,59 @@
+urlSlug: ux-ui
+previousSlugs: []
+metaTitle: "Diseño UX/UI — Webfriends"
+metaDescription: "Diseño de experiencia e interfaz de usuario en Chile. Investigación, prototipos y sistemas de diseño accesibles."
+ogImage:
+  image: /assets/img/disenouxui.webp
+heroEyebrow: Diseño UX/UI
+heroH1: Interfaces que la gente entiende sin explicación
+heroLede: "Investigación, arquitectura de información y diseño visual. Para plataformas donde cada paso extra cuesta una conversión."
+sections:
+  - id: sintomas-h
+    eyebrow: Qué resolvemos
+    heading: Señales de que tu producto necesita UX
+    cards:
+      - title: Los usuarios preguntan lo obvio
+        description: "Si tu equipo de soporte responde siempre lo mismo, la interfaz no está comunicando bien."
+        chips: []
+      - title: Abandono en el último paso
+        description: "Formularios largos, pasos innecesarios o falta de confianza en el momento de convertir."
+        chips: []
+      - title: Cada pantalla se ve distinta
+        description: "Sin sistema de diseño, el producto crece con parches y pierde coherencia."
+        chips: []
+      - title: Nadie sabe qué mide el éxito
+        description: "Diseñar sin una métrica objetivo lleva a discusiones de gusto personal en vez de decisiones."
+        chips: []
+    steps: []
+  - id: proceso-h
+    eyebrow: Nuestro proceso
+    heading: Seis etapas, cero entregables a medias
+    cards: []
+    steps: []
+  - id: entregables-h
+    eyebrow: Entregables
+    heading: Qué recibes al terminar
+    cards:
+      - title: Sistema de diseño
+        description: "Componentes, tokens de color, escala tipográfica y reglas de espaciado documentadas."
+        chips: []
+      - title: Prototipo navegable
+        description: Un prototipo interactivo para validar los flujos antes de escribir código.
+        chips: []
+      - title: Tu sitio o plataforma funcional
+        description: "El desarrollo implementado y funcionando, listo para recibir usuarios reales."
+        chips: []
+      - title: Revisión de accesibilidad
+        description: Verificación de contraste y estructura semántica según WCAG 2.1 AA.
+        chips: []
+    steps: []
+  - id: faq-ux-h
+    eyebrow: Preguntas frecuentes
+    heading: Tus dudas, nuestra experiencia
+    cards: []
+    steps: []
+  - id: cta-h
+    eyebrow: Conversemos
+    heading: "¿Revisamos tu producto?"
+    cards: []
+    steps: []

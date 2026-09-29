@@ -1,0 +1,49 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const page = (await getEntry('pages', 'page-tienda'))!.data;
+// Solo los productos visibles; los marcados "Ocultar de Google" no se listan.
+const productos = (await getCollection('productos', (p) => !p.data.hidden)).sort((a, b) => a.data.order - b.data.order);
+const pages = await getCollection('pages');
+const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug}`;
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogImage={page.ogImage?.image}
+  ogImageAlt={page.ogImage?.alt}
+>
+  <section class="hero grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(28px,4vw,48px)">
+    <div class="wrap" data-hero-seq>
+      <p class="eyebrow">{page.heroEyebrow}</p>
+      <h1 style="font-size:var(--s-4);max-width:17ch;margin:0 auto 22px;font-weight:800;letter-spacing:-.045em">{page.heroH1}</h1>
+      <p class="lede" style="margin:0 auto;text-align:center;max-width:54ch">{page.heroLede}</p>
+    </div>
+  </section>
+
+  <section aria-label="Productos" style="padding-top:0">
+    <div class="wrap">
+      <div class="shop-grid" data-reveal-group>
+        {productos.map((p) => (
+          <article class="shop-card" data-reveal="scale">
+            <a class="shop-img" href={`/producto/${p.id}`} tabindex="-1" aria-hidden="true">
+              <img src={p.data.image} alt="" width="1321" height="1191" loading="lazy" />
+            </a>
+            <h2><a href={`/producto/${p.id}`}>{p.data.name}</a></h2>
+            <p class="shop-for">{p.data.tagline}</p>
+            <p class="shop-price">{p.data.price}</p>
+            <p class="plan-renew">{p.data.renewalTerms}</p>
+            <div class="shop-actions">
+              <a class="btn btn-accent btn-block" href={`/producto/${p.id}`}>Ver plan</a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
+        ¿Necesitas algo distinto? <a href={`${preciosHref}?servicio=web`} style="color:var(--amber);font-weight:700;text-decoration:none">Arma tu cotización</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

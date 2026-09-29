@@ -1,0 +1,10 @@
+client: NanoBioHealth
+tag: Sitio web + contenidos
+sector: Medicina integrativa
+challenge: Una propuesta médica difícil de explicar en pocas palabras, que necesitaba educar antes de convertir.
+checklist:
+  - Arquitectura de información centrada en el paciente
+  - Contenido que explica los tratamientos sin tecnicismos
+  - Formularios de contacto por tipo de consulta
+result: Un sitio que resuelve las dudas del paciente antes de la primera llamada.
+featured: false

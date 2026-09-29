@@ -1,0 +1,4 @@
+question: ¿Cómo manejan los datos de pacientes?
+category: salud
+order: 2
+answer: Los formularios usan conexión cifrada y no almacenamos fichas clínicas. Solo se registran los datos mínimos de contacto necesarios para agendar.

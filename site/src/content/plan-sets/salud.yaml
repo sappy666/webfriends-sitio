@@ -1,0 +1,46 @@
+id: salud
+plans:
+  - name: Centro Único
+    tagline: Para una consulta o centro con una sola sede.
+    price: $390.000
+    renewalTerms: "Pago único · Renovación $60.000 + IVA al año"
+    featured: false
+    badge: ""
+    features:
+      - label: Hasta 8 páginas
+      - label: Fichas de especialistas
+      - label: Convenios y previsión
+      - label: Formulario de contacto
+      - label: Botón de WhatsApp
+      - label: Setup SEO local
+    ctaLabel: Cotizar Centro Único
+    deliveryNote: "Entrega estimada: 3 semanas"
+  - name: Centro con Reservas
+    tagline: Para centros que quieren agendamiento en línea.
+    price: $590.000
+    renewalTerms: "Pago único · Renovación $80.000 + IVA al año"
+    featured: true
+    badge: Más elegido
+    features:
+      - label: Todo lo del plan Centro Único
+      - label: Reserva de horas en línea
+      - label: Agenda por profesional
+      - label: Confirmación automática
+      - label: Panel de administración
+      - label: Capacitación del equipo
+    ctaLabel: Cotizar Centro con Reservas
+    deliveryNote: "Entrega estimada: 4 semanas"
+  - name: Red Multisede
+    tagline: Para redes con varias sucursales.
+    price: Desde $890.000
+    renewalTerms: Cotización según número de sedes
+    featured: false
+    badge: ""
+    features:
+      - label: Todo lo del plan con Reservas
+      - label: Página por sucursal
+      - label: SEO local por sede
+      - label: Reportes por punto de atención
+      - label: Integración con sistemas existentes
+    ctaLabel: Cotizar Red Multisede
+    deliveryNote: Plazo según alcance

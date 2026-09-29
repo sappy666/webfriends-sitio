@@ -1,0 +1,80 @@
+---
+export const prerender = true;
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const productos = await getCollection('productos');
+  return productos.map((p) => ({ params: { slug: p.id }, props: { producto: p } }));
+}
+
+const { producto } = Astro.props as { producto: CollectionEntry<'productos'> };
+const p = producto.data;
+const otros = (await getCollection('productos', (o) => !o.data.hidden && o.id !== producto.id))
+  .sort((a, b) => a.data.order - b.data.order);
+const pages = await getCollection('pages');
+const sitiosWebHref = `/${pages.find((x) => x.id === 'page-sitios-web')!.data.urlSlug}`;
+const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug}`;
+---
+
+<BaseLayout title={`${p.name} — Webfriends`} description={`${p.tagline} ${p.price}.`} noindex={p.hidden}>
+  <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
+    <div class="wrap hero-split-grid" data-hero-seq>
+      <div>
+        <p class="eyebrow"><a href={sitiosWebHref} style="color:inherit;text-decoration:none">Sitios y tiendas web</a></p>
+        <h1 style="margin:0 0 22px">{p.name}</h1>
+        <p class="lede" style="max-width:46ch">{p.description}</p>
+        <div class="prod-price">
+          <p class="plan-price">{p.price}</p>
+          {p.renewalTerms && <p class="plan-renew">{p.renewalTerms}</p>}
+        </div>
+        <div class="hero-actions" style="justify-content:flex-start;margin-top:24px">
+          <a class="btn btn-accent" href="/contacto">Cotizar {p.name}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </a>
+          <a class="btn btn-soft" href={`${preciosHref}?servicio=web`}>Armar cotización</a>
+        </div>
+        {p.deliveryNote && <p class="plan-fine" style="text-align:left">{p.deliveryNote}</p>}
+      </div>
+      <div class="prod-art" data-reveal="scale">
+        <img src={p.image} alt="" width="1321" height="1191" />
+      </div>
+    </div>
+  </section>
+
+  {p.features.length > 0 && (
+    <section aria-labelledby="incluye-h">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>Qué incluye</p>
+        <h2 id="incluye-h" class="h-sec" data-reveal>Todo lo que viene en {p.name}</h2>
+        <ul class="prod-feats" data-reveal-group>
+          {p.features.map((f) => (
+            <li data-reveal="fade">
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" aria-hidden="true"><use href="#i-check"></use></svg></span>
+              <span><b>{f.label}</b>{f.description && <i>{f.description}</i>}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {otros.length > 0 && (
+    <section class="grad-cool" aria-labelledby="otros-h">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>Otras opciones</p>
+        <h2 id="otros-h" class="h-sec" data-reveal>Compara con otros planes</h2>
+        <div class="case-grid" data-reveal-group>
+          {otros.map((o) => (
+            <article class="case-card" data-reveal="scale">
+              <h3>{o.data.name}</h3>
+              <p class="case-sector">{o.data.tagline}</p>
+              <p class="case-result">{o.data.price}</p>
+              <a class="bento-link" href={`/producto/${o.id}`}>Ver plan <i aria-hidden="true">›</i></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

@@ -1,0 +1,54 @@
+urlSlug: sitios-web
+previousSlugs: []
+metaTitle: "Sitios y tiendas web — Webfriends"
+metaDescription: "Desarrollo de sitios web y tiendas en línea en Chile. Planes desde $190.000 con hosting y SSL incluidos."
+ogImage:
+  image: /assets/img/web.webp
+heroEyebrow: Plataformas web
+heroH1: Sitios rápidos, seguros y fáciles de administrar
+heroLede: "Con hosting, certificado SSL y configuración SEO incluidos desde el primer día. Sin sorpresas en la renovación."
+sections:
+  - id: incluido-h
+    eyebrow: Incluido
+    heading: Lo que viene en todos los planes
+    cards:
+      - title: Optimización de velocidad
+        description: "Definimos un presupuesto de peso y carga antes de construir, no lo dejamos para el final."
+        chips: []
+      - title: SSL y respaldos
+        description: Certificado de seguridad y copias de respaldo periódicas incluidas en el hosting.
+        chips: []
+      - title: Setup SEO inicial
+        description: "Estructura de encabezados, metadatos e indexación en Search Console listos desde el lanzamiento."
+        chips: []
+      - title: Administrable por ti
+        description: Te entregamos el sitio con una capacitación para que puedas editar textos e imágenes sin depender de nosotros.
+        chips: []
+    steps: []
+  - id: planes-h
+    eyebrow: Planes
+    heading: Planes de desarrollo web
+    cards: []
+    steps: []
+  - id: tienda-h
+    eyebrow: Comercio electrónico
+    heading: Vender en línea, sin fricción
+    cards: []
+    steps:
+      - title: Pasarelas de pago chilenas
+        description: "Integramos Webpay o Mercado Pago, los medios que tus clientes ya conocen y usan."
+        chips: [Webpay, "Mercado Pago"]
+      - title: Gestión de productos
+        description: "Panel simple para cargar productos, precios, stock y categorías sin conocimientos técnicos."
+        chips: [Catálogo, Stock, Categorías]
+      - title: Despacho y retiro
+        description: "Configuración de zonas de envío, costos y opción de retiro en tienda."
+        chips: [Envíos, Retiro, Zonas]
+      - title: Carrito optimizado
+        description: "Menos pasos entre el producto y el pago, que es donde se pierde la mayoría de las ventas."
+        chips: [Checkout, Conversión]
+  - id: cta-h
+    eyebrow: Conversemos
+    heading: "¿Conversamos sobre tu sitio?"
+    cards: []
+    steps: []

@@ -1,0 +1,10 @@
+name: Producto demo
+tagline: Página de demostración.
+description: "Producto de ejemplo. No está a la venta."
+price: A cotizar
+renewalTerms: ""
+deliveryNote: ""
+image: /assets/img/web-1.webp
+order: 99
+hidden: true
+features: []

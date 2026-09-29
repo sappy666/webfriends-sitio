@@ -1,0 +1,47 @@
+id: seo
+plans:
+  - name: SetUp SEO
+    tagline: Configuración inicial para un sitio que parte de cero.
+    price: $290.000
+    renewalTerms: Pago único + IVA
+    featured: false
+    badge: ""
+    features:
+      - label: Indexación en Google Search Console
+      - label: Configuración de metadatos
+      - label: Optimización de imágenes
+      - label: "Etiquetas H1, H2 y alt"
+      - label: Google Analytics
+      - label: Informe de seguimiento
+    ctaLabel: Cotizar SetUp SEO
+    deliveryNote: "Entrega estimada: 3 semanas"
+  - name: SEO Mensual
+    tagline: Para competir de forma sostenida por posiciones de valor.
+    price: $390.000
+    renewalTerms: Mensual + IVA
+    featured: true
+    badge: Más elegido
+    features:
+      - label: Todo lo del SetUp SEO
+      - label: Creación de contenidos
+      - label: Link building
+      - label: Corrección de URLs y errores 404
+      - label: Análisis de palabras clave
+      - label: Optimizaciones periódicas
+      - label: Ejecutivo asignado
+    ctaLabel: Cotizar SEO Mensual
+    deliveryNote: Cancela avisando con 30 días
+  - name: GEO
+    tagline: Para aparecer recomendado en respuestas de IA.
+    price: A cotizar
+    renewalTerms: Mensual + IVA · según alcance
+    featured: false
+    badge: Nuevo
+    features:
+      - label: Auditoría de visibilidad en IA
+      - label: Contenido optimizado para respuestas
+      - label: Datos estructurados (schema)
+      - label: Menciones en fuentes de autoridad
+      - label: "Monitoreo en ChatGPT, Gemini y Perplexity"
+    ctaLabel: Cotizar GEO
+    deliveryNote: Cancela avisando con 30 días

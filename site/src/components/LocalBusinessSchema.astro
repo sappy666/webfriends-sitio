@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+
+const [negocio] = await getCollection('negocio');
+const { data } = negocio;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: data.name,
+  description: data.description,
+  telephone: data.telephone,
+  email: data.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: data.streetAddress,
+    addressLocality: data.addressLocality,
+    addressRegion: data.addressRegion,
+    addressCountry: data.addressCountry,
+  },
+  areaServed: data.areaServed,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

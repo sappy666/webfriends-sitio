@@ -1,0 +1,62 @@
+urlSlug: google-ads
+previousSlugs: []
+metaTitle: "Google Ads — Webfriends"
+metaDescription: "Gestión profesional de campañas de Google Ads en Chile. Planes desde $240.000 mensuales con comisión incluida."
+ogImage:
+  image: /assets/img/google-ads.webp
+heroEyebrow: Google Ads
+heroH1: Google Ads enfocado en oportunidades reales de negocio
+heroLede: "Creamos, medimos y optimizamos campañas para conectar tu empresa con personas que ya están buscando tus servicios."
+sections:
+  - id: problema-h
+    eyebrow: El problema
+    heading: Por qué la mayoría de las campañas no rinde
+    cards:
+      - title: Palabras demasiado amplias
+        description: "Pagas por clics de gente que buscaba otra cosa. Sin negativas bien trabajadas, el presupuesto se diluye rápido."
+        chips: []
+      - title: Sin medición de conversiones
+        description: Si no sabes qué anuncio genera clientes, cada optimización es una corazonada.
+        chips: []
+      - title: La página de destino no convierte
+        description: "Puedes tener el mejor anuncio: si el sitio carga lento o no explica la oferta, el clic se pierde."
+        chips: []
+      - title: Se activa y se abandona
+        description: Una campaña sin revisión semanal pierde eficiencia mes a mes.
+        chips: []
+    steps: []
+  - id: metodo-h
+    eyebrow: Cómo trabajamos
+    heading: Qué hacemos con tu inversión
+    cards: []
+    steps:
+      - title: Auditoría inicial
+        description: "Revisamos tu cuenta actual, tu competencia y las búsquedas reales de tu rubro antes de tocar nada."
+        chips: ["Palabras clave", Competencia]
+      - title: Estructura de campañas
+        description: "Separamos por intención de compra para que cada grupo tenga su propio mensaje y presupuesto."
+        chips: ["Grupos de anuncios", Negativas]
+      - title: Medición de conversiones
+        description: Configuramos el seguimiento en tu sitio para saber qué anuncio trae clientes, no solo visitas.
+        chips: ["Google Tag", Eventos]
+      - title: Optimización semanal
+        description: "Ajustamos pujas, pausamos lo que no rinde y probamos nuevos textos de forma continua."
+        chips: [Pujas]
+      - title: Reporte mensual
+        description: "Un informe claro: cuánto invertiste, cuántos contactos llegaron y cuánto costó cada uno."
+        chips: ["Costo por lead", Conversiones]
+  - id: planes-h
+    eyebrow: Planes
+    heading: Planes de Google Ads
+    cards: []
+    steps: []
+  - id: faq-ads-h
+    eyebrow: Preguntas frecuentes
+    heading: Tus dudas, nuestra experiencia
+    cards: []
+    steps: []
+  - id: cta-h
+    eyebrow: Conversemos
+    heading: "¿Revisamos tu cuenta?"
+    cards: []
+    steps: []

@@ -1,0 +1,31 @@
+steps:
+  - title: Descubrimiento
+    description: "Entendemos tu negocio, tus clientes y tu competencia antes de proponer nada."
+    chips:
+      - User research
+      - Benchmarking
+  - title: Arquitectura
+    description: "Definimos la estructura de información y los flujos que llevan a la conversión."
+    chips:
+      - User personas
+      - Sitemap
+  - title: Diseño
+    description: "Interfaz visual alineada con tu marca y validada contra los flujos definidos."
+    chips:
+      - Wireframes
+      - Prototipos
+  - title: Desarrollo
+    description: "Construcción con presupuesto de rendimiento definido desde el inicio."
+    chips:
+      - Frontend
+      - Backend
+  - title: Control de calidad
+    description: "Pruebas en dispositivos reales, revisión de accesibilidad y corrección de errores."
+    chips:
+      - Testing UX
+      - Bug fixing
+  - title: Publicación y soporte
+    description: "Salida a producción, medición activa y mantención continua del sitio."
+    chips:
+      - Deploy
+      - Mantención

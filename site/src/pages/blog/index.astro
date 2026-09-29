@@ -1,0 +1,305 @@
+---
+export const prerender = true;
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const allPosts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const CATEGORY_LABEL: Record<string, string> = {
+  seo: 'SEO',
+  ads: 'Google Ads',
+  web: 'Desarrollo web',
+  uxui: 'UX/UI',
+  salud: 'Salud',
+  marketing: 'Marketing',
+};
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' }).replace('.', '');
+}
+---
+<BaseLayout
+  title="Blog — Webfriends"
+  description="Artículos sobre SEO, Google Ads, desarrollo web, UX/UI y soluciones digitales para negocios en Chile."
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/blog.css" />
+  </Fragment>
+
+  <section class="hero grid-bg" style="text-align:center">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal style="margin-inline:auto">Blog</p>
+      <h1 data-reveal>Ideas sobre marketing digital y desarrollo web</h1>
+      <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">
+        Artículos prácticos sobre SEO, Google Ads, desarrollo web, UX/UI y soluciones para salud, escritos por el equipo de Webfriends.
+      </p>
+    </div>
+  </section>
+
+  <section aria-labelledby="posts-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Artículos</p>
+      <h2 id="posts-h" class="h-sec" data-reveal>Últimas notas del equipo</h2>
+      <p class="lede" data-reveal style="margin-top:18px">Filtra por tema o cambia el orden según lo que quieras leer primero.</p>
+
+      <div class="blog-search" data-reveal>
+        <svg class="blog-search-ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-search"></use></svg>
+        <input type="search" id="blogSearch" placeholder="Buscar por título o tema…" aria-label="Buscar artículos del blog">
+        <button class="blog-mic" id="blogMic" type="button" aria-label="Buscar por voz">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-mic"></use></svg>
+        </button>
+      </div>
+
+      <div class="blog-controls" data-reveal>
+        <div class="blog-filters" role="group" aria-label="Filtrar por categoría">
+          <button class="filter-chip" type="button" data-filter="all" aria-pressed="true">Todos</button>
+          <button class="filter-chip" type="button" data-filter="seo" aria-pressed="false">SEO</button>
+          <button class="filter-chip" type="button" data-filter="ads" aria-pressed="false">Google Ads</button>
+          <button class="filter-chip" type="button" data-filter="web" aria-pressed="false">Desarrollo web</button>
+          <button class="filter-chip" type="button" data-filter="uxui" aria-pressed="false">UX/UI</button>
+          <button class="filter-chip" type="button" data-filter="salud" aria-pressed="false">Salud</button>
+          <button class="filter-chip" type="button" data-filter="marketing" aria-pressed="false">Marketing</button>
+        </div>
+        <div class="blog-sort">
+          <label for="blogSort">Ordenar por</label>
+          <select id="blogSort">
+            <option value="new">Más recientes</option>
+            <option value="old">Más antiguos</option>
+            <option value="az">Título (A-Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="blog-empty" id="blogEmpty" hidden>No encontramos artículos con esos filtros.</p>
+
+      <div class="post-grid" id="postGrid" data-reveal-group>
+        {allPosts.map((post) => (
+          <article
+            class="post-card"
+            data-reveal="scale"
+            data-category={post.data.category}
+            data-date={post.data.date.toISOString().slice(0, 10)}
+            data-title={post.data.title}
+          >
+            <div class="post-meta">
+              <span class="post-cat">{CATEGORY_LABEL[post.data.category]}</span>
+              <span class="post-date">{fmtDate(post.data.date)} · {post.data.readingTime.replace(' de lectura', '')}</span>
+            </div>
+            <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+            <p>{post.data.excerpt}</p>
+            <span class="post-read" aria-hidden="true">Leer artículo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><use href="#i-arrow-right"></use></svg></span>
+          </article>
+        ))}
+      </div>
+
+      <nav class="blog-pager" id="blogPager" aria-label="Paginación de artículos" hidden>
+        <button class="pager-btn pager-prev" id="pagerPrev" type="button" aria-label="Página anterior">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+        </button>
+        <div class="pager-pages" id="pagerPages"></div>
+        <button class="pager-btn pager-next" id="pagerNext" type="button" aria-label="Página siguiente">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+        </button>
+      </nav>
+    </div>
+  </section>
+
+  <section class="grad-warm grid-bg" aria-labelledby="cta-h">
+    <div class="wrap">
+      <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">
+        <div>
+          <p class="eyebrow">Conversemos</p>
+          <h2 id="cta-h" style="font-size:var(--s-3)">¿Tienes una pregunta para el blog?</h2>
+          <p class="lede" style="margin:18px auto 0;font-size:var(--s-0);text-align:center">Cuéntanos qué tema te interesa y lo consideramos para los próximos artículos, o te respondemos directamente.</p>
+          <div class="hero-actions" style="justify-content:center;margin-top:30px">
+            <a class="btn btn-accent" href="/contacto">Escribirnos
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+            <a class="btn btn-soft" href="/">Volver al inicio</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Fragment slot="scripts">
+    <script>
+      (function () {
+        const grid = document.getElementById('postGrid');
+        if (!grid) return;
+        const empty = document.getElementById('blogEmpty') as HTMLElement | null;
+        const chips = Array.prototype.slice.call(document.querySelectorAll('.filter-chip')) as HTMLButtonElement[];
+        const sortSelect = document.getElementById('blogSort') as HTMLSelectElement | null;
+        const searchInput = document.getElementById('blogSearch') as HTMLInputElement | null;
+        const cards = Array.prototype.slice.call(grid.querySelectorAll('.post-card')) as HTMLElement[];
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let activeFilter = 'all';
+        let activeQuery = '';
+        let currentPage = 1;
+        const PAGE_SIZE = 9;
+
+        const pager = document.getElementById('blogPager') as HTMLElement | null;
+        const pagerPages = document.getElementById('pagerPages') as HTMLElement | null;
+        const pagerPrev = document.getElementById('pagerPrev') as HTMLButtonElement | null;
+        const pagerNext = document.getElementById('pagerNext') as HTMLButtonElement | null;
+
+        function norm(s: string) {
+          return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        }
+
+        function matchingCards() {
+          const q = norm(activeQuery);
+          return cards.filter((card) => {
+            const catMatch = activeFilter === 'all' || card.dataset.category === activeFilter;
+            const excerpt = card.querySelector('p');
+            const haystack = norm(card.dataset.title + ' ' + (excerpt ? excerpt.textContent || '' : ''));
+            const queryMatch = !q || haystack.indexOf(q) !== -1;
+            return catMatch && queryMatch;
+          });
+        }
+
+        function renderPager(totalPages: number) {
+          if (!pager || !pagerPages || !pagerPrev || !pagerNext) return;
+          if (totalPages <= 1) { pager.hidden = true; return; }
+          pager.hidden = false;
+          pagerPrev.disabled = currentPage <= 1;
+          pagerNext.disabled = currentPage >= totalPages;
+          pagerPages.innerHTML = '';
+          for (let i = 1; i <= totalPages; i++) {
+            const page = i;
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'pager-page' + (page === currentPage ? ' is-active' : '');
+            b.textContent = String(page);
+            b.setAttribute('aria-label', 'Ir a la página ' + page);
+            if (page === currentPage) b.setAttribute('aria-current', 'page');
+            b.addEventListener('click', () => {
+              currentPage = page;
+              applyFilter();
+              grid!.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+            });
+            pagerPages.appendChild(b);
+          }
+        }
+
+        function applyFilter() {
+          const matches = matchingCards();
+          const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
+          if (currentPage > totalPages) currentPage = totalPages;
+          const pageStart = (currentPage - 1) * PAGE_SIZE;
+          const pageSet = matches.slice(pageStart, pageStart + PAGE_SIZE);
+
+          cards.forEach((card) => {
+            const match = pageSet.indexOf(card) !== -1;
+            if (reduce) {
+              card.classList.toggle('is-hidden', !match);
+              return;
+            }
+            if (match) {
+              card.classList.remove('is-hidden');
+              requestAnimationFrame(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'none';
+              });
+            } else {
+              card.style.opacity = '0';
+              card.style.transform = 'scale(.96)';
+              setTimeout(() => {
+                if (card.style.opacity === '0') card.classList.add('is-hidden');
+              }, 140);
+            }
+          });
+          if (empty) empty.hidden = matches.length !== 0;
+          renderPager(totalPages);
+        }
+
+        pagerPrev?.addEventListener('click', () => {
+          if (currentPage <= 1) return;
+          currentPage--;
+          applyFilter();
+          grid.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        });
+        pagerNext?.addEventListener('click', () => {
+          currentPage++;
+          applyFilter();
+          grid.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        });
+
+        chips.forEach((chip) => {
+          chip.addEventListener('click', () => {
+            chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
+            chip.setAttribute('aria-pressed', 'true');
+            activeFilter = chip.dataset.filter || 'all';
+            currentPage = 1;
+            applyFilter();
+          });
+        });
+
+        function applySort(mode: string) {
+          cards.sort((a, b) => {
+            if (mode === 'az') return (a.dataset.title || '').localeCompare(b.dataset.title || '', 'es');
+            if (mode === 'old') return (a.dataset.date || '').localeCompare(b.dataset.date || '');
+            return (b.dataset.date || '').localeCompare(a.dataset.date || '');
+          });
+          cards.forEach((card) => grid!.appendChild(card));
+          currentPage = 1;
+          applyFilter();
+        }
+
+        sortSelect?.addEventListener('change', () => applySort(sortSelect.value));
+
+        searchInput?.addEventListener('input', () => {
+          activeQuery = searchInput.value;
+          currentPage = 1;
+          applyFilter();
+        });
+
+        applyFilter();
+
+        // Dictado por voz en el buscador
+        const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+        const mic = document.getElementById('blogMic') as HTMLButtonElement | null;
+        if (mic && searchInput) {
+          if (!SR) {
+            mic.disabled = true;
+            mic.style.opacity = '.35';
+            mic.style.cursor = 'not-allowed';
+            mic.title = 'Tu navegador no soporta dictado por voz';
+          } else {
+            const recognition = new SR();
+            recognition.lang = 'es-CL';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            let listening = false;
+
+            recognition.addEventListener('result', (e: any) => {
+              const text = e.results[0][0].transcript;
+              searchInput.value = text;
+              searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+            recognition.addEventListener('end', () => {
+              listening = false;
+              mic.classList.remove('is-listening');
+            });
+            recognition.addEventListener('error', () => {
+              listening = false;
+              mic.classList.remove('is-listening');
+            });
+
+            mic.addEventListener('click', () => {
+              if (listening) {
+                recognition.stop();
+                return;
+              }
+              listening = true;
+              mic.classList.add('is-listening');
+              try { recognition.start(); } catch { listening = false; mic.classList.remove('is-listening'); }
+            });
+          }
+        }
+      })();
+    </script>
+  </Fragment>
+</BaseLayout>

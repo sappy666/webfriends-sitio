@@ -1,0 +1,59 @@
+urlSlug: salud
+previousSlugs: []
+metaTitle: "Plataformas web para centros médicos y dentales — Webfriends"
+metaDescription: "Sitios web con reserva de horas, fichas de especialistas y convenios para centros de salud en Chile."
+ogImage:
+  image: /assets/img/salud.webp
+heroEyebrow: Sector salud
+heroH1: Plataformas para centros médicos y dentales
+heroLede: "Reserva de horas, fichas de especialistas y convenios. Sitios pensados para cómo busca y decide un paciente."
+sections:
+  - id: funciones-h
+    eyebrow: Funcionalidades
+    heading: Lo que un centro de salud necesita de verdad
+    cards:
+      - title: Reserva de horas en línea
+        description: "Agendamiento conectado con la disponibilidad real de cada profesional, sin llamadas ni mensajes de ida y vuelta."
+        chips: []
+      - title: Fichas de especialistas
+        description: "Perfiles con especialidad, experiencia y horarios, optimizados para búsquedas del tipo \"dentista en mi comuna\"."
+        chips: []
+      - title: Convenios y previsión
+        description: "Isapres, Fonasa y convenios visibles desde el primer momento: es lo primero que consulta el paciente."
+        chips: []
+      - title: SEO local por sucursal
+        description: Cada sede con su propia ficha en Google Mi Negocio y su página optimizada para el mapa.
+        chips: []
+    steps: []
+  - id: flujo-h
+    eyebrow: El recorrido del paciente
+    heading: Dónde se pierden las horas agendadas
+    cards: []
+    steps:
+      - title: Busca un especialista
+        description: "El paciente llega desde Google buscando una especialidad y una comuna. Si no apareces en el mapa, no existes."
+        chips: ["SEO local", "Google Mi Negocio"]
+      - title: Verifica su previsión
+        description: Si no encuentra rápido si aceptas su isapre, se va al siguiente resultado.
+        chips: ["Convenios visibles", "Fonasa e isapres"]
+      - title: Elige profesional y hora
+        description: Cada campo extra en el formulario de reserva cuesta agendamientos.
+        chips: ["Formulario corto", "Disponibilidad real"]
+      - title: Confirma y recuerda
+        description: Confirmación automática y recordatorio para reducir la inasistencia.
+        chips: [Confirmación, Recordatorios]
+  - id: planes-h
+    eyebrow: Planes
+    heading: Planes para el sector salud
+    cards: []
+    steps: []
+  - id: faq-salud-h
+    eyebrow: Preguntas frecuentes
+    heading: Tus dudas, nuestra experiencia
+    cards: []
+    steps: []
+  - id: cta-h
+    eyebrow: Conversemos
+    heading: "¿Conversamos sobre tu centro?"
+    cards: []
+    steps: []

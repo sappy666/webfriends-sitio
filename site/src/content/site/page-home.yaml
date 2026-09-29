@@ -1,0 +1,46 @@
+metaTitle: "Webfriends — Agencia de marketing digital, SEO y desarrollo web en Chile"
+metaDescription: "Agencia chilena de Google Ads, SEO, desarrollo web y diseño UX/UI. Estrategias medibles para hacer crecer tu negocio."
+heroEyebrow: "Marketing digital · Desarrollo web · Resultados reales"
+heroH1: "Haz que te encuentren. Y convierte esa visibilidad en crecimiento."
+heroLede: "Estrategia, diseño y tecnología para que tu negocio destaque, atraiga más clientes y venda más."
+sections:
+  - id: s-h
+    eyebrow: Servicios
+    heading: Cinco formas de hacer crecer tu negocio
+    cards:
+      - title: Diseño y desarrollo web.
+        description: Sitios que no solo se ven bien, sino que venden.
+        chips: []
+      - title: Más visibilidad en Google.
+        description: Posicionamiento pensado para crecer a largo plazo.
+        chips: []
+      - title: Más clientes, más rápido.
+        description: Campañas enfocadas en resultados y optimizadas continuamente.
+        chips: []
+      - title: Tecnología para una atención más simple.
+        description: Plataformas para centros médicos y dentales.
+        chips: []
+      - title: Productos digitales que se entienden.
+        description: "Investigación, arquitectura y diseño de interfaces."
+        chips: []
+    steps: []
+  - id: cx-h
+    eyebrow: Casos de éxito
+    heading: Resultados que hablan por nosotros
+    cards: []
+    steps: []
+  - id: p-h
+    eyebrow: Planes
+    heading: Soluciones para cada etapa de tu negocio
+    cards: []
+    steps: []
+  - id: pr-h
+    eyebrow: Cómo trabajamos
+    heading: Seis etapas, cero entregables a medias
+    cards: []
+    steps: []
+  - id: ct-h
+    eyebrow: Conversemos
+    heading: "¿Listo para crecer?"
+    cards: []
+    steps: []

@@ -1,0 +1,177 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const page = (await getEntry('pages', 'page-sitios-web'))!.data;
+const sec = (id: string) => page.sections.find((s) => s.id === id)!;
+const webPlans = (await getEntry('planSets', 'desarrollo-web'))!.data.plans;
+const incluidoIcons = [
+  '<path d="M12 20a8 8 0 118-8"/><path d="M12 12l4-3"/>',
+  '<path d="M12 3l8 3v6c0 4.4-3.2 7.9-8 9-4.8-1.1-8-4.6-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  '<use href="#i-search"></use>',
+  '<use href="#i-monitor"></use>',
+];
+const tiendaIcons = ['#i-credit-card', '#i-package', '#i-truck', '#i-cart'];
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogImage={page.ogImage?.image}
+  ogImageAlt={page.ogImage?.alt}
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/service.css" />
+  </Fragment>
+
+  <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
+    <div class="wrap hero-split-grid" data-hero-seq>
+      <div>
+        <p class="eyebrow">{page.heroEyebrow}</p>
+        <h1 style="font-size:var(--s-4);max-width:15ch;margin:0 0 22px;font-weight:800;letter-spacing:-.045em">{page.heroH1}</h1>
+        <p class="lede" style="max-width:46ch">{page.heroLede}</p>
+        <div class="hero-actions" style="justify-content:flex-start">
+          <a class="btn btn-accent" href="/contacto">Cotizar mi sitio
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </a>
+          <a class="btn btn-soft" href="#planes">Ver planes</a>
+        </div>
+      </div>
+
+      <div class="hero-img" data-reveal="scale">
+        <img src="/assets/img/web.webp" alt="Sitio web desarrollado por Webfriends" width="1200" height="720" loading="eager">
+      </div>
+    </div>
+  </section>
+  <section style="padding-block:0" aria-labelledby="stats-h">
+    <div class="wrap">
+      <h2 id="stats-h" class="sr-only">Cifras</h2>
+      <div class="metrics-grid" data-reveal-group>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">150+</p>
+          <p class="metric-l">Plataformas publicadas</p>
+          <p class="metric-src">Sitios, tiendas y sistemas</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">1 año</p>
+          <p class="metric-l">Hosting incluido</p>
+          <p class="metric-src">En todos los planes</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">SSL</p>
+          <p class="metric-l">Certificado incluido</p>
+          <p class="metric-src">Conexión segura</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">2–4</p>
+          <p class="metric-l">Semanas de entrega</p>
+          <p class="metric-src">Según el plan</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="incluido" aria-labelledby="incluido-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{sec('incluido-h').eyebrow}</p>
+      <h2 id="incluido-h" class="h-sec" data-reveal>{sec('incluido-h').heading}</h2>
+      <p class="lede" data-reveal style="margin-top:18px">No cobramos aparte por lo que un sitio profesional necesita para funcionar bien desde el día uno.</p>
+      <div class="cards cards-4" data-reveal-group>
+        {sec('incluido-h').cards.map((card, i) => (
+          <article class="card" data-reveal data-parallax="soft">
+            <span class="card-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={incluidoIcons[i]} /></span>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="planes" class="grad-cool" aria-labelledby="planes-h">
+    <div class="wrap" style="text-align:center">
+      <p class="eyebrow" data-reveal>{sec('planes-h').eyebrow}</p>
+      <h2 id="planes-h" class="h-sec" data-reveal style="margin-inline:auto">{sec('planes-h').heading}</h2>
+      <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">El valor es de pago único e incluye el primer año de hosting. A partir del segundo año solo pagas la renovación.</p>
+    </div>
+    <div class="wrap">
+      <div class="pricing" data-reveal-group style="margin-top:44px">
+          {webPlans.map((plan) => (
+            <article class={`plan${plan.featured ? ' is-featured' : ''}`} data-reveal="scale">
+              {plan.badge && <span class="plan-badge">{plan.badge}</span>}
+              <h3>{plan.name}</h3>
+              <p class="plan-for">{plan.tagline}</p>
+              <p class="plan-price">{plan.price}</p>
+              <p class="plan-renew">{plan.renewalTerms}</p>
+              <ul>
+                {plan.features.map((f) => (
+                  <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" aria-hidden="true"><use href="#i-check"></use></svg>{f.label}</li>
+                ))}
+              </ul>
+              <div class="plan-cta">
+                <a class={`btn btn-block ${plan.featured ? 'btn-accent' : 'btn-soft'}`} href="/contacto">{plan.ctaLabel}</a>
+                <p class="plan-fine">{plan.deliveryNote}</p>
+              </div>
+            </article>
+          ))}
+      </div>
+      <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
+        ¿Necesitas algo distinto? <a href="/contacto" style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
+      </p>
+    </div>
+  </section>
+  <section id="tienda" class="dark-band" aria-labelledby="tienda-h">
+    <div class="wrap">
+      <div class="hero-split-grid tienda-intro">
+        <div>
+          <p class="eyebrow" data-reveal>{sec('tienda-h').eyebrow}</p>
+          <h2 id="tienda-h" class="h-sec" data-reveal>{sec('tienda-h').heading}</h2>
+          <p class="lede" data-reveal style="margin-top:18px">Una tienda no es solo un catálogo: es un flujo de compra donde cada paso extra cuesta ventas.</p>
+
+          <div class="local-cta" data-reveal>
+            <a class="btn btn-accent" href="/contacto#planes">
+              Quiero mi tienda online
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+            <p class="local-cta-note">Catálogo, pagos y despacho, listos desde el día uno.</p>
+          </div>
+        </div>
+
+        <div class="hero-img" data-reveal="scale">
+          <img src="/assets/img/sitiosweb.webp" alt="Tienda virtual desarrollada por Webfriends" width="1200" height="720" loading="lazy">
+        </div>
+      </div>
+
+      <div class="local-steps" data-reveal-group>
+        {sec('tienda-h').steps.map((step, i) => (
+          <div class="local-step" data-reveal="fade">
+            {i > 0 && <span class="local-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span>}
+            <div class="local-step-top">
+              <span class="local-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="local-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href={tiendaIcons[i]}></use></svg></span>
+            </div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+            <div class="chips">{step.chips.map((chip) => <span class="chip">{chip}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="grid-bg" aria-labelledby="cta-h">
+    <div class="wrap">
+      <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">
+        <div>
+          <p class="eyebrow">{sec('cta-h').eyebrow}</p>
+          <h2 id="cta-h" style="font-size:var(--s-3)">{sec('cta-h').heading}</h2>
+          <p class="lede" style="margin:18px auto 0;font-size:var(--s-0);text-align:center">Cuéntanos qué necesitas y te decimos qué plan te sirve, o si conviene una propuesta a medida.</p>
+          <div class="hero-actions" style="justify-content:center;margin-top:30px">
+            <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+            <a class="btn btn-soft" href="https://wa.me/56931971436">Escribir por WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

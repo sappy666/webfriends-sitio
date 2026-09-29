@@ -1,0 +1,197 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FaqSchema from '../FaqSchema.astro';
+
+const faqs = (await getCollection('faqs', ({ data }) => data.category === 'uxui')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const page = (await getEntry('pages', 'page-ux-ui'))!.data;
+const sec = (id: string) => page.sections.find((s) => s.id === id)!;
+const proceso = (await getEntry('procesoSeisEtapas', 'proceso-seis-etapas'))!.data.steps;
+const sintomasIcons = [
+  '<circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><path d="M16 5.2a3.2 3.2 0 010 5.6M17 14.4a6.5 6.5 0 014.5 5.6"/>',
+  '<use href="#i-chart-bars"></use>',
+  '<use href="#i-gem"></use>',
+  '<use href="#i-shield-check"></use>',
+];
+const entregablesIcons = [
+  '<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+  '<use href="#i-gem"></use>',
+  '<use href="#i-monitor"></use>',
+  '<path d="M12 3l8 3v6c0 4.4-3.2 7.9-8 9-4.8-1.1-8-4.6-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+];
+const procesoIcons = ['#i-search', '#i-chart-bars', '#i-gem', '#i-monitor', '#i-check-circle', '#i-arrow-up'];
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogImage={page.ogImage?.image}
+  ogImageAlt={page.ogImage?.alt}
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/service.css" />
+  </Fragment>
+
+  <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
+    <div class="wrap hero-split-grid" data-hero-seq>
+      <div>
+        <p class="eyebrow">{page.heroEyebrow}</p>
+        <h1 style="font-size:var(--s-4);max-width:15ch;margin:0 0 22px;font-weight:800;letter-spacing:-.045em">{page.heroH1}</h1>
+        <p class="lede" style="max-width:46ch">{page.heroLede}</p>
+        <div class="hero-actions" style="justify-content:flex-start">
+          <a class="btn btn-accent" href="/contacto">Agendar consulta
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </a>
+          <a class="btn btn-soft" href="#proceso">Ver el proceso</a>
+        </div>
+      </div>
+
+      <div class="hero-img" data-reveal="scale">
+        <img src="/assets/img/disenouxui.webp" alt="Interfaz de producto digital diseñada por Webfriends" width="1200" height="720" loading="eager">
+      </div>
+    </div>
+  </section>
+  <section style="padding-block:0" aria-labelledby="stats-h">
+    <div class="wrap">
+      <h2 id="stats-h" class="sr-only">Cifras</h2>
+      <div class="metrics-grid" data-reveal-group>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">6</p>
+          <p class="metric-l">Etapas del proceso</p>
+          <p class="metric-src">Con entregables definidos</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">4–8</p>
+          <p class="metric-l">Semanas por proyecto</p>
+          <p class="metric-src">Según alcance</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">3</p>
+          <p class="metric-l">Dispositivos validados</p>
+          <p class="metric-src">Móvil, tablet y escritorio</p>
+        </div>
+        <div class="metric" data-reveal data-parallax="soft">
+          <p class="metric-n">AA</p>
+          <p class="metric-l">Nivel de accesibilidad</p>
+          <p class="metric-src">Estándar WCAG 2.1</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="sintomas" aria-labelledby="sintomas-h">
+    <div class="wrap">
+      <div class="hero-split-grid">
+        <div>
+          <p class="eyebrow" data-reveal>{sec('sintomas-h').eyebrow}</p>
+          <h2 id="sintomas-h" class="h-sec" data-reveal>{sec('sintomas-h').heading}</h2>
+          <p class="lede" data-reveal style="margin-top:18px">Estos síntomas casi siempre indican un problema de diseño, no de marketing ni de tecnología.</p>
+        </div>
+        <div class="hero-img" data-reveal="scale">
+          <img src="/assets/img/ux.webp" alt="Señales de que tu producto necesita UX" width="1200" height="900" loading="lazy">
+        </div>
+      </div>
+      <div class="cards cards-4" data-reveal-group style="margin-top:32px">
+        {sec('sintomas-h').cards.map((card, i) => (
+          <article class="card" data-reveal data-parallax="soft">
+            <span class="card-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={sintomasIcons[i]} /></span>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="proceso" class="dark-band" aria-labelledby="proceso-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{sec('proceso-h').eyebrow}</p>
+      <h2 id="proceso-h" class="h-sec" data-reveal>{sec('proceso-h').heading}</h2>
+      <p class="lede" data-reveal style="margin-top:18px">Sabes qué recibes y cuándo. Cada etapa cierra con algo concreto que puedes revisar y aprobar.</p>
+
+      <div class="local-cta" data-reveal>
+        <a class="btn btn-accent" href="/contacto">
+          Agendar consulta
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <p class="local-cta-note">Seis etapas, sin entregables a medias.</p>
+      </div>
+
+      <div class="local-steps cols-3-2" data-reveal-group>
+        {proceso.map((step, i) => (
+          <div class="local-step" data-reveal="fade">
+            {i > 0 && <span class="local-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span>}
+            <div class="local-step-top">
+              <span class="local-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="local-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href={procesoIcons[i]}></use></svg></span>
+            </div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+            <div class="chips">{step.chips.map((chip) => <span class="chip">{chip}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="entregables" class="dark-band" aria-labelledby="entregables-h">
+    <div class="wrap">
+      <div class="hero-split-grid">
+        <div>
+          <p class="eyebrow" data-reveal>{sec('entregables-h').eyebrow}</p>
+          <h2 id="entregables-h" class="h-sec" data-reveal>{sec('entregables-h').heading}</h2>
+          <p class="lede" data-reveal style="margin-top:18px">Todo queda documentado y en tus manos: no dependes de nosotros para seguir creciendo.</p>
+        </div>
+        <div class="hero-img" data-reveal="scale">
+          <img src="/assets/img/ux-2.webp" alt="Qué recibes al terminar un proyecto UX/UI" width="1200" height="900" loading="lazy">
+        </div>
+      </div>
+      <div class="cards cards-4" data-reveal-group style="margin-top:32px">
+        {sec('entregables-h').cards.map((card, i) => (
+          <article class="card" data-reveal data-parallax="soft">
+            <span class="card-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={entregablesIcons[i]} /></span>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="faq-ux" aria-labelledby="faq-ux-h">
+    <div class="wrap">
+      <div class="faq-card">
+        <p class="eyebrow" data-reveal>{sec('faq-ux-h').eyebrow}</p>
+        <h2 id="faq-ux-h" class="h-sec" data-reveal>{sec('faq-ux-h').heading}</h2>
+        <p class="lede" data-reveal>Reunimos las respuestas a las preguntas más comunes sobre nuestro trabajo de UX/UI.</p>
+
+        <div class="faq-grid" data-reveal-group>
+          {faqs.map((faq) => (
+            <details class="faq-item" data-reveal="fade">
+              <summary>{faq.data.question}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><use href="#i-chevron-down"></use></svg></summary>
+              <p>{faq.data.answer}</p>
+            </details>
+          ))}
+        </div>
+        <FaqSchema faqs={faqs.map((f) => f.data)} />
+      </div>
+    </div>
+  </section>
+  <section class="grid-bg" aria-labelledby="cta-h">
+    <div class="wrap">
+      <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">
+        <div>
+          <p class="eyebrow">{sec('cta-h').eyebrow}</p>
+          <h2 id="cta-h" style="font-size:var(--s-3)">{sec('cta-h').heading}</h2>
+          <p class="lede" style="margin:18px auto 0;font-size:var(--s-0);text-align:center">Agenda una consulta gratuita y conversemos sobre qué está frenando la conversión en tu plataforma.</p>
+          <div class="hero-actions" style="justify-content:center;margin-top:30px">
+            <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+            <a class="btn btn-soft" href="https://wa.me/56931971436">Escribir por WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

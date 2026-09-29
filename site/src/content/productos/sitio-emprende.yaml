@@ -1,0 +1,24 @@
+name: Sitio Emprende
+tagline: Para negocios que ya venden y necesitan explicar bien su oferta.
+description: "Un sitio de cinco páginas para presentar tu negocio con claridad: qué haces, para quién y cómo contactarte. Incluye setup SEO inicial y una capacitación para que edites tu sitio sin depender de nadie."
+price: $260.000
+renewalTerms: "Pago único · Renovación $45.000 + IVA al año"
+deliveryNote: "Entrega estimada: 3 semanas"
+image: /assets/img/web-1.webp
+order: 2
+hidden: false
+features:
+  - label: 5 páginas
+    description: Inicio, servicios, nosotros, contacto y una libre
+  - label: 1 GB de almacenamiento
+    description: Ampliable después sin rehacer el sitio
+  - label: Hosting gratis el primer año
+    description: Certificado SSL incluido, sin costo adicional
+  - label: 5 correos corporativos
+    description: Compatibles con Gmail y Outlook
+  - label: Formulario y WhatsApp
+    description: Con aviso automático de nuevo contacto
+  - label: Setup SEO inicial
+    description: "Metadatos, encabezados e indexación en Search Console"
+  - label: Capacitación de 1 hora
+    description: Para que edites textos e imágenes sin depender de nosotros

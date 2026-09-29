@@ -1,0 +1,47 @@
+urlSlug: servicios
+previousSlugs: []
+metaTitle: "Servicios de marketing digital y desarrollo web — Webfriends"
+metaDescription: "Google Ads, SEO y GEO, sitios web, plataformas para salud y diseño UX/UI en Chile. Contrata un servicio o una estrategia integral con una sola agencia."
+heroEyebrow: Servicios
+heroH1: Todo lo que tu negocio necesita para crecer en digital
+heroLede: "Cinco servicios que funcionan por separado y rinden más juntos. Una sola agencia, un solo equipo y un reporte que muestra qué está funcionando."
+sections:
+  - id: servicios-h
+    eyebrow: Qué hacemos
+    heading: Elige por dónde empezar
+    cards:
+      - title: Google Ads
+        description: "Campañas en Google para aparecer justo cuando te buscan. Gestión con comisión del 30% sobre la inversión, cuentas a tu nombre y reporte mensual."
+        chips: [Búsqueda, Display y remarketing, Seguimiento de conversiones]
+      - title: Posicionamiento SEO y GEO
+        description: "Tráfico orgánico que no se apaga cuando pausas el presupuesto, y presencia en las respuestas de ChatGPT, Gemini y las respuestas con IA de Google."
+        chips: [SEO técnico, Contenidos, SEO local, Aparición en IA]
+      - title: Sitios y tiendas web
+        description: "Sitios rápidos, fáciles de administrar y pensados para convertir visitas en contactos o ventas."
+        chips: [Sitios corporativos, E-commerce, Landing pages]
+      - title: Plataformas para salud
+        description: "Sitios y agenda online para centros médicos y dentales, con posicionamiento local por sede."
+        chips: [Agenda online, Multisede, Google Mi Negocio]
+      - title: Diseño UX/UI
+        description: "Investigación, arquitectura y diseño de interfaces para productos digitales que la gente entiende y usa."
+        chips: [Auditoría UX, Prototipos, Pruebas con usuarios]
+    steps: []
+  - id: integral-h
+    eyebrow: Estrategia integral
+    heading: Por qué conviene combinarlos
+    cards:
+      - title: Un solo equipo
+        description: "Quien hace tus anuncios conoce tu sitio y tu SEO. No hay que coordinar tres agencias ni repetir el mismo brief."
+        chips: []
+      - title: Datos que se cruzan
+        description: "Lo que aprendemos en Google Ads sobre qué búsquedas convierten alimenta el contenido SEO, y al revés."
+        chips: []
+      - title: Resultados ahora y a largo plazo
+        description: "Los anuncios traen contactos desde el primer mes mientras el SEO construye tráfico que no depende del presupuesto."
+        chips: []
+    steps: []
+  - id: cta-h
+    eyebrow: Asesoría gratuita
+    heading: ¿No sabes por cuál partir?
+    cards: []
+    steps: []

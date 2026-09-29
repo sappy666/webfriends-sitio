@@ -1,0 +1,24 @@
+urlSlug: contacto
+previousSlugs: []
+metaTitle: "Contacto — Webfriends"
+metaDescription: "Contacta a Webfriends por WhatsApp, teléfono o correo. Asesoría inicial gratuita y respuesta en menos de 24 horas hábiles."
+heroEyebrow: Conversemos
+heroH1: Contáctanos
+heroLede: "Cuéntanos qué necesitas y te respondemos con una propuesta concreta en menos de 24 horas hábiles. Sin compromiso."
+sections:
+  - id: oficinas-h
+    eyebrow: Modalidad
+    heading: Dónde estamos
+    cards:
+      - title: 100% remoto
+        description: "Reuniones, entregas y seguimiento se coordinan por videollamada, sin necesidad de visitar una oficina."
+        chips: [Videollamada, "Sin cita presencial"]
+      - title: Cobertura en todo Chile
+        description: "Trabajamos con clientes de cualquier región del país, con el mismo nivel de cercanía que una reunión en persona."
+        chips: ["Todo Chile", "WhatsApp y correo"]
+    steps: []
+  - id: faq-contacto-h
+    eyebrow: Preguntas frecuentes
+    heading: Tus dudas, nuestra experiencia
+    cards: []
+    steps: []

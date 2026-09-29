@@ -1,0 +1,20 @@
+name: One Page Emprende
+tagline: Para partir con una landing enfocada en campañas.
+description: "Un sitio de una sola página, con todo el contenido en una vista con scroll. Ideal para una oferta puntual, un emprendimiento que parte o una campaña de Google Ads que necesita una página de destino rápida y efectiva."
+price: $190.000
+renewalTerms: "Pago único · Renovación $45.000 + IVA al año"
+deliveryNote: "Entrega estimada: 2 semanas"
+image: /assets/img/web-1.webp
+order: 1
+hidden: false
+features:
+  - label: 1 página
+    description: Todo el contenido en una sola vista con scroll, ideal para una oferta puntual
+  - label: 1 GB de almacenamiento
+    description: Alcanza para unas 400 imágenes optimizadas
+  - label: Hosting gratis el primer año
+    description: Servidor en Chile, con respaldo diario automático
+  - label: 3 correos corporativos
+    description: "Con tu dominio: nombre@tuempresa.cl"
+  - label: Formulario y WhatsApp
+    description: Los mensajes llegan a tu correo y al chat, sin intermediarios

@@ -1,0 +1,64 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const page = (await getEntry('pages', 'page-terminos'))!.data;
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogImage={page.ogImage?.image}
+  ogImageAlt={page.ogImage?.alt}
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/casos.css" />
+  </Fragment>
+
+  <section class="hero grid-bg" style="padding-block:clamp(44px,6vw,72px) clamp(16px,2vw,28px)">
+    <div class="wrap" data-hero-seq>
+      <p class="eyebrow">{page.heroEyebrow}</p>
+      <h1 style="font-size:var(--s-3);max-width:18ch;margin:0 auto 20px;font-weight:800">{page.heroH1}</h1>
+      <p class="lede" style="margin:0 auto;text-align:center;max-width:52ch">{page.heroLede}</p>
+    </div>
+  </section>
+
+  <section style="padding-block:clamp(16px,2vw,32px) clamp(60px,8vw,110px)" aria-labelledby="legal-h">
+    <div class="wrap">
+      <h2 id="legal-h" class="sr-only">Condiciones de servicio</h2>
+      <div class="grouped" data-reveal-group>
+        <div class="row" data-reveal="fade">
+          <div><h3>1. Objeto</h3><p style="color:var(--label-2);margin-top:12px">Estas condiciones regulan la contratación de los servicios de marketing digital, desarrollo web y diseño ofrecidos por Webfriends Chile, así como el uso de este sitio.</p></div>
+        </div>
+        <div class="row" data-reveal="fade">
+          <div><h3>2. Servicios y alcance</h3><p style="color:var(--label-2);margin-top:12px">El alcance específico de cada servicio se define en la propuesta comercial aceptada por el cliente. Los planes publicados en este sitio describen las prestaciones incluidas; cualquier requerimiento fuera de ese alcance se cotiza por separado.</p></div>
+        </div>
+        <div class="row" data-reveal="fade">
+          <div><h3>3. Precios y pagos</h3><p style="color:var(--label-2);margin-top:12px">Todos los valores se expresan en pesos chilenos y no incluyen IVA, salvo que se indique lo contrario. Los planes mensuales se facturan por adelantado. El presupuesto de medios publicitarios pagado a plataformas como Google Ads es adicional al valor de gestión y corre por cuenta del cliente.</p></div>
+        </div>
+        <div class="row" data-reveal="fade">
+          <div><h3>4. Plazos de entrega</h3><p style="color:var(--label-2);margin-top:12px">Los plazos indicados son estimados y se cuentan desde la entrega completa del material necesario por parte del cliente (contenidos, imágenes, accesos). Las demoras en la entrega de dicho material extienden el plazo en la misma proporción.</p></div>
+        </div>
+        <div class="row" data-reveal="fade">
+          <div><h3>5. Cancelación</h3><p style="color:var(--label-2);margin-top:12px">Los planes mensuales pueden cancelarse avisando con 30 días de anticipación. No se realizan devoluciones por períodos ya facturados. Los proyectos de pago único que se cancelen una vez iniciados se facturan según el avance ejecutado.</p></div>
+        </div>
+        <div class="row" data-reveal="fade">
+          <div><h3>6. Propiedad y accesos</h3><p style="color:var(--label-2);margin-top:12px">Una vez pagado el servicio, el cliente es propietario del sitio, de sus contenidos y de las cuentas publicitarias asociadas, y mantiene acceso de administrador en todas ellas. Webfriends no retiene accesos ni condiciona la entrega de credenciales.</p></div>
+        </div>
+        <div class="row" data-reveal="fade">
+          <div><h3>7. Hosting y renovación</h3><p style="color:var(--label-2);margin-top:12px">Los planes de desarrollo web incluyen el primer año de hosting. A partir del segundo año se aplica el valor de renovación anual indicado en cada plan, que el cliente puede optar por no renovar, migrando el sitio a otro proveedor.</p></div>
+        </div>
+        <div class="row" data-reveal="fade">
+          <div><h3>8. Resultados</h3><p style="color:var(--label-2);margin-top:12px">Webfriends se compromete a la correcta ejecución técnica y profesional de los servicios contratados. No se garantizan posiciones específicas en resultados orgánicos de buscadores, ya que dependen de algoritmos de terceros fuera de nuestro control.</p></div>
+        </div>
+        <div class="row" data-reveal="fade">
+          <div><h3>9. Protección de datos</h3><p style="color:var(--label-2);margin-top:12px">Los datos personales entregados a través de los formularios de este sitio se utilizan exclusivamente para responder la solicitud y elaborar propuestas comerciales. No se venden ni ceden a terceros. El titular puede solicitar su eliminación escribiendo a contacto@webfriends.cl.</p></div>
+        </div>
+        <div class="row" data-reveal="fade">
+          <div><h3>10. Modificaciones</h3><p style="color:var(--label-2);margin-top:12px">Webfriends puede actualizar estas condiciones. La versión vigente es la publicada en esta página. Los cambios no afectan contratos ya suscritos, que se rigen por las condiciones aceptadas al momento de su firma.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

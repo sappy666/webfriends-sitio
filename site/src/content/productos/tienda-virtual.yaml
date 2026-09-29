@@ -1,0 +1,24 @@
+name: Tienda Virtual
+tagline: Para vender en línea con pago integrado.
+description: "Una tienda en línea completa, con pago integrado con Webpay o Mercado Pago, despacho y retiro configurables y catálogo con variantes. El dinero de tus ventas llega directo a tu cuenta."
+price: $450.000
+renewalTerms: "Pago único · Renovación $60.000 + IVA al año"
+deliveryNote: "Entrega estimada: 4 semanas"
+image: /assets/img/web-1.webp
+order: 5
+hidden: false
+features:
+  - label: Hasta 40 productos
+    description: "Con variantes de talla, color y stock por variante"
+  - label: 2 GB de almacenamiento
+    description: Para fotos de catálogo en alta resolución
+  - label: Hosting gratis el primer año
+    description: "Con SSL, obligatorio para procesar pagos"
+  - label: 5 correos corporativos
+    description: Incluye una casilla de ventas
+  - label: Webpay o Mercado Pago
+    description: El dinero llega directo a tu cuenta, sin pasar por nosotros
+  - label: Categorías personalizadas
+    description: "Filtros por precio, tipo o marca"
+  - label: Despacho y retiro
+    description: Zonas de envío con costo configurable y retiro en tienda

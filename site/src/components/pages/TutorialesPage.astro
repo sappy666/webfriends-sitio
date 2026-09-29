@@ -1,0 +1,42 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const page = (await getEntry('pages', 'page-tutoriales'))!.data;
+// Por ahora los tutoriales son los artículos del blog cuyo slug empieza con "guia-" + número (guia-01, guia-02…).
+const guias = (await getCollection('blog', (p) => /^guia-\d/.test(p.id))).sort((a, b) => a.id.localeCompare(b.id));
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogImage={page.ogImage?.image}
+  ogImageAlt={page.ogImage?.alt}
+>
+  <section class="hero grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px)">
+    <div class="wrap" data-hero-seq>
+      <p class="eyebrow">{page.heroEyebrow}</p>
+      <h1 style="font-size:var(--s-4);max-width:17ch;margin:0 auto 22px;font-weight:800;letter-spacing:-.045em">{page.heroH1}</h1>
+      <p class="lede" style="margin:0 auto;text-align:center;max-width:54ch">{page.heroLede}</p>
+    </div>
+  </section>
+
+  <section aria-label="Lista de tutoriales">
+    <div class="wrap">
+      {guias.length > 0 ? (
+        <div class="case-grid" data-reveal-group>
+          {guias.map((g) => (
+            <article class="case-card" data-reveal="scale">
+              <p class="case-tag">Tutorial</p>
+              <h2 style="font-size:var(--s-1)">{g.data.title}</h2>
+              <p class="case-result">{g.data.excerpt}</p>
+              <a class="bento-link" href={`/blog/${g.id}`}>Ver tutorial <i aria-hidden="true">›</i></a>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="lede" style="text-align:center;margin-inline:auto">Muy pronto publicaremos los primeros tutoriales.</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>
