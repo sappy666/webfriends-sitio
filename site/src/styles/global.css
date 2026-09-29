@@ -229,11 +229,11 @@ body.recheck-open{overflow:hidden}
 
 /* ═══════ MEGA MENÚ con panel promocional ═══════ */
 .mega{
-  position:absolute;top:calc(100% + 10px);left:50%;translate:-50% 0;width:min(880px,94vw);padding:12px;
+  position:absolute;top:calc(100% + 10px);left:0;width:min(880px,94vw);padding:12px;
   background:var(--card);                     /* opaco: legibilidad ante todo */
   border:1px solid var(--line-2);border-radius:var(--r-xl);
   box-shadow:0 12px 28px rgba(0,0,0,.10),0 32px 80px rgba(0,0,0,.16);
-  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.97);transform-origin:top center;
+  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.97);transform-origin:top left;
   transition:opacity .3s var(--spring),transform .35s var(--spring),visibility .35s;
 }
 .navitem.open .mega{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
