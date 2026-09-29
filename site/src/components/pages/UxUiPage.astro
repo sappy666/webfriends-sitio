@@ -84,17 +84,12 @@ const procesoIcons = ['#i-search', '#i-chart-bars', '#i-gem', '#i-monitor', '#i-
   </section>
   <section id="sintomas" aria-labelledby="sintomas-h">
     <div class="wrap">
-      <div class="hero-split-grid">
-        <div>
-          <p class="eyebrow" data-reveal>{sec('sintomas-h').eyebrow}</p>
-          <h2 id="sintomas-h" class="h-sec" data-reveal>{sec('sintomas-h').heading}</h2>
-          <p class="lede" data-reveal style="margin-top:18px">Estos síntomas casi siempre indican un problema de diseño, no de marketing ni de tecnología.</p>
-        </div>
-        <div class="hero-img" data-reveal="scale" style="max-width:380px;width:100%;justify-self:center">
-          <img src="/assets/img/ux.webp" alt="Señales de que tu producto necesita UX" width="1200" height="900" loading="lazy">
-        </div>
+      <div>
+        <p class="eyebrow" data-reveal>{sec('sintomas-h').eyebrow}</p>
+        <h2 id="sintomas-h" class="h-sec" data-reveal>{sec('sintomas-h').heading}</h2>
+        <p class="lede" data-reveal style="margin-top:18px">Estos síntomas casi siempre indican un problema de diseño, no de marketing ni de tecnología.</p>
       </div>
-      <div class="cards cards-4" data-reveal-group style="margin-top:32px">
+      <div class="cards cards-4 cards-plain" data-reveal-group style="margin-top:32px">
         {sec('sintomas-h').cards.map((card, i) => (
           <article class="card" data-reveal data-parallax="soft">
             <span class="card-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={sintomasIcons[i]} /></span>
@@ -137,17 +132,12 @@ const procesoIcons = ['#i-search', '#i-chart-bars', '#i-gem', '#i-monitor', '#i-
   </section>
   <section id="entregables" class="dark-band" aria-labelledby="entregables-h">
     <div class="wrap">
-      <div class="hero-split-grid">
-        <div>
-          <p class="eyebrow" data-reveal>{sec('entregables-h').eyebrow}</p>
-          <h2 id="entregables-h" class="h-sec" data-reveal>{sec('entregables-h').heading}</h2>
-          <p class="lede" data-reveal style="margin-top:18px">Todo queda documentado y en tus manos: no dependes de nosotros para seguir creciendo.</p>
-        </div>
-        <div class="hero-img" data-reveal="scale">
-          <img src="/assets/img/ux-2.webp" alt="Qué recibes al terminar un proyecto UX/UI" width="1200" height="900" loading="lazy">
-        </div>
+      <div>
+        <p class="eyebrow" data-reveal>{sec('entregables-h').eyebrow}</p>
+        <h2 id="entregables-h" class="h-sec" data-reveal>{sec('entregables-h').heading}</h2>
+        <p class="lede" data-reveal style="margin-top:18px">Todo queda documentado y en tus manos: no dependes de nosotros para seguir creciendo.</p>
       </div>
-      <div class="cards cards-4" data-reveal-group style="margin-top:32px">
+      <div class="cards cards-4 cards-plain" data-reveal-group style="margin-top:32px">
         {sec('entregables-h').cards.map((card, i) => (
           <article class="card" data-reveal data-parallax="soft">
             <span class="card-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={entregablesIcons[i]} /></span>

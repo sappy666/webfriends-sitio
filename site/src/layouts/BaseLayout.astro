@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import FloatButtons from '../components/FloatButtons.astro';
 import SiteScripts from '../components/SiteScripts.astro';
 import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import Preloader from '../components/Preloader.astro';
 
 interface Props {
   title: string;
@@ -51,20 +52,10 @@ const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.
   <slot name="head" />
 </head>
 <body>
+  <Preloader />
   <Sprite />
   <a class="skip" href="#contenido">Ir al contenido</a>
   <div class="readbar" aria-hidden="true"></div>
-  <div class="page-loader" id="pageLoader" aria-hidden="true"></div>
-  <script is:inline>
-  (function(){
-    try{
-      if(!sessionStorage.getItem('wf-loaded')){
-        sessionStorage.setItem('wf-loaded','1');
-        document.getElementById('pageLoader').classList.add('run');
-      }
-    }catch(e){}
-  })();
-  </script>
 
   <Header currentPath={currentPath} />
 

@@ -861,21 +861,6 @@ body.recheck-open{overflow:hidden}
   .hero::before{animation:none}
 }
 
-/* Barra de carga al entrar al sitio por primera vez en la sesión */
-.page-loader{
-  position:fixed;top:0;left:0;height:3px;width:100%;z-index:300;
-  background:linear-gradient(90deg,var(--amber),#FFC44D,var(--amber));
-  transform-origin:0 50%;transform:scaleX(0);opacity:0;pointer-events:none;
-}
-.page-loader.run{animation:pageLoad 900ms var(--soft) forwards}
-@keyframes pageLoad{
-  0%{transform:scaleX(0);opacity:1}
-  70%{transform:scaleX(.85);opacity:1}
-  100%{transform:scaleX(1);opacity:0}
-}
-@media (prefers-reduced-motion:reduce){
-  .page-loader.run{animation:none;display:none}
-}
 
 
 /* ═══════════════════════════════════════════════════════════
@@ -1525,3 +1510,6 @@ body.recheck-open{overflow:hidden}
   .proof-track{animation:none;flex-wrap:wrap;justify-content:center;padding-right:0}
   .proof-track[aria-hidden]{display:none}
 }
+
+/* Tarjetas sin caja: solo ícono, título y texto (UX/UI · Qué resolvemos). */
+.cards-plain .card,.cards-plain .card:hover{background:none;border:0;box-shadow:none;padding:0;transform:none}

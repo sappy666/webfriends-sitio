@@ -1,0 +1,100 @@
+---
+// Pantalla de entrada: letras de la marca, contador 0–100 y cortinas que se abren (GSAP).
+// Una sola vez por visita (sessionStorage). Sin JS o con movimiento reducido no se muestra.
+const letters = 'WEBFRIENDS'.split('');
+---
+<div class="pl" id="preloader" aria-hidden="true">
+  <div class="pl-panel pl-top"></div>
+  <div class="pl-panel pl-bottom"></div>
+  <div class="pl-center">
+    <p class="pl-word">{letters.map((l) => <span class="pl-char">{l}</span>)}</p>
+    <div class="pl-bar"><span class="pl-fill"></span></div>
+    <p class="pl-meta"><span>Marketing digital · Chile</span><span class="pl-count">0</span></p>
+  </div>
+</div>
+<script is:inline>
+  // Antes de pintar: si ya se vio en esta visita (o se prefiere menos movimiento), se quita al instante.
+  (function () {
+    var pl = document.getElementById('preloader');
+    var seen = false;
+    try { seen = sessionStorage.getItem('wf-preloader') === '1'; } catch (e) {}
+    if (seen || matchMedia('(prefers-reduced-motion: reduce)').matches) { pl.remove(); return; }
+    document.documentElement.classList.add('pl-lock');
+    // Red de seguridad: si el script de GSAP no llega a correr, el sitio igual se muestra.
+    setTimeout(function () {
+      if (document.getElementById('preloader')) { pl.remove(); document.documentElement.classList.remove('pl-lock'); }
+    }, 6000);
+  })();
+</script>
+
+<style is:global>
+  .pl-lock, .pl-lock body { overflow: hidden; }
+  .pl { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; color: #F2F5FB; pointer-events: all; }
+  .pl-panel { position: absolute; left: 0; right: 0; height: 50.5%; background: #07090E; }
+  .pl-top { top: 0; }
+  .pl-bottom { bottom: 0; }
+  .pl-top::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(60% 90% at 20% 0%, rgba(255, 176, 32, .18), transparent 60%);
+  }
+  .pl-center { position: relative; width: min(560px, 84vw); }
+  .pl-word {
+    display: flex; justify-content: space-between; margin: 0;
+    font-size: clamp(2.4rem, 8vw, 4.6rem); font-weight: 800; letter-spacing: -.02em; line-height: 1;
+    overflow: hidden; padding-bottom: .08em;
+  }
+  .pl-char { display: inline-block; will-change: transform; }
+  .pl-bar { height: 2px; margin-top: 22px; background: rgba(242, 245, 251, .12); border-radius: 2px; overflow: hidden; }
+  .pl-fill { display: block; height: 100%; width: 100%; background: #FFB020; box-shadow: 0 0 14px #FFB020; transform: scaleX(0); transform-origin: left; }
+  .pl-meta { display: flex; justify-content: space-between; margin: 12px 0 0; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(242, 245, 251, .55); }
+  .pl-count { color: #FFB020; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+</style>
+
+<script>
+import { gsap } from 'gsap';
+
+const pl = document.getElementById('preloader');
+if (pl) {
+  const q = (s: string) => pl.querySelectorAll<HTMLElement>(s);
+  const count = pl.querySelector<HTMLElement>('.pl-count')!;
+  const progress = { v: 0 };
+  const loaded = new Promise<void>((res) =>
+    document.readyState === 'complete' ? res() : addEventListener('load', () => res(), { once: true }),
+  );
+
+  const finish = () => {
+    try { sessionStorage.setItem('wf-preloader', '1'); } catch (e) {}
+    gsap.timeline({
+      onComplete: () => { pl.remove(); document.documentElement.classList.remove('pl-lock'); },
+    })
+      .to(q('.pl-char'), { yPercent: -110, duration: .5, ease: 'power3.in', stagger: .025 })
+      .to(q('.pl-bar, .pl-meta'), { autoAlpha: 0, duration: .3 }, '<')
+      .to(q('.pl-top'), { yPercent: -100, duration: .9, ease: 'expo.inOut' }, '-=.1')
+      .to(q('.pl-bottom'), { yPercent: 100, duration: .9, ease: 'expo.inOut' }, '<');
+  };
+
+  gsap.timeline()
+    .from(q('.pl-char'), { yPercent: 110, rotate: 8, duration: .8, ease: 'power4.out', stagger: .045 })
+    .from(q('.pl-meta'), { autoAlpha: 0, y: 8, duration: .5 }, '-=.4')
+    // Avanza hasta 90% por tiempo; el último tramo espera a que la página termine de cargar.
+    .to(progress, {
+      v: 90, duration: 1.1, ease: 'power2.inOut',
+      onUpdate: () => {
+        count.textContent = String(Math.round(progress.v));
+        gsap.set(q('.pl-fill'), { scaleX: progress.v / 100 });
+      },
+    }, '-=.6')
+    .add(() => {
+      Promise.race([loaded, new Promise((r) => setTimeout(r, 2500))]).then(() =>
+        gsap.to(progress, {
+          v: 100, duration: .35, ease: 'power1.out',
+          onUpdate: () => {
+            count.textContent = String(Math.round(progress.v));
+            gsap.set(q('.pl-fill'), { scaleX: progress.v / 100 });
+          },
+          onComplete: finish,
+        }),
+      );
+    });
+}
+</script>
