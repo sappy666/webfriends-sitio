@@ -1,4 +1,5 @@
 ---
+import PricingFx from '../PricingFx.astro';
 import LitSteps from '../LitSteps.astro';
 import PlanCard from '../PlanCard.astro';
 import { getCollection, getEntry } from 'astro:content';
@@ -54,16 +55,6 @@ const flujoIcons = ['#i-search', '#i-check-circle', '#i-calendar', '#i-map-pin-c
     <div class="wrap">
       <h2 id="stats-h" class="sr-only">Cifras</h2>
       <div class="metrics-grid" data-reveal-group>
-        <div class="metric" data-reveal data-parallax="soft">
-          <p class="metric-n">101</p>
-          <p class="metric-l">Sesiones al mes</p>
-          <p class="metric-src">En nuestra página de salud</p>
-        </div>
-        <div class="metric" data-reveal data-parallax="soft">
-          <p class="metric-n">6</p>
-          <p class="metric-l">Centros de salud</p>
-          <p class="metric-src">Clientes del rubro</p>
-        </div>
         <div class="metric" data-reveal data-parallax="soft">
           <p class="metric-n">2–4</p>
           <p class="metric-l">Semanas de entrega</p>
@@ -178,4 +169,5 @@ const flujoIcons = ['#i-search', '#i-check-circle', '#i-calendar', '#i-map-pin-c
   </section>
 
 <LitSteps />
+<PricingFx />
 </BaseLayout>

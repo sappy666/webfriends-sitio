@@ -1,0 +1,58 @@
+<script>
+// Planes (inicio y páginas de servicio): las tres cards parten apiladas al centro y se abren a su lugar con el scroll (solo escritorio).
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
+// Sin data-reveal nadie pone .is-visible (en el inicio lo hacen las pestañas): sin esa clase
+// el precio y los beneficios quedan ocultos. Se agrega al entrar la sección en pantalla.
+const showCards = (grid: HTMLElement) =>
+  ScrollTrigger.create({ trigger: grid, start: 'top 85%', once: true,
+    onEnter: () => grid.querySelectorAll('.plan').forEach((c) => c.classList.add('is-visible')) });
+
+gsap.matchMedia().add('(min-width: 1001px) and (prefers-reduced-motion: no-preference)', () => {
+  document.querySelectorAll<HTMLElement>('.pricing').forEach((grid) => {
+    const [left, mid, right] = grid.querySelectorAll<HTMLElement>('.plan');
+    if (!right) return;
+    grid.classList.add('plans-stack');
+    // El scrub controla el transform: se apaga el reveal por CSS en estas cards.
+    [left, mid, right].forEach((el) => el.removeAttribute('data-reveal'));
+    showCards(grid);
+    const shift = () => mid.offsetLeft - left.offsetLeft;
+
+    gsap.timeline({
+      scrollTrigger: { trigger: grid, start: 'top 85%', end: 'top 25%', scrub: 1, invalidateOnRefresh: true },
+    })
+      .from(left, { x: shift, y: 26, rotate: -5, scale: 0.92, ease: 'power3.out' }, 0)
+      .from(right, { x: () => -shift(), y: 26, rotate: 5, scale: 0.92, ease: 'power3.out' }, 0)
+      .from(mid, { y: 40, scale: 0.96, ease: 'power3.out' }, 0);
+  });
+});
+
+// Mobile: cada card queda fija arriba y la siguiente se monta encima; la de abajo se achica un poco.
+gsap.matchMedia().add('(max-width: 820px)', () => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('.pricing').forEach((grid) => {
+    // Orden visual (la destacada sube con CSS order), no el del DOM.
+    const cards = [...grid.querySelectorAll<HTMLElement>('.plan')]
+      .sort((a, b) => +getComputedStyle(a).order - +getComputedStyle(b).order);
+    grid.classList.add('plans-sticky');
+    showCards(grid);
+    cards.forEach((card, k) => {
+      card.removeAttribute('data-reveal');
+      card.style.setProperty('--k', String(k));
+      card.style.zIndex = String(k + 1);
+      const next = cards[k + 1];
+      if (!next || reduce) return;
+      gsap.to(card, {
+        scale: 0.94, ease: 'none',
+        scrollTrigger: { trigger: next, start: 'top bottom', end: () => `top ${96 + (k + 1) * 14}px`, scrub: 0.6, invalidateOnRefresh: true },
+      });
+    });
+  });
+  return () => document.querySelectorAll('.pricing').forEach((g) => g.classList.remove('plans-sticky'));
+});
+
+// Planes en mobile: al abrir/cerrar un plan (PlanCard) cambia la altura, se recalcula el apilado.
+window.addEventListener('plan-toggle', () => setTimeout(() => ScrollTrigger.refresh(), 520));
+</script>

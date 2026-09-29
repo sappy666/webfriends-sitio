@@ -201,6 +201,12 @@ if (hasTabs) {
     document.querySelectorAll('[data-count]').forEach(function(n){ co.observe(n); });
   }
 
+  /* Ctrl+U (Cmd+Option+U en Mac) no abre el código fuente. Es solo un disuasivo:
+     el HTML de un sitio público siempre se puede ver por otras vías. */
+  document.addEventListener('keydown', function(e){
+    if ((e.key === 'u' || e.key === 'U') && (e.ctrlKey || (e.metaKey && e.altKey))) e.preventDefault();
+  });
+
   /* WhatsApp compartido: todos los formularios y CTAs abren el chat con un mensaje
      que dice desde qué página vienen, para hacer seguimiento del interés. */
   window.wfPage = function(){

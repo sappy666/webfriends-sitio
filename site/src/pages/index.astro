@@ -3,6 +3,7 @@ import PlanCard from '../components/PlanCard.astro';
 export const prerender = true;
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PricingFx from '../components/PricingFx.astro';
 import ArcScroll from '../components/ArcScroll.astro';
 
 const featuredCasos = await getCollection('casos', ({ data }) => data.featured);
@@ -89,20 +90,22 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'];
   <section class="proof-strip" aria-labelledby="proof-h">
     <div class="wrap">
       <h2 id="proof-h" class="proof-kicker" data-reveal>Marcas que confían en nosotros</h2>
-      <div class="proof-pyramid" data-reveal-group data-reveal style="margin-top:0">
-        <div class="proof-list">
-          <a class="proof-item" href="https://ceapsi.cl/" target="_blank" rel="noopener" data-reveal="scale">CEAPSI</a>
-          <a class="proof-item" href="https://www.novamente.cl/" target="_blank" rel="noopener" data-reveal="scale">Novamente</a>
-          <a class="proof-item" href="https://livsalud.cl/" target="_blank" rel="noopener" data-reveal="scale">Liv Salud</a>
-          <a class="proof-item" href="https://puntoceropatagonia.com/" target="_blank" rel="noopener" data-reveal="scale">Punto Cero</a>
-          <a class="proof-item" href="https://clinit.cl/" target="_blank" rel="noopener" data-reveal="scale">Clinit</a>
-          <a class="proof-item" href="https://meni.cl/" target="_blank" rel="noopener" data-reveal="scale">Meni</a>
-        </div>
-        <div class="proof-list">
-          <a class="proof-item" href="https://familiasalud.cl/" target="_blank" rel="noopener" data-reveal="scale">Familia Salud</a>
-          <a class="proof-item" href="https://serviteclomas.cl/" target="_blank" rel="noopener" data-reveal="scale">Serviteclomas</a>
-          <a class="proof-item" href="https://fortalececonsultora.cl/" target="_blank" rel="noopener" data-reveal="scale">Fortalece</a>
-        </div>
+      <div class="proof-marquee" data-reveal>
+        {[false, true].map((copy) => (
+          <div class="proof-track" aria-hidden={copy ? "true" : undefined}>
+            {[
+              { name: "CEAPSI", href: "https://ceapsi.cl/" },
+              { name: "Novamente", href: "https://www.novamente.cl/" },
+              { name: "Liv Salud", href: "https://livsalud.cl/" },
+              { name: "Punto Cero", href: "https://puntoceropatagonia.com/" },
+              { name: "Clinit", href: "https://clinit.cl/" },
+              { name: "Meni", href: "https://meni.cl/" },
+              { name: "Familia Salud", href: "https://familiasalud.cl/" },
+              { name: "Serviteclomas", href: "https://serviteclomas.cl/" },
+              { name: "Fortalece", href: "https://fortalececonsultora.cl/" },
+            ].map((b) => <a class="proof-item" href={b.href} target="_blank" rel="noopener" tabindex={copy ? -1 : undefined}>{b.name}</a>)}
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -455,59 +458,16 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'];
 })();
 </script>
 <script>
-// Planes: las tres cards parten apiladas al centro y se abren a su lugar con el scroll (solo escritorio).
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
-
-gsap.matchMedia().add('(min-width: 1001px) and (prefers-reduced-motion: no-preference)', () => {
-  document.querySelectorAll<HTMLElement>('#planes .pricing').forEach((grid) => {
-    const [left, mid, right] = grid.querySelectorAll<HTMLElement>('.plan');
-    if (!right) return;
-    grid.classList.add('plans-stack');
-    // El scrub controla el transform: se apaga el reveal por CSS en estas cards.
-    [left, mid, right].forEach((el) => el.removeAttribute('data-reveal'));
-    const shift = () => mid.offsetLeft - left.offsetLeft;
-
-    gsap.timeline({
-      scrollTrigger: { trigger: grid, start: 'top 85%', end: 'top 25%', scrub: 1, invalidateOnRefresh: true },
-    })
-      .from(left, { x: shift, y: 26, rotate: -5, scale: 0.92, ease: 'power3.out' }, 0)
-      .from(right, { x: () => -shift(), y: 26, rotate: 5, scale: 0.92, ease: 'power3.out' }, 0)
-      .from(mid, { y: 40, scale: 0.96, ease: 'power3.out' }, 0);
-  });
-});
-
-// Mobile: cada card queda fija arriba y la siguiente se monta encima; la de abajo se achica un poco.
-gsap.matchMedia().add('(max-width: 820px)', () => {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.querySelectorAll<HTMLElement>('#planes .pricing').forEach((grid) => {
-    // Orden visual (la destacada sube con CSS order), no el del DOM.
-    const cards = [...grid.querySelectorAll<HTMLElement>('.plan')]
-      .sort((a, b) => +getComputedStyle(a).order - +getComputedStyle(b).order);
-    grid.classList.add('plans-sticky');
-    cards.forEach((card, k) => {
-      card.removeAttribute('data-reveal');
-      card.style.setProperty('--k', String(k));
-      card.style.zIndex = String(k + 1);
-      const next = cards[k + 1];
-      if (!next || reduce) return;
-      gsap.to(card, {
-        scale: 0.94, ease: 'none',
-        scrollTrigger: { trigger: next, start: 'top bottom', end: () => `top ${96 + (k + 1) * 14}px`, scrub: 0.6, invalidateOnRefresh: true },
-      });
-    });
-  });
-  return () => document.querySelectorAll('#planes .pricing').forEach((g) => g.classList.remove('plans-sticky'));
-});
 
 // Al cambiar de pestaña el panel pasa de oculto a visible: hay que recalcular medidas.
 document.querySelectorAll('#planes [role="tab"]').forEach((tab) =>
   tab.addEventListener('click', () => requestAnimationFrame(() => ScrollTrigger.refresh())),
 );
-// Planes en mobile: al abrir/cerrar un plan (PlanCard) cambia la altura, se recalcula el apilado.
-window.addEventListener('plan-toggle', () => setTimeout(() => ScrollTrigger.refresh(), 520));
 </script>
 <ArcScroll />
+<PricingFx />
 </Fragment>
 </BaseLayout>

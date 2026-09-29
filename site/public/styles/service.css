@@ -83,7 +83,7 @@
 [data-theme="dark"] .btn-accent{color:#231600}
 
 /* Transición suave al alternar tema */
-body,.card,.metric,.grouped,.contact-card,.client,.field input,.field textarea,.field select,.ftr,.direct a{
+body,.card,.grouped,.contact-card,.client,.field input,.field textarea,.field select,.ftr,.direct a{
   transition:background-color .55s var(--ease),color .55s var(--ease),border-color .55s var(--ease),box-shadow .55s var(--ease);
 }
 
@@ -262,11 +262,6 @@ section{padding-block:clamp(72px,10vw,132px)}
 /* Entrada escalonada */
 
 /* ═══════ MÉTRICAS ═══════ */
-.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.metric{background:var(--card);border-radius:var(--r-lg);padding:26px 24px;box-shadow:var(--sh-1);border:1px solid var(--line)}
-.metric-n{font-size:var(--s-3);font-weight:700;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
-.metric-l{color:var(--label-2);font-size:var(--s--1);margin-top:10px;font-weight:500}
-.metric-src{color:var(--label-3);font-size:.75rem;margin-top:3px}
 
 /* ═══════ TARJETAS ═══════ */
 .cards{display:grid;gap:14px;margin-top:48px}
@@ -487,7 +482,7 @@ section{padding-block:clamp(72px,10vw,132px)}
 /* ═══════ RESPONSIVE ═══════ */
 @media (max-width:1000px){
   .cards-4{grid-template-columns:repeat(2,1fr)}
-  .metrics-grid{grid-template-columns:repeat(2,1fr)}
+  
   .contact-card{grid-template-columns:1fr}
   .ftr-grid{grid-template-columns:repeat(2,1fr)}
 }
@@ -524,7 +519,7 @@ section{padding-block:clamp(72px,10vw,132px)}
   
   
   
-  .cards-4,.metrics-grid{grid-template-columns:1fr}
+  .cards-4{grid-template-columns:1fr}
   
   .row{grid-template-columns:36px 1fr;gap:14px;padding:20px}
   .segmented{width:100%}
@@ -650,7 +645,6 @@ section{padding-block:clamp(72px,10vw,132px)}
   .local-steps.cols-5 .local-step:nth-child(3n+1){border-left:0;padding-left:0}
   .local-steps.cols-5 .local-step:nth-child(3n+1) .local-arrow{display:none}
 }
-.metric-n.is-text{font-size:var(--s-1);line-height:1.15;letter-spacing:-.03em}
 
 /* ═══════ Delta ux-ui.html: variante de 3×2 en local-steps ═══════ */
 .local-steps.cols-3-2{grid-template-columns:repeat(3,1fr);row-gap:44px}
