@@ -201,6 +201,18 @@ if (hasTabs) {
     document.querySelectorAll('[data-count]').forEach(function(n){ co.observe(n); });
   }
 
+  /* WhatsApp compartido: todos los formularios y CTAs abren el chat con un mensaje
+     que dice desde qué página vienen, para hacer seguimiento del interés. */
+  window.wfPage = function(){
+    var name = document.title.split(' — ')[0];
+    return /^Webfriends/.test(name) ? 'el inicio' : 'la página «' + name + '»';
+  };
+  window.wfWhatsApp = function(msg){
+    var wa = document.querySelector('.wa-float');
+    var base = wa ? wa.getAttribute('href').split('?')[0] : 'https://wa.me/56931971436';
+    window.open(base + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+  };
+
   /* Formulario con mensajes accionables */
   var form = document.getElementById('form'), status = document.getElementById('form-status');
   if (form) form.addEventListener('submit', function(e){
@@ -215,37 +227,33 @@ if (hasTabs) {
       status.textContent = 'Revisa el correo: parece que le falta el @ o el dominio.';
       form.email.focus(); return;
     }
+    var val = function(k){ var el = form[k]; return el ? el.value.trim() : ''; };
+    var interes = form.interes && form.interes.value !== 'general' ? form.interes.options[form.interes.selectedIndex].text : '';
+    var msg = 'Hola Webfriends, les escribo desde ' + window.wfPage() + ' del sitio.'
+      + '\nNombre: ' + val('nombre')
+      + '\nCorreo: ' + val('email')
+      + (val('tel') ? '\nTeléfono: ' + val('tel') : '')
+      + (val('empresa') ? '\nEmpresa: ' + val('empresa') : '')
+      + (interes ? '\nMe interesa: ' + interes : '')
+      + (val('msg') ? '\nNecesito: ' + val('msg') : '');
+    window.wfWhatsApp(msg);
     status.style.color = 'var(--ok-text)';
-    status.textContent = 'Solicitud enviada. Te responderemos dentro de 24 horas hábiles.';
+    status.textContent = 'Te abrimos WhatsApp con tu solicitud: solo presiona enviar.';
     form.reset();
   });
 
-  /* CTA de contacto → WhatsApp con un mensaje que dice desde qué página y qué botón viene.
-     Se resuelve al hacer clic, así toma también links que cambian en vivo (cotizador de Ads).
+  /* CTA de contacto → WhatsApp con un mensaje que dice solo desde qué página viene.
      El footer y el menú mantienen su link normal a la página de contacto. */
   (function(){
-    var wa = document.querySelector('.wa-float');
-    var base = wa ? wa.getAttribute('href').split('?')[0] : 'https://wa.me/56931971436';
     var contacto = /^\/contacto(?:[?#]|$)|^#contacto$/;
-    var name = document.title.split(' — ')[0];
-    var page = /^Webfriends/.test(name) ? 'el inicio' : '«' + name + '»';
-    var clp = function(n){ return '$' + Number(n).toLocaleString('es-CL'); };
 
     document.addEventListener('click', function(e){
       var a = e.target.closest && e.target.closest('a[href]');
       if (!a || a.closest('.ftr, .mainnav .navlink, footer')) return;
       var href = a.getAttribute('href');
       if (!contacto.test(href)) return;
-      var q = new URL(href, location.href).searchParams;
-      var label = a.textContent.replace(/\s+/g, ' ').trim();
-      var msg = 'Hola Webfriends, les escribo desde la página ' + page + ' del sitio.';
-      if (label) msg += ' Me interesa: ' + label + '.';
-      if (q.get('plan')) msg += ' Plan sugerido: ' + q.get('plan') + '.';
-      if (q.get('presupuesto')) msg += ' Inversión mensual en anuncios: ' + clp(q.get('presupuesto')) + '.';
-      if (q.get('servicio')) msg += ' Servicio: ' + q.get('servicio').toUpperCase() + '.';
-      if (q.get('detalle')) msg += ' Detalle: ' + q.get('detalle') + '.';
       e.preventDefault();
-      window.open(base + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+      window.wfWhatsApp('Hola Webfriends, les escribo desde ' + window.wfPage() + ' del sitio.');
     });
   })();
 

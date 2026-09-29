@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArcScroll from '../ArcScroll.astro';
 
 const page = (await getEntry('pages', 'page-nosotros'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
@@ -179,4 +180,5 @@ const certificacionesIcons = [
     </div>
   </section>
 
+<ArcScroll />
 </BaseLayout>

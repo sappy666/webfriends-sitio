@@ -1,4 +1,6 @@
 ---
+import LitSteps from '../LitSteps.astro';
+import PlanCard from '../PlanCard.astro';
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqSchema from '../FaqSchema.astro';
@@ -182,22 +184,7 @@ const geoCards = [
     <div class="wrap">
       <div class="pricing" data-reveal-group style="margin-top:44px">
           {seoPlans.map((plan) => (
-            <article class={`plan${plan.featured ? ' is-featured' : ''}`} data-reveal="scale">
-              {plan.badge && <span class="plan-badge">{plan.badge}</span>}
-              <h3>{plan.name}</h3>
-              <p class="plan-for">{plan.tagline}</p>
-              <p class="plan-price">{plan.price}</p>
-              <p class="plan-renew">{plan.renewalTerms}</p>
-              <ul>
-                {plan.features.map((f) => (
-                  <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" aria-hidden="true"><use href="#i-check"></use></svg>{f.label}</li>
-                ))}
-              </ul>
-              <div class="plan-cta">
-                <a class={`btn btn-block ${plan.featured ? 'btn-accent' : 'btn-soft'}`} href="/contacto">{plan.ctaLabel}</a>
-                <p class="plan-fine">{plan.deliveryNote}</p>
-              </div>
-            </article>
+            <PlanCard plan={plan} />
           ))}
       </div>
       <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
@@ -242,4 +229,5 @@ const geoCards = [
     </div>
   </section>
 
+<LitSteps />
 </BaseLayout>

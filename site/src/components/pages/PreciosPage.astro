@@ -1,12 +1,21 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlanCard from '../PlanCard.astro';
 
 const page = (await getEntry('pages', 'page-precios'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
 const pages = await getCollection('pages');
 const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
 const plansOf = async (id: string) => (await getEntry('planSets', id))!.data.plans;
+
+// Tarjetas completas de cada servicio con planes publicados.
+const planGroups = [
+  { id: 'web', name: 'Sitios y tiendas web', note: 'Pago único por proyecto.', href: slug('page-sitios-web'), plans: await plansOf('desarrollo-web') },
+  { id: 'seo', name: 'SEO y GEO', note: 'Planes mensuales.', href: slug('page-seo'), plans: await plansOf('seo') },
+  { id: 'ads', name: 'Google Ads', note: 'Gestión mensual; la inversión en anuncios se paga directo a Google.', href: slug('page-google-ads'), plans: await plansOf('google-ads') },
+  { id: 'salud', name: 'Plataforma para salud', note: 'Soluciones para centros y profesionales de salud.', href: slug('page-salud'), plans: await plansOf('salud') },
+];
 
 // Precio de Keystatic → número. "Desde $890.000" queda como mínimo; "A cotizar" queda en null.
 const toOption = (p: Awaited<ReturnType<typeof plansOf>>[number]) => ({
@@ -120,6 +129,45 @@ const services = [
       <script type="application/json" id="pqData" set:html={JSON.stringify(services)} />
     </div>
   </section>
+  <!-- Todos los planes publicados, por servicio (mismos datos que cada página de servicio). -->
+  <section id="planes" aria-label="Planes y precios por servicio" >
+    <div class="wrap">
+      <nav class="price-jump" aria-label="Ir a un servicio">
+        {planGroups.map((g) => <a href={`#planes-${g.id}`}>{g.name}</a>)}
+        <a href="#planes-ux">Diseño UX/UI</a>
+        <a href="#cotizador">Cotizador</a>
+      </nav>
+      {planGroups.map((g) => (
+        <div class="price-group" id={`planes-${g.id}`}>
+          <div class="price-group-h">
+            <h2>{g.name}</h2>
+            <p>{g.note} <a href={g.href}>Ver el servicio</a></p>
+          </div>
+          <div class="pricing" data-reveal-group>
+            {g.plans.map((plan) => <PlanCard plan={plan} />)}
+          </div>
+        </div>
+      ))}
+      <div class="price-group" id="planes-ux">
+        <div class="price-group-h">
+          <h2>Diseño UX/UI</h2>
+          <p>Cada proyecto se cotiza según su alcance. <a href={slug('page-ux-ui')}>Ver el servicio</a></p>
+        </div>
+        <div class="price-ux" data-reveal-group>
+          {services.find((s) => s.id === 'ux')!.options.map((o) => (
+            <div class={`price-ux-item${o.featured ? ' is-featured' : ''}`} data-reveal="fade">
+              <strong>{o.name}</strong>
+              <span>{o.tagline}</span>
+              <b>A cotizar</b>
+            </div>
+          ))}
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:12px;color:var(--label-2)">Todos los valores son + IVA. ¿Necesitas combinar servicios? Usa el cotizador de arriba.</p>
+    </div>
+  </section>
+
+
 </BaseLayout>
 
 <script>

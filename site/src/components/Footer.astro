@@ -31,7 +31,7 @@ const terminosHref = slug('page-terminos');
 
     <div class="ftr-grid">
       <div>
-        <a class="logo" href="/" style="margin-bottom:16px"><span class="logo-mark" aria-hidden="true"><img class="logo-img-dark" src="/assets/img/logo-webfriends-blanco.webp" alt="Webfriends" loading="lazy"><img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.png" alt="Webfriends" loading="lazy"></span></a>
+        <a class="logo" href="/" style="margin-bottom:16px"><span class="logo-mark" aria-hidden="true"><img class="logo-img-dark" src="/assets/img/webfriends-logo.png" alt="Webfriends" loading="lazy"><img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.png" alt="Webfriends" loading="lazy"></span></a>
         <p style="color:var(--label-2);font-size:var(--s--1);max-width:32ch">Agencia de marketing digital, desarrollo web y diseño UX/UI en Chile.</p>
         <div class="social">
           <a href="https://www.behance.net/webfriendscl" aria-label="Webfriends en Behance">
@@ -88,8 +88,7 @@ const terminosHref = slug('page-terminos');
 </footer>
 
 <script>
-// Asesoría gratuita desde el footer: valida el correo y confirma. Igual que el formulario de contacto,
-// todavía no envía a ningún servicio: falta conectar el destino (correo, CRM o endpoint).
+// Asesoría gratuita desde el footer: valida el correo y abre WhatsApp indicando la página de origen.
 const lead = document.getElementById('ftrLead') as HTMLFormElement | null;
 if (lead) lead.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -101,8 +100,10 @@ if (lead) lead.addEventListener('submit', (e) => {
     email.focus();
     return;
   }
+  const w = window as any;
+  w.wfWhatsApp(`Hola Webfriends, les escribo desde ${w.wfPage()} del sitio.\nCorreo: ${email.value.trim()}`);
   status.dataset.state = 'ok';
-  status.textContent = 'Listo. Te escribiremos dentro de 24 horas hábiles.';
+  status.textContent = 'Te abrimos WhatsApp con tu solicitud: solo presiona enviar.';
   lead.reset();
 });
 </script>

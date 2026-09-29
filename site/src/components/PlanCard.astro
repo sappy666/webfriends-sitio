@@ -1,0 +1,45 @@
+---
+// Tarjeta de plan (diseño del inicio), compartida por el inicio y las páginas de servicio.
+interface Props {
+  plan: {
+    name: string;
+    tagline?: string;
+    price: string;
+    renewalTerms?: string;
+    featured?: boolean;
+    badge?: string;
+    features: { label: string; description?: string }[];
+    ctaLabel: string;
+    deliveryNote?: string;
+  };
+}
+const { plan } = Astro.props;
+---
+<article class={`plan${plan.featured ? ' is-featured' : ''}`} data-reveal="scale">
+  {plan.badge && <span class="plan-badge">{plan.badge}</span>}
+  <h3>{plan.name}</h3>
+  <p class="plan-for">{plan.tagline}</p>
+  <p class="plan-price">{plan.price}</p>
+  <p class="plan-renew">{plan.renewalTerms}</p>
+  <button class="plan-toggle" type="button" aria-expanded="false">Ver lo que incluye <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+  <div class="plan-feats-wrap"><ul class="plan-feats">
+    {plan.features.map((f) => (
+      <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" aria-hidden="true"><use href="#i-check"></use></svg></span><span><b>{f.label}</b>{f.description && <i>{f.description}</i>}</span></li>
+    ))}
+  </ul></div>
+  <div class="plan-cta">
+    <a class={`btn btn-block ${plan.featured ? 'btn-accent' : 'btn-soft'}`} href="/contacto">{plan.ctaLabel}</a>
+    <p class="plan-fine">{plan.deliveryNote}</p>
+  </div>
+</article>
+
+<script>
+// Mobile: la lista de lo que incluye cada plan se abre y cierra.
+document.querySelectorAll<HTMLButtonElement>('.plan .plan-toggle').forEach((btn) =>
+  btn.addEventListener('click', () => {
+    const open = btn.closest('.plan')!.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    window.dispatchEvent(new Event('plan-toggle'));
+  }),
+);
+</script>

@@ -1,7 +1,9 @@
 ---
+import PlanCard from '../components/PlanCard.astro';
 export const prerender = true;
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ArcScroll from '../components/ArcScroll.astro';
 
 const featuredCasos = await getCollection('casos', ({ data }) => data.featured);
 const page = (await getEntry('pages', 'page-home'))!.data;
@@ -200,22 +202,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'];
       <div class="tabpanel" id="panel-web" role="tabpanel" aria-labelledby="tab-web">
         <div class="pricing" data-reveal-group>
           {webPlans.map((plan) => (
-            <article class={`plan${plan.featured ? ' is-featured' : ''}`} data-reveal="scale">
-              <h3>{plan.name}</h3>
-              <p class="plan-for">{plan.tagline}</p>
-              <p class="plan-price">{plan.price}</p>
-              <p class="plan-renew">{plan.renewalTerms}</p>
-              <button class="plan-toggle" type="button" aria-expanded="false">Ver lo que incluye <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-              <div class="plan-feats-wrap"><ul class="plan-feats">
-                {plan.features.map((f) => (
-                  <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" aria-hidden="true"><use href="#i-check"></use></svg></span><span><b>{f.label}</b>{f.description && <i>{f.description}</i>}</span></li>
-                ))}
-              </ul></div>
-              <div class="plan-cta">
-                <a class={`btn btn-block ${plan.featured ? 'btn-accent' : 'btn-soft'}`} href="/contacto">{plan.ctaLabel}</a>
-                <p class="plan-fine">{plan.deliveryNote}</p>
-              </div>
-            </article>
+            <PlanCard plan={plan} />
           ))}
         </div>
       </div>
@@ -223,22 +210,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'];
       <div class="tabpanel" id="panel-ads" role="tabpanel" aria-labelledby="tab-ads" hidden>
         <div class="pricing" data-reveal-group>
           {adsPlans.map((plan) => (
-            <article class={`plan${plan.featured ? ' is-featured' : ''}`} data-reveal="scale">
-              <h3>{plan.name}</h3>
-              <p class="plan-for">{plan.tagline}</p>
-              <p class="plan-price">{plan.price}</p>
-              <p class="plan-renew">{plan.renewalTerms}</p>
-              <button class="plan-toggle" type="button" aria-expanded="false">Ver lo que incluye <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-              <div class="plan-feats-wrap"><ul class="plan-feats">
-                {plan.features.map((f) => (
-                  <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" aria-hidden="true"><use href="#i-check"></use></svg></span><span><b>{f.label}</b>{f.description && <i>{f.description}</i>}</span></li>
-                ))}
-              </ul></div>
-              <div class="plan-cta">
-                <a class={`btn btn-block ${plan.featured ? 'btn-accent' : 'btn-soft'}`} href="/contacto">{plan.ctaLabel}</a>
-                <p class="plan-fine">{plan.deliveryNote}</p>
-              </div>
-            </article>
+            <PlanCard plan={plan} />
           ))}
         </div>
       </div>
@@ -371,7 +343,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'];
     <div class="recheck-grid">
       <div class="recheck-text">
         <span class="logo-mark" aria-hidden="true" style="height:18px;margin-bottom:20px">
-          <img class="logo-img-dark" src="/assets/img/logo-webfriends-blanco.webp" alt="Webfriends" loading="lazy">
+          <img class="logo-img-dark" src="/assets/img/webfriends-logo.png" alt="Webfriends" loading="lazy">
           <img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.png" alt="Webfriends" loading="lazy">
         </span>
         <p class="eyebrow">Antes que te vayas</p>
@@ -475,7 +447,9 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'];
   if (form) {
     form.addEventListener('submit', function(e){
       e.preventDefault();
-      window.location.href = "/contacto";
+      var url = form.querySelector('input').value.trim();
+      window.wfWhatsApp('Hola Webfriends, les escribo desde el inicio del sitio.\nMi sitio: ' + url);
+      close();
     });
   }
 })();
@@ -527,54 +501,13 @@ gsap.matchMedia().add('(max-width: 820px)', () => {
   return () => document.querySelectorAll('#planes .pricing').forEach((g) => g.classList.remove('plans-sticky'));
 });
 
-// Cómo trabajamos (mobile): la línea se llena y cada etapa se ilumina al llegar a media pantalla.
-gsap.matchMedia().add('(max-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
-  const list = document.getElementById('arcList');
-  if (!list) return;
-  const steps = [...list.querySelectorAll<HTMLElement>('.arc-step')];
-  list.classList.add('arc-scroll');
-  steps.forEach((step) => {
-    step.removeAttribute('data-reveal');
-    ScrollTrigger.create({ trigger: step, start: 'top 62%', toggleClass: 'is-lit' , end: 'max' });
-  });
-  gsap.fromTo(list, { '--p': 0 }, {
-    '--p': 1, ease: 'none',
-    scrollTrigger: { trigger: list, start: 'top 62%', end: 'bottom 62%', scrub: 0.5 },
-  });
-  return () => { list.classList.remove('arc-scroll'); steps.forEach((s) => s.classList.remove('is-lit')); };
-});
-
-// Cómo trabajamos (escritorio): las etapas están en fila, así que se encienden según el avance del scroll.
-gsap.matchMedia().add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
-  const list = document.getElementById('arcList');
-  if (!list) return;
-  const steps = [...list.querySelectorAll<HTMLElement>('.arc-step')];
-  list.classList.add('arc-scroll');
-  steps.forEach((step) => step.removeAttribute('data-reveal'));
-  const light = (p: number) =>
-    steps.forEach((step, k) => step.classList.toggle('is-lit', p >= k / steps.length + 0.02));
-  gsap.fromTo(list, { '--p': 0 }, {
-    '--p': 1, ease: 'none',
-    scrollTrigger: {
-      trigger: list, start: 'top 80%', end: 'top 25%', scrub: 0.6,
-      onUpdate: (st) => light(st.progress), onRefresh: (st) => light(st.progress),
-    },
-  });
-  return () => { list.classList.remove('arc-scroll'); steps.forEach((s) => s.classList.remove('is-lit')); };
-});
-
 // Al cambiar de pestaña el panel pasa de oculto a visible: hay que recalcular medidas.
 document.querySelectorAll('#planes [role="tab"]').forEach((tab) =>
   tab.addEventListener('click', () => requestAnimationFrame(() => ScrollTrigger.refresh())),
 );
-// Planes en mobile: la lista de lo que incluye cada plan se abre y cierra.
-document.querySelectorAll<HTMLButtonElement>('#planes .plan-toggle').forEach((btn) =>
-  btn.addEventListener('click', () => {
-    const open = btn.closest('.plan')!.classList.toggle('is-open');
-    btn.setAttribute('aria-expanded', String(open));
-    setTimeout(() => ScrollTrigger.refresh(), 520); // la altura cambió: recalcula el apilado
-  }),
-);
+// Planes en mobile: al abrir/cerrar un plan (PlanCard) cambia la altura, se recalcula el apilado.
+window.addEventListener('plan-toggle', () => setTimeout(() => ScrollTrigger.refresh(), 520));
 </script>
+<ArcScroll />
 </Fragment>
 </BaseLayout>
