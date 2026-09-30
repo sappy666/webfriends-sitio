@@ -1,73 +1,173 @@
+---
+// Menú móvil a pantalla completa (solo ≤820px). El de escritorio sigue siendo #mainnav en Header.astro.
+// SiteScripts decide cuándo abrir/cerrar y llama a window.wfNav(op); aquí vive el diseño y la animación (GSAP).
+import { getCollection } from 'astro:content';
+
+const pages = await getCollection('pages');
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const links = [
+  { label: 'Google Ads', href: slug('page-google-ads') },
+  { label: 'SEO y GEO', href: slug('page-seo') },
+  { label: 'Sitios web', href: slug('page-sitios-web') },
+  { label: 'Diseño UX/UI', href: slug('page-ux-ui') },
+  { label: 'Salud', href: slug('page-salud') },
+  { label: 'Precios', href: slug('page-precios') },
+  { label: 'Casos', href: slug('page-casos') },
+  { label: 'Nosotros', href: slug('page-nosotros') },
+  { label: 'Blog', href: '/blog' },
+];
+---
+<div class="mnav" id="mnav" aria-hidden="true">
+  <div class="mnav-top">
+    <a class="mnav-logo" href="/" aria-label="Webfriends, inicio"><img src="/assets/img/webfriends-logo.png" alt="" width="778" height="74"></a>
+    <button class="mnav-close" type="button" id="mnavClose" aria-label="Cerrar menú">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </div>
+
+  <div class="mnav-body">
+    <p class="mnav-title" aria-hidden="true"><span><i>Hagamos</i></span><span><i>crecer tu</i></span><span><i>negocio<b>.</b></i></span></p>
+    <p class="mnav-sub">Agencia de marketing digital en Chile</p>
+
+    <nav aria-label="Menú móvil">
+      <ul class="mnav-list">
+        {links.map((l) => (
+          <li>
+            <a href={l.href} aria-current={path === l.href.replace(/\/$/, '') ? 'page' : undefined}>
+              <span>{l.label}</span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <a class="mnav-cta" href="/contacto">Agendar reunión</a>
+  </div>
+
+  <div class="mnav-foot">
+    <span>© 2026</span>
+    <a href="mailto:contacto@webfriends.cl">contacto@webfriends.cl</a>
+    <button type="button" class="mnav-theme" id="mnavTheme">Tema</button>
+  </div>
+</div>
+
+<style is:global>
+  .mnav { display: none; }
+  @media (max-width: 820px) {
+    /* El panel flotante anterior ya no se usa en móvil */
+    .mainnav { display: none !important; }
+    body.nav-open::before { display: none; }
+
+    .mnav {
+      --m-line: rgba(242, 245, 251, .14); --m-txt: #F2F5FB; --m-txt-2: rgba(242, 245, 251, .6); --m-amber: #FFB020;
+      position: fixed; inset: 0; z-index: 170; flex-direction: column;
+      background: #000; color: var(--m-txt); overflow-y: auto; overscroll-behavior: contain;
+      padding: 18px 22px calc(18px + env(safe-area-inset-bottom));
+    }
+    .mnav.is-open { display: flex; }
+    .mnav-top { display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
+    .mnav-logo img { height: 15px; width: auto; display: block; }
+    .mnav-close {
+      width: 44px; height: 44px; border: 0; border-radius: 12px; display: grid; place-items: center;
+      background: rgba(242, 245, 251, .08); color: var(--m-txt); cursor: pointer;
+    }
+    .mnav-body { flex: 1; display: flex; flex-direction: column; padding-top: clamp(28px, 7vh, 56px); }
+    .mnav-title { margin: 0; font-size: clamp(2.9rem, 14vw, 4.2rem); font-weight: 800; line-height: .98; letter-spacing: -.05em; }
+    .mnav-title span { display: block; overflow: hidden; padding-bottom: .04em; }
+    .mnav-title i { display: block; font-style: normal; }
+    .mnav-title b { color: var(--m-amber); }
+    .mnav-sub { margin: 14px 0 0; font-size: 1rem; color: var(--m-txt-2); }
+
+    .mnav-list { list-style: none; margin: clamp(26px, 5vh, 40px) 0 0; padding: 0; }
+    .mnav-list li { position: relative; }
+    /* Líneas finas: se dibujan con GSAP (scaleX) */
+    .mnav-list li::before, .mnav-list li:last-child::after {
+      content: ""; position: absolute; left: 0; right: 0; height: 1px; background: var(--m-line);
+      transform-origin: left; transform: scaleX(var(--line, 1));
+    }
+    .mnav-list li::before { top: 0; }
+    .mnav-list li:last-child::after { bottom: 0; }
+    .mnav-list a {
+      display: flex; align-items: center; justify-content: space-between; min-height: 52px;
+      color: var(--m-txt); text-decoration: none; font-size: 1.12rem; font-weight: 500;
+      letter-spacing: .03em; text-transform: uppercase;
+    }
+    .mnav-list svg { color: var(--m-amber); opacity: 0; transform: translateX(-10px); transition: opacity .3s, transform .45s cubic-bezier(.34, 1.56, .64, 1); }
+    .mnav-list a[aria-current="page"] svg, .mnav-list a:hover svg, .mnav-list a:active svg { opacity: 1; transform: none; }
+    .mnav-list a[aria-current="page"] { color: var(--m-amber); }
+
+    .mnav-cta {
+      display: flex; align-items: center; justify-content: center; min-height: 54px; margin-top: 26px;
+      border-radius: 999px; background: var(--m-amber); color: #231600; font-weight: 700; text-decoration: none;
+    }
+    .mnav-foot {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 28px;
+      font-size: .78rem; color: var(--m-txt-2);
+    }
+    .mnav-foot a { color: var(--m-txt-2); text-decoration: none; }
+    .mnav-theme { border: 0; background: none; color: var(--m-txt-2); font: inherit; text-decoration: underline; cursor: pointer; padding: 8px 0; }
+  }
+</style>
+
 <script>
-// Menú móvil animado con GSAP. SiteScripts decide cuándo abrir/cerrar y llama a:
-//   window.wfNav(op)        → abre/cierra el panel (fondo, panel, ítems en cascada)
-//   window.wfMega(item, op) → despliega/pliega un submenú (acordeón por altura)
-// Durante el cierre el panel lleva .closing para seguir visible hasta terminar la animación.
 import { gsap } from 'gsap';
 
-const nav = document.getElementById('mainnav');
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const m = document.getElementById('mnav');
 const w = window as any;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-if (nav) {
+if (m) {
   const body = document.body;
-  const items = () => nav.querySelectorAll<HTMLElement>(':scope > .navitem, :scope > .navlink, :scope > .btn, :scope > .theme-btn');
+  const $ = (s: string) => m.querySelectorAll<HTMLElement>(s);
   let tl: gsap.core.Timeline | null = null;
+
+  const done = () => {
+    m.classList.remove('is-open');
+    m.setAttribute('aria-hidden', 'true');
+    body.classList.remove('nav-open');
+    gsap.set([m, ...$('.mnav-title i, .mnav-sub, .mnav-list a, .mnav-list li, .mnav-cta, .mnav-foot, .mnav-top')], { clearProps: 'all' });
+  };
 
   w.wfNav = (op: boolean) => {
     tl?.kill();
     if (op) {
-      nav.classList.remove('closing');
-      nav.classList.add('open');
+      m.classList.add('is-open');
+      m.setAttribute('aria-hidden', 'false');
       body.classList.add('nav-open');
-      if (reduce) { gsap.set(body, { '--nav-bg': 1 }); return; }
-      tl = gsap.timeline()
-        .fromTo(body, { '--nav-bg': 0 }, { '--nav-bg': 1, duration: .35, ease: 'power2.out' }, 0)
-        .fromTo(nav,
-          { y: -18, scale: .96, autoAlpha: 0, clipPath: 'inset(0% 0% 100% 0% round 26px)' },
-          { y: 0, scale: 1, autoAlpha: 1, clipPath: 'inset(0% 0% 0% 0% round 26px)', duration: .6, ease: 'expo.out' }, 0)
-        .fromTo(items(), { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .5, ease: 'power3.out', stagger: .045 }, .12);
+      m.scrollTop = 0;
+      if (reduce) return;
+      tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+        .fromTo(m, { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: .7, ease: 'expo.inOut' })
+        .from($('.mnav-top'), { autoAlpha: 0, y: -8, duration: .4 }, .35)
+        .from($('.mnav-title i'), { yPercent: 105, duration: .8, ease: 'power4.out', stagger: .08 }, .4)
+        .from($('.mnav-sub'), { autoAlpha: 0, y: 10, duration: .5 }, .65)
+        .fromTo($('.mnav-list li'), { '--line': 0 }, { '--line': 1, duration: .7, ease: 'power2.inOut', stagger: .05 }, .6)
+        .from($('.mnav-list a'), { autoAlpha: 0, y: 14, duration: .5, stagger: .05 }, .7)
+        .from($('.mnav-cta, .mnav-foot'), { autoAlpha: 0, y: 12, duration: .5, stagger: .08 }, 1.05);
     } else {
-      nav.classList.remove('open');
-      nav.classList.add('closing');
-      const done = () => {
-        nav.classList.remove('closing');
-        body.classList.remove('nav-open');
-        gsap.set([nav, ...items()], { clearProps: 'all' });
-        gsap.set(body, { '--nav-bg': 0 });
-      };
-      if (reduce) { done(); return; }
+      if (reduce || !m.classList.contains('is-open')) { done(); return; }
       tl = gsap.timeline({ onComplete: done })
-        .to(items(), { y: -8, autoAlpha: 0, duration: .2, ease: 'power2.in', stagger: { each: .02, from: 'end' } }, 0)
-        .to(nav, { y: -12, scale: .97, autoAlpha: 0, clipPath: 'inset(0% 0% 100% 0% round 26px)', duration: .4, ease: 'power3.in' }, .08)
-        .to(body, { '--nav-bg': 0, duration: .35, ease: 'power2.in' }, .15);
+        .to($('.mnav-list a, .mnav-cta, .mnav-foot, .mnav-sub'), { autoAlpha: 0, y: -8, duration: .25, ease: 'power2.in', stagger: .015 }, 0)
+        .to($('.mnav-title i'), { yPercent: -105, duration: .35, ease: 'power3.in', stagger: .04 }, 0)
+        .to(m, { clipPath: 'inset(0% 0% 100% 0%)', duration: .55, ease: 'expo.inOut' }, .2);
     }
   };
+  // Los submenús del panel anterior ya no existen en móvil.
+  w.wfMega = () => {};
 
-  // Al pasar a escritorio (rotar la tablet, agrandar la ventana) se limpia todo lo que dejó GSAP.
+  // Cerrar: botón propio (llama al menú de SiteScripts para mantener aria-expanded en sincronía).
+  document.getElementById('mnavClose')?.addEventListener('click', () => document.getElementById('menuBtn')?.click());
+  m.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+    if (a.getAttribute('href') !== location.pathname) document.getElementById('menuBtn')?.click();
+  }));
+  document.getElementById('mnavTheme')?.addEventListener('click', () => document.getElementById('themeBtn')?.click());
+
+  // Al pasar a escritorio se cierra sin animación.
   matchMedia('(min-width: 821px)').addEventListener('change', (e) => {
-    if (!e.matches) return;
-    tl?.kill();
-    nav.classList.remove('closing');
-    body.classList.remove('nav-open');
-    gsap.set([nav, ...items(), ...nav.querySelectorAll('.mega, .mega-col-h, .mega-link')], { clearProps: 'all' });
-    nav.querySelectorAll<HTMLElement>('.mega').forEach((m) => delete m.dataset.open);
+    if (e.matches && m.classList.contains('is-open')) { tl?.kill(); done(); document.getElementById('menuBtn')?.setAttribute('aria-expanded', 'false'); }
   });
-
-  w.wfMega = (item: HTMLElement, op: boolean) => {
-    const panel = item.querySelector<HTMLElement>('.mega');
-    if (!panel) return;
-    const isOpen = panel.dataset.open === '1';
-    if (op === isOpen) return;
-    panel.dataset.open = op ? '1' : '0';
-    gsap.killTweensOf(panel);
-    const links = panel.querySelectorAll('.mega-col-h, .mega-link');
-    if (op) {
-      gsap.fromTo(panel, { height: panel.offsetHeight }, { height: 'auto', duration: reduce ? 0 : .5, ease: 'expo.out' });
-      if (!reduce) gsap.fromTo(links, { x: -10, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: .4, ease: 'power3.out', stagger: .03, delay: .05 });
-    } else {
-      gsap.to(panel, { height: 0, duration: reduce ? 0 : .35, ease: 'power3.inOut' });
-    }
-  };
 }
 </script>

@@ -136,17 +136,19 @@ document.documentElement.classList.add('js');
 
   /* Menú móvil */
   var mb = document.getElementById('menuBtn'), nav = document.getElementById('mainnav');
-  /* La animación (GSAP) vive en MobileNav.astro: expone window.wfNav(op), que agrega/quita las clases. */
+  /* En móvil el menú es la pantalla completa de MobileNav.astro (window.wfNav anima y pone las clases).
+     El estado se lee de aria-expanded del botón, que cambia al instante aunque la animación siga. */
+  function isNavOpen(){ return mb.getAttribute('aria-expanded') === 'true'; }
   function setNav(op){
-    if (op === nav.classList.contains('open')) return;
+    if (op === isNavOpen()) return;
     if (window.wfNav && !desktop.matches) window.wfNav(op);
     else { nav.classList.toggle('open', op); document.body.classList.toggle('nav-open', op); }
     mb.setAttribute('aria-expanded', String(op));
     mb.setAttribute('aria-label', op ? 'Cerrar menú' : 'Abrir menú');
   }
-  mb.addEventListener('click', function(){ setNav(!nav.classList.contains('open')); });
+  mb.addEventListener('click', function(){ setNav(!isNavOpen()); });
   document.body.addEventListener('click', function(e){
-    if(document.body.classList.contains('nav-open') && !e.target.closest('#mainnav') && !e.target.closest('#menuBtn')){ setNav(false); }
+    if(isNavOpen() && !e.target.closest('#mainnav, #mnav, #menuBtn')){ setNav(false); }
   });
   nav.addEventListener('click', function(e){
     if(e.target.closest('a')){ setNav(false); }
