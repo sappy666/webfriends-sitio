@@ -113,8 +113,10 @@ img,svg{display:block;max-width:100%}
 section{padding-block:clamp(72px,10vw,132px)}
 
 .eyebrow{
-  display:inline-block;font-size:var(--s--1);font-weight:600;letter-spacing:.01em;
-  color:var(--amber);background:var(--amber-soft);padding:6px 14px;border-radius:999px;margin-bottom:22px;
+  /* Badge minimalista: contorno fino, mayúsculas espaciadas, sin relleno */
+  display:inline-block;font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;line-height:1;
+  color:var(--amber);background:none;border:1px solid color-mix(in srgb,var(--amber) 45%,transparent);
+  padding:7px 14px;border-radius:999px;margin-bottom:22px;
 }
 .lede{color:var(--label-2);max-width:58ch;font-size:var(--s-1);line-height:1.55;font-weight:400}
 .h-sec{font-size:var(--s-3);max-width:17ch;font-weight:700}
@@ -177,7 +179,7 @@ body.recheck-open{overflow:hidden}
 .recheck-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:0;align-items:center}
 .recheck-grid .recheck-report{order:-1}
 .recheck-text{padding:clamp(32px,4.5vw,52px)}
-.recheck-text .eyebrow{background:var(--amber-soft);color:var(--amber);font-size:.72rem}
+.recheck-text .eyebrow{color:var(--amber)}
 .recheck-text h2{color:#fff;font-size:var(--s-2);margin:16px 0 14px;letter-spacing:-.03em}
 .recheck-text h2 em{font-style:normal;color:var(--amber)}
 .recheck-text .lede{color:rgba(255,255,255,.62);font-size:var(--s--1);line-height:1.6}
@@ -1514,3 +1516,79 @@ body.recheck-open{overflow:hidden}
 .bento-hit:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}
 .bento:has(.bento-hit){cursor:pointer}
 .bento .bento-link{position:relative;z-index:3}
+
+/* ═══════════════════════════════════════════════════════════
+   MINIMALISMO — sin contenedores rellenos.
+   Tarjetas = ítems separados por una línea fina; íconos solo trazo;
+   la caja de llamado a la acción queda entre dos líneas.
+   (Repetido al final de global.css y de las hojas por página para
+   imponerse a las copias antiguas de .card / .contact-card.)
+   ═══════════════════════════════════════════════════════════ */
+.cards{gap:40px clamp(20px,3vw,36px)}
+.card,.card:hover{
+  background:none;border:0;border-top:1px solid var(--line-2);border-radius:0;box-shadow:none;
+  padding:26px 0 0;transform:none;gap:10px;
+}
+.card h3{transition:color .3s var(--ease)}
+.card:hover h3{color:var(--amber)}
+.card-icon{
+  width:auto;height:auto;border-radius:0;background:none;color:var(--label);
+  place-items:start;margin-bottom:8px;transition:color .3s var(--ease),transform .5s var(--spring);
+}
+.card-icon svg{width:30px;height:30px;stroke-width:1.5}
+.card:hover .card-icon{color:var(--amber);transform:translateY(-2px)}
+.contact-card{
+  background:none;border:0;border-radius:0;box-shadow:none;
+  border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);
+}
+/* Enlaces "Ver …": flecha dentro de un círculo con contorno */
+.card-link i,.bento-link:not(.btn) i{
+  display:inline-grid;place-items:center;width:30px;height:30px;margin-left:8px;
+  border:1px solid var(--line-2);border-radius:50%;font-size:.9em;
+  transition:transform .45s var(--spring),border-color .3s,background .3s,color .3s;
+}
+.card-link:hover i,.bento:hover .bento-link:not(.btn) i{border-color:var(--amber);background:var(--amber);color:#231600}
+@media (max-width:820px){ .card{padding:22px 0 0} }
+/* Badges de cifras y botones secundarios: solo contorno */
+.metric{background:none;border:1px solid var(--line-2)}
+.btn-soft{background:none;border:1px solid var(--line-2);color:var(--label)}
+.btn-soft:hover{background:var(--fill);border-color:var(--label-3)}
+
+/* ═══════ MINIMALISMO · Inicio ═══════ */
+/* Servicios (bento): solo contorno, sin relleno ni brillo */
+.bento,.bento-grid.compact .bento{background:none;box-shadow:none;border:1px solid var(--line-2)}
+.bento::before{display:none}
+.bento:hover,.bento-grid.compact .bento:hover{transform:none;box-shadow:none;border-color:var(--amber)}
+/* Casos: ítems separados por una línea, como las tarjetas de características */
+.case-grid{gap:40px clamp(20px,3vw,36px)}
+.case-card,.case-card:hover{background:none;border:0;border-top:1px solid var(--line-2);border-radius:0;box-shadow:none;transform:none;padding-inline:0;padding-bottom:0}
+.case-card:hover h3{color:var(--amber)}
+/* Planes: contorno fino; fondo = color de la página (se apilan al hacer scroll y deben tapar la de atrás) */
+.plan,.plan:hover,.js .plan[data-reveal].is-visible:hover{background:var(--bg);box-shadow:none}
+.plan:hover,.js .plan[data-reveal].is-visible:hover{transform:none}
+.plan{border-color:var(--line-2)}
+.plan.is-featured{background:var(--bg);box-shadow:none;border-width:1px}
+.grad-cool{background:var(--bg)}
+
+/* ═══════ MINIMALISMO · Cotizador Google Ads ═══════ */
+.quoter{gap:clamp(28px,4vw,56px)}
+.q-questions{gap:0}
+.q-block{background:none;border:0;border-top:1px solid var(--line-2);border-radius:0;box-shadow:none;padding:26px 0 30px}
+.q-chips span{background:none}
+.q-chips input:checked + span,[data-theme="dark"] .q-chips input:checked + span{background:none;border-color:var(--amber);color:var(--amber)}
+.q-result{background:none;box-shadow:none;border:1px solid var(--line-2)}
+
+/* ═══════ MINIMALISMO · Cotizador /precios ═══════ */
+.pq{gap:clamp(28px,4vw,56px)}
+.pq-main{gap:0}
+.pq-step{background:none;border:0;border-top:1px solid var(--line-2);border-radius:0;box-shadow:none;padding:26px 0 30px}
+.pq-n{background:none;border:1px solid var(--amber);color:var(--amber)}
+[data-theme="dark"] .pq-n{color:var(--amber)}
+.pq-empty{border:0;border-top:1px solid var(--line-2);border-radius:0;padding:22px 0}
+.pq-svc,.pq-opt{background:none;border-width:1px}
+.pq-svc:has(input:checked),.pq-opt:has(input:checked){background:none;border-color:var(--amber)}
+.pq-svc:has(input:checked)::after{background:none;border:1px solid var(--amber);color:var(--amber)}
+.pq-sum{background:none;box-shadow:none;border:1px solid var(--line-2)}
+
+/* Chips minimalistas: solo contorno fino, sin relleno */
+.chip,.local-step .chip,.rubro-card .chip{background:none;border:1px solid var(--line-2);color:var(--label-2)}

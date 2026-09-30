@@ -48,7 +48,7 @@
 
 /* ═══════ RUBROS (split con foto) ═══════ */
 .dark-band{background:var(--bg-2);color:var(--label)}
-.dark-band .eyebrow{background:var(--amber-soft);color:var(--amber)}
+.dark-band .eyebrow{background:none;color:var(--amber)}
 .dark-band .h-sec{color:var(--label)}
 .dark-band .lede{color:var(--label-2)}
 .hero-split-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,56px);align-items:center}
@@ -76,3 +76,6 @@
 @media (max-width:640px){
   .rubro-grid{grid-template-columns:1fr}
 }
+
+/* Chips minimalistas: solo contorno fino, sin relleno */
+.chip,.local-step .chip,.rubro-card .chip{background:none;border:1px solid var(--line-2);color:var(--label-2)}

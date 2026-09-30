@@ -1,0 +1,137 @@
+---
+// Testimonios: extractos textuales de reseñas públicas de Webfriends en Google Maps (4,4 ★ · 18 reseñas).
+// Si se agregan más, copiar el texto tal cual (se puede recortar con «…», no reescribir).
+const reviewsUrl = 'https://maps.google.com/?cid=6592386168463781065';
+const reviews = [
+  {
+    quote: 'Excelentes profesionales, es segunda vez que acudo para crear un sitio web y el trabajo es impecable […] los valores son super razonables y rápidos, 100% recomendados.',
+    name: 'Eduardo Muñoz Toro',
+    role: 'Reseña en Google',
+  },
+  {
+    quote: 'La eficiencia, profesionalismo y la calidad del trabajo entregado superaron nuestras expectativas, consolidando a Webfriends como un aliado clave para el desarrollo futuro de Techscala.',
+    name: 'Hugo Manriquez Arias',
+    role: 'Techscala',
+  },
+  {
+    quote: 'El equipo de atención al cliente fue muy amable y eficiente, resolvieron todas mis dudas y me ayudaron a elegir las mejores opciones para mi página web y publicidad.',
+    name: 'Rocio Lopez',
+    role: 'Reseña en Google',
+  },
+  {
+    quote: 'Webfriends es una empresa que se adapta a las necesidades propias de sus clientes […] se adaptan y se preocupan de los clientes. Son muy buen partner de trabajo.',
+    name: 'Rodrigo Alonso',
+    role: 'Reseña en Google',
+  },
+  {
+    quote: 'Excelente servicio! Empresa muy alineada con nuestro objetivo, nos aumentaron mucho las ventas […] Recomendable 100%.',
+    name: 'Dagoberto Vasquez',
+    role: 'Reseña en Google',
+  },
+];
+const initials = (n: string) => n.split(' ').slice(0, 2).map((w) => w[0]).join('');
+---
+<section class="tst" id="testimonios" aria-labelledby="tst-h">
+  <div class="wrap tst-grid">
+    <div class="tst-head">
+      <p class="eyebrow" data-reveal>Testimonios</p>
+      <h2 id="tst-h" class="h-sec" data-reveal>Lo que dicen nuestros <em>clientes.</em></h2>
+      <p class="tst-lede" data-reveal>Relaciones de largo plazo, con un trato cercano y soluciones que generan resultados.</p>
+      <a class="tst-rating" href={reviewsUrl} target="_blank" rel="noopener" data-reveal>
+        <b>4,4</b>
+        <span class="tst-stars" aria-hidden="true">★★★★<i>★</i></span>
+        <span>18 reseñas en Google</span>
+      </a>
+      <div class="tst-nav" data-reveal>
+        <button type="button" class="tst-btn" data-dir="-1" aria-label="Testimonio anterior">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="button" class="tst-btn" data-dir="1" aria-label="Testimonio siguiente">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="tst-track" id="tstTrack" tabindex="0" aria-label="Testimonios de clientes">
+      {reviews.map((r) => (
+        <figure class="tst-card">
+          <blockquote>“{r.quote}”</blockquote>
+          <figcaption>
+            <span class="tst-avatar" aria-hidden="true">{initials(r.name)}</span>
+            <span class="tst-who"><strong>{r.name}</strong><span>{r.role}</span></span>
+            <a class="tst-go" href={reviewsUrl} target="_blank" rel="noopener" aria-label={`Ver la reseña de ${r.name} en Google`}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .tst-grid { display: grid; grid-template-columns: minmax(240px, .8fr) 2.4fr; gap: clamp(28px, 4vw, 56px); align-items: center; }
+  .tst-head .h-sec em { font-style: normal; color: var(--amber); }
+  .tst-lede { color: var(--label-2); margin-top: 16px; max-width: 34ch; }
+  .tst-rating { display: inline-flex; align-items: baseline; gap: 8px; margin-top: 22px; color: var(--label-2); text-decoration: none; font-size: .85rem; }
+  .tst-rating b { font-size: 1.4rem; color: var(--label); letter-spacing: -.02em; }
+  .tst-stars { color: var(--amber); letter-spacing: 1px; }
+  .tst-stars i { font-style: normal; opacity: .35; }
+  .tst-rating:hover span:last-child { color: var(--amber); }
+  .tst-nav { display: flex; gap: 10px; margin-top: 26px; }
+  .tst-btn, .tst-go {
+    width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; flex: none;
+    border: 1px solid var(--line-2); background: none; color: var(--label); cursor: pointer;
+    transition: border-color .3s, background .3s, color .3s, transform .4s var(--spring);
+  }
+  .tst-btn:hover, .tst-go:hover { border-color: var(--amber); background: var(--amber); color: #231600; }
+  .tst-btn:disabled { opacity: .3; pointer-events: none; }
+  .tst-go { width: 34px; height: 34px; color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, transparent); }
+
+  .tst-track {
+    display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 32px) / 3); gap: 16px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding: 4px 2px;
+    outline: none;
+  }
+  .tst-track::-webkit-scrollbar { display: none; }
+  .tst-card {
+    margin: 0; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: space-between; gap: 28px;
+    padding: 24px 22px 20px; border: 1px solid var(--line-2); border-radius: 20px; min-height: 240px;
+    transition: border-color .35s;
+  }
+  .tst-card:hover { border-color: color-mix(in srgb, var(--amber) 55%, transparent); }
+  .tst-card blockquote { margin: 0; font-size: .93rem; line-height: 1.55; color: var(--label); letter-spacing: -.005em; }
+  .tst-card figcaption { display: flex; align-items: center; gap: 12px; }
+  .tst-avatar {
+    width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; flex: none;
+    border: 1px solid var(--line-2); font-size: .78rem; font-weight: 700; color: var(--amber); letter-spacing: .02em;
+  }
+  .tst-who { display: flex; flex-direction: column; min-width: 0; flex: 1; font-size: .84rem; line-height: 1.3; }
+  .tst-who strong { font-weight: 600; color: var(--label); }
+  .tst-who span { color: var(--label-3); }
+
+  @media (max-width: 1000px) {
+    .tst-grid { grid-template-columns: 1fr; }
+    .tst-track { grid-auto-columns: calc((100% - 16px) / 2); }
+  }
+  @media (max-width: 640px) {
+    .tst-track { grid-auto-columns: 86%; margin-inline: calc(-1 * var(--pad, 20px)); padding-inline: var(--pad, 20px); scroll-padding-inline: var(--pad, 20px); }
+  }
+</style>
+
+<script>
+// Flechas: avanzan una tarjeta; se desactivan en los extremos.
+const track = document.getElementById('tstTrack');
+if (track) {
+  const btns = document.querySelectorAll<HTMLButtonElement>('.tst-btn');
+  const step = () => (track.querySelector<HTMLElement>('.tst-card')?.offsetWidth ?? 300) + 16;
+  const sync = () => {
+    btns[0].disabled = track.scrollLeft < 4;
+    btns[1].disabled = track.scrollLeft + track.clientWidth > track.scrollWidth - 4;
+  };
+  btns.forEach((b) => b.addEventListener('click', () => track.scrollBy({ left: step() * Number(b.dataset.dir), behavior: 'smooth' })));
+  track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+  addEventListener('resize', sync);
+  sync();
+}
+</script>

@@ -74,7 +74,7 @@ const services = [
 
           {services.map((s) => (
             <fieldset class="pq-step pq-detail" data-svc={s.id} hidden>
-              <legend><span class="pq-n">2</span>¿Qué tipo de {s.name.toLowerCase()}? <a href={s.href}>Ver detalle</a></legend>
+              <legend><span class="pq-n">2</span>¿Qué opción de {s.name} te sirve? <a href={s.href}>Ver detalle</a></legend>
               <div class="pq-options">
                 {s.options.map((o, k) => (
                   <label class="pq-opt">

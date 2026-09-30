@@ -4,9 +4,9 @@ export const prerender = true;
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PricingFx from '../components/PricingFx.astro';
+import Testimonials from '../components/Testimonials.astro';
 import ArcScroll from '../components/ArcScroll.astro';
 
-const featuredCasos = await getCollection('casos', ({ data }) => data.featured);
 const page = (await getEntry('pages', 'page-home'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
 const webPlans = (await getEntry('planSets', 'desarrollo-web'))!.data.plans;
@@ -167,30 +167,7 @@ const serviceArt = [
     </div>
   </section>
 
-  <!-- ═══════ CASOS DE ÉXITO ═══════ -->
-  <section id="casos" aria-labelledby="cx-h">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <p class="eyebrow" data-reveal>{sec('cx-h').eyebrow}</p>
-          <h2 id="cx-h" class="h-sec" data-reveal>{sec('cx-h').heading}</h2>
-        </div>
-        <a class="card-link" href="/casos" data-reveal>Ver todos los casos <i aria-hidden="true">›</i></a>
-      </div>
-
-      <div class="case-grid" data-reveal-group>
-        {featuredCasos.map((caso) => (
-          <article class="case-card" data-reveal="scale">
-            <p class="case-tag">{caso.data.tag}</p>
-            <h3>{caso.data.client}</h3>
-            <p class="case-sector">{caso.data.sector}</p>
-            <p class="case-result">{caso.data.result}</p>
-            <a class="bento-link" href="/casos">Ver el caso <i aria-hidden="true">›</i></a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+  <Testimonials />
 
   <!-- ═══════ PLANES ═══════
        Control segmentado en vez de dos tablas apiladas: reduce el scroll
