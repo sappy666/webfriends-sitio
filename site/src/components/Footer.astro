@@ -14,78 +14,204 @@ const nosotrosHref = slug('page-nosotros');
 const contactoHref = slug('page-contacto');
 const terminosHref = slug('page-terminos');
 ---
-<footer class="ftr">
-  <div class="wrap">
-    <form class="ftr-lead" id="ftrLead" novalidate>
-      <div>
-        <h2 class="ftr-lead-h">Solicita una asesoría gratuita</h2>
-        <p>Déjanos tu correo y te contactamos en menos de 24 horas hábiles. Sin costo ni compromiso.</p>
-      </div>
-      <div class="ftr-lead-field">
-        <label class="sr-only" for="ftrEmail">Correo electrónico</label>
-        <input id="ftrEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="tu@correo.cl" required>
-        <button class="btn btn-accent" type="submit">Solicitar asesoría</button>
-      </div>
-      <p class="ftr-lead-status" id="ftrLeadStatus" role="status" aria-live="polite"></p>
-    </form>
+<!-- Footer en tarjeta oscura (siempre oscura, en ambos temas), con líneas guía verticales:
+     titular grande + formulario de asesoría arriba, columnas de enlaces al medio y barra inferior. -->
+<footer class="wff">
+  <div class="wff-card">
+    <div class="wff-in">
+      <div class="wff-top">
+        <p class="wff-hero" aria-hidden="true">Estrategia,<br>diseño,<br>crecimiento<span>.</span></p>
 
-    <div class="ftr-grid">
-      <div>
-        <a class="logo" href="/" style="margin-bottom:16px"><span class="logo-mark" aria-hidden="true"><img class="logo-img-dark" src="/assets/img/webfriends-logo.png" alt="Webfriends" loading="lazy"><img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.png" alt="Webfriends" loading="lazy"></span></a>
-        <p style="color:var(--label-2);font-size:var(--s--1);max-width:32ch">Agencia de marketing digital, desarrollo web y diseño UX/UI en Chile.</p>
-        <div class="social">
-          <a href="https://www.behance.net/webfriendscl" aria-label="Webfriends en Behance">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 6H2v12h7.2c2.6 0 4.3-1.3 4.3-3.5 0-1.6-.9-2.7-2.4-3 1.2-.4 1.9-1.4 1.9-2.7C13 6.9 11.5 6 9 6zm-.4 4.9H4.6V8.2h4c1 0 1.6.5 1.6 1.3s-.6 1.4-1.6 1.4zm.3 5H4.6v-3h4.3c1.2 0 1.9.6 1.9 1.5s-.7 1.5-1.9 1.5zM22 13.4c0-2.7-1.6-4.6-4.2-4.6s-4.3 1.9-4.3 4.7 1.7 4.7 4.4 4.7c2.1 0 3.6-1.1 4-2.8h-2.1c-.2.6-.9 1-1.8 1-1.2 0-2-.7-2.1-2H22v-1zm-6.1-.6c.2-1.2 1-1.8 2-1.8s1.8.7 1.9 1.8h-3.9zM15.5 6h5v1.5h-5z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/company/webfriends-chile" aria-label="Webfriends en LinkedIn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-linkedin"></use></svg>
-          </a>
-          <a href="https://www.instagram.com/webfriendschile/" aria-label="Webfriends en Instagram">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-instagram"></use></svg>
-          </a>
+        <form class="wff-lead" id="ftrLead" novalidate>
+          <h2 class="wff-lead-h">Asesoría gratuita <span>&amp;</span> sin compromiso</h2>
+          <p class="wff-lead-sub">Déjanos tu correo y te ayudamos a:</p>
+          <ul class="wff-bullets">
+            <li>Detectar qué frena tus ventas en digital</li>
+            <li>Priorizar dónde invertir primero</li>
+          </ul>
+          <label class="sr-only" for="ftrEmail">Correo electrónico</label>
+          <input class="wff-input" id="ftrEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Escribe tu correo" required>
+          <button class="wff-submit" type="submit">Solicitar asesoría
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+          <p class="wff-status" id="ftrLeadStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <div class="wff-cols">
+        <div>
+          <h3 class="wff-label">// Servicios</h3>
+          <ul class="wff-links">
+            <li><a href={googleAdsHref}>Google Ads</a></li>
+            <li><a href={seoHref}>Posicionamiento SEO y GEO</a></li>
+            <li><a href={sitiosWebHref}>Sitios y tiendas web</a></li>
+            <li><a href={uxUiHref}>Diseño UX/UI</a></li>
+            <li><a href={saludHref}>Soluciones para salud</a></li>
+          </ul>
         </div>
-      </div>
-
-      <div>
-        <h3>Servicios</h3>
-        <ul>
-          <li><a href={googleAdsHref}>Google Ads</a></li>
-          <li><a href={seoHref}>Posicionamiento SEO</a></li>
-          <li><a href={sitiosWebHref}>Sitios web</a></li>
-          <li><a href={uxUiHref}>Diseño UX/UI</a></li>
-          <li><a href={saludHref}>Soluciones para salud</a></li>
-          <li><a href={slug('page-servicios')}>Todos los servicios</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h3>Empresa</h3>
-        <ul>
-          <li><a href={casosHref}>Casos de éxito</a></li>
-          <li><a href={slug('page-precios')}>Precios</a></li>
-          <li><a href={nosotrosHref}>Nosotros</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href={contactoHref}>Contacto</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h3>Oficinas</h3>
-        <ul>
-          <li><a href="https://maps.app.goo.gl/J38M7uX6a4EpdQa58">Etchevers 210, Viña del Mar</a></li>
-          <li><a href="https://maps.app.goo.gl/UEC9HzqtVXwUKpLZ6">Av. Kennedy 7440, of. 701, Vitacura</a></li>
-          <li><a href="mailto:contacto@webfriends.cl">contacto@webfriends.cl</a></li>
-          <li><a href="tel:+56931971436">+56 9 3197 1436</a></li>
-        </ul>
+        <div>
+          <h3 class="wff-label">// Empresa</h3>
+          <ul class="wff-links">
+            <li><a href={casosHref}>Casos de éxito</a></li>
+            <li><a href={slug('page-precios')}>Precios</a></li>
+            <li><a href={nosotrosHref}>Nosotros</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href={contactoHref}>Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="wff-label">// Escríbenos</h3>
+          <a class="wff-mail" href="mailto:contacto@webfriends.cl">contacto<span>@</span>webfriends.cl</a>
+          <a class="wff-phone" href="tel:+56931971436">+56 9 3197 1436</a>
+          <div class="wff-social">
+            <a href="https://www.linkedin.com/company/webfriends-chile" aria-label="Webfriends en LinkedIn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-linkedin"></use></svg>
+            </a>
+            <a href="https://www.instagram.com/webfriendschile/" aria-label="Webfriends en Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-instagram"></use></svg>
+            </a>
+            <a href="https://www.behance.net/webfriendscl" aria-label="Webfriends en Behance">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 6H2v12h7.2c2.6 0 4.3-1.3 4.3-3.5 0-1.6-.9-2.7-2.4-3 1.2-.4 1.9-1.4 1.9-2.7C13 6.9 11.5 6 9 6zm-.4 4.9H4.6V8.2h4c1 0 1.6.5 1.6 1.3s-.6 1.4-1.6 1.4zm.3 5H4.6v-3h4.3c1.2 0 1.9.6 1.9 1.5s-.7 1.5-1.9 1.5zM22 13.4c0-2.7-1.6-4.6-4.2-4.6s-4.3 1.9-4.3 4.7 1.7 4.7 4.4 4.7c2.1 0 3.6-1.1 4-2.8h-2.1c-.2.6-.9 1-1.8 1-1.2 0-2-.7-2.1-2H22v-1zm-6.1-.6c.2-1.2 1-1.8 2-1.8s1.8.7 1.9 1.8h-3.9zM15.5 6h5v1.5h-5z"/></svg>
+            </a>
+          </div>
+          <ul class="wff-offices">
+            <li><a href="https://maps.app.goo.gl/J38M7uX6a4EpdQa58">Etchevers 210, Viña del Mar</a></li>
+            <li><a href="https://maps.app.goo.gl/UEC9HzqtVXwUKpLZ6">Av. Kennedy 7440, of. 701, Vitacura</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <div class="ftr-btm">
-      <p>© 2026 Webfriends Chile · <a href={terminosHref} style="color:var(--label-2)">Términos</a> · <a href={`${terminosHref}#privacidad`} style="color:var(--label-2)">Privacidad</a></p>
-      <p class="partner"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color:var(--amber)" aria-hidden="true"><path d="M12 2l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L12 16.3 6.2 19.8l1.6-6.6L2.6 8.8l6.8-.5L12 2z"/></svg> Google Partner certificado</p>
+    <div class="wff-bar">
+      <div class="wff-in wff-bar-in">
+        <a class="wff-brand" href="/" aria-label="Webfriends, inicio">
+          <img src="/assets/img/webfriends-logo.png" alt="" width="778" height="74" loading="lazy">
+          <span class="wff-partner"><i aria-hidden="true">✦</i> Google Partner</span>
+        </a>
+        <p class="wff-copy">© 2026 Webfriends Chile — Todos los derechos reservados · <a href={terminosHref}>Términos</a> · <a href={`${terminosHref}#privacidad`}>Privacidad</a></p>
+        <button class="wff-up" type="button" id="wffUp" aria-label="Volver arriba">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 </footer>
+
+<style is:global>
+  .wff {
+    /* Paleta propia: la tarjeta es oscura en ambos temas */
+    --f-bg: #000000; --f-line: rgba(242, 245, 251, .08); --f-txt: #F2F5FB; --f-txt-2: rgba(242, 245, 251, .66);
+    --f-txt-3: rgba(242, 245, 251, .42); --f-amber: #FFB020; --f-fill: rgba(242, 245, 251, .06);
+    padding: 16px; background: var(--bg);
+  }
+  .wff-card { position: relative; overflow: hidden; border-radius: 28px; background: var(--f-bg); color: var(--f-txt); isolation: isolate; border: 1px solid var(--f-line); }
+  /* Luz diagonal suave arriba a la izquierda, como en la referencia */
+  .wff-card::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(60% 50% at 0% 0%, rgba(255, 176, 32, .10), transparent 70%);
+  }
+  .wff-in { width: min(1120px, 100% - 2 * var(--pad, 24px)); margin-inline: auto; position: relative; }
+  /* Líneas guía verticales: bordes de las 3 columnas */
+  .wff-in::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      linear-gradient(var(--f-line), var(--f-line)) 0 0 / 1px 100% no-repeat,
+      linear-gradient(var(--f-line), var(--f-line)) 33.333% 0 / 1px 100% no-repeat,
+      linear-gradient(var(--f-line), var(--f-line)) 66.666% 0 / 1px 100% no-repeat,
+      linear-gradient(var(--f-line), var(--f-line)) 100% 0 / 1px 100% no-repeat;
+  }
+  .wff-bar-in::before { display: none; }
+
+  .wff-top { display: grid; grid-template-columns: 2fr 1fr; align-items: center; padding-block: clamp(56px, 8vw, 110px) clamp(40px, 6vw, 72px); position: relative; z-index: 1; }
+  .wff-hero {
+    margin: 0; padding-left: clamp(8px, 1.4vw, 18px);
+    font-size: clamp(3rem, 8.4vw, 7rem); font-weight: 800; line-height: .92; letter-spacing: -.055em; color: var(--f-txt);
+  }
+  .wff-hero span { color: var(--f-amber); }
+
+  .wff-lead { border-top: 1px solid var(--f-line); border-bottom: 1px solid var(--f-line); }
+  .wff-lead-h { margin: 0; padding: 26px 22px 0; font-size: 1.55rem; font-weight: 800; letter-spacing: -.035em; line-height: 1.12; color: var(--f-txt); }
+  .wff-lead-h span { color: var(--f-amber); }
+  .wff-lead-sub { margin: 18px 22px 8px; font-size: .9rem; font-weight: 600; color: var(--f-txt); }
+  .wff-bullets { list-style: none; margin: 0 22px 24px; padding: 0; display: grid; gap: 6px; }
+  .wff-bullets li { position: relative; padding-left: 16px; font-size: .85rem; color: var(--f-txt-2); }
+  .wff-bullets li::before { content: ""; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; border-radius: 50%; background: var(--f-amber); }
+  .wff-input {
+    display: block; width: 100%; border: 0; border-top: 1px solid var(--f-line); background: none; color: var(--f-txt);
+    font: inherit; font-size: .92rem; padding: 18px 22px; outline: none;
+  }
+  .wff-input::placeholder { color: var(--f-txt-3); }
+  .wff-input:focus { background: var(--f-fill); }
+  .wff-submit {
+    display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 12px;
+    border: 0; border-left: 3px solid var(--f-amber); background: var(--f-fill); color: var(--f-txt);
+    font: inherit; font-weight: 700; font-size: 1rem; padding: 18px 22px; cursor: pointer;
+    transition: background .3s, color .3s;
+  }
+  .wff-submit svg { transition: transform .4s cubic-bezier(.34, 1.56, .64, 1); }
+  .wff-submit:hover { background: var(--f-amber); color: #231600; }
+  .wff-submit:hover svg { transform: translateX(4px); }
+  .wff-status { margin: 0; padding: 0 22px; font-size: .8rem; min-height: 0; color: var(--f-txt-2); }
+  .wff-status:not(:empty) { padding-block: 10px; }
+  .wff-status[data-state="error"] { color: #FFB020; }
+
+  .wff-cols { display: grid; grid-template-columns: repeat(3, 1fr); padding-block: 8px clamp(40px, 6vw, 64px); position: relative; z-index: 1; }
+  .wff-cols > div { padding-inline: clamp(8px, 1.4vw, 18px) 16px; }
+  .wff-label { margin: 0 0 14px; font-size: .74rem; font-weight: 500; letter-spacing: .02em; color: var(--f-txt-3); }
+  .wff-links, .wff-offices { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .wff-links a { display: inline-block; padding-block: 5px; color: var(--f-txt); text-decoration: none; font-size: .95rem; transition: color .3s, transform .4s; }
+  .wff-links a:hover { color: var(--f-amber); transform: translateX(4px); }
+  .wff-mail { display: inline-block; color: var(--f-txt); text-decoration: none; font-size: clamp(1.15rem, 2vw, 1.5rem); font-weight: 700; letter-spacing: -.02em; }
+  .wff-mail span { color: var(--f-amber); }
+  .wff-mail:hover { color: var(--f-amber); }
+  .wff-phone { display: block; margin-top: 6px; color: var(--f-txt-2); text-decoration: none; font-size: .92rem; }
+  .wff-phone:hover { color: var(--f-txt); }
+  .wff-social { display: flex; gap: 8px; margin-top: 18px; }
+  .wff-social a {
+    width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--f-fill); color: var(--f-txt); transition: background .3s, color .3s, transform .4s;
+  }
+  .wff-social a:hover { background: var(--f-amber); color: #231600; transform: translateY(-3px); }
+  .wff-offices { margin-top: 18px; }
+  .wff-offices a { color: var(--f-txt-3); text-decoration: none; font-size: .8rem; }
+  .wff-offices a:hover { color: var(--f-txt-2); }
+
+  .wff-bar { border-top: 1px solid var(--f-line); }
+  .wff-bar-in { display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; gap: 16px; padding-block: 26px; }
+  .wff-brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; padding-left: clamp(8px, 1.4vw, 18px); }
+  .wff-brand img { height: 15px; width: auto; }
+  .wff-partner { font-size: .74rem; color: var(--f-txt-2); white-space: nowrap; }
+  .wff-partner i { font-style: normal; color: var(--f-amber); margin-right: 4px; }
+  .wff-copy { margin: 0; font-size: .76rem; color: var(--f-txt-3); }
+  .wff-copy a { color: var(--f-txt-2); text-decoration: none; }
+  .wff-copy a:hover { color: var(--f-txt); }
+  .wff-up {
+    width: 40px; height: 40px; border-radius: 50%; border: 0; display: grid; place-items: center; cursor: pointer;
+    background: #1B1C20; color: var(--f-txt); transition: background .3s, color .3s, transform .4s;
+  }
+  .wff-up:hover { background: var(--f-amber); color: #231600; transform: translateY(-3px); }
+
+  @media (max-width: 900px) {
+    .wff-in::before { display: none; }
+    .wff-top { grid-template-columns: 1fr; gap: 40px; }
+    .wff-hero { padding-left: 0; }
+    .wff-lead { border: 1px solid var(--f-line); border-radius: 20px; overflow: hidden; }
+    .wff-cols { grid-template-columns: 1fr 1fr; row-gap: 36px; }
+    .wff-cols > div { padding-inline: 0; }
+    .wff-cols > div:last-child { grid-column: 1 / -1; }
+    .wff-bar-in { grid-template-columns: 1fr auto; }
+    .wff-brand { padding-left: 0; }
+    .wff-copy { grid-column: 1 / -1; grid-row: 2; }
+  }
+  /* Con el footer a la vista sobra el botón flotante de volver arriba */
+  body.wff-in-view .totop { opacity: 0; pointer-events: none; }
+  @media (max-width: 640px) { .wff-bar-in { padding-bottom: 88px; } }
+  @media (max-width: 480px) {
+    .wff { padding: 10px; }
+    .wff-card { border-radius: 22px; }
+    .wff-cols { grid-template-columns: 1fr; }
+  }
+</style>
 
 <script>
 // Asesoría gratuita desde el footer: valida el correo y abre WhatsApp indicando la página de origen.
@@ -106,4 +232,13 @@ if (lead) lead.addEventListener('submit', (e) => {
   status.textContent = 'Te abrimos WhatsApp con tu solicitud: solo presiona enviar.';
   lead.reset();
 });
+
+const wff = document.querySelector('.wff');
+if (wff && 'IntersectionObserver' in window) {
+  new IntersectionObserver(([e]) => document.body.classList.toggle('wff-in-view', e.isIntersecting), { threshold: .15 }).observe(wff);
+}
+
+document.getElementById('wffUp')?.addEventListener('click', () =>
+  window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }),
+);
 </script>

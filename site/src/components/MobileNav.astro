@@ -1,0 +1,73 @@
+<script>
+// Menú móvil animado con GSAP. SiteScripts decide cuándo abrir/cerrar y llama a:
+//   window.wfNav(op)        → abre/cierra el panel (fondo, panel, ítems en cascada)
+//   window.wfMega(item, op) → despliega/pliega un submenú (acordeón por altura)
+// Durante el cierre el panel lleva .closing para seguir visible hasta terminar la animación.
+import { gsap } from 'gsap';
+
+const nav = document.getElementById('mainnav');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const w = window as any;
+
+if (nav) {
+  const body = document.body;
+  const items = () => nav.querySelectorAll<HTMLElement>(':scope > .navitem, :scope > .navlink, :scope > .btn, :scope > .theme-btn');
+  let tl: gsap.core.Timeline | null = null;
+
+  w.wfNav = (op: boolean) => {
+    tl?.kill();
+    if (op) {
+      nav.classList.remove('closing');
+      nav.classList.add('open');
+      body.classList.add('nav-open');
+      if (reduce) { gsap.set(body, { '--nav-bg': 1 }); return; }
+      tl = gsap.timeline()
+        .fromTo(body, { '--nav-bg': 0 }, { '--nav-bg': 1, duration: .35, ease: 'power2.out' }, 0)
+        .fromTo(nav,
+          { y: -18, scale: .96, autoAlpha: 0, clipPath: 'inset(0% 0% 100% 0% round 26px)' },
+          { y: 0, scale: 1, autoAlpha: 1, clipPath: 'inset(0% 0% 0% 0% round 26px)', duration: .6, ease: 'expo.out' }, 0)
+        .fromTo(items(), { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .5, ease: 'power3.out', stagger: .045 }, .12);
+    } else {
+      nav.classList.remove('open');
+      nav.classList.add('closing');
+      const done = () => {
+        nav.classList.remove('closing');
+        body.classList.remove('nav-open');
+        gsap.set([nav, ...items()], { clearProps: 'all' });
+        gsap.set(body, { '--nav-bg': 0 });
+      };
+      if (reduce) { done(); return; }
+      tl = gsap.timeline({ onComplete: done })
+        .to(items(), { y: -8, autoAlpha: 0, duration: .2, ease: 'power2.in', stagger: { each: .02, from: 'end' } }, 0)
+        .to(nav, { y: -12, scale: .97, autoAlpha: 0, clipPath: 'inset(0% 0% 100% 0% round 26px)', duration: .4, ease: 'power3.in' }, .08)
+        .to(body, { '--nav-bg': 0, duration: .35, ease: 'power2.in' }, .15);
+    }
+  };
+
+  // Al pasar a escritorio (rotar la tablet, agrandar la ventana) se limpia todo lo que dejó GSAP.
+  matchMedia('(min-width: 821px)').addEventListener('change', (e) => {
+    if (!e.matches) return;
+    tl?.kill();
+    nav.classList.remove('closing');
+    body.classList.remove('nav-open');
+    gsap.set([nav, ...items(), ...nav.querySelectorAll('.mega, .mega-col-h, .mega-link')], { clearProps: 'all' });
+    nav.querySelectorAll<HTMLElement>('.mega').forEach((m) => delete m.dataset.open);
+  });
+
+  w.wfMega = (item: HTMLElement, op: boolean) => {
+    const panel = item.querySelector<HTMLElement>('.mega');
+    if (!panel) return;
+    const isOpen = panel.dataset.open === '1';
+    if (op === isOpen) return;
+    panel.dataset.open = op ? '1' : '0';
+    gsap.killTweensOf(panel);
+    const links = panel.querySelectorAll('.mega-col-h, .mega-link');
+    if (op) {
+      gsap.fromTo(panel, { height: panel.offsetHeight }, { height: 'auto', duration: reduce ? 0 : .5, ease: 'expo.out' });
+      if (!reduce) gsap.fromTo(links, { x: -10, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: .4, ease: 'power3.out', stagger: .03, delay: .05 });
+    } else {
+      gsap.to(panel, { height: 0, duration: reduce ? 0 : .35, ease: 'power3.inOut' });
+    }
+  };
+}
+</script>

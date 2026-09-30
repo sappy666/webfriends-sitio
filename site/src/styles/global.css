@@ -233,7 +233,7 @@ body.recheck-open{overflow:hidden}
   background:var(--card);                     /* opaco: legibilidad ante todo */
   border:1px solid var(--line-2);border-radius:var(--r-xl);
   box-shadow:0 12px 28px rgba(0,0,0,.10),0 32px 80px rgba(0,0,0,.16);
-  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.97);transform-origin:top left;
+  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.97);transform-origin:top center;
   transition:opacity .3s var(--spring),transform .35s var(--spring),visibility .35s;
 }
 .navitem.open .mega{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
@@ -693,46 +693,37 @@ body.recheck-open{overflow:hidden}
   .card,.plan{padding:26px 22px}
   .btn{min-height:54px}
   .direct a{min-height:64px}
-  /* Menú móvil: panel flotante con fondo difuminado, patrón app nativa */
+  /* Menú móvil: panel flotante con fondo difuminado. GSAP (MobileNav.astro) anima
+     --nav-bg (fondo), el panel, los ítems y los submenús; aquí solo el diseño. */
   body.nav-open{overflow:hidden}
   body.nav-open::before{
-    content:"";position:fixed;inset:0;z-index:140;
+    content:"";position:fixed;inset:0;z-index:140;opacity:var(--nav-bg,1);
     background:rgba(6,6,10,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-    animation:navFade .35s var(--ease);
   }
-  @keyframes navFade{from{opacity:0}to{opacity:1}}
+  body.nav-open .wa-float,body.nav-open .totop{opacity:0;pointer-events:none;transition:opacity .25s}
   .mainnav{
     display:none;position:fixed;left:10px;right:10px;top:82px;
-    height:calc(100vh - 92px);height:calc(100dvh - 92px);max-height:calc(100vh - 92px);
-    flex-direction:column;align-items:stretch;gap:4px;padding:14px;z-index:145;
+    max-height:calc(100vh - 96px);max-height:calc(100dvh - 96px);
+    flex-direction:column;align-items:stretch;gap:0;padding:10px 12px 14px;z-index:145;
     background:var(--card);color:var(--label);
     border:1px solid var(--line-2);border-radius:26px;
     box-shadow:0 20px 45px rgba(0,0,0,.18),0 40px 90px rgba(0,0,0,.24);
-    overflow-y:auto;animation:sheet .4s var(--spring);
+    overflow-y:auto;overscroll-behavior:contain;transform-origin:top center;
   }
-  @keyframes sheet{from{transform:translateY(18px) scale(.97);opacity:0}to{transform:none;opacity:1}}
-  .mainnav.open{display:flex}
-  .mainnav.open > *{animation:navItemIn .5s var(--soft) backwards}
-  .mainnav.open > *:nth-child(1){animation-delay:.02s}
-  .mainnav.open > *:nth-child(2){animation-delay:.06s}
-  .mainnav.open > *:nth-child(3){animation-delay:.1s}
-  .mainnav.open > *:nth-child(4){animation-delay:.14s}
-  .mainnav.open > *:nth-child(5){animation-delay:.18s}
-  .mainnav.open > *:nth-child(6){animation-delay:.22s}
-  .mainnav.open > *:nth-child(7){animation-delay:.26s}
-  @keyframes navItemIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .navlink{flex:none;justify-content:space-between;min-height:58px;padding-inline:18px;font-size:var(--s-1);font-weight:700;border-radius:16px;letter-spacing:-.01em}
+  .mainnav.open,.mainnav.closing{display:flex}
+  .navlink{flex:none;justify-content:space-between;min-height:58px;padding-inline:14px;font-size:var(--s-1);font-weight:700;border-radius:14px;letter-spacing:-.01em}
+  .navitem .navlink[aria-expanded="true"]{background:none;color:var(--amber)}
   .navitem{flex:none}
-  .navitem+.navlink,.navlink+.navitem,.navitem+.navitem{border-top:1px solid var(--line);margin-top:4px;padding-top:4px}
-  .mega{position:static;translate:none;width:100%;opacity:1;visibility:visible;transform:none;background:none;border:0;box-shadow:none;padding:2px 4px 10px;display:none;backdrop-filter:none}
-  .navitem.open .mega{display:block;animation:megaDrop .35s var(--soft)}
-  @keyframes megaDrop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-  .mega-grid{grid-template-columns:1fr;gap:2px}
+  /* Separador parejo entre todos los ítems de primer nivel */
+  .mainnav > .navitem + .navitem,.mainnav > .navitem + .navlink,.mainnav > .navlink + .navlink,.mainnav > .navlink + .navitem{border-top:1px solid var(--line)}
+  .mega{position:static;left:auto!important;translate:none;width:100%;opacity:1;visibility:visible;transform:none;background:none;border:0;box-shadow:none;padding:0;display:block;height:0;overflow:hidden;backdrop-filter:none}
+  .mega-grid{grid-template-columns:1fr;gap:2px;padding:0 2px 12px}
   .mega-promo{display:none}
   .mega-col-h{padding-left:10px;padding-top:10px;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--label-3);font-weight:700}
   .mega-link{border-radius:14px;padding:12px 10px}
-  .mainnav .btn{margin-top:10px;min-height:56px}
-  .mainnav .theme-btn{align-self:flex-start;margin:10px 2px 2px}
+  .mainnav .btn{margin-top:14px;min-height:56px;font-size:1rem}
+  /* Selector de tema: esquina superior derecha del panel, no un ítem suelto */
+  .mainnav .theme-btn{position:absolute;top:22px;right:18px;margin:0;order:0}
   .menu-btn{display:flex}
   .cards-4,.pricing{grid-template-columns:1fr}
   .plan.is-featured{order:-1}
@@ -1058,7 +1049,7 @@ body.recheck-open{overflow:hidden}
 .bento-grid.compact article:nth-child(4),
 .bento-grid.compact article:nth-child(5){grid-column:span 5}
 .bento-grid.compact .bento-txt{position:relative;z-index:1;max-width:58%}
-.bento-grid.compact article:nth-child(1) .bento-txt{max-width:50%}
+.bento-grid.compact article:nth-child(1) .bento-txt{max-width:52%}
 .bento-grid.compact .bento-num{
   font-size:.74rem;font-weight:700;letter-spacing:.14em;color:var(--amber);margin:0 0 14px;
 }
@@ -1079,7 +1070,7 @@ body.recheck-open{overflow:hidden}
   filter:drop-shadow(0 18px 30px rgba(0,0,0,.28));
   transition:transform .8s var(--spring);pointer-events:none;
 }
-.bento-grid.compact article:nth-child(1) .bento-ill{right:-6%;width:62%;max-width:520px;top:54%}
+.bento-grid.compact article:nth-child(1) .bento-ill{right:4%;width:44%;max-width:420px}
 .bento-grid.compact .bento:hover .bento-ill{transform:translateY(calc(-50% - 6px)) rotate(-2deg)}
 
 @media (max-width:1100px){
@@ -1088,6 +1079,7 @@ body.recheck-open{overflow:hidden}
   .bento-grid.compact article:nth-child(4),
   .bento-grid.compact article:nth-child(5){grid-column:span 1}
   .bento-grid.compact article:nth-child(1){grid-column:span 2;grid-row:span 1}
+  .bento-grid.compact article:nth-child(1) .bento-ill{width:38%;max-width:300px}
 }
 /* Mobile: carrusel horizontal con scroll-snap nativo; asoma la siguiente tarjeta. */
 @media (max-width:640px){
@@ -1197,7 +1189,10 @@ body.recheck-open{overflow:hidden}
   .figures-grid .fig-list{grid-template-columns:repeat(2,1fr);gap:32px 20px}
 }
 @media (max-width:480px){
-  .figures-grid .fig-list{grid-template-columns:1fr;gap:26px}
+  .figures-grid .fig-list{grid-template-columns:repeat(2,1fr);gap:28px 16px}
+  .figures-grid .fig-n{font-size:2rem}
+  .figures-grid .fig-l{font-size:.85rem}
+  .figures-grid .fig-l i{font-size:.78rem}
 }
 
 /* ═══════ FRANJA DE MARCAS ═══════ */
@@ -1513,3 +1508,9 @@ body.recheck-open{overflow:hidden}
 
 /* Tarjetas sin caja: solo ícono, título y texto (UX/UI · Qué resolvemos). */
 .cards-plain .card,.cards-plain .card:hover{background:none;border:0;box-shadow:none;padding:0;transform:none}
+
+/* Toda la tarjeta de servicio es clickeable: un enlace invisible la cubre (el texto sigue siendo el enlace accesible). */
+.bento-hit{position:absolute;inset:0;z-index:2;border-radius:inherit}
+.bento-hit:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}
+.bento:has(.bento-hit){cursor:pointer}
+.bento .bento-link{position:relative;z-index:3}

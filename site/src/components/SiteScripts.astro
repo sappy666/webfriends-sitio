@@ -113,15 +113,16 @@ document.documentElement.classList.add('js');
   /* Mega menú */
   var megas = Array.prototype.slice.call(document.querySelectorAll('[data-mega]'));
   var desktop = window.matchMedia('(min-width: 821px)');
-  function close(it){ it.classList.remove('open'); it.querySelector('.navlink').setAttribute('aria-expanded','false'); }
-  function open(it){ megas.forEach(close); place(it); it.classList.add('open'); it.querySelector('.navlink').setAttribute('aria-expanded','true'); }
-  /* El panel parte justo bajo su título; solo se corre a la izquierda lo necesario para no salirse de la ventana. */
+  function close(it){ it.classList.remove('open'); it.querySelector('.navlink').setAttribute('aria-expanded','false'); if(!desktop.matches && window.wfMega) window.wfMega(it, false); }
+  function open(it){ megas.forEach(close); place(it); it.classList.add('open'); it.querySelector('.navlink').setAttribute('aria-expanded','true'); if(!desktop.matches && window.wfMega) window.wfMega(it, true); }
+  /* El panel se centra bajo su título; solo se corre lo necesario para no salirse de la ventana. */
   function place(it){
     var m = it.querySelector('.mega');
     if (!desktop.matches) { m.style.left = ''; return; }
-    var gap = 12, itemLeft = it.getBoundingClientRect().left;
-    var shift = Math.max(0, itemLeft + m.offsetWidth - (document.documentElement.clientWidth - gap));
-    m.style.left = -Math.min(shift, itemLeft - gap) + 'px';
+    var gap = 12, r = it.getBoundingClientRect(), w = m.offsetWidth, vw = document.documentElement.clientWidth;
+    var left = r.left + r.width / 2 - w / 2;                  /* posición ideal en la ventana */
+    left = Math.max(gap, Math.min(left, vw - gap - w));       /* sin salirse por ningún lado */
+    m.style.left = (left - r.left) + 'px';
   }
   megas.forEach(function(it){
     var btn = it.querySelector('.navlink'), timer;
@@ -135,9 +136,11 @@ document.documentElement.classList.add('js');
 
   /* Menú móvil */
   var mb = document.getElementById('menuBtn'), nav = document.getElementById('mainnav');
+  /* La animación (GSAP) vive en MobileNav.astro: expone window.wfNav(op), que agrega/quita las clases. */
   function setNav(op){
-    nav.classList.toggle('open', op);
-    document.body.classList.toggle('nav-open', op);
+    if (op === nav.classList.contains('open')) return;
+    if (window.wfNav && !desktop.matches) window.wfNav(op);
+    else { nav.classList.toggle('open', op); document.body.classList.toggle('nav-open', op); }
     mb.setAttribute('aria-expanded', String(op));
     mb.setAttribute('aria-label', op ? 'Cerrar menú' : 'Abrir menú');
   }
@@ -146,7 +149,7 @@ document.documentElement.classList.add('js');
     if(document.body.classList.contains('nav-open') && !e.target.closest('#mainnav') && !e.target.closest('#menuBtn')){ setNav(false); }
   });
   nav.addEventListener('click', function(e){
-    if(e.target.tagName === 'A'){ setNav(false); }
+    if(e.target.closest('a')){ setNav(false); }
   });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') setNav(false); });
 

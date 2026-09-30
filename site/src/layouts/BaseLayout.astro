@@ -7,6 +7,7 @@ import FloatButtons from '../components/FloatButtons.astro';
 import SiteScripts from '../components/SiteScripts.astro';
 import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
 import Preloader from '../components/Preloader.astro';
+import MobileNav from '../components/MobileNav.astro';
 
 interface Props {
   title: string;
@@ -67,6 +68,7 @@ const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.
 
   <FloatButtons />
   <SiteScripts />
+  <MobileNav />
   <slot name="scripts" />
 </body>
 </html>
