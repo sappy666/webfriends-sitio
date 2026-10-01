@@ -1592,3 +1592,27 @@ body.recheck-open{overflow:hidden}
 
 /* Chips minimalistas: solo contorno fino, sin relleno */
 .chip,.local-step .chip,.rubro-card .chip{background:none;border:1px solid var(--line-2);color:var(--label-2)}
+
+/* Móvil: sin badges de cifras bajo el hero de las páginas interiores */
+@media (max-width:640px){ section[aria-labelledby="stats-h"]{display:none} }
+
+/* Móvil: las tarjetas de características se pliegan en acordeón: se ve el ícono y el título
+   en una fila; al tocar se despliega el texto (SiteScripts agrega .is-open y aria-expanded). */
+.dark-band{--sec-bg:var(--bg-2)}
+@media (max-width:640px){
+  .cards{gap:0}
+  .cards .card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:14px;row-gap:0;padding:16px 0;cursor:pointer}
+  .cards .card .card-icon{margin:0;grid-row:1}
+  .cards .card .card-icon svg{width:24px;height:24px}
+  .cards .card h3{grid-row:1;font-size:1.02rem;margin:0}
+  .cards .card::after{
+    content:"";grid-row:1;grid-column:3;width:9px;height:9px;margin-right:4px;
+    border:solid var(--label-3);border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-3px);
+    transition:transform .35s var(--spring),border-color .3s;
+  }
+  .cards .card.is-open::after{transform:rotate(-135deg) translateY(-2px);border-color:var(--amber)}
+  .cards .card.is-open h3{color:var(--amber)}
+  .cards .card > :not(.card-icon):not(h3){grid-column:1 / -1;display:none}
+  .cards .card.is-open > :not(.card-icon):not(h3){display:block;margin-top:10px;animation:fieldIn .4s var(--soft)}
+  .cards .card:last-child{border-bottom:1px solid var(--line-2)}
+}

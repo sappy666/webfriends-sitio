@@ -54,11 +54,6 @@ const serviceArt = [
           </a>
           <a class="btn btn-soft" href="#servicios">Conocer servicios</a>
         </div>
-        <ul class="hero-checks">
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><use href="#i-check"></use></svg> Estrategia personalizada</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><use href="#i-check"></use></svg> Acompañamiento real</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><use href="#i-check"></use></svg> Resultados medibles</li>
-        </ul>
       </div>
 
       <div class="hero-visual" data-reveal="scale">
@@ -116,6 +111,30 @@ const serviceArt = [
     </div>
   </section>
 
+  <!-- ═══════ SERVICIOS ═══════ -->
+  <section id="servicios" aria-labelledby="s-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{sec('s-h').eyebrow}</p>
+      <h2 id="s-h" class="h-sec" data-reveal>{sec('s-h').heading}</h2>
+      <p class="lede" data-reveal style="margin-top:18px">Puedes contratarlas por separado o como estrategia integral. Siempre partimos por medir dónde estás hoy.</p>
+
+      <div class="bento-grid compact" data-reveal-group>
+        {[2, 0, 1, 3, 4].map((i, pos) => ({ card: sec('s-h').cards[i], i, pos })).map(({ card, i, pos }) => (
+          <article class="bento" data-reveal="scale">
+            <a class="bento-hit" href={slug(serviceMeta[i].pageId)} tabindex="-1" aria-hidden="true"></a>
+            <div class="bento-txt">
+              <p class="bento-num">{serviceMeta[i].num}</p>
+              <p class="bento-hook">{card.title}</p>
+              <p class="bento-desc">{card.description}</p>
+              <a class={pos === 0 ? 'bento-link btn' : 'bento-link'} href={slug(serviceMeta[i].pageId)}>{serviceMeta[i].linkLabel} <i aria-hidden="true">→</i></a>
+            </div>
+            <img class="bento-ill" src={`/assets/img/${serviceArt[i].src}.webp`} alt="" width={serviceArt[i].w} height={serviceArt[i].h} loading="lazy" decoding="async" />
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════ MÉTRICAS ═══════
        Los valores finales están escritos en el HTML: nunca pueden verse en 0. -->
   <section class="figures figures-grid" aria-labelledby="m-h">
@@ -140,30 +159,6 @@ const serviceArt = [
           <span class="fig-l">como Google Partner<i>Credencial oficial verificable</i></span>
         </li>
       </ol>
-    </div>
-  </section>
-
-  <!-- ═══════ SERVICIOS ═══════ -->
-  <section id="servicios" aria-labelledby="s-h">
-    <div class="wrap">
-      <p class="eyebrow" data-reveal>{sec('s-h').eyebrow}</p>
-      <h2 id="s-h" class="h-sec" data-reveal>{sec('s-h').heading}</h2>
-      <p class="lede" data-reveal style="margin-top:18px">Puedes contratarlas por separado o como estrategia integral. Siempre partimos por medir dónde estás hoy.</p>
-
-      <div class="bento-grid compact" data-reveal-group>
-        {[2, 0, 1, 3, 4].map((i, pos) => ({ card: sec('s-h').cards[i], i, pos })).map(({ card, i, pos }) => (
-          <article class="bento" data-reveal="scale">
-            <a class="bento-hit" href={slug(serviceMeta[i].pageId)} tabindex="-1" aria-hidden="true"></a>
-            <div class="bento-txt">
-              <p class="bento-num">{serviceMeta[i].num}</p>
-              <p class="bento-hook">{card.title}</p>
-              <p class="bento-desc">{card.description}</p>
-              <a class={pos === 0 ? 'bento-link btn' : 'bento-link'} href={slug(serviceMeta[i].pageId)}>{serviceMeta[i].linkLabel} <i aria-hidden="true">→</i></a>
-            </div>
-            <img class="bento-ill" src={`/assets/img/${serviceArt[i].src}.webp`} alt="" width={serviceArt[i].w} height={serviceArt[i].h} loading="lazy" decoding="async" />
-          </article>
-        ))}
-      </div>
     </div>
   </section>
 

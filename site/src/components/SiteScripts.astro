@@ -276,6 +276,30 @@ if (hasTabs) {
     });
   })();
 
+  /* Móvil: tarjetas de características en acordeón (solo ícono + título; al tocar se abre). */
+  (function(){
+    var mq = window.matchMedia('(max-width: 640px)');
+    var cards = [].slice.call(document.querySelectorAll('.cards .card'));
+    function setup(){
+      cards.forEach(function(c){
+        if (mq.matches) { c.setAttribute('role','button'); c.tabIndex = 0; c.setAttribute('aria-expanded', String(c.classList.contains('is-open'))); }
+        else { c.removeAttribute('role'); c.removeAttribute('tabindex'); c.removeAttribute('aria-expanded'); c.classList.remove('is-open'); }
+      });
+    }
+    function toggle(c){
+      if (!mq.matches) return;
+      var op = !c.classList.contains('is-open');
+      c.classList.toggle('is-open', op);
+      c.setAttribute('aria-expanded', String(op));
+    }
+    cards.forEach(function(c){
+      c.addEventListener('click', function(e){ if (!e.target.closest('a')) toggle(c); });
+      c.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(c); } });
+    });
+    setup();
+    mq.addEventListener('change', setup);
+  })();
+
   /* Formulario por pasos: cada campo obligatorio abre lo que sigue cuando es válido.
      Tras el último obligatorio se abre todo el resto de una vez (opcionales y botón). */
   if (form) (function(){
