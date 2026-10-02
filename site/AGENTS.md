@@ -1,22 +1,11 @@
-## Development
+## Proyecto
 
-When starting the dev server, use background mode:
+Sitio Astro 100% estático para hosting cPanel. Sin adaptador, sin CMS, sin React. Ver README.md (comandos y dónde editar).
 
-```
-astro dev --background
-```
+- Contenido: `src/content/` (YAML/Markdown) validado por `src/content.config.ts`.
+- Estilos: `src/styles/global.css` + `src/styles/minimal.css` (capa de diseño vigente; los cambios visuales van aquí). `public/styles/*.css` se cargan por `<link>` en las páginas de servicio/blog/casos.
+- Publicar: `npm run deploy` (compila y sube `dist/` por FTPS; no sube `.htaccess`).
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+## Documentación
 
-## Documentation
-
-Full documentation: https://docs.astro.build
-
-Consult these guides before working on related tasks:
-
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+https://docs.astro.build — [content collections](https://docs.astro.build/en/guides/content-collections/), [componentes](https://docs.astro.build/en/basics/astro-components/), [estilos](https://docs.astro.build/en/guides/styling/).

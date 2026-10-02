@@ -70,7 +70,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
 
       <div class="bento-grid compact" data-reveal-group>
         {[2, 0, 1, 3, 4].map((i, pos) => ({ card: sec('s-h').cards[i], i, pos })).map(({ card, i, pos }) => (
-          <article class="bento" data-reveal="scale">
+          <article class="bento foil-card" data-reveal="scale">
             <a class="bento-hit" href={slug(serviceMeta[i].pageId)} tabindex="-1" aria-hidden="true"></a>
             <div class="bento-txt">
               <p class="bento-num">{serviceMeta[i].num}</p>

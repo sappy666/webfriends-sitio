@@ -113,9 +113,11 @@ html.js .foil-card[data-reveal].is-visible:hover { transform: perspective(900px)
   background: linear-gradient(115deg, transparent 40%, rgba(255, 236, 190, .04) 47%, rgba(255, 255, 255, .07) 50%, rgba(255, 236, 190, .04) 53%, transparent 60%);
   transform: translateX(-60%);
 }
+/* Algunas tarjetas (p. ej. .bento) ocultan sus ::before/::after en global.css. */
+body .foil-card::before, body .foil-card::after { display: block; }
 .foil-card:hover::before { opacity: 1; }
 .foil-card:hover::after { opacity: 1; transform: translateX(60%); transition: opacity .3s ease, transform 1.1s cubic-bezier(.16, 1, .3, 1); }
-@media (prefers-reduced-motion: reduce) { .foil-card::after { display: none; } .foil-card, body .foil-card:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { body .foil-card::after { display: none; } .foil-card, body .foil-card:hover { transform: none; } }
 
 /* ── Destello que sigue al cursor (escritorio). Posición por JS en BaseLayout. ── */
 .cursor-glow {

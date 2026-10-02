@@ -12,7 +12,7 @@ sections:
     heading: Elige por dónde empezar
     cards:
       - title: Google Ads
-        description: "Campañas en Google para aparecer justo cuando te buscan. Gestión con comisión del 30% sobre la inversión, cuentas a tu nombre y reporte mensual."
+        description: "Campañas en Google para aparecer justo cuando te buscan. Gestión del 30% de la inversión hasta $1.000.000 y tarifa fija por tramo sobre ese monto, cuentas a tu nombre y reporte mensual."
         chips: [Búsqueda, Display y remarketing, Seguimiento de conversiones]
       - title: Posicionamiento SEO y GEO
         description: "Tráfico orgánico que no se apaga cuando pausas el presupuesto, y presencia en las respuestas de ChatGPT, Gemini y las respuestas con IA de Google."

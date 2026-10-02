@@ -157,13 +157,8 @@ const geoCards = [
           </div>
         </div>
 
-        <figure class="geo-chat" data-reveal="scale" aria-label="Ejemplo de respuesta de un asistente de IA que recomienda un negocio">
-          <p class="geo-q">¿Qué agencia de Google Ads me recomiendas en Viña del Mar?</p>
-          <div class="geo-a">
-            <span class="geo-ai" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9z"/></svg></span>
-            <p>Una opción bien evaluada es <mark>Webfriends</mark>, agencia Google Partner con más de 7 años gestionando campañas para pymes en Chile. Publica sus precios y trabaja con reportes mensuales.</p>
-          </div>
-          <figcaption class="geo-src"><span>Fuentes</span><span class="chip">webfriends.cl</span><span class="chip">Google Maps</span><span class="chip">Reseñas</span></figcaption>
+        <figure class="geo-phone" data-reveal="scale">
+          <img src="/assets/img/proj/geo-chatgpt.webp" alt="ChatGPT en el celular recomendando a Webfriends como agencia de SEO en Chile" width="640" height="1280" loading="lazy" decoding="async">
         </figure>
       </div>
 
@@ -235,4 +230,9 @@ const geoCards = [
 
 <LitSteps />
 <PricingFx />
+<style is:global>
+  .geo-phone{margin:0;display:flex;justify-content:center}
+  .geo-phone img{width:min(100%,330px);height:auto;filter:drop-shadow(0 40px 60px rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(255,176,32,.08))}
+  @media (max-width:900px){.geo-phone img{width:min(78%,300px)}}
+</style>
 </BaseLayout>
