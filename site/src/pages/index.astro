@@ -1,4 +1,5 @@
 ---
+import { lineArt } from '../data/lineArt';
 import PlanCard from '../components/PlanCard.astro';
 export const prerender = true;
 import { getCollection, getEntry } from 'astro:content';
@@ -6,6 +7,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PricingFx from '../components/PricingFx.astro';
 import Testimonials from '../components/Testimonials.astro';
 import ArcScroll from '../components/ArcScroll.astro';
+import HeroBlobs from '../components/HeroBlobs.astro';
 
 const page = (await getEntry('pages', 'page-home'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
@@ -21,14 +23,8 @@ const serviceMeta = [
   { num: '04 — HEALTH', pageId: 'page-salud', linkLabel: 'Ver soluciones para salud' },
   { num: '05 — UX/UI', pageId: 'page-ux-ui', linkLabel: 'Ver diseño UX/UI' },
 ];
-// Ilustración 3D de cada servicio (webp con fondo transparente), mismo orden que serviceMeta.
-const serviceArt = [
-  { src: 'web-1', w: 900, h: 775 },
-  { src: 'seo-1', w: 900, h: 664 },
-  { src: 'ads', w: 1312, h: 1199 },
-  { src: 'medical-1', w: 900, h: 868 },
-  { src: 'uxui-1', w: 900, h: 718 },
-];
+// Ilustración lineal de cada servicio (src/data/lineArt.ts), mismo orden que serviceMeta.
+const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => lineArt[k]);
 ---
 
 <BaseLayout
@@ -40,52 +36,7 @@ const serviceArt = [
 
 
   <!-- ═══════ HERO ═══════ -->
-  <section class="hero hero-split grid-bg" id="inicio" style="text-align:left">
-    <span class="hero-corner-label" aria-hidden="true">Agencia digital · Chile</span>
-    <div class="wrap hero-split-grid" data-hero-seq>
-      <div>
-        <p class="eyebrow">{page.heroEyebrow}</p>
-        <h1 style="margin-inline:0">{page.heroH1}</h1>
-        <p class="lede" style="margin:18px 0 0;text-align:left">{page.heroLede}</p>
-        <div class="hero-actions" style="justify-content:flex-start">
-          <a class="btn btn-accent" href="#contacto">
-            Quiero crecer mi negocio
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
-          </a>
-          <a class="btn btn-soft" href="#servicios">Conocer servicios</a>
-        </div>
-      </div>
-
-      <div class="hero-visual" data-reveal="scale">
-        <div class="dash">
-          <div class="dash-bar"><span></span><span></span><span></span><p>Panel Webfriends</p></div>
-          <div class="dash-body">
-            <p class="dash-title">Tu negocio puede más</p>
-            <svg class="dash-chart" viewBox="0 0 260 70" fill="none" aria-hidden="true">
-              <path d="M2 56 C 40 56, 55 22, 88 32 S 148 12, 180 20 S 232 6, 258 4" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-            <div class="dash-stats">
-              <div><b>$500M+</b><span>gestionados en campañas</span></div>
-              <div><b>500+</b><span>clientes atendidos</span></div>
-              <div><b>7 años</b><span>Google Partner</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="float-chip chip-1">
-          <span class="chip-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-search"></use></svg></span>
-          <div><b>SEO</b><i>Más visibilidad</i></div>
-        </div>
-        <div class="float-chip chip-2">
-          <span class="chip-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-trending"></use></svg></span>
-          <div><b>Google Ads</b><i>Más clientes</i></div>
-        </div>
-        <div class="float-chip chip-3">
-          <span class="chip-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-monitor"></use></svg></span>
-          <div><b>Desarrollo Web</b><i>Más oportunidades</i></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <HeroBlobs eyebrow={page.heroEyebrow} title={page.heroH1} lede={page.heroLede} />
 
   <!-- ═══════ MARCAS QUE CONFÍAN ═══════ -->
   <section class="proof-strip" aria-labelledby="proof-h">
@@ -128,7 +79,7 @@ const serviceArt = [
               <p class="bento-desc">{card.description}</p>
               <a class={pos === 0 ? 'bento-link btn' : 'bento-link'} href={slug(serviceMeta[i].pageId)}>{serviceMeta[i].linkLabel} <i aria-hidden="true">→</i></a>
             </div>
-            <img class="bento-ill" src={`/assets/img/${serviceArt[i].src}.webp`} alt="" width={serviceArt[i].w} height={serviceArt[i].h} loading="lazy" decoding="async" />
+            <svg class="bento-ill bento-line" viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={serviceArt[i]} />
           </article>
         ))}
       </div>
@@ -245,6 +196,7 @@ const serviceArt = [
 
 
 
+
 <Fragment slot="scripts">
 <div class="recheck-overlay" id="recheckOverlay" role="dialog" aria-modal="true" aria-labelledby="recheck-h" hidden>
   <div class="recheck-modal">

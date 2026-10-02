@@ -5,6 +5,15 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
+// Celular: cada etapa es un acordeón (título visible, detalle desplegable).
+document.querySelectorAll<HTMLButtonElement>('.local-steps .step-toggle').forEach((b) => {
+  b.addEventListener('click', () => {
+    const open = b.getAttribute('aria-expanded') !== 'true';
+    b.setAttribute('aria-expanded', String(open));
+    b.closest('.local-step')?.classList.toggle('is-open', open);
+  });
+});
+
 document.querySelectorAll<HTMLElement>('.local-steps').forEach((grid) => {
   const steps = [...grid.querySelectorAll<HTMLElement>('.local-step')];
   const mm = gsap.matchMedia();

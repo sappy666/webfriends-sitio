@@ -18,13 +18,13 @@ const sec = (id: string) => page.sections.find((s) => s.id === id)!;
   ogImageAlt={page.ogImage?.alt}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css" />
+    <link rel="stylesheet" href="/styles/service.css?v=2" />
   </Fragment>
 
   <section class="hero grid-bg" style="padding-block:clamp(44px,6vw,76px) clamp(20px,3vw,36px)">
     <div class="wrap" data-hero-seq>
       <p class="eyebrow">{page.heroEyebrow}</p>
-      <h1 style="font-size:var(--s-4);max-width:15ch;margin:0 auto 22px;font-weight:800;letter-spacing:-.045em">{page.heroH1}</h1>
+      <h1 style="max-width:15ch;margin:0 auto 22px">{page.heroH1}</h1>
       <p class="lede" style="margin:0 auto;text-align:center;max-width:52ch">{page.heroLede}</p>
     </div>
   </section>

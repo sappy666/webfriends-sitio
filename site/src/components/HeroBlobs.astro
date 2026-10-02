@@ -1,0 +1,375 @@
+---
+// Hero del home: fondo WebGL de "metaballs" (Three.js) que siguen al cursor.
+// Siempre oscuro, aunque el sitio esté en tema claro. El texto viene de Keystatic (page-home).
+interface Props { eyebrow: string; title: string; lede: string }
+const { eyebrow, title, lede } = Astro.props;
+
+// "Haz que te encuentren. Y convierte esa visibilidad en crecimiento."
+// → 1ª oración en una línea; del resto, las dos últimas palabras van destacadas en amarillo.
+const dot = title.indexOf('. ');
+const first = dot > -1 ? title.slice(0, dot + 1) : '';
+const rest = (dot > -1 ? title.slice(dot + 2) : title).trim();
+const words = rest.split(' ');
+const restA = words.slice(0, -2).join(' ');
+const restB = words.slice(-2).join(' ');
+---
+<section class="hb" id="inicio">
+  <div class="hb-canvas" id="hbCanvas" aria-hidden="true"></div>
+  <div class="hb-vignette" aria-hidden="true"></div>
+
+  <div class="hb-content">
+    <p class="hb-eyebrow"><span class="hb-dot"></span>{eyebrow}</p>
+    <h1>
+      {first && <span>{first}</span>}
+      {restA && <span>{restA}</span>}
+      <span class="hb-hl">{restB}</span>
+    </h1>
+    <p class="hb-lede">{lede}</p>
+    <div class="hb-actions">
+      <a class="hb-btn hb-btn-primary" href="#contacto">Quiero crecer mi negocio <span aria-hidden="true">↗</span></a>
+      <a class="hb-btn hb-btn-ghost" href="#servicios">Conocer servicios <span aria-hidden="true">↓</span></a>
+    </div>
+    <dl class="hb-stats">
+      <div><dt>gestionados en campañas</dt><dd>$500M+</dd></div>
+      <div><dt>clientes atendidos</dt><dd>500+</dd></div>
+      <div><dt>Google Partner</dt><dd>7 años</dd></div>
+    </dl>
+  </div>
+
+  <div class="hb-side" aria-hidden="true"><span>WEBFRIENDS®</span><span>AGENCIA DIGITAL · CHILE</span></div>
+
+  <div class="hb-foot">
+    <p class="hb-status"><span class="hb-dot"></span>Disponible para nuevos proyectos</p>
+    <p class="hb-hint" aria-hidden="true">Mueve el cursor <span>↗</span></p>
+  </div>
+</section>
+
+<style>
+  .hb {
+    --hb-yellow: #FFB020; --hb-yellow-soft: #FFC85A; --hb-txt: #F6F6F1; --hb-muted: rgba(246, 246, 241, .62);
+    /* Sube por debajo del header flotante (body tiene padding-top:88px). */
+    position: relative; margin-top: -88px; min-height: 100svh; overflow: hidden; isolation: isolate;
+    background: #080808; color: var(--hb-txt);
+    display: grid; place-items: center; padding: 120px 20px 96px;
+  }
+  .hb-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hb-canvas :global(canvas) { width: 100% !important; height: 100% !important; display: block; }
+  .hb-vignette {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 48%, rgba(0,0,0,0) 0 32%, rgba(0,0,0,.14) 60%, rgba(0,0,0,.54) 100%),
+      linear-gradient(180deg, rgba(0,0,0,.15), transparent 25%, transparent 75%, rgba(0,0,0,.24));
+  }
+
+  .hb-content { position: relative; z-index: 5; width: min(1220px, 100%); text-align: center; }
+  .hb-eyebrow {
+    display: inline-flex; align-items: center; gap: 9px; margin: 0 0 clamp(24px, 3vw, 40px);
+    color: var(--hb-muted); font-size: .66rem; font-weight: 500; letter-spacing: .13em; text-transform: uppercase;
+  }
+  .hb-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--hb-yellow); box-shadow: 0 0 16px rgba(255,176,32,.55); flex: none; }
+  .hb h1 {
+    margin: 0 auto; max-width: 1180px; color: var(--hb-txt);
+    font-size: clamp(2.8rem, 6.35vw, 7rem); font-weight: 400; line-height: .92; letter-spacing: -.065em;
+  }
+  .hb h1 span { display: block; }
+  .hb-hl { color: var(--hb-yellow); }
+  .hb-lede {
+    max-width: 610px; margin: clamp(24px, 3vw, 40px) auto 0; color: var(--hb-muted);
+    font-size: clamp(.95rem, 1.1vw, 1.06rem); line-height: 1.55; letter-spacing: -.02em;
+  }
+
+  .hb-actions { margin-top: clamp(26px, 3vw, 40px); display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .hb-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 50px; padding: 0 22px;
+    border-radius: 999px; font-weight: 500; font-size: .8rem; text-decoration: none;
+    transition: background-color .3s cubic-bezier(.16,1,.3,1), transform .3s cubic-bezier(.16,1,.3,1);
+  }
+  .hb-btn-primary { background: var(--hb-yellow); color: #1a1100; }
+  .hb-btn-primary:hover { background: var(--hb-yellow-soft); transform: translateY(-2px); }
+  .hb-btn-ghost {
+    border: 1px solid rgba(255,255,255,.2); background: rgba(10,10,10,.25); color: var(--hb-txt);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  }
+  .hb-btn-ghost:hover { background: rgba(255,255,255,.1); transform: translateY(-2px); }
+  .hb-btn:focus-visible { outline: 2px solid var(--hb-yellow); outline-offset: 3px; }
+
+  .hb-stats {
+    display: flex; justify-content: center; gap: clamp(22px, 5vw, 64px); margin: clamp(36px, 5vw, 60px) 0 0;
+  }
+  .hb-stats div { display: flex; flex-direction: column-reverse; gap: 4px; }
+  .hb-stats dd { margin: 0; font-size: clamp(1.15rem, 1.6vw, 1.4rem); font-weight: 400; letter-spacing: -.04em; color: var(--hb-txt); }
+  .hb-stats dt { font-size: .7rem; color: rgba(246, 246, 241, .45); }
+
+  /* Entrada: fade + leve desplazamiento, escalonada y sin blur */
+  @media (prefers-reduced-motion: no-preference) {
+    .hb-content > * { animation: hbIn .9s cubic-bezier(.16, 1, .3, 1) backwards; }
+    .hb-content > :nth-child(2) { animation-delay: .08s; }
+    .hb-content > :nth-child(3) { animation-delay: .16s; }
+    .hb-content > :nth-child(4) { animation-delay: .24s; }
+    .hb-content > :nth-child(5) { animation-delay: .32s; }
+  }
+  @keyframes hbIn { from { opacity: 0; translate: 0 16px; } }
+
+  .hb-side {    position: absolute; z-index: 5; top: 50%; left: clamp(20px, 3vw, 52px);
+    transform: translateY(-50%) rotate(-90deg); transform-origin: left center;
+    display: flex; gap: 20px; font-size: .62rem; letter-spacing: .17em; color: rgba(255,255,255,.34);
+  }
+  .hb-foot {
+    position: absolute; z-index: 5; left: clamp(20px, 3vw, 52px); right: clamp(20px, 3vw, 52px); bottom: 26px;
+    display: flex; align-items: center; justify-content: space-between;
+    color: rgba(255,255,255,.48); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .hb-foot p { margin: 0; display: flex; align-items: center; gap: 9px; }
+
+  .hb-foot .hb-hint { margin-right: 76px; } /* deja espacio al botón flotante de WhatsApp */
+  @media (hover: none) { .hb-foot .hb-hint { display: none; } }
+  @media (max-width: 900px) { .hb-side { display: none; } }
+  @media (max-width: 600px) {
+    .hb { padding: 104px 18px 76px; }
+    .hb-eyebrow { font-size: .64rem; margin-bottom: 22px; }
+    .hb h1 { font-size: clamp(2.4rem, 11.5vw, 3.6rem); line-height: .98; }
+    .hb-lede { font-size: .98rem; }
+    .hb-actions { flex-direction: column; }
+    .hb-btn { width: 100%; }
+    .hb-stats { gap: 18px; }
+    .hb-stats dd { font-size: 1.15rem; }
+    .hb-stats dt { font-size: .68rem; }
+    .hb-foot { bottom: 30px; justify-content: flex-start; right: 84px; }
+    .hb-foot .hb-hint { display: none; }
+  }
+</style>
+
+<script>
+import * as THREE from 'three';
+
+const container = document.getElementById('hbCanvas');
+const section = container?.closest<HTMLElement>('.hb');
+
+function webglOk() {
+  try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; }
+}
+
+if (container && section && webglOk()) {
+  const isMobile = matchMedia('(hover: none), (max-width: 820px)').matches;
+  const isLowPower = isMobile || ((navigator.hardwareConcurrency || 8) <= 4);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const maxDpr = isMobile ? 1.35 : 1.8;
+
+  const S = {
+    sphereCount: isMobile ? 3 : 5,
+    mergeDistance: 1.45, smoothness: 0.38,
+    cursorRadiusMin: 0.075, cursorRadiusMax: 0.14, mouseSmoothness: 0.075,
+  };
+  const amber = new THREE.Color(0xffb020);
+
+  const size = () => ({ w: section.clientWidth, h: section.clientHeight });
+  let { w, h } = size();
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+  camera.position.z = 1;
+  const clock = new THREE.Clock();
+  let elapsed = 0;
+
+  const renderer = new THREE.WebGLRenderer({ antialias: !isLowPower, alpha: false, powerPreference: isMobile ? 'default' : 'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, maxDpr));
+  renderer.setSize(w, h);
+  renderer.setClearColor(0x080808, 1);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  container.appendChild(renderer.domElement);
+
+  const cursor = new THREE.Vector3();
+  const target = new THREE.Vector2(0.5, 0.5);
+  const mouse = new THREE.Vector2(0.5, 0.5);
+
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uResolution: { value: new THREE.Vector2(w, h) },
+      uMousePosition: { value: new THREE.Vector2(0.5, 0.5) },
+      uCursorSphere: { value: new THREE.Vector3() },
+      uCursorRadius: { value: S.cursorRadiusMin },
+      uSphereCount: { value: S.sphereCount },
+      uFixedTopLeftRadius: { value: 0.72 },
+      uFixedBottomRightRadius: { value: 0.82 },
+      uSmallTopLeftRadius: { value: 0.27 },
+      uSmallBottomRightRadius: { value: 0.31 },
+      uMergeDistance: { value: S.mergeDistance },
+      uSmoothness: { value: S.smoothness },
+      uAmbientIntensity: { value: 0.035 },
+      uDiffuseIntensity: { value: 0.62 },
+      uSpecularIntensity: { value: 1.6 },
+      uSpecularPower: { value: 8.0 },
+      uFresnelPower: { value: 1.35 },
+      uBackgroundColor: { value: new THREE.Color(0x080808) },
+      uSphereColor: { value: new THREE.Color(0x090909) },
+      uLightColor: { value: amber },
+      uLightPosition: { value: new THREE.Vector3(0.8, 1.1, 1.0) },
+      uContrast: { value: 1.75 },
+      uFogDensity: { value: 0.08 },
+      uAnimationSpeed: { value: 0.43 },
+      uMovementScale: { value: 1.05 },
+      uMinMovementScale: { value: 0.3 },
+      uMaxMovementScale: { value: 0.95 },
+      uCursorGlowIntensity: { value: 0.52 },
+      uCursorGlowRadius: { value: 1.35 },
+      uCursorGlowColor: { value: amber },
+      uLowPower: { value: isLowPower ? 1.0 : 0.0 },
+    },
+    vertexShader: /* glsl */`
+      varying vec2 vUv;
+      void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
+    `,
+    fragmentShader: /* glsl */`
+      precision highp float;
+      uniform float uTime; uniform vec2 uResolution; uniform vec2 uMousePosition;
+      uniform vec3 uCursorSphere; uniform float uCursorRadius; uniform int uSphereCount;
+      uniform float uFixedTopLeftRadius, uFixedBottomRightRadius, uSmallTopLeftRadius, uSmallBottomRightRadius;
+      uniform float uMergeDistance, uSmoothness, uAmbientIntensity, uDiffuseIntensity, uSpecularIntensity;
+      uniform float uSpecularPower, uFresnelPower, uContrast, uFogDensity, uAnimationSpeed, uMovementScale;
+      uniform float uMinMovementScale, uMaxMovementScale, uCursorGlowIntensity, uCursorGlowRadius, uLowPower;
+      uniform vec3 uBackgroundColor, uSphereColor, uLightColor, uLightPosition, uCursorGlowColor;
+      const float PI = 3.14159265359;
+      const float EPSILON = 0.001;
+
+      float smin(float a, float b, float k) { float h = max(k - abs(a - b), 0.0) / k; return min(a, b) - h*h*k*0.25; }
+      float sdSphere(vec3 p, float r) { return length(p) - r; }
+      vec3 screenToWorld(vec2 n) { vec2 uv = n * 2.0 - 1.0; uv.x *= uResolution.x / uResolution.y; return vec3(uv * 2.0, 0.0); }
+
+      float sceneSDF(vec3 pos) {
+        float result = 100.0;
+        vec3 tl = screenToWorld(vec2(0.07, 0.90));
+        vec3 tls = screenToWorld(vec2(0.22, 0.72));
+        vec3 br = screenToWorld(vec2(0.93, 0.10));
+        vec3 brs = screenToWorld(vec2(0.76, 0.28));
+        float t = uTime * uAnimationSpeed;
+        float distCenter = length(uMousePosition - vec2(.5));
+        float moveScale = mix(uMinMovementScale, uMaxMovementScale, smoothstep(0.0, .7, distCenter)) * uMovementScale;
+        for (int i = 0; i < 8; i++) {
+          if (i >= uSphereCount) break;
+          float fi = float(i);
+          float speed = .38 + fi * .11;
+          float radius = .13 + mod(fi, 3.0) * .055;
+          float orbit = (.34 + mod(fi, 3.0) * .15) * moveScale;
+          float phase = fi * PI * .42;
+          vec3 offset = vec3(sin(t*speed + phase) * orbit, cos(t*speed*.83 + phase*1.2) * orbit * .68, sin(t*speed*.55 + phase) * .25);
+          vec3 toCursor = uCursorSphere - offset;
+          float cursorDist = length(toCursor);
+          if (cursorDist < uMergeDistance && cursorDist > 0.001) offset += normalize(toCursor) * (1.0 - cursorDist / uMergeDistance) * .28;
+          float ball = sdSphere(pos - offset, radius);
+          float blend = mix(.05, uSmoothness, pow(max(0.0, 1.0 - cursorDist/uMergeDistance), 3.0));
+          result = smin(result, ball, blend);
+        }
+        float topGroup = smin(sdSphere(pos-tl, uFixedTopLeftRadius), sdSphere(pos-tls, uSmallTopLeftRadius), .36);
+        float bottomGroup = smin(sdSphere(pos-br, uFixedBottomRightRadius), sdSphere(pos-brs, uSmallBottomRightRadius), .36);
+        result = smin(result, topGroup, .28);
+        result = smin(result, bottomGroup, .28);
+        return smin(result, sdSphere(pos-uCursorSphere, uCursorRadius), uSmoothness);
+      }
+
+      vec3 calcNormal(vec3 p) {
+        float e = .0015;
+        return normalize(vec3(
+          sceneSDF(p+vec3(e,0,0))-sceneSDF(p-vec3(e,0,0)),
+          sceneSDF(p+vec3(0,e,0))-sceneSDF(p-vec3(0,e,0)),
+          sceneSDF(p+vec3(0,0,e))-sceneSDF(p-vec3(0,0,e))));
+      }
+
+      float rayMarch(vec3 ro, vec3 rd) {
+        float t = 0.0;
+        for (int i = 0; i < 44; i++) {
+          if (uLowPower > .5 && i > 20) break;
+          float d = sceneSDF(ro + rd*t);
+          if (d < EPSILON) return t;
+          if (t > 5.0) break;
+          t += d * .9;
+        }
+        return -1.0;
+      }
+
+      vec3 shade(vec3 p, vec3 rd) {
+        vec3 n = calcNormal(p);
+        vec3 l = normalize(uLightPosition);
+        float diff = max(dot(n, l), 0.0);
+        vec3 v = -rd;
+        float spec = pow(max(dot(v, reflect(-l, n)), 0.0), uSpecularPower);
+        float fresnel = pow(1.0 - max(dot(v, n), 0.0), uFresnelPower);
+        vec3 c = uSphereColor + uLightColor * uAmbientIntensity + uLightColor * diff * uDiffuseIntensity
+               + uLightColor * spec * uSpecularIntensity * fresnel + uLightColor * fresnel * .32;
+        c = pow(max(c, 0.0), vec3(uContrast));
+        return c / (c + vec3(.75));
+      }
+
+      void main() {
+        vec2 uv = (gl_FragCoord.xy * 2.0 - uResolution.xy) / uResolution.y;
+        vec3 ro = vec3(uv * 2.0, -1.0);
+        vec3 rd = vec3(0.0, 0.0, 1.0);
+        float t = rayMarch(ro, rd);
+        vec3 color = uBackgroundColor;
+        float glow = pow(1.0 - smoothstep(0.0, uCursorGlowRadius, length(ro.xy - uCursorSphere.xy)), 2.0) * uCursorGlowIntensity;
+        color += uCursorGlowColor * glow * .12;
+        if (t > 0.0) {
+          vec3 s = shade(ro + rd*t, rd);
+          s = mix(s, uBackgroundColor, (1.0 - exp(-t*uFogDensity)) * .25);
+          color = s + uCursorGlowColor * glow * .18;
+        }
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `,
+  });
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
+
+  const toWorld = (x: number, y: number) => new THREE.Vector3((x * 2 - 1) * (w / h) * 2, (y * 2 - 1) * 2, 0);
+  const fixed = () => [toWorld(.07, .90), toWorld(.22, .72), toWorld(.93, .10), toWorld(.76, .28)];
+  let anchors = fixed();
+
+  const setPointer = (clientX: number, clientY: number) => {
+    const r = section.getBoundingClientRect();
+    target.set((clientX - r.left) / r.width, 1 - (clientY - r.top) / r.height);
+    cursor.copy(toWorld(target.x, target.y));
+    let closest = 1000;
+    anchors.forEach((p) => { closest = Math.min(closest, cursor.distanceTo(p)); });
+    const prox = Math.max(0, 1 - closest / S.mergeDistance);
+    const smooth = prox * prox * (3 - 2 * prox);
+    material.uniforms.uCursorSphere.value.copy(cursor);
+    material.uniforms.uCursorRadius.value = S.cursorRadiusMin + (S.cursorRadiusMax - S.cursorRadiusMin) * smooth;
+  };
+  const centre = () => { const r = section.getBoundingClientRect(); setPointer(r.left + r.width / 2, r.top + r.height / 2); };
+  centre();
+  section.addEventListener('pointermove', (e) => setPointer(e.clientX, e.clientY), { passive: true });
+
+  const render = () => {
+    mouse.x += (target.x - mouse.x) * S.mouseSmoothness;
+    mouse.y += (target.y - mouse.y) * S.mouseSmoothness;
+    material.uniforms.uMousePosition.value.copy(mouse);
+    elapsed += Math.min(clock.getDelta(), 0.1);
+    material.uniforms.uTime.value = elapsed;
+    renderer.render(scene, camera);
+  };
+
+  new ResizeObserver(() => {
+    ({ w, h } = size());
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, maxDpr));
+    renderer.setSize(w, h);
+    material.uniforms.uResolution.value.set(w, h);
+    anchors = fixed();
+    if (reduce) render();
+  }).observe(section);
+
+  if (reduce) {
+    // Movimiento reducido: un solo cuadro estático.
+    elapsed = 2.0;
+    render();
+  } else {
+    // Solo anima mientras el hero está en pantalla y la pestaña visible.
+    let raf = 0, visible = true;
+    const loop = () => { render(); raf = requestAnimationFrame(loop); };
+    const sync = () => {
+      cancelAnimationFrame(raf);
+      if (visible && !document.hidden) { clock.getDelta(); raf = requestAnimationFrame(loop); }
+    };
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); }).observe(section);
+    document.addEventListener('visibilitychange', sync);
+  }
+}
+</script>

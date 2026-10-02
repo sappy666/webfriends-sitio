@@ -647,6 +647,26 @@ section{padding-block:clamp(72px,10vw,132px)}
   .local-steps.cols-5 .local-step:nth-child(3n+1){border-left:0;padding-left:0}
   .local-steps.cols-5 .local-step:nth-child(3n+1) .local-arrow{display:none}
 }
+.step-toggle{all:unset;display:block;width:100%;cursor:default}
+/* Celular: etapas como acordeón (todas las páginas de servicio). */
+@media (max-width:640px){
+  .local-steps{grid-template-columns:1fr!important;row-gap:0!important;margin-top:40px}
+  .local-steps .local-step{padding:18px 0!important;border-left:0!important;border-top:1px solid var(--line-2)!important}
+  .local-steps .local-step:last-child{border-bottom:1px solid var(--line-2)}
+  .local-steps .local-arrow{display:none!important}
+  .local-steps .local-step-top{margin-bottom:10px}
+  .local-steps .local-num{font-size:1.8rem}
+  .local-steps h3{margin-bottom:0}
+  .local-steps .step-toggle{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px}
+  .local-steps .step-toggle:focus-visible{outline:2px solid var(--amber);outline-offset:4px;border-radius:6px}
+  .local-steps .step-toggle::after{
+    content:"";flex:none;width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+    transform:rotate(45deg);margin-top:-4px;transition:transform .3s var(--ease)
+  }
+  .local-steps .is-open .step-toggle::after{transform:rotate(-135deg);margin-top:4px}
+  .local-steps .step-body{display:none;padding-top:12px}
+  .local-steps .is-open .step-body{display:block}
+}
 
 /* ═══════ Delta ux-ui.html: variante de 3×2 en local-steps ═══════ */
 .local-steps.cols-3-2{grid-template-columns:repeat(3,1fr);row-gap:44px}

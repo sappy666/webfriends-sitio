@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/minimal.css';
 import Sprite from '../components/Sprite.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -20,7 +21,7 @@ interface Props {
 
 // Páginas sin imagen propia comparten una imagen de marca (1200×630) al compartirse en redes.
 const DEFAULT_OG = { image: '/assets/img/og-default.jpg', alt: 'Webfriends, agencia de marketing digital en Chile' };
-const { title, description, themeColor = '#F5F5F7', ogImage, noindex = false } = Astro.props;
+const { title, description, themeColor = '#000000', ogImage, noindex = false } = Astro.props;
 const ogImageAlt = ogImage ? Astro.props.ogImageAlt : DEFAULT_OG.alt;
 const currentPath = Astro.url.pathname;
 const canonicalUrl = new URL(currentPath, Astro.site ?? Astro.url.origin).toString();
@@ -33,7 +34,7 @@ const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}>
   <meta name="theme-color" content={themeColor}>
-  <script is:inline>(function(){try{var t=localStorage.getItem("wf-theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t);}else if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <script is:inline>(function(){try{var t=localStorage.getItem("wf-theme");document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark");}catch(e){}})();</script>
   <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta name="description" content={description}>
@@ -69,6 +70,18 @@ const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.
   <FloatButtons />
   <SiteScripts />
   <MobileNav />
+  <script>
+    // Heroes internos: el halo de fondo sigue suavemente al cursor (--mx/--my, ver minimal.css).
+    if (matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {
+      document.querySelectorAll<HTMLElement>('.hero').forEach((h) => {
+        h.addEventListener('pointermove', (e) => {
+          const r = h.getBoundingClientRect();
+          h.style.setProperty('--mx', `${((e.clientX - r.left) / r.width * 100).toFixed(1)}%`);
+          h.style.setProperty('--my', `${((e.clientY - r.top) / r.height * 100).toFixed(1)}%`);
+        }, { passive: true });
+      });
+    }
+  </script>
   <slot name="scripts" />
 </body>
 </html>

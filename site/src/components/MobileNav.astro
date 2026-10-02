@@ -21,7 +21,7 @@ const links = [
 ---
 <div class="mnav" id="mnav" aria-hidden="true">
   <div class="mnav-top">
-    <a class="mnav-logo" href="/" aria-label="Webfriends, inicio"><img src="/assets/img/webfriends-logo.png" alt="" width="778" height="74"></a>
+    <a class="mnav-logo" href="/" aria-label="Webfriends, inicio"><img class="mnav-logo-dark" src="/assets/img/webfriends-logo.png" alt="" width="778" height="74"><img class="mnav-logo-light" src="/assets/img/logotipo-negro-webfriends.png" alt="" width="778" height="74"></a>
     <button class="mnav-close" type="button" id="mnavClose" aria-label="Cerrar menú">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
     </button>
@@ -44,13 +44,20 @@ const links = [
       </ul>
     </nav>
 
+    <button type="button" class="mnav-theme" id="mnavTheme" role="switch" aria-checked="false">
+      <span class="mnav-theme-label">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        Modo oscuro
+      </span>
+      <span class="mnav-switch" aria-hidden="true"></span>
+    </button>
+
     <a class="mnav-cta" href="/contacto">Agendar reunión</a>
   </div>
 
   <div class="mnav-foot">
     <span>© 2026</span>
     <a href="mailto:contacto@webfriends.cl">contacto@webfriends.cl</a>
-    <button type="button" class="mnav-theme" id="mnavTheme">Tema</button>
   </div>
 </div>
 
@@ -62,24 +69,34 @@ const links = [
     body.nav-open::before { display: none; }
 
     .mnav {
-      --m-line: rgba(242, 245, 251, .14); --m-txt: #F2F5FB; --m-txt-2: rgba(242, 245, 251, .6); --m-amber: #FFB020;
+      --m-bg: #000; --m-line: rgba(242, 245, 251, .14); --m-txt: #F2F5FB; --m-txt-2: rgba(242, 245, 251, .6);
+      --m-soft: rgba(242, 245, 251, .08); --m-track: rgba(242, 245, 251, .18); --m-amber: #FFB020; --m-accent: #FFB020;
       position: fixed; inset: 0; z-index: 170; flex-direction: column;
-      background: #000; color: var(--m-txt); overflow-y: auto; overscroll-behavior: contain;
+      background: var(--m-bg); color: var(--m-txt); transition: background-color .35s, color .35s; overflow-y: auto; overscroll-behavior: contain;
       padding: 18px 22px calc(18px + env(safe-area-inset-bottom));
     }
     .mnav.is-open { display: flex; }
     .mnav-top { display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
+    /* Tema claro: el menú sigue al sitio */
+    :root:not([data-theme="dark"]) .mnav {
+      --m-bg: #F5F5F7; --m-line: rgba(29, 29, 31, .12); --m-txt: #1D1D1F; --m-txt-2: rgba(29, 29, 31, .6);
+      --m-soft: rgba(29, 29, 31, .06); --m-track: rgba(29, 29, 31, .16); --m-accent: #C26A00;
+    }
     .mnav-logo img { height: 15px; width: auto; display: block; }
+    .mnav-logo-light { display: none !important; }
+    :root:not([data-theme="dark"]) .mnav-logo-dark { display: none !important; }
+    :root:not([data-theme="dark"]) .mnav-logo-light { display: block !important; }
     .mnav-close {
       width: 44px; height: 44px; border: 0; border-radius: 12px; display: grid; place-items: center;
-      background: rgba(242, 245, 251, .08); color: var(--m-txt); cursor: pointer;
+      background: var(--m-soft); color: var(--m-txt); cursor: pointer;
     }
     .mnav-body { flex: 1; display: flex; flex-direction: column; padding-top: clamp(28px, 7vh, 56px); }
-    .mnav-title { margin: 0; font-size: clamp(2.9rem, 14vw, 4.2rem); font-weight: 800; line-height: .98; letter-spacing: -.05em; }
+    .mnav-title { margin: 0; font-size: clamp(2.1rem, 10vw, 3rem); font-weight: 400; line-height: 1; letter-spacing: -.06em; }
     .mnav-title span { display: block; overflow: hidden; padding-bottom: .04em; }
     .mnav-title i { display: block; font-style: normal; }
-    .mnav-title b { color: var(--m-amber); }
-    .mnav-sub { margin: 14px 0 0; font-size: 1rem; color: var(--m-txt-2); }
+    .mnav-title b { color: var(--m-accent); }
+    .mnav-sub { display: flex; align-items: center; gap: 10px; margin: 18px 0 0; font-size: .68rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--m-txt-2); }
+    .mnav-sub::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--m-accent); flex: none; }
 
     .mnav-list { list-style: none; margin: clamp(26px, 5vh, 40px) 0 0; padding: 0; }
     .mnav-list li { position: relative; }
@@ -92,23 +109,39 @@ const links = [
     .mnav-list li:last-child::after { bottom: 0; }
     .mnav-list a {
       display: flex; align-items: center; justify-content: space-between; min-height: 52px;
-      color: var(--m-txt); text-decoration: none; font-size: 1.12rem; font-weight: 500;
-      letter-spacing: .03em; text-transform: uppercase;
+      color: var(--m-txt); text-decoration: none; font-size: 1.45rem; font-weight: 400;
+      letter-spacing: -.035em;
     }
-    .mnav-list svg { color: var(--m-amber); opacity: 0; transform: translateX(-10px); transition: opacity .3s, transform .45s cubic-bezier(.34, 1.56, .64, 1); }
+    .mnav-list svg { color: var(--m-accent); opacity: 0; transform: translateX(-10px); transition: opacity .3s, transform .45s cubic-bezier(.34, 1.56, .64, 1); }
     .mnav-list a[aria-current="page"] svg, .mnav-list a:hover svg, .mnav-list a:active svg { opacity: 1; transform: none; }
-    .mnav-list a[aria-current="page"] { color: var(--m-amber); }
+    .mnav-list a[aria-current="page"] { color: var(--m-accent); }
 
     .mnav-cta {
       display: flex; align-items: center; justify-content: center; min-height: 54px; margin-top: 26px;
-      border-radius: 999px; background: var(--m-amber); color: #231600; font-weight: 700; text-decoration: none;
+      border-radius: 999px; background: var(--m-amber); color: #231600; font-weight: 500; text-decoration: none;
     }
     .mnav-foot {
       display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 28px;
       font-size: .78rem; color: var(--m-txt-2);
     }
     .mnav-foot a { color: var(--m-txt-2); text-decoration: none; }
-    .mnav-theme { border: 0; background: none; color: var(--m-txt-2); font: inherit; text-decoration: underline; cursor: pointer; padding: 8px 0; }
+    .mnav-theme {
+      display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 52px; margin-top: 18px;
+      padding: 0; border: 0; background: none; color: var(--m-txt-2); font: inherit; font-size: .9rem; cursor: pointer;
+    }
+    .mnav-theme-label { display: flex; align-items: center; gap: 10px; }
+    .mnav-theme-label svg { color: var(--m-accent); }
+    .mnav-theme:focus-visible { outline: 2px solid var(--m-amber); outline-offset: 4px; border-radius: 8px; }
+    .mnav-switch {
+      position: relative; width: 50px; height: 30px; flex: none; border-radius: 999px;
+      background: var(--m-track); transition: background-color .3s;
+    }
+    .mnav-switch::after {
+      content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%;
+      background: #fff; transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+    }
+    .mnav-theme[aria-checked="true"] .mnav-switch { background: var(--m-amber); }
+    .mnav-theme[aria-checked="true"] .mnav-switch::after { transform: translateX(20px); }
   }
 </style>
 
@@ -128,7 +161,7 @@ if (m) {
     m.classList.remove('is-open');
     m.setAttribute('aria-hidden', 'true');
     body.classList.remove('nav-open');
-    gsap.set([m, ...$('.mnav-title i, .mnav-sub, .mnav-list a, .mnav-list li, .mnav-cta, .mnav-foot, .mnav-top')], { clearProps: 'all' });
+    gsap.set([m, ...$('.mnav-title i, .mnav-sub, .mnav-list a, .mnav-list li, .mnav-theme, .mnav-cta, .mnav-foot, .mnav-top')], { clearProps: 'all' });
   };
 
   w.wfNav = (op: boolean) => {
@@ -146,11 +179,11 @@ if (m) {
         .from($('.mnav-sub'), { autoAlpha: 0, y: 10, duration: .5 }, .65)
         .fromTo($('.mnav-list li'), { '--line': 0 }, { '--line': 1, duration: .7, ease: 'power2.inOut', stagger: .05 }, .6)
         .from($('.mnav-list a'), { autoAlpha: 0, y: 14, duration: .5, stagger: .05 }, .7)
-        .from($('.mnav-cta, .mnav-foot'), { autoAlpha: 0, y: 12, duration: .5, stagger: .08 }, 1.05);
+        .from($('.mnav-theme, .mnav-cta, .mnav-foot'), { autoAlpha: 0, y: 12, duration: .5, stagger: .08 }, 1.05);
     } else {
       if (reduce || !m.classList.contains('is-open')) { done(); return; }
       tl = gsap.timeline({ onComplete: done })
-        .to($('.mnav-list a, .mnav-cta, .mnav-foot, .mnav-sub'), { autoAlpha: 0, y: -8, duration: .25, ease: 'power2.in', stagger: .015 }, 0)
+        .to($('.mnav-list a, .mnav-theme, .mnav-cta, .mnav-foot, .mnav-sub'), { autoAlpha: 0, y: -8, duration: .25, ease: 'power2.in', stagger: .015 }, 0)
         .to($('.mnav-title i'), { yPercent: -105, duration: .35, ease: 'power3.in', stagger: .04 }, 0)
         .to(m, { clipPath: 'inset(0% 0% 100% 0%)', duration: .55, ease: 'expo.inOut' }, .2);
     }
@@ -163,7 +196,12 @@ if (m) {
   m.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
     if (a.getAttribute('href') !== location.pathname) document.getElementById('menuBtn')?.click();
   }));
-  document.getElementById('mnavTheme')?.addEventListener('click', () => document.getElementById('themeBtn')?.click());
+  // Tema: el interruptor refleja y cambia el tema del sitio (la lógica vive en el #themeBtn de SiteScripts).
+  const mTheme = document.getElementById('mnavTheme');
+  const syncTheme = () => mTheme?.setAttribute('aria-checked', String(document.documentElement.getAttribute('data-theme') === 'dark'));
+  syncTheme();
+  new MutationObserver(syncTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  mTheme?.addEventListener('click', () => document.getElementById('themeBtn')?.click());
 
   // Al pasar a escritorio se cierra sin animación.
   matchMedia('(min-width: 821px)').addEventListener('change', (e) => {

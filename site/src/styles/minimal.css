@@ -1,0 +1,164 @@
+/* ═══════ Capa minimal / premium (todo el sitio) ═══════
+   Misma voz que el hero del home: títulos livianos y apretados, un solo acento ámbar,
+   líneas finas y más aire. Va anidada bajo `body` para ganarle a public/styles/*.css,
+   que se cargan después y redeclaran títulos gruesos. */
+body {
+  & section { padding-block: clamp(96px, 12vw, 168px); }
+
+  /* ── Tipografía ── */
+  & :is(h1, h2, h3, h4) { font-weight: 500; letter-spacing: -.04em; }
+
+  /* Etiqueta de sección: punto ámbar + texto gris, sin pastilla */
+  & .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px; padding: 0; border: 0; border-radius: 0;
+    color: var(--label-3); font-size: .68rem; font-weight: 500; letter-spacing: .16em; margin-bottom: 28px;
+  }
+  & .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--amber); flex: none; }
+
+  & .h-sec {
+    font-weight: 400; letter-spacing: -.055em; line-height: 1; max-width: 16ch;
+    font-size: clamp(2.4rem, 4.6vw, 4.2rem);
+  }
+  & .h-sec :is(em, span, b, strong) { color: inherit; font-style: normal; font-weight: inherit; }
+  & .lede { font-size: clamp(1rem, 1.2vw, 1.15rem); color: var(--label-3); max-width: 52ch; }
+
+  /* Hero de páginas internas */
+  & .hero h1 {
+    font-weight: 400; letter-spacing: -.06em; line-height: .98;
+    font-size: clamp(2.8rem, 6vw, 5.6rem);
+  }
+  & .hero h1 em { color: var(--amber); }
+  & .hero-split-grid h1 { font-size: clamp(2.5rem, 4.4vw, 4.4rem); }
+  & .post-hero h1 { font-weight: 400; letter-spacing: -.05em; }
+
+  /* ── Tarjetas y bloques: planos, línea fina ── */
+  & :is(.card, .tst-card, .plan, .contact-card, .bento) { box-shadow: none; }
+  & :is(.card, .tst-card, .plan, .bento) { border-color: var(--line); }
+  & .card h3 { font-size: var(--s-1); font-weight: 500; letter-spacing: -.035em; }
+
+  /* Métricas en pastilla (páginas de servicio) */
+  & .metric { border-color: var(--line); }
+  & .metric-n { color: var(--label); font-weight: 500; }
+  & .metric-l { font-weight: 400; color: var(--label-2); }
+
+  /* Etapas (páginas de servicio) */
+  & .local-num { font-weight: 400; letter-spacing: -.05em; }
+  & .local-step h3 { font-weight: 500; letter-spacing: -.035em; }
+
+  /* Listas, FAQ y CTA de servicio */
+  & .row h3 { font-weight: 500; }
+  & .faq-cta h3 { font-weight: 500; letter-spacing: -.04em; }
+
+  /* ── Home ── */
+  & .proof-strip { padding-block: 44px; border-bottom: 0; }
+  & .proof-kicker { font-weight: 500; letter-spacing: .2em; font-size: .62rem; }
+  & .proof-item { font-weight: 500; opacity: .5; letter-spacing: -.01em; }
+
+  & .bento-grid.compact .bento { border-radius: 20px; }
+  & .bento-grid.compact .bento:hover { border-color: var(--line-2); }
+  & .bento-grid.compact .bento-num { color: var(--label-3); font-weight: 500; letter-spacing: .16em; }
+  & .bento-grid.compact .bento-hook { font-weight: 500; letter-spacing: -.045em; }
+  & .bento-grid.compact article:nth-child(1) .bento-hook { font-weight: 400; letter-spacing: -.06em; line-height: .98; }
+  & .bento-grid.compact .bento-link { font-weight: 500; }
+  & .bento-grid.compact .bento-link i { color: var(--label-3); }
+  & .bento:hover .bento-link, & .bento:hover .bento-link i { color: var(--label); }
+  & .bento-grid.compact .bento-ill.bento-line { color: var(--label-3); filter: none; height: auto; }
+  & .bento-line .acc { stroke: var(--amber); }
+  & .bento-grid.compact .bento:hover .bento-ill.bento-line { color: var(--label-2); }
+
+  & .figures-grid { border-color: var(--line); padding-block: clamp(56px, 7vw, 88px); }
+  & .figures-grid .fig .fig-n,
+  & .figures-grid .fig:nth-child(odd) .fig-n,
+  & .figures-grid .fig.is-on .fig-n { color: var(--label); font-weight: 400; letter-spacing: -.06em; }
+  & .figures-grid .fig-l { font-weight: 500; }
+
+  & .tst .h-sec { font-size: clamp(2.2rem, 3.4vw, 3.2rem); }
+
+  /* Planes: el ámbar solo en el plan destacado */
+  & .plan h3 { font-weight: 500; }
+  & .plan-price { font-weight: 400; letter-spacing: -.055em; }
+  & .plan.is-featured { border-color: color-mix(in srgb, var(--amber) 55%, transparent); }
+  & .segmented { box-shadow: none; }
+
+  & .arc-title { font-weight: 500; letter-spacing: -.035em; }
+}
+
+/* ── Ilustraciones lineales de servicio (LineArt.astro) ── */
+.line-art { display: block; color: var(--label-3); height: auto; transition: color .3s; }
+.line-art .acc { stroke: var(--amber); }
+.svc-art .line-art { width: 100%; max-width: 300px; margin-inline: auto; }
+.svc-row:hover .line-art, .pq-svc:hover .line-art, .pq-svc:has(input:checked) .line-art { color: var(--label-2); }
+.pq-svc .line-art { width: 72px; }
+@media (max-width: 900px) { .svc-art .line-art { max-width: 200px; } }
+
+/* ── Heroes internos: un solo sistema visual con el home ──
+   Siempre oscuros, sin grilla, gradientes atmosféricos y un brillo que sigue al cursor (--mx/--my). */
+.grid-bg::after { display: none; }
+body .hero {
+  --label: #F2F2EF; --label-2: rgba(242, 242, 239, .72); --label-3: rgba(242, 242, 239, .5);
+  --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14); --fill: rgba(255, 255, 255, .05);
+  --mx: 72%; --my: 38%;
+  color: var(--label);
+  margin-top: -88px; padding-top: calc(88px + clamp(56px, 7vw, 104px)) !important;
+  padding-bottom: clamp(72px, 9vw, 128px) !important;
+  /* La última capa funde el hero con el fondo de la página: sin corte visible abajo. */
+  background:
+    linear-gradient(to bottom, transparent 58%, var(--bg) 100%),
+    radial-gradient(circle at 78% 38%, rgba(255, 176, 32, .11), transparent 36%),
+    radial-gradient(circle at 12% 62%, rgba(255, 176, 32, .04), transparent 30%),
+    linear-gradient(135deg, #050505 0%, #0d0d0d 50%, #050505 100%);
+}
+body .hero::before {
+  inset: 0; z-index: -1; animation: none;
+  background: radial-gradient(600px circle at var(--mx) var(--my), rgba(255, 190, 80, .07), transparent 60%);
+  transition: background-position .2s;
+}
+body .hero .hero-actions .btn:not(.btn-accent) {
+  background: transparent; border: 1px solid rgba(255, 255, 255, .16); color: #F2F2EF; box-shadow: none;
+}
+body .hero .hero-actions .btn:not(.btn-accent):hover { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .28); }
+body .hero .btn-accent { color: #1a1100; font-weight: 500; box-shadow: none; }
+body .hero .btn { transition: background-color .3s, border-color .3s, transform .3s cubic-bezier(.16, 1, .3, 1); }
+body .hero .btn:hover { transform: translateY(-2px); }
+@media (min-width: 901px) {
+  body .hero-split .hero-split-grid { grid-template-columns: .82fr 1fr; gap: clamp(32px, 4vw, 64px); }
+}
+body .hero-split { overflow: hidden; }
+/* Entrada del hero (data-hero-seq): misma secuencia escalonada, sin blur. */
+html.js [data-hero-seq] > * { filter: none; animation-name: heroSeqIn; }
+@keyframes heroSeqIn { to { opacity: 1; transform: none; } }
+/* ── Mega menú (escritorio): panel opaco, editorial, sin recuadros de color ── */
+@media (min-width: 821px) {
+  body {
+    & .mega {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 22px; padding: 10px;
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .55);
+      backdrop-filter: none; -webkit-backdrop-filter: none;
+    }
+    & .mega-grid { grid-template-columns: 260px 1fr 1fr; gap: 6px; }
+
+    & .mega-promo, & .mega-promo-alt {
+      background: radial-gradient(120% 80% at 0% 0%, rgba(255, 176, 32, .10), transparent 60%), var(--bg-2);
+      border: 1px solid var(--line); border-radius: 16px; color: var(--label); min-height: 0;
+    }
+    & .mega-promo::after { display: none; }
+    & .mega-promo-tag {
+      display: inline-flex; align-items: center; gap: 8px; padding: 0; background: none; border-radius: 0;
+      color: var(--label-3); font-weight: 500; letter-spacing: .16em; font-size: .62rem;
+    }
+    & .mega-promo-tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--amber); }
+    & .mega-promo h3 { color: var(--label); font-weight: 400; font-size: 1.32rem; letter-spacing: -.045em; line-height: 1.1; }
+    & .mega-promo h3 em { font-style: normal; font-weight: 400; color: var(--amber); }
+    & .mega-promo-txt { color: var(--label-3); }
+    & .mega-promo .btn { font-weight: 500; box-shadow: none; }
+
+    & .mega-col-h { font-weight: 500; letter-spacing: .16em; font-size: .62rem; padding: 12px 14px 6px; }
+    & .mega-link { border-bottom: 0; border-radius: 12px; padding: 12px 14px; gap: 14px; }
+    & .mega-link:hover { background: var(--fill); transform: none; }
+    & .mega-ico { width: auto; height: auto; background: none; border-radius: 0; color: var(--label-3); transition: color .3s; }
+    & .mega-ico svg { stroke-width: 1.5; }
+    & .mega-link:hover .mega-ico { transform: none; color: var(--amber); }
+    & .mega-link strong { font-weight: 500; letter-spacing: -.025em; }
+    & .mega-link span span { color: var(--label-3); }
+  }
+}

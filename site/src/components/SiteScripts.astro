@@ -6,15 +6,11 @@ document.documentElement.classList.add('js');
 
 
   /* ── Alternancia de tema ──
-     Arranca siguiendo la preferencia del sistema y la sigue mientras el
-     usuario no elija manualmente. La elección vive solo en esta sesión:
-     no se guarda nada en el navegador. */
+     Arranca en oscuro. Si el usuario elige un tema, se recuerda en localStorage. */
   var themeBtn = document.getElementById('themeBtn');
-  var mqDark = window.matchMedia("(prefers-color-scheme: dark)");
   var THEME_KEY = "wf-theme";
   var stored = null;
   try{ stored = localStorage.getItem(THEME_KEY); }catch(e){}
-  var manual = stored === "dark" || stored === "light";
   var meta = document.querySelector('meta[name="theme-color"]');
 
   function apply(dark){
@@ -23,10 +19,9 @@ document.documentElement.classList.add('js');
     themeBtn.setAttribute("aria-label", dark ? "Activar tema claro" : "Activar tema oscuro");
     if(meta) meta.setAttribute("content", dark ? "#000000" : "#F5F5F7");
   }
-  apply(manual ? stored === "dark" : mqDark.matches);
-  mqDark.addEventListener("change", function(e){ if(!manual) apply(e.matches); });
+  /* Oscuro por defecto: solo se usa claro si el usuario lo eligió. */
+  apply(stored !== "light");
   themeBtn.addEventListener("click", function(){
-    manual = true;
     var dark = document.documentElement.getAttribute("data-theme") !== "dark";
     apply(dark);
     try{ localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); }catch(e){}

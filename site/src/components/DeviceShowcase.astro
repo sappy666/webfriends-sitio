@@ -1,0 +1,137 @@
+---
+// Visual del hero de servicio: laptop + celular (dibujados en CSS) con capturas reales
+// de proyectos Webfriends (public/assets/img/proj/<slug>-d.webp y -m.webp).
+// Hasta 2 tarjetas flotantes, minimalistas. Parallax mínimo con el cursor.
+interface Card { value: string; label: string }
+interface Props { project: string; name: string; cards?: Card[]; altDesktop?: string; altMobile?: string }
+const { project, name, cards = [] } = Astro.props;
+const altDesktop = Astro.props.altDesktop ?? `Sitio de ${name} desarrollado por Webfriends, versión escritorio`;
+const altMobile = Astro.props.altMobile ?? `Sitio de ${name}, versión móvil`;
+const base = `/assets/img/proj/${project}`;
+---
+<div class="dv" data-dv>
+  <div class="dv-halo" aria-hidden="true"></div>
+
+  <figure class="dv-laptop">
+    <div class="dv-lid">
+      <div class="dv-screen">
+        <img src={`${base}-d.webp`} alt={altDesktop} width="1440" height="900" loading="eager" fetchpriority="high" decoding="async">
+      </div>
+    </div>
+    <div class="dv-base" aria-hidden="true"></div>
+  </figure>
+
+  <figure class="dv-phone">
+    <div class="dv-pscreen">
+      <img src={`${base}-m.webp`} alt={altMobile} width="780" height="1688" loading="eager" decoding="async">
+    </div>
+  </figure>
+
+  {cards.slice(0, 2).map((c, i) => (
+    <div class={`dv-card dv-card-${i + 1}`}>
+      <b>{c.value}</b><span>{c.label}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .dv {
+    --px: 0; --py: 0;
+    position: relative; width: 112%; margin-right: -12%; aspect-ratio: 16 / 11.5;
+    perspective: 2200px;
+  }
+  .dv-halo {
+    position: absolute; inset: 8% 4% 4% 10%; z-index: 0; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(255, 176, 32, .16), transparent 75%);
+    filter: blur(30px);
+  }
+
+  /* ── Laptop ── */
+  .dv-laptop {
+    position: absolute; z-index: 1; margin: 0; left: 12%; top: 4%; width: 86%;
+    transform: rotateY(-13deg) rotateX(5deg) translate3d(calc(var(--px) * -6px), calc(var(--py) * -4px), 0);
+    transform-style: preserve-3d; transition: transform .9s cubic-bezier(.16, 1, .3, 1);
+  }
+  .dv-lid {
+    position: relative; padding: 1.3%; border-radius: 16px 16px 6px 6px;
+    background: linear-gradient(160deg, #2a2a2c, #111113 60%);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.07), 0 50px 90px -30px rgba(0,0,0,.85), 0 20px 40px -20px rgba(0,0,0,.6);
+  }
+  .dv-screen { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 8px; background: #000; }
+  .dv-screen img, .dv-pscreen img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  /* Reflejo cálido de estudio */
+  .dv-screen::after, .dv-pscreen::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(118deg, rgba(255, 200, 120, .13) 0%, rgba(255,255,255,.04) 22%, transparent 42%);
+  }
+  .dv-base {
+    position: relative; height: 0; padding-bottom: 3.2%; margin: 0 -6%;
+    border-radius: 0 0 18px 18px / 0 0 60% 60%;
+    background: linear-gradient(180deg, #3a3a3d 0%, #1c1c1e 45%, #0d0d0e 100%);
+    box-shadow: 0 30px 50px -18px rgba(0,0,0,.9);
+  }
+  .dv-base::before {
+    content: ""; position: absolute; left: 50%; top: 0; translate: -50% 0; width: 16%; height: 38%;
+    border-radius: 0 0 10px 10px; background: rgba(0,0,0,.45);
+  }
+
+  /* ── Celular ── */
+  .dv-phone {
+    position: absolute; z-index: 2; margin: 0; left: -2%; bottom: -2%; width: 20%;
+    padding: 1.1%; border-radius: 26px; aspect-ratio: 390 / 844;
+    background: linear-gradient(150deg, #2c2c2e, #0e0e10 65%);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.09), 0 40px 70px -20px rgba(0,0,0,.9);
+    transform: rotate(-4deg) translate3d(calc(var(--px) * 10px), calc(var(--py) * 8px), 0);
+    transition: transform .9s cubic-bezier(.16, 1, .3, 1);
+  }
+  .dv-pscreen { position: relative; height: 100%; overflow: hidden; border-radius: 20px; background: #000; }
+
+  /* ── Tarjetas flotantes ── */
+  .dv-card {
+    position: absolute; z-index: 3; display: flex; flex-direction: column; gap: 2px;
+    padding: 12px 16px; border-radius: 14px;
+    background: rgba(12, 12, 13, .82); border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px -20px rgba(0,0,0,.8);
+    color: #F2F2EF; animation: dvFloat 7s ease-in-out infinite;
+  }
+  .dv-card b { font-size: 1.25rem; font-weight: 500; letter-spacing: -.04em; line-height: 1.1; }
+  .dv-card b::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 8px 3px 0; border-radius: 50%; background: #FFB020; }
+  .dv-card span { font-size: .72rem; color: rgba(242,242,239,.55); }
+  .dv-card-1 { right: 4%; top: 0; }
+  .dv-card-2 { right: 14%; bottom: 6%; animation-delay: -3.5s; }
+  @keyframes dvFloat { 50% { transform: translateY(-6px); } }
+
+  /* ── Entrada escalonada ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .dv-laptop { animation: dvIn 1.1s .25s cubic-bezier(.16, 1, .3, 1) backwards; }
+    .dv-phone { animation: dvIn 1.1s .5s cubic-bezier(.16, 1, .3, 1) backwards; }
+    .dv-card-1 { animation: dvFade .8s .9s ease backwards, dvFloat 7s 1.7s ease-in-out infinite; }
+    .dv-card-2 { animation: dvFade .8s 1.05s ease backwards, dvFloat 7s -1.8s ease-in-out infinite; }
+  }
+  @keyframes dvIn { from { opacity: 0; translate: 0 40px; } }
+  @keyframes dvFade { from { opacity: 0; translate: 0 10px; } }
+  @media (prefers-reduced-motion: reduce) { .dv-card { animation: none; } }
+
+  @media (max-width: 900px) {
+    .dv { width: 100%; margin: 12px 0 0; }
+    .dv-card { padding: 9px 12px; }
+    .dv-card b { font-size: 1rem; }
+    .dv-card-2 { display: none; }
+  }
+</style>
+
+<script>
+  // Parallax muy ligero: los dispositivos siguen al cursor unos pocos píxeles.
+  if (matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-dv]').forEach((dv) => {
+      const hero = dv.closest<HTMLElement>('.hero') ?? dv;
+      hero.addEventListener('pointermove', (e) => {
+        const r = hero.getBoundingClientRect();
+        dv.style.setProperty('--px', (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+        dv.style.setProperty('--py', (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
+      }, { passive: true });
+      hero.addEventListener('pointerleave', () => { dv.style.setProperty('--px', '0'); dv.style.setProperty('--py', '0'); });
+    });
+  }
+</script>
