@@ -39,7 +39,7 @@ const rubrosIcons = ['#i-activity', '#i-briefcase', '#i-cart', '#i-graduation-ca
       <p class="lede" data-reveal style="margin-top:18px">Cada caso describe el punto de partida, lo que ejecutamos y el resultado observable.</p>
       <div class="case-detail-grid" data-reveal-group>
         {casos.map((caso) => (
-          <article class="case-detail-card" data-reveal="scale">
+          <article class="case-detail-card foil-card" data-reveal="scale">
             <p class="case-detail-tag">{caso.data.tag}</p>
             <h3>{caso.data.client}</h3>
             <p class="case-detail-sector">{caso.data.sector}</p>
@@ -74,7 +74,7 @@ const rubrosIcons = ['#i-activity', '#i-briefcase', '#i-cart', '#i-graduation-ca
 
       <div class="rubro-grid" data-reveal-group>
         {sec('rubros-h').cards.map((card, i) => (
-          <div class="rubro-card" data-reveal="fade">
+          <div class="rubro-card foil-card" data-reveal="fade">
             <span class="rubro-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href={rubrosIcons[i]}></use></svg></span>
             <h3>{card.title}</h3>
             <p>{card.description}</p>

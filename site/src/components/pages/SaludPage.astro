@@ -1,4 +1,5 @@
 ---
+import OtherServices from '../OtherServices.astro';
 import DeviceShowcase from '../DeviceShowcase.astro';
 import PricingFx from '../PricingFx.astro';
 import LitSteps from '../LitSteps.astro';
@@ -30,7 +31,7 @@ const flujoIcons = ['#i-search', '#i-check-circle', '#i-calendar', '#i-map-pin-c
   ogImageAlt={page.ogImage?.alt}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css?v=2" />
+    <link rel="stylesheet" href="/styles/service.css?v=4" />
   </Fragment>
 
   <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
@@ -151,6 +152,7 @@ const flujoIcons = ['#i-search', '#i-check-circle', '#i-calendar', '#i-map-pin-c
       </div>
     </div>
   </section>
+  <OtherServices current="salud" />
   <section class="grid-bg" aria-labelledby="cta-h">
     <div class="wrap">
       <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">

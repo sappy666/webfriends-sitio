@@ -3,7 +3,7 @@
 // de proyectos Webfriends (public/assets/img/proj/<slug>-d.webp y -m.webp).
 // Hasta 2 tarjetas flotantes, minimalistas. Parallax mínimo con el cursor.
 interface Card { value: string; label: string }
-interface Props { project: string; name: string; cards?: Card[]; altDesktop?: string; altMobile?: string }
+interface Props { project: string; name: string; cards?: Card[]; altDesktop?: string; altMobile?: string; mobile?: string }
 const { project, name, cards = [] } = Astro.props;
 const altDesktop = Astro.props.altDesktop ?? `Sitio de ${name} desarrollado por Webfriends, versión escritorio`;
 const altMobile = Astro.props.altMobile ?? `Sitio de ${name}, versión móvil`;
@@ -23,7 +23,7 @@ const base = `/assets/img/proj/${project}`;
 
   <figure class="dv-phone">
     <div class="dv-pscreen">
-      <img src={`${base}-m.webp`} alt={altMobile} width="780" height="1688" loading="eager" decoding="async">
+      <img src={Astro.props.mobile ?? `${base}-m.webp`} alt={altMobile} width="780" height="1688" loading="eager" decoding="async">
     </div>
   </figure>
 
@@ -113,6 +113,22 @@ const base = `/assets/img/proj/${project}`;
   @keyframes dvFade { from { opacity: 0; translate: 0 10px; } }
   @media (prefers-reduced-motion: reduce) { .dv-card { animation: none; } }
 
+  /* Celular: solo el teléfono, centrado y más grande; el laptop se oculta. */
+  @media (max-width: 640px) {
+    /* Se ve ~la mitad superior del teléfono y se funde con el fondo (alto = ancho × 844/390 × 0,55). */
+    .dv {
+      width: 100% !important; margin: 28px 0 0 !important; aspect-ratio: auto; perspective: none;
+      display: flex; justify-content: center; align-items: flex-start; overflow: hidden;
+      height: calc(min(62vw, 250px) * 1.19);
+      -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+    }
+    .dv-laptop { display: none; }
+    .dv-halo { inset: 10% 15%; }
+    .dv-phone { position: relative; left: auto; bottom: auto; flex: none; width: min(62vw, 250px); padding: 8px; border-radius: 34px; transform: none; }
+    .dv-pscreen { border-radius: 27px; }
+    .dv-card { display: none; }
+  }
   @media (max-width: 900px) {
     .dv { width: 100%; margin: 12px 0 0; }
     .dv-card { padding: 9px 12px; }

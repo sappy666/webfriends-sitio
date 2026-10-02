@@ -41,7 +41,7 @@ sections:
       - title: Medición de conversiones
         description: Configuramos el seguimiento en tu sitio para saber qué anuncio trae clientes, no solo visitas.
         chips: ["Google Tag", Eventos]
-      - title: Optimización semanal
+      - title: Optimización constante
         description: "Ajustamos pujas, pausamos lo que no rinde y probamos nuevos textos de forma continua."
         chips: [Pujas]
       - title: Reporte mensual

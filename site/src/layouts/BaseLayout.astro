@@ -70,6 +70,47 @@ const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.
   <FloatButtons />
   <SiteScripts />
   <MobileNav />
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <script>
+    // Destello ámbar que sigue al cursor (solo escritorio con mouse, sin "reducir movimiento").
+    // Se mueve con un leve retardo (interpolación) para sentirse fluido; se apaga al salir de la ventana.
+    const glow = document.getElementById('cursorGlow');
+    if (glow && matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+      let tx = innerWidth / 2, ty = innerHeight / 2, x = tx, y = ty, raf = 0;
+      const tick = () => {
+        x += (tx - x) * 0.14; y += (ty - y) * 0.14;
+        glow.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(tick) : 0;
+      };
+      addEventListener('pointermove', (e) => {
+        tx = e.clientX; ty = e.clientY; glow.classList.add('is-on');
+        if (!raf) raf = requestAnimationFrame(tick);
+      }, { passive: true });
+      document.documentElement.addEventListener('pointerleave', () => glow.classList.remove('is-on'));
+    }
+  </script>
+  <script>
+    // Tarjetas "lámina" (.foil-card, ver minimal.css): reflejo e inclinación siguen al cursor.
+    if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const tilt = matchMedia('(prefers-reduced-motion: no-preference)').matches;
+      document.querySelectorAll<HTMLElement>('.foil-card').forEach((c) => {
+        c.addEventListener('pointermove', (e) => {
+          const r = c.getBoundingClientRect();
+          c.style.setProperty('--lx', `${e.clientX - r.left}px`);
+          c.style.setProperty('--ly', `${e.clientY - r.top}px`);
+          if (!tilt) return;
+          const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+          c.style.setProperty('--ry', `${(px * 12).toFixed(2)}deg`);
+          c.style.setProperty('--rx', `${(-py * 12).toFixed(2)}deg`);
+          c.classList.add('is-tilting');
+        }, { passive: true });
+        c.addEventListener('pointerleave', () => {
+          c.classList.remove('is-tilting');
+          c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg');
+        });
+      });
+    }
+  </script>
   <script>
     // Heroes internos: el halo de fondo sigue suavemente al cursor (--mx/--my, ver minimal.css).
     if (matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {

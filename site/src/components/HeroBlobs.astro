@@ -1,6 +1,6 @@
 ---
 // Hero del home: fondo WebGL de "metaballs" (Three.js) que siguen al cursor.
-// Siempre oscuro, aunque el sitio esté en tema claro. El texto viene de Keystatic (page-home).
+// Siempre oscuro, aunque el sitio esté en tema claro. El texto viene de src/content/site/page-home.yaml.
 interface Props { eyebrow: string; title: string; lede: string }
 const { eyebrow, title, lede } = Astro.props;
 
@@ -53,6 +53,14 @@ const restB = words.slice(-2).join(' ');
     display: grid; place-items: center; padding: 120px 20px 96px;
   }
   .hb-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  /* Respaldo sin WebGL (o si falla al iniciar): burbujas estáticas en CSS, en las mismas posiciones. */
+  .hb-canvas:empty, .hb-canvas.is-fallback {
+    background:
+      radial-gradient(circle closest-side, rgba(255, 176, 32, .38), rgba(120, 60, 0, .22) 55%, transparent 100%) 0 0 / 46vmax 46vmax no-repeat,
+      radial-gradient(circle closest-side, rgba(255, 176, 32, .32), rgba(120, 60, 0, .18) 55%, transparent 100%) 18% 26% / 14vmax 14vmax no-repeat,
+      radial-gradient(circle closest-side, rgba(255, 176, 32, .36), rgba(120, 60, 0, .2) 55%, transparent 100%) 104% 104% / 50vmax 50vmax no-repeat,
+      radial-gradient(circle closest-side, rgba(255, 176, 32, .3), rgba(120, 60, 0, .16) 55%, transparent 100%) 74% 72% / 15vmax 15vmax no-repeat;
+  }
   .hb-canvas :global(canvas) { width: 100% !important; height: 100% !important; display: block; }
   .hb-vignette {
     position: absolute; inset: 0; z-index: 1; pointer-events: none;
@@ -177,6 +185,7 @@ if (container && section && webglOk()) {
   renderer.setClearColor(0x080808, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   container.appendChild(renderer.domElement);
+  renderer.domElement.addEventListener('webglcontextlost', () => { renderer.domElement.remove(); container.classList.add('is-fallback'); });
 
   const cursor = new THREE.Vector3();
   const target = new THREE.Vector2(0.5, 0.5);

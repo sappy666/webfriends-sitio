@@ -1,0 +1,74 @@
+---
+// "Otros servicios": tarjetas para saltar a los demás servicios desde una página de servicio.
+// Textos: tarjetas de servicios del home (page-home.yaml, sección s-h). Ícono: src/data/lineArt.ts.
+import { getCollection, getEntry } from 'astro:content';
+import LineArt from './LineArt.astro';
+
+interface Props { current: 'web' | 'seo' | 'ads' | 'salud' | 'ux' }
+const { current } = Astro.props;
+
+const home = (await getEntry('pages', 'page-home'))!.data;
+const cards = home.sections.find((s) => s.id === 's-h')!.cards;
+const pages = await getCollection('pages');
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+
+// Mismo orden que las tarjetas del home.
+const all = [
+  { id: 'web', name: 'Sitios web', page: 'page-sitios-web', art: 'web-1' },
+  { id: 'seo', name: 'SEO y GEO', page: 'page-seo', art: 'seo-1' },
+  { id: 'ads', name: 'Google Ads', page: 'page-google-ads', art: 'ads' },
+  { id: 'salud', name: 'Salud', page: 'page-salud', art: 'medical-1' },
+  { id: 'ux', name: 'Diseño UX/UI', page: 'page-ux-ui', art: 'uxui-1' },
+].map((s, i) => ({ ...s, href: slug(s.page), desc: cards[i]?.description ?? '' }))
+  .filter((s) => s.id !== current);
+---
+<section class="osv" aria-labelledby="osv-h">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Otros servicios</p>
+    <h2 id="osv-h" class="h-sec" data-reveal>Sigue explorando</h2>
+    <ul class="osv-grid" data-reveal-group>
+      {all.map((s) => (
+        <li data-reveal="fade">
+          <a class="osv-card foil-card" href={s.href}>
+            <LineArt name={s.art} class="osv-art" />
+            <span class="osv-name">{s.name}</span>
+            <span class="osv-desc">{s.desc}</span>
+            <span class="osv-go" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .osv-grid { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .osv-card {
+    position: relative; display: flex; flex-direction: column; height: 100%; padding: 24px 22px 22px;
+    border: 1px solid var(--line); border-radius: 20px; color: var(--label); text-decoration: none;
+  }
+  /* El efecto lámina (inclinación + reflejo) viene de .foil-card en minimal.css. */
+  .osv-card:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+  .osv-card :global(.osv-art) { width: 96px; margin-bottom: 22px; }
+  .osv-card:hover :global(.osv-art) { color: var(--label-2); }
+  .osv-name { font-size: 1.25rem; font-weight: 500; letter-spacing: -.035em; }
+  .osv-desc { margin-top: 6px; color: var(--label-3); font-size: .9rem; line-height: 1.45; padding-right: 36px; }
+  .osv-go {
+    position: absolute; right: 18px; bottom: 18px; width: 34px; height: 34px; border-radius: 50%;
+    display: grid; place-items: center; border: 1px solid var(--line-2); color: var(--label-2);
+    transition: background-color .3s, border-color .3s, color .3s, transform .4s cubic-bezier(.34, 1.56, .64, 1);
+  }
+  .osv-card:hover .osv-go { background: var(--amber); border-color: var(--amber); color: #1a1100; transform: translateX(3px); }
+  @media (max-width: 1000px) { .osv-grid { grid-template-columns: repeat(2, 1fr); } }
+  /* Celular: lista compacta horizontal (ícono · nombre · flecha), sin descripción. */
+  @media (max-width: 640px) {
+    .osv-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 28px; }
+    .osv-card { flex-direction: row; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 16px; }
+    .osv-card :global(.osv-art) { width: 52px; margin: 0; flex: none; }
+    .osv-desc { display: none; }
+    .osv-name { font-size: 1.05rem; }
+    .osv-go { position: static; margin-left: auto; flex: none; }
+  }
+</style>

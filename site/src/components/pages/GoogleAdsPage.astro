@@ -1,4 +1,5 @@
 ---
+import OtherServices from '../OtherServices.astro';
 import DeviceShowcase from '../DeviceShowcase.astro';
 import LitSteps from '../LitSteps.astro';
 import { getCollection, getEntry } from 'astro:content';
@@ -45,7 +46,7 @@ const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw'
   ogImageAlt={page.ogImage?.alt}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css?v=2" />
+    <link rel="stylesheet" href="/styles/service.css?v=4" />
   </Fragment>
 
   <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
@@ -84,7 +85,7 @@ const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw'
         </div>
         <div class="metric" data-reveal data-parallax="soft">
           <p class="metric-n">30%</p>
-          <p class="metric-l">Comisión incluida</p>
+          <p class="metric-l">Comisión hasta $1M, luego tarifa fija</p>
           <p class="metric-src">Sin costos ocultos</p>
         </div>
       </div>
@@ -142,61 +143,36 @@ const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw'
     <div class="wrap" style="text-align:center">
       <p class="eyebrow" data-reveal>{sec('planes-h').eyebrow}</p>
       <h2 id="planes-h" class="h-sec" data-reveal style="margin-inline:auto">{sec('planes-h').heading}</h2>
-      <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">Todos incluyen comisión de gestión del 30% y ejecutivo asignado. El presupuesto de medios es aparte y lo defines tú.</p>
+      <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">La gestión es el 30% de la inversión hasta $1.000.000 y, sobre ese monto, una tarifa fija por tramo. Incluye ejecutivo asignado; el presupuesto de medios es aparte y lo defines tú.</p>
     </div>
     <div class="wrap">
-      <!-- Cotizador: reemplaza las tarjetas de planes. Usa los mismos datos de Keystatic
+      <!-- Cotizador: reemplaza las tarjetas de planes. Usa los mismos datos de src/content/plan-sets
            (precio, qué incluye y condiciones); la recomendación sale de las respuestas. -->
       <form class="quoter" id="quoter" data-reveal data-plans={JSON.stringify(quoterPlans)} onsubmit="return false">
         <div class="q-questions">
           <fieldset class="q-block">
-            <legend>1. ¿Cuánto quieres invertir en anuncios al mes?</legend>
-            <p class="q-budget"><output id="qBudgetOut" for="qBudget">$500.000</output><span>presupuesto de medios, lo pagas directo a Google</span></p>
-            <input type="range" id="qBudget" name="budget" min="100000" max="3000000" step="50000" value="500000" aria-describedby="qBudgetHint">
-            <p class="field-hint" id="qBudgetHint">Mueve la barra. Es aparte del plan y lo puedes cambiar cuando quieras.</p>
-          </fieldset>
-
-          <fieldset class="q-block">
-            <legend>2. ¿Cuántas líneas de servicio quieres promocionar?</legend>
+            <legend>1. ¿Qué plan te interesa?</legend>
             <div class="q-chips">
-              <label><input type="radio" name="lines" value="1" checked><span>Una</span></label>
-              <label><input type="radio" name="lines" value="2"><span>2 a 3</span></label>
-              <label><input type="radio" name="lines" value="4"><span>4 o más</span></label>
+              {quoterPlans.map((p, i) => (
+                <label><input type="radio" name="plan" value={i} checked={i === 0}><span>{p.name}</span></label>
+              ))}
             </div>
           </fieldset>
 
           <fieldset class="q-block">
-            <legend>3. ¿Qué necesitas además de los anuncios?</legend>
-            <details class="q-drop" id="qDrop" open>
-              <summary id="qDropSum">Elige opciones (opcional)</summary>
-              <div class="q-chips q-multi">
-                {quoterExtras.map((x) => (
-                  <label><input type="checkbox" name="extra" value={x.label}><span>{x.label}</span></label>
-                ))}
-              </div>
-            </details>
+            <legend>2. ¿Cuánto quieres invertir en anuncios al mes?</legend>
+            <p class="q-budget"><output id="qBudgetOut" for="qBudget">$500.000</output><span>presupuesto de medios, lo pagas directo a Google</span></p>
+            <input type="range" id="qBudget" name="budget" min="100000" max="5000000" step="50000" value="500000" aria-describedby="qBudgetHint">
+            <p class="field-hint" id="qBudgetHint">Mueve la barra. Es aparte del plan y lo puedes cambiar cuando quieras.</p>
           </fieldset>
-          <script is:inline>
-            (function(){
-              var d=document.getElementById('qDrop'),s=document.getElementById('qDropSum');if(!d)return;
-              var mq=matchMedia('(max-width: 640px)');
-              function sync(){d.open=!mq.matches;}
-              sync();mq.addEventListener('change',sync);
-              d.addEventListener('toggle',function(){if(!mq.matches&&!d.open)d.open=true;});
-              d.addEventListener('change',function(){
-                var n=d.querySelectorAll('input:checked').length;
-                s.textContent=n?n+(n===1?' opción elegida':' opciones elegidas'):'Elige opciones (opcional)';
-              });
-            })();
-          </script>
         </div>
 
         <aside class="q-result" aria-live="polite">
-          <p class="q-kicker">Te recomendamos</p>
+          <p class="q-kicker">Tu plan</p>
           <p class="q-plan" id="qPlan"></p>
           <p class="q-for" id="qFor"></p>
           <dl class="q-lines">
-            <div><dt>Gestión (30% de la inversión)</dt><dd id="qFee"></dd></div>
+            <div><dt id="qFeeLabel">Gestión (30% de la inversión)</dt><dd id="qFee"></dd></div>
             <div><dt>IVA de la gestión (19%)</dt><dd id="qIva"></dd></div>
             <div><dt>Presupuesto en anuncios</dt><dd id="qMedia"></dd></div>
             <div class="q-total"><dt>Total mensual estimado</dt><dd id="qTotal"></dd></div>
@@ -211,7 +187,7 @@ const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw'
         ¿Necesitas algo distinto? <a href="/contacto" style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
       </p>
       <p data-reveal style="text-align:center;margin-top:10px;color:var(--label-3);font-size:var(--s--1)">
-        Si manejas un presupuesto de medios más alto, consulta por planes con comisión reducida.
+        Desde $1.000.001 la comisión es fija por tramo (de $250.000 a $480.000 + IVA). Para inversiones sobre $5.000.000 mensuales, cotizamos a medida.
       </p>
     </div>
   </section>
@@ -234,6 +210,7 @@ const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw'
       </div>
     </div>
   </section>
+  <OtherServices current="ads" />
   <section class="grid-bg" aria-labelledby="cta-h">
     <div class="wrap">
       <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">
@@ -253,7 +230,8 @@ const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw'
   </section>
 
 <script>
-// Cotizador de Google Ads: elige el plan más simple que cubre lo pedido y suma el presupuesto de medios.
+// Cotizador de Google Ads: muestra el plan elegido y calcula la comisión según la inversión (src/data/adsFee.ts).
+import { adsFee, adsFeeLabel, ADS_PLAN_MIN } from '../../data/adsFee';
 const form = document.getElementById('quoter') as HTMLFormElement | null;
 if (form) {
   type Plan = { name: string; tagline: string; renewal: string; cta: string; note: string; features: string[] };
@@ -261,29 +239,22 @@ if (form) {
   const clp = (n: number) => '$' + Math.round(n).toLocaleString('es-CL');
   const $ = (id: string) => document.getElementById(id)!;
 
-  // Plan mínimo por líneas de servicio: 1 → Inicial, 2–3 → Negocio, 4+ → Empresa.
-  const byLines: Record<string, number> = { '1': 0, '2': 1, '4': 2 };
 
   const update = () => {
     const data = new FormData(form);
     const budget = Number(data.get('budget'));
-    const extras = data.getAll('extra') as string[];
-    let idx = byLines[String(data.get('lines'))] ?? 0;
-    extras.forEach((x) => {
-      const need = plans.findIndex((p) => p.features.includes(x));
-      if (need > idx) idx = need;
-    });
-    const plan = plans[idx];
-    const fee = budget * 0.3; // la gestión es el 30% de la inversión en anuncios
-    const iva = fee * 0.19;
+    const plan = plans[Number(data.get('plan') ?? 0)] ?? plans[0]; // el que elige la persona
+    const fee = adsFee(budget); // null: sobre el último tramo, se cotiza
+    const iva = fee === null ? null : fee * 0.19;
 
     $('qBudgetOut').textContent = clp(budget);
     $('qPlan').textContent = plan.name;
     $('qFor').textContent = plan.tagline;
-    $('qFee').textContent = clp(fee);
-    $('qIva').textContent = clp(iva);
+    $('qFeeLabel').textContent = adsFeeLabel(budget);
+    $('qFee').textContent = fee === null ? 'A cotizar' : clp(fee);
+    $('qIva').textContent = iva === null ? '—' : clp(iva);
     $('qMedia').textContent = clp(budget);
-    $('qTotal').textContent = clp(fee + iva + budget);
+    $('qTotal').textContent = fee === null || iva === null ? 'A cotizar' : clp(fee + iva + budget);
     $('qRenew').textContent = plan.renewal;
     $('qNote').textContent = plan.note;
     $('qFeats').innerHTML = plan.features.map((f) => `<li>${f}</li>`).join('');
@@ -293,6 +264,14 @@ if (form) {
     const range = form.budget as HTMLInputElement;
     range.style.setProperty('--fill', ((budget - +range.min) / (+range.max - +range.min)) * 100 + '%');
   };
+  // Al elegir un plan, la barra salta a la inversión mínima de ese plan.
+  form.addEventListener('change', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name !== 'plan') return;
+    const min = ADS_PLAN_MIN[Number(t.value)];
+    if (min !== undefined) (form.budget as HTMLInputElement).value = String(min);
+    update();
+  });
   form.addEventListener('input', update);
   update();
 }

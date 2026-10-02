@@ -4,14 +4,11 @@ import { fileURLToPath } from 'node:url';
 import { load } from 'js-yaml';
 
 /**
- * Genera _redirects en el directorio de salida del cliente (formato nativo de Cloudflare) a partir del
- * campo previousSlugs de cada singleton de página, para que las URLs viejas
- * respondan con un 301 real hacia el slug actual y no se pierda el SEO
- * acumulado cuando alguien cambia una URL desde Keystatic.
- *
- * Con { format: 'htaccess' } genera en cambio un .htaccess para Apache (cPanel).
+ * Genera dist/.htaccess (Apache/cPanel) con las redirecciones 301 de las URLs antiguas,
+ * a partir del campo previousSlugs de cada página (src/content/site/page-*.yaml) y de los
+ * artículos del blog, para no perder el SEO acumulado cuando cambia una URL.
  */
-export default function legacySlugRedirects({ format = 'cloudflare' } = {}) {
+export default function legacySlugRedirects() {
   return {
     name: 'legacy-slug-redirects',
     hooks: {
@@ -45,7 +42,7 @@ export default function legacySlugRedirects({ format = 'cloudflare' } = {}) {
           }
         }
 
-        if (format === 'htaccess') {
+        {
           const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
           const slash = (to) => (to.endsWith('/') ? to : `${to}/`); // destino final directo, sin 2º salto
           // Un solo RewriteRule por URL antigua; acepta con y sin "/" final.
@@ -75,8 +72,6 @@ export default function legacySlugRedirects({ format = 'cloudflare' } = {}) {
             'RewriteRule ^(carrito|mi-cuenta|categoria-producto)(/.*)?$ /tienda/ [R=301,L]',
           ];
           writeFileSync(join(outDir, '.htaccess'), htaccess.join('\n') + '\n');
-        } else if (lines.length > 0) {
-          writeFileSync(join(process.cwd(), 'dist/client/_redirects'), lines.join('\n') + '\n');
         }
       },
     },

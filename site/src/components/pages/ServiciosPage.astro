@@ -8,7 +8,7 @@ const sec = (id: string) => page.sections.find((s) => s.id === id)!;
 const pages = await getCollection('pages');
 const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
 
-// Mismo orden que las tarjetas de "servicios-h" en Keystatic.
+// Mismo orden que las tarjetas de "servicios-h" en page-servicios.yaml.
 const serviceMeta = [
   { pageId: 'page-google-ads', art: 'ads', link: 'Ver Google Ads' },
   { pageId: 'page-seo', art: 'seo-1', link: 'Ver SEO y GEO' },

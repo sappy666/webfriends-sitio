@@ -648,26 +648,34 @@ section{padding-block:clamp(72px,10vw,132px)}
   .local-steps.cols-5 .local-step:nth-child(3n+1) .local-arrow{display:none}
 }
 .step-toggle{all:unset;display:block;width:100%;cursor:default}
-/* Celular: etapas como acordeón (todas las páginas de servicio). */
+/* Celular: etapas como acordeón en tarjetas (todas las páginas de servicio).
+   Fila: número · ícono · título · flecha. La abierta se resalta en ámbar. */
 @media (max-width:640px){
-  .local-steps{grid-template-columns:1fr!important;row-gap:0!important;margin-top:40px}
-  .local-steps .local-step{padding:18px 0!important;border-left:0!important;border-top:1px solid var(--line-2)!important}
-  .local-steps .local-step:last-child{border-bottom:1px solid var(--line-2)}
+  .local-steps{display:flex!important;flex-direction:column;gap:6px!important;margin-top:32px}
+  .local-steps::before{display:none!important}
+  .local-steps .local-step{
+    display:grid;grid-template-columns:auto auto 1fr;align-items:center;column-gap:16px;
+    padding:10px 16px!important;border:1px solid var(--line-2)!important;border-radius:16px;
+    background:var(--bg);opacity:1!important;transition:border-color .3s,box-shadow .3s
+  }
   .local-steps .local-arrow{display:none!important}
-  .local-steps .local-step-top{margin-bottom:10px}
-  .local-steps .local-num{font-size:1.8rem}
-  .local-steps h3{margin-bottom:0}
+  .local-steps .local-step-top{display:contents}
+  .local-steps .local-num{font-size:1.7rem;font-weight:400;color:var(--amber)!important;opacity:1!important;letter-spacing:-.04em}
+  .local-steps .local-icon{width:40px;height:40px;border-radius:11px;border-color:var(--amber)!important;color:var(--amber)!important;box-shadow:none!important}
+  .local-steps .local-icon svg{width:19px;height:19px}
+  .local-steps h3{margin:0;font-size:1.12rem!important}
   .local-steps .step-toggle{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px}
-  .local-steps .step-toggle:focus-visible{outline:2px solid var(--amber);outline-offset:4px;border-radius:6px}
+  .local-steps .step-toggle:focus-visible{outline:2px solid var(--amber);outline-offset:6px;border-radius:6px}
   .local-steps .step-toggle::after{
     content:"";flex:none;width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
     transform:rotate(45deg);margin-top:-4px;transition:transform .3s var(--ease)
   }
-  .local-steps .is-open .step-toggle::after{transform:rotate(-135deg);margin-top:4px}
-  .local-steps .step-body{display:none;padding-top:12px}
+  .local-steps .step-body{display:none;grid-column:1 / -1;padding-top:14px}
+  .local-steps .step-body p{margin-bottom:14px}
+  .local-steps .is-open{border-color:var(--amber)!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--amber) 30%,transparent),0 12px 34px -14px color-mix(in srgb,var(--amber) 45%,transparent)}
+  .local-steps .is-open .step-toggle::after{transform:rotate(-135deg);margin-top:4px;color:var(--amber)}
   .local-steps .is-open .step-body{display:block}
 }
-
 /* ═══════ Delta ux-ui.html: variante de 3×2 en local-steps ═══════ */
 .local-steps.cols-3-2{grid-template-columns:repeat(3,1fr);row-gap:44px}
 .local-steps.cols-3-2 .local-step:nth-child(3n+1){border-left:0;padding-left:0}

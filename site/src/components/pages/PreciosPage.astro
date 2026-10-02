@@ -9,7 +9,7 @@ const pages = await getCollection('pages');
 const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
 const plansOf = async (id: string) => (await getEntry('planSets', id))!.data.plans;
 
-// Precio de Keystatic → número. "Desde $890.000" queda como mínimo; "A cotizar" queda en null.
+// Precio del YAML (src/content/plan-sets) → número. "Desde $890.000" queda como mínimo; "A cotizar" queda en null.
 const toOption = (p: Awaited<ReturnType<typeof plansOf>>[number]) => ({
   name: p.name,
   tagline: p.tagline,
@@ -20,12 +20,12 @@ const toOption = (p: Awaited<ReturnType<typeof plansOf>>[number]) => ({
   featured: p.featured,
 });
 
-// Google Ads no tiene precio fijo: la gestión es el 30% de la inversión en anuncios.
+// Google Ads no tiene precio fijo: la gestión depende de la inversión en anuncios (src/data/adsFee.ts).
 const services = [
   { id: 'web', name: 'Sitio o tienda web', href: slug('page-sitios-web'), art: 'web-1', options: (await plansOf('desarrollo-web')).map(toOption) },
   {
     id: 'ads', name: 'Google Ads', href: slug('page-google-ads'), art: 'ads', budget: true,
-    options: (await plansOf('google-ads')).map((p) => ({ ...toOption(p), price: null, monthly: true, terms: 'Gestión: 30% de la inversión + IVA' })),
+    options: (await plansOf('google-ads')).map((p) => ({ ...toOption(p), price: null, monthly: true, terms: 'Gestión: 30% hasta $1M de inversión; luego tarifa fija por tramo + IVA' })),
   },
   { id: 'seo', name: 'SEO y GEO', href: slug('page-seo'), art: 'seo-1', multi: true, options: (await plansOf('seo')).map(toOption) },
   { id: 'salud', name: 'Plataforma para salud', href: slug('page-salud'), art: 'medical-1', options: (await plansOf('salud')).map(toOption) },
@@ -88,7 +88,7 @@ const services = [
                     <span class="pq-opt-body">
                       <strong>{o.name}{o.featured && <em>Más elegido</em>}</strong>
                       <span>{o.tagline}</span>
-                      <b>{o.price === null ? (s.budget ? '30% de la inversión' : 'A cotizar') : `${o.from ? 'Desde ' : ''}$${o.price.toLocaleString('es-CL')}`}</b>
+                      <b>{o.price === null ? (s.budget ? 'Según inversión' : 'A cotizar') : `${o.from ? 'Desde ' : ''}$${o.price.toLocaleString('es-CL')}`}</b>
                       <small>{o.terms}</small>
                     </span>
                   </label>
@@ -97,8 +97,8 @@ const services = [
               {s.budget && (
                 <div class="pq-budget">
                   <label for="pqBudget">Inversión mensual en anuncios: <output id="pqBudgetOut">$500.000</output></label>
-                  <input type="range" id="pqBudget" name="budget" min="100000" max="3000000" step="50000" value="500000" />
-                  <p class="field-hint">La pagas directo a Google. Nuestra gestión es el 30% de este monto.</p>
+                  <input type="range" id="pqBudget" name="budget" min="100000" max="5000000" step="50000" value="500000" />
+                  <p class="field-hint">La pagas directo a Google. Nuestra gestión es el 30% hasta $1.000.000 y, sobre eso, una tarifa fija por tramo (sobre $5.000.000 se cotiza a medida).</p>
                 </div>
               )}
             </fieldset>
@@ -126,6 +126,7 @@ const services = [
 </BaseLayout>
 
 <script>
+import { adsFee } from '../../data/adsFee';
 type Opt = { name: string; price: number | null; from: boolean; monthly: boolean };
 type Svc = { id: string; name: string; budget?: boolean; options: Opt[] };
 
@@ -151,7 +152,7 @@ if (form) {
       (data.getAll(`opt-${s.id}`) as string[]).forEach((k) => {
         const o = s.options[+k];
         let price = o.price;
-        if (s.budget) { price = budget * 0.3; media = budget; }
+        if (s.budget) { price = adsFee(budget); media = budget; }
         if (price === null) { quote.push(`${s.name}: ${o.name}`); lines.push(`<li><span>${o.name}</span><b>A cotizar</b></li>`); }
         else {
           if (o.monthly) monthly += price; else once += price;

@@ -28,8 +28,6 @@ const links = [
   </div>
 
   <div class="mnav-body">
-    <p class="mnav-title" aria-hidden="true"><span><i>Hagamos</i></span><span><i>crecer tu</i></span><span><i>negocio<b>.</b></i></span></p>
-    <p class="mnav-sub">Agencia de marketing digital en Chile</p>
 
     <nav aria-label="Menú móvil">
       <ul class="mnav-list">
@@ -90,13 +88,7 @@ const links = [
       width: 44px; height: 44px; border: 0; border-radius: 12px; display: grid; place-items: center;
       background: var(--m-soft); color: var(--m-txt); cursor: pointer;
     }
-    .mnav-body { flex: 1; display: flex; flex-direction: column; padding-top: clamp(28px, 7vh, 56px); }
-    .mnav-title { margin: 0; font-size: clamp(2.1rem, 10vw, 3rem); font-weight: 400; line-height: 1; letter-spacing: -.06em; }
-    .mnav-title span { display: block; overflow: hidden; padding-bottom: .04em; }
-    .mnav-title i { display: block; font-style: normal; }
-    .mnav-title b { color: var(--m-accent); }
-    .mnav-sub { display: flex; align-items: center; gap: 10px; margin: 18px 0 0; font-size: .68rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--m-txt-2); }
-    .mnav-sub::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--m-accent); flex: none; }
+    .mnav-body { flex: 1; display: flex; flex-direction: column; padding-top: 8px; }
 
     .mnav-list { list-style: none; margin: clamp(26px, 5vh, 40px) 0 0; padding: 0; }
     .mnav-list li { position: relative; }
@@ -161,7 +153,7 @@ if (m) {
     m.classList.remove('is-open');
     m.setAttribute('aria-hidden', 'true');
     body.classList.remove('nav-open');
-    gsap.set([m, ...$('.mnav-title i, .mnav-sub, .mnav-list a, .mnav-list li, .mnav-theme, .mnav-cta, .mnav-foot, .mnav-top')], { clearProps: 'all' });
+    gsap.set([m, ...$('.mnav-list a, .mnav-list li, .mnav-theme, .mnav-cta, .mnav-foot, .mnav-top')], { clearProps: 'all' });
   };
 
   w.wfNav = (op: boolean) => {
@@ -175,16 +167,13 @@ if (m) {
       tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
         .fromTo(m, { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: .7, ease: 'expo.inOut' })
         .from($('.mnav-top'), { autoAlpha: 0, y: -8, duration: .4 }, .35)
-        .from($('.mnav-title i'), { yPercent: 105, duration: .8, ease: 'power4.out', stagger: .08 }, .4)
-        .from($('.mnav-sub'), { autoAlpha: 0, y: 10, duration: .5 }, .65)
         .fromTo($('.mnav-list li'), { '--line': 0 }, { '--line': 1, duration: .7, ease: 'power2.inOut', stagger: .05 }, .6)
         .from($('.mnav-list a'), { autoAlpha: 0, y: 14, duration: .5, stagger: .05 }, .7)
         .from($('.mnav-theme, .mnav-cta, .mnav-foot'), { autoAlpha: 0, y: 12, duration: .5, stagger: .08 }, 1.05);
     } else {
       if (reduce || !m.classList.contains('is-open')) { done(); return; }
       tl = gsap.timeline({ onComplete: done })
-        .to($('.mnav-list a, .mnav-theme, .mnav-cta, .mnav-foot, .mnav-sub'), { autoAlpha: 0, y: -8, duration: .25, ease: 'power2.in', stagger: .015 }, 0)
-        .to($('.mnav-title i'), { yPercent: -105, duration: .35, ease: 'power3.in', stagger: .04 }, 0)
+        .to($('.mnav-list a, .mnav-theme, .mnav-cta, .mnav-foot'), { autoAlpha: 0, y: -8, duration: .25, ease: 'power2.in', stagger: .015 }, 0)
         .to(m, { clipPath: 'inset(0% 0% 100% 0%)', duration: .55, ease: 'expo.inOut' }, .2);
     }
   };

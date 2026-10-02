@@ -40,7 +40,7 @@ const terminosHref = slug('page-terminos');
 
       <div class="wff-cols">
         <div>
-          <h3 class="wff-label">// Servicios</h3>
+          <h3 class="wff-label">Servicios</h3>
           <ul class="wff-links">
             <li><a href={googleAdsHref}>Google Ads</a></li>
             <li><a href={seoHref}>Posicionamiento SEO y GEO</a></li>
@@ -50,7 +50,7 @@ const terminosHref = slug('page-terminos');
           </ul>
         </div>
         <div>
-          <h3 class="wff-label">// Empresa</h3>
+          <h3 class="wff-label">Empresa</h3>
           <ul class="wff-links">
             <li><a href={casosHref}>Casos de éxito</a></li>
             <li><a href={slug('page-precios')}>Precios</a></li>
@@ -60,7 +60,7 @@ const terminosHref = slug('page-terminos');
           </ul>
         </div>
         <div>
-          <h3 class="wff-label">// Escríbenos</h3>
+          <h3 class="wff-label">Escríbenos</h3>
           <a class="wff-mail" href="mailto:contacto@webfriends.cl">contacto<span>@</span>webfriends.cl</a>
           <a class="wff-phone" href="tel:+56931971436">+56 9 3197 1436</a>
           <div class="wff-social">
@@ -210,6 +210,54 @@ const terminosHref = slug('page-terminos');
     .wff { padding: 10px; }
     .wff-card { border-radius: 22px; }
     .wff-cols { grid-template-columns: 1fr; }
+  }
+  /* ═══════ Capa minimal / editorial (misma voz que los heroes) ═══════ */
+  .wff { padding: 0; }
+  .wff .wff-card {
+    border-radius: 0; border: 0; border-top: 1px solid var(--f-line);
+    background:
+      radial-gradient(circle at 85% 20%, rgba(255, 176, 32, .07), transparent 38%),
+      linear-gradient(160deg, #050505 0%, #0b0b0b 55%, #050505 100%);
+  }
+  .wff .wff-card::before, .wff .wff-in::before { display: none; }
+  .wff .wff-top { gap: clamp(32px, 6vw, 96px); padding-block: clamp(80px, 10vw, 150px) clamp(56px, 7vw, 96px); align-items: end; }
+  .wff .wff-hero { padding-left: 0; font-weight: 400; letter-spacing: -.065em; line-height: .9; font-size: clamp(3.2rem, 9vw, 8rem); }
+
+  .wff .wff-lead { border: 0; }
+  .wff .wff-lead-h { padding: 0; font-weight: 400; font-size: 1.6rem; letter-spacing: -.045em; }
+  .wff .wff-lead-h span { color: var(--f-txt-3); }
+  .wff .wff-lead-sub { margin: 14px 0 8px; font-weight: 400; color: var(--f-txt-2); }
+  .wff .wff-bullets { margin: 0 0 26px; }
+  .wff .wff-input { border: 0; border-bottom: 1px solid var(--f-line); padding: 14px 0; transition: border-color .3s; }
+  .wff .wff-input:focus { background: none; border-color: var(--f-amber); }
+  .wff .wff-submit {
+    margin-top: 16px; border: 0; border-radius: 999px; padding: 14px 22px;
+    background: var(--f-amber); color: #1a1100; font-weight: 500; font-size: .95rem;
+  }
+  .wff .wff-submit:hover { background: #FFC85A; }
+  .wff .wff-status { padding: 0; }
+
+  .wff .wff-cols { border-top: 1px solid var(--f-line); padding-block: clamp(40px, 5vw, 64px); }
+  .wff .wff-cols > div { padding-inline: 0 16px; }
+  .wff .wff-label {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 18px;
+    font-size: .62rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--f-txt-3);
+  }
+  .wff .wff-label::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--f-amber); }
+  .wff .wff-links a { font-size: 1rem; color: var(--f-txt-2); }
+  .wff .wff-links a:hover { color: var(--f-txt); transform: translateX(3px); }
+  .wff .wff-mail { font-weight: 400; letter-spacing: -.04em; font-size: clamp(1.3rem, 2.2vw, 1.75rem); }
+  .wff .wff-mail span { color: var(--f-txt-3); }
+  .wff .wff-social a { background: none; border: 1px solid var(--f-line); color: var(--f-txt-2); }
+  .wff .wff-social a:hover { background: none; border-color: var(--f-amber); color: var(--f-amber); }
+
+  .wff .wff-bar-in { padding-block: 22px; }
+  .wff .wff-brand { padding-left: 0; }
+  .wff .wff-up { background: none; border: 1px solid var(--f-line); color: var(--f-txt-2); }
+  .wff .wff-up:hover { background: none; border-color: var(--f-amber); color: var(--f-amber); }
+  @media (max-width: 900px) {
+    .wff .wff-top { align-items: start; }
+    .wff .wff-lead { border: 0; border-radius: 0; }
   }
 </style>
 
