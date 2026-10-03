@@ -5,3 +5,6 @@ dist/
 .wrangler/
 preview.log
 worker-configuration.d.ts
+
+# Zip para subir a cPanel
+webfriends-dist.zip
