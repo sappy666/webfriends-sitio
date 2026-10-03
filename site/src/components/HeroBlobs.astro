@@ -216,10 +216,10 @@ if (container && section && webglOk()) {
       uLightPosition: { value: new THREE.Vector3(0.8, 1.1, 1.0) },
       uContrast: { value: 1.75 },
       uFogDensity: { value: 0.08 },
-      uAnimationSpeed: { value: 0.43 },
-      uMovementScale: { value: 1.05 },
-      uMinMovementScale: { value: 0.3 },
-      uMaxMovementScale: { value: 0.95 },
+      uAnimationSpeed: { value: 0.85 },
+      uMovementScale: { value: 1.35 },
+      uMinMovementScale: { value: 0.7 },
+      uMaxMovementScale: { value: 1.2 },
       uCursorGlowIntensity: { value: 0.52 },
       uCursorGlowRadius: { value: 1.35 },
       uCursorGlowColor: { value: amber },
@@ -252,6 +252,12 @@ if (container && section && webglOk()) {
         vec3 br = screenToWorld(vec2(0.93, 0.10));
         vec3 brs = screenToWorld(vec2(0.76, 0.28));
         float t = uTime * uAnimationSpeed;
+        vec3 topDrift = vec3(sin(t * .55) * .22, cos(t * .43) * .16, 0.0);
+        vec3 bottomDrift = vec3(cos(t * .48) * .24, sin(t * .58) * .18, 0.0);
+        tl += topDrift;
+        tls += topDrift + vec3(sin(t * .8) * .12, cos(t * .7) * .10, 0.0);
+        br += bottomDrift;
+        brs += bottomDrift + vec3(cos(t * .75) * .14, sin(t * .65) * .12, 0.0);
         float distCenter = length(uMousePosition - vec2(.5));
         float moveScale = mix(uMinMovementScale, uMaxMovementScale, smoothstep(0.0, .7, distCenter)) * uMovementScale;
         for (int i = 0; i < 8; i++) {

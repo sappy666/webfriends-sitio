@@ -56,7 +56,7 @@ body {
 
   & .bento-grid.compact .bento { border-radius: 20px; }
   & .bento-grid.compact .bento:hover { border-color: var(--line-2); }
-  & .bento-grid.compact .bento-num { color: var(--label-3); font-weight: 500; letter-spacing: .16em; }
+  & #servicios .bento-grid.compact .bento-num { color: var(--amber); font-size: clamp(1.2rem, 1.8vw, 1.55rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.15; margin-bottom: 18px; }
   & .bento-grid.compact .bento-hook { font-weight: 500; letter-spacing: -.045em; }
   & .bento-grid.compact article:nth-child(1) .bento-hook { font-weight: 400; letter-spacing: -.06em; line-height: .98; }
   & .bento-grid.compact .bento-link { font-weight: 500; }
