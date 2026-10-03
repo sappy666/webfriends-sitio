@@ -742,3 +742,13 @@ section{padding-block:clamp(72px,10vw,132px)}
   .cards .card.is-open > :not(.card-icon):not(h3){display:block;margin-top:10px;animation:fieldIn .4s var(--soft)}
   .cards .card:last-child{border-bottom:1px solid var(--line-2)}
 }
+
+/* Comercio electrónico y Google Mi Negocio: en celular, etapas como tarjetas fijas 2×2 sin pills. */
+@media (max-width:640px){
+  .steps-centered .local-steps{display:grid!important;grid-template-columns:1fr 1fr;gap:10px!important}
+  .steps-centered .local-steps .local-step{display:flex;flex-direction:column;align-items:flex-start;padding:18px 14px!important}
+  .steps-centered .local-steps .local-step-top{display:flex;gap:10px;margin-bottom:14px}
+  .steps-centered .local-steps h3{margin-bottom:8px;font-size:1rem!important}
+  .steps-centered .local-steps p{font-size:.84rem;margin-bottom:0}
+  .steps-centered .local-steps .chips{display:none}
+}

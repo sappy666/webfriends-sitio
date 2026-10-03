@@ -41,8 +41,3 @@ sections:
         description: "Los anuncios traen contactos desde el primer mes mientras el SEO construye tráfico que no depende del presupuesto."
         chips: []
     steps: []
-  - id: cta-h
-    eyebrow: Asesoría gratuita
-    heading: ¿No sabes por cuál partir?
-    cards: []
-    steps: []

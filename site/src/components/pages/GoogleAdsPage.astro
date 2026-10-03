@@ -46,7 +46,7 @@ const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw'
   ogImageAlt={page.ogImage?.alt}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css?v=4" />
+    <link rel="stylesheet" href="/styles/service.css?v=6" />
   </Fragment>
 
   <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
@@ -211,23 +211,6 @@ const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw'
     </div>
   </section>
   <OtherServices current="ads" />
-  <section class="grid-bg" aria-labelledby="cta-h">
-    <div class="wrap">
-      <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">
-        <div>
-          <p class="eyebrow">{sec('cta-h').eyebrow}</p>
-          <h2 id="cta-h" style="font-size:var(--s-3)">{sec('cta-h').heading}</h2>
-          <p class="lede" style="margin:18px auto 0;font-size:var(--s-0);text-align:center">Te hacemos una auditoría gratuita de tu cuenta actual y te decimos con franqueza si conviene optimizarla o empezar de nuevo.</p>
-          <div class="hero-actions" style="justify-content:center;margin-top:30px">
-            <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
-            </a>
-            <a class="btn btn-soft" href="https://wa.me/56931971436">Escribir por WhatsApp</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
 <script>
 // Cotizador de Google Ads: muestra el plan elegido y calcula la comisión según la inversión (src/data/adsFee.ts).

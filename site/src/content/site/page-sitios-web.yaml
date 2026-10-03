@@ -48,8 +48,3 @@ sections:
       - title: Carrito optimizado
         description: "Menos pasos entre el producto y el pago, que es donde se pierde la mayoría de las ventas."
         chips: [Checkout, Conversión]
-  - id: cta-h
-    eyebrow: Conversemos
-    heading: "¿Conversamos sobre tu sitio?"
-    cards: []
-    steps: []

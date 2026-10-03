@@ -53,8 +53,3 @@ sections:
     heading: Tus dudas, nuestra experiencia
     cards: []
     steps: []
-  - id: cta-h
-    eyebrow: Conversemos
-    heading: "¿Revisamos tu producto?"
-    cards: []
-    steps: []

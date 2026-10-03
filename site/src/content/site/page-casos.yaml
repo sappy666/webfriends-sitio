@@ -28,8 +28,3 @@ sections:
         description: Instituciones y programas que captan alumnos por temporada.
         chips: [Campañas, Temporadas]
     steps: []
-  - id: cta-h
-    eyebrow: Conversemos
-    heading: "¿Tu caso se parece a alguno?"
-    cards: []
-    steps: []

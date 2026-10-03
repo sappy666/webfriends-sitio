@@ -16,16 +16,16 @@ const proceso = (await getEntry('procesoSeisEtapas', 'proceso-seis-etapas'))!.da
 const sintomasIcons = [
   '<circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><path d="M16 5.2a3.2 3.2 0 010 5.6M17 14.4a6.5 6.5 0 014.5 5.6"/>',
   '<use href="#i-chart-bars"></use>',
-  '<use href="#i-gem"></use>',
+  '<use href="#i-pencil"></use>',
   '<use href="#i-shield-check"></use>',
 ];
 const entregablesIcons = [
   '<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
-  '<use href="#i-gem"></use>',
+  '<use href="#i-pencil"></use>',
   '<use href="#i-monitor"></use>',
   '<path d="M12 3l8 3v6c0 4.4-3.2 7.9-8 9-4.8-1.1-8-4.6-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
 ];
-const procesoIcons = ['#i-search', '#i-chart-bars', '#i-gem', '#i-monitor', '#i-check-circle', '#i-arrow-up'];
+const procesoIcons = ['#i-search', '#i-chart-bars', '#i-pencil', '#i-monitor', '#i-check-circle', '#i-arrow-up'];
 ---
 
 <BaseLayout
@@ -35,7 +35,7 @@ const procesoIcons = ['#i-search', '#i-chart-bars', '#i-gem', '#i-monitor', '#i-
   ogImageAlt={page.ogImage?.alt}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css?v=4" />
+    <link rel="stylesheet" href="/styles/service.css?v=6" />
   </Fragment>
 
   <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
@@ -170,23 +170,6 @@ const procesoIcons = ['#i-search', '#i-chart-bars', '#i-gem', '#i-monitor', '#i-
     </div>
   </section>
   <OtherServices current="ux" />
-  <section class="grid-bg" aria-labelledby="cta-h">
-    <div class="wrap">
-      <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">
-        <div>
-          <p class="eyebrow">{sec('cta-h').eyebrow}</p>
-          <h2 id="cta-h" style="font-size:var(--s-3)">{sec('cta-h').heading}</h2>
-          <p class="lede" style="margin:18px auto 0;font-size:var(--s-0);text-align:center">Agenda una consulta gratuita y conversemos sobre qué está frenando la conversión en tu plataforma.</p>
-          <div class="hero-actions" style="justify-content:center;margin-top:30px">
-            <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
-            </a>
-            <a class="btn btn-soft" href="https://wa.me/56931971436">Escribir por WhatsApp</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
 <LitSteps />
 </BaseLayout>

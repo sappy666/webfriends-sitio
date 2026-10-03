@@ -34,7 +34,7 @@ const { plan } = Astro.props;
 </article>
 
 <script>
-// Mobile: la lista de lo que incluye cada plan se abre y cierra.
+// La lista de lo que incluye cada plan se abre y cierra.
 document.querySelectorAll<HTMLButtonElement>('.plan .plan-toggle').forEach((btn) =>
   btn.addEventListener('click', () => {
     const open = btn.closest('.plan')!.classList.toggle('is-open');

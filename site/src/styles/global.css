@@ -505,21 +505,19 @@ body.recheck-open{overflow:hidden}
   position:sticky;top:calc(96px + var(--k,0) * 14px);transform-origin:50% 0;
   transition:box-shadow .65s var(--soft),border-color .4s var(--ease);
 }
-/* Lista de lo que incluye: siempre visible en escritorio, plegable en mobile. */
+/* Lista de lo que incluye: plegable en todos los tamaños (sin JS queda siempre visible). */
 .plan-toggle{display:none}
-@media (max-width:820px){
-  .js .plan-toggle{
-    display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:18px;
-    padding:12px 0;background:none;border:0;border-top:1px solid var(--line);
-    color:var(--label);font:inherit;font-weight:600;font-size:.92rem;cursor:pointer;min-height:44px;
-  }
-  .plan-toggle svg{color:var(--amber);transition:transform .45s var(--spring)}
-  .plan.is-open .plan-toggle svg{transform:rotate(180deg)}
-  .js .plan-feats-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--soft)}
-  .js .plan-feats-wrap > .plan-feats{overflow:hidden;min-height:0;margin-top:0}
-  .js .plan:not(.is-open) .plan-feats-wrap > .plan-feats{margin-bottom:0}
-  .js .plan.is-open .plan-feats-wrap{grid-template-rows:1fr}
+.js .plan-toggle{
+  display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:18px;
+  padding:12px 0;background:none;border:0;border-top:1px solid var(--line);
+  color:var(--label);font:inherit;font-weight:600;font-size:.92rem;cursor:pointer;min-height:44px;
 }
+.plan-toggle svg{color:var(--amber);transition:transform .45s var(--spring)}
+.plan.is-open .plan-toggle svg{transform:rotate(180deg)}
+.js .plan-feats-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--soft)}
+.js .plan-feats-wrap > .plan-feats{overflow:hidden;min-height:0;margin-top:0}
+.js .plan:not(.is-open) .plan-feats-wrap > .plan-feats{margin-bottom:0}
+.js .plan.is-open .plan-feats-wrap{grid-template-rows:1fr}
 .plan{
   position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);
   padding:32px 28px;display:flex;flex-direction:column;box-shadow:var(--sh-1);

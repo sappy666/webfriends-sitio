@@ -52,8 +52,3 @@ sections:
     heading: Tus dudas, nuestra experiencia
     cards: []
     steps: []
-  - id: cta-h
-    eyebrow: Conversemos
-    heading: "¿Conversamos sobre tu centro?"
-    cards: []
-    steps: []

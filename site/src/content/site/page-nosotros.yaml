@@ -50,8 +50,3 @@ sections:
     heading: 100% online, en todo Chile
     cards: []
     steps: []
-  - id: cta-h
-    eyebrow: Conversemos
-    heading: "¿Trabajamos juntos?"
-    cards: []
-    steps: []

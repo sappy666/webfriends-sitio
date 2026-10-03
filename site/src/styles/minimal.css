@@ -78,9 +78,34 @@ body {
   & .plan h3 { font-weight: 500; }
   & .plan-price { font-weight: 400; letter-spacing: -.055em; }
   & .plan.is-featured { border-color: color-mix(in srgb, var(--amber) 55%, transparent); }
-  & .segmented { box-shadow: none; }
+  /* Pestañas (Desarrollo web / Google Ads): oscuras, borde fino, activa apenas marcada */
+  & .segmented { box-shadow: none; background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 999px; padding: 4px; }
+  & .segmented button { font-weight: 500; letter-spacing: -.01em; color: var(--label-3); border-radius: 999px; padding-inline: 24px; }
+  & .segmented button[aria-selected="true"] { color: var(--label); }
+  & .seg-thumb {
+    top: 4px; bottom: 4px; border-radius: 999px; box-shadow: none;
+    background: color-mix(in srgb, var(--label) 7%, transparent);
+    border: 1px solid color-mix(in srgb, var(--label) 10%, transparent);
+  }
 
   & .arc-title { font-weight: 500; letter-spacing: -.035em; }
+
+  /* Etapas numeradas: solo el número, sin ícono */
+  & .local-icon { display: none; }
+  @media (max-width: 640px) {
+    & .local-steps .local-step { grid-template-columns: auto 1fr; }
+  }
+
+  /* Preguntas frecuentes: sin caja, solo una línea abajo */
+  & .faq-grid { column-gap: clamp(28px, 4vw, 56px); row-gap: 0; }
+  & .faq-item { background: none; border: 0; border-bottom: 1px solid var(--line-2); border-radius: 0; }
+  & .faq-item summary { padding-inline: 0; }
+  & .faq-item[open] summary { border-bottom: 0; }
+  & .faq-item p { padding-inline: 0; }
+
+  /* Tarjetas del blog: solo borde, sin relleno ni sombra */
+  & :is(.post-card, .post-related-card) { background: none; box-shadow: none; border-color: var(--line-2); }
+  & :is(.post-card, .post-related-card):hover { box-shadow: none; border-color: color-mix(in srgb, var(--label) 22%, transparent); }
 }
 
 /* ── Artículo del blog: el cuerpo usa el mismo ancho que el título y la portada (760px con padding),

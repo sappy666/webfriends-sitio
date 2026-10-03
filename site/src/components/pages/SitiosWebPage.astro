@@ -26,7 +26,7 @@ const tiendaIcons = ['#i-credit-card', '#i-package', '#i-truck', '#i-cart'];
   ogImageAlt={page.ogImage?.alt}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css?v=4" />
+    <link rel="stylesheet" href="/styles/service.css?v=6" />
   </Fragment>
 
   <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
@@ -106,26 +106,24 @@ const tiendaIcons = ['#i-credit-card', '#i-package', '#i-truck', '#i-cart'];
       </p>
     </div>
   </section>
-  <section id="tienda" class="dark-band" aria-labelledby="tienda-h">
+  <section id="tienda" class="dark-band steps-centered" aria-labelledby="tienda-h">
     <div class="wrap">
-      <div class="hero-split-grid tienda-intro">
-        <div>
-          <p class="eyebrow" data-reveal>{sec('tienda-h').eyebrow}</p>
-          <h2 id="tienda-h" class="h-sec" data-reveal>{sec('tienda-h').heading}</h2>
-          <p class="lede" data-reveal style="margin-top:18px">Una tienda no es solo un catálogo: es un flujo de compra donde cada paso extra cuesta ventas.</p>
+      <div style="text-align:center">
+        <p class="eyebrow" data-reveal>{sec('tienda-h').eyebrow}</p>
+        <h2 id="tienda-h" class="h-sec" data-reveal style="margin-inline:auto">{sec('tienda-h').heading}</h2>
+        <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">Una tienda no es solo un catálogo: es un flujo de compra donde cada paso extra cuesta ventas.</p>
 
-          <div class="local-cta" data-reveal>
-            <a class="btn btn-accent" href="/contacto#planes">
-              Quiero mi tienda online
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-            </a>
-            <p class="local-cta-note">Catálogo, pagos y despacho, listos desde el día uno.</p>
-          </div>
+        <div class="local-cta" data-reveal style="justify-content:center">
+          <a class="btn btn-accent" href="/contacto#planes">
+            Quiero mi tienda online
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <p class="local-cta-note" style="text-align:left">Catálogo, pagos y despacho, listos desde el día uno.</p>
         </div>
+      </div>
 
-        <div class="hero-img" data-reveal="scale">
-          <img src="/assets/img/sitiosweb.webp" alt="Tienda virtual desarrollada por Webfriends" width="1200" height="720" loading="lazy">
-        </div>
+      <div class="hero-img" data-reveal="scale" style="max-width:880px;margin:48px auto 0;-webkit-mask-image:linear-gradient(#000 15%,transparent 70%);mask-image:linear-gradient(#000 15%,transparent 70%)">
+        <img src="/assets/img/sitiosweb.webp" alt="Tienda virtual desarrollada por Webfriends" width="1200" height="720" loading="lazy">
       </div>
 
       <div class="local-steps" data-reveal-group>
@@ -136,34 +134,15 @@ const tiendaIcons = ['#i-credit-card', '#i-package', '#i-truck', '#i-cart'];
               <span class="local-num">{String(i + 1).padStart(2, '0')}</span>
               <span class="local-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href={tiendaIcons[i]}></use></svg></span>
             </div>
-            <h3><button type="button" class="step-toggle" aria-expanded="false" aria-controls={`step-body-${i}`}>{step.title}</button></h3>
-            <div class="step-body" id={`step-body-${i}`}>
-              <p>{step.description}</p>
-              <div class="chips">{step.chips.map((chip) => <span class="chip">{chip}</span>)}</div>
-            </div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+            <div class="chips">{step.chips.map((chip) => <span class="chip">{chip}</span>)}</div>
           </div>
         ))}
       </div>
     </div>
   </section>
   <OtherServices current="web" />
-  <section class="grid-bg" aria-labelledby="cta-h">
-    <div class="wrap">
-      <div class="contact-card" data-reveal style="grid-template-columns:1fr;text-align:center;max-width:760px;margin-inline:auto">
-        <div>
-          <p class="eyebrow">{sec('cta-h').eyebrow}</p>
-          <h2 id="cta-h" style="font-size:var(--s-3)">{sec('cta-h').heading}</h2>
-          <p class="lede" style="margin:18px auto 0;font-size:var(--s-0);text-align:center">Cuéntanos qué necesitas y te decimos qué plan te sirve, o si conviene una propuesta a medida.</p>
-          <div class="hero-actions" style="justify-content:center;margin-top:30px">
-            <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
-            </a>
-            <a class="btn btn-soft" href="https://wa.me/56931971436">Escribir por WhatsApp</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
 <LitSteps />
 <PricingFx />
