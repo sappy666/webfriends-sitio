@@ -32,6 +32,8 @@ for (const [i, file] of files.entries()) {
   // --tls-max 1.2: el servidor corta las transferencias de datos con TLS 1.3.
   const r = spawnSync('curl', ['-s', '-S', '--ssl-reqd', '-k', '--tls-max', '1.2', '--ftp-create-dirs',
     '--user', `${user}:${pass}`, '-T', file, `ftp://${host}:21/${encodeURI(rel)}`], { stdio: ['ignore', 'ignore', 'pipe'] });
+  // 67 = login rechazado: se corta de inmediato para no acumular intentos (el servidor bloquea la IP).
+  if (r.status === 67) { console.error(`\n✗ El servidor rechazó el usuario o la contraseña (FTP_PASS). No se subió nada más.`); process.exit(1); }
   if (r.status !== 0) { fail++; console.error(`✗ ${rel}: ${String(r.stderr).trim()}`); }
   process.stdout.write(`\r${i + 1}/${files.length}`);
 }
