@@ -1,3 +1,18 @@
 rules: |
+  # Webfriends Chile — https://webfriends.cl
+  # Todo el sitio es público e indexable. Las páginas que no deben indexarse llevan
+  # <meta name="robots" content="noindex"> y no aparecen en el sitemap.
+
   User-agent: *
+  Allow: /
+
+  # Buscadores y asistentes de IA: bienvenidos (resumen del sitio en /llms.txt)
+  User-agent: GPTBot
+  User-agent: OAI-SearchBot
+  User-agent: ChatGPT-User
+  User-agent: ClaudeBot
+  User-agent: Claude-SearchBot
+  User-agent: PerplexityBot
+  User-agent: Google-Extended
+  User-agent: Applebot-Extended
   Allow: /

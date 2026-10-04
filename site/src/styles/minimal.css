@@ -3,7 +3,7 @@
    líneas finas y más aire. Va anidada bajo `body` para ganarle a public/styles/*.css,
    que se cargan después y redeclaran títulos gruesos. */
 body {
-  & section { padding-block: clamp(56px, 7vw, 104px); }
+  & section { padding-block: clamp(64px, 9vw, 120px); }
 
   /* ── Tipografía ── */
   & :is(h1, h2, h3, h4) { font-weight: 500; letter-spacing: -.04em; }
@@ -57,7 +57,7 @@ body {
   & .bento-grid.compact .bento { border-radius: 20px; }
   & .bento-grid.compact .bento:hover { border-color: var(--line-2); }
   & #servicios .bento-grid.compact .bento-num { color: var(--amber); font-size: clamp(1.2rem, 1.8vw, 1.55rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.15; margin-bottom: 18px; }
-  & .bento-grid.compact .bento-hook { font-weight: 500; letter-spacing: -.045em; }
+  & .bento-grid.compact .bento-hook { font-weight: 500; letter-spacing: -.045em; text-wrap: balance; }
   & .bento-grid.compact article:nth-child(1) .bento-hook { font-weight: 400; letter-spacing: -.06em; line-height: .98; }
   & .bento-grid.compact .bento-link { font-weight: 500; }
   & .bento-grid.compact .bento-link i { color: var(--label-3); }
@@ -175,7 +175,7 @@ body .hero {
   --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14); --fill: rgba(255, 255, 255, .05);
   --mx: 72%; --my: 38%;
   color: var(--label);
-  margin-top: -88px; padding-top: calc(88px + clamp(56px, 7vw, 104px)) !important;
+  margin-top: calc(-1 * var(--hdr-h)); padding-top: calc(var(--hdr-h) + clamp(56px, 7vw, 104px)) !important;
   padding-bottom: clamp(72px, 9vw, 128px) !important;
   /* La última capa funde el hero con el fondo de la página: sin corte visible abajo. */
   background:
@@ -202,8 +202,10 @@ body .hero .btn:hover { transform: translateY(-2px); }
 body .hero-split { overflow: hidden; }
 /* Celular: el mockup ya termina difuminado, no hace falta tanto aire debajo. */
 @media (max-width: 640px) { body .hero-split { padding-bottom: 8px !important; } }
-/* Entrada del hero (data-hero-seq): misma secuencia escalonada, sin blur. */
-html.js [data-hero-seq] > * { filter: none; animation-name: heroSeqIn; }
+/* Entrada del hero (data-hero-seq): misma secuencia escalonada, solo desplazamiento. Sin fundido:
+   el texto (LCP) nunca desaparece cuando el script agrega .js, así se ve desde el primer pintado. */
+html.js [data-hero-seq] > * { filter: none; opacity: 1; animation-name: heroSeqRise; }
+@keyframes heroSeqRise { from { transform: translate3d(0, 14px, 0); } to { transform: none; } }
 @keyframes heroSeqIn { to { opacity: 1; transform: none; } }
 /* ── Mega menú (escritorio): panel opaco, editorial, sin recuadros de color ── */
 @media (min-width: 821px) {
@@ -240,3 +242,115 @@ html.js [data-hero-seq] > * { filter: none; animation-name: heroSeqIn; }
     & .mega-link span span { color: var(--label-3); }
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — celular ≤767 · tablet 768–1199 · escritorio 1200+
+   Menos elementos a la vez, misma marca.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Cifras: sección propia bajo el hero, con título visible ── */
+body .fig-h { margin: 0 0 clamp(28px, 4vw, 44px); }
+body .figures-grid { padding-block: clamp(64px, 8vw, 104px); }
+
+@media (max-width: 767px) {
+  :root { --hdr-h: 60px; }
+
+  /* Header: barra simple a todo el ancho en vez de cápsula flotante */
+  body .hdr {
+    top: 0; left: 0; translate: none; width: 100%;
+    border: 0; border-bottom: 1px solid var(--line); border-radius: 0; box-shadow: none;
+  }
+  body .hdr.stuck { box-shadow: none; }
+  body .hdr-in, body .hdr.stuck .hdr-in { min-height: 60px; padding-inline: var(--pad); }
+  body .logo-mark { height: 17px; }
+  body .menu-btn { background: none; margin-right: -10px; }
+
+  /* Flotantes: WhatsApp más chico y oscuro; "volver arriba" fuera (el CTA y el menú ya bastan) */
+  body .wa-float {
+    width: 48px; height: 48px; right: 16px; bottom: 16px;
+    background: #0b0b0d; border: 1px solid rgba(255, 255, 255, .16); box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+    transition: opacity .35s var(--ease), transform .35s var(--spring);
+  }
+  :root:root .wa-float svg { width: 24px; height: 24px; fill: #ffb020; }
+  body .totop { display: none; }
+  /* En el inicio aparece al pasar el hero: ahí el CTA principal ya abre WhatsApp */
+  html:not(.past-hero) body:has(#inicio) .wa-float { opacity: 0; pointer-events: none; transform: translateY(12px); }
+
+  /* Cifras: lista vertical, número a la izquierda y descripción a la derecha */
+  body .figures-grid .fig-list { grid-template-columns: 1fr; gap: 0; }
+  body .figures-grid .fig {
+    flex-direction: row; flex-wrap: nowrap; align-items: baseline; gap: 16px;
+    padding-block: 18px; border-top: 1px solid var(--line);
+  }
+  body .figures-grid .fig:first-child { border-top: 0; padding-top: 0; }
+  body .figures-grid .fig-n { flex: 0 0 42%; font-size: 2.4rem; }
+  body .figures-grid .fig-l { flex: 1; min-width: 0; font-size: 1rem; color: var(--label); }
+
+  /* Servicios: lista de bloques apilados (no carrusel), sin ilustración, flecha a la derecha */
+  body .bento-grid.compact {
+    display: flex; flex-direction: column; gap: 12px;
+    overflow: visible; margin-inline: 0; padding: 0; scroll-snap-type: none;
+  }
+  body .bento-grid.compact .bento,
+  body .bento-grid.compact article:nth-child(1) {
+    flex: none; min-height: 0; padding: 22px 68px 22px 22px; border-radius: 20px; justify-content: flex-start;
+  }
+  body .bento-grid.compact .bento-ill,
+  body .bento-grid.compact article:nth-child(1) .bento-ill { display: none; }
+  body .bento-grid.compact .bento-txt { position: static; }
+  body .bento-grid.compact .bento-num { font-size: .68rem; margin-bottom: 10px; }
+  body .bento-grid.compact .bento-hook,
+  body .bento-grid.compact article:nth-child(1) .bento-hook { font-size: 1.3rem; line-height: 1.12; max-width: none; letter-spacing: -.04em; font-weight: 500; }
+  body .bento-grid.compact .bento-desc,
+  body .bento-grid.compact article:nth-child(1) .bento-desc { font-size: .92rem; margin-top: 6px; max-width: none; }
+  body .bento-grid.compact .bento-link,
+  body .bento-grid.compact .bento-link.btn {
+    position: absolute; right: 14px; top: 50%; translate: 0 -50%; z-index: 1;
+    width: 44px; height: 44px; min-height: 0; margin: 0; padding: 0; border-radius: 50%;
+    display: grid; place-items: center; font-size: 0; background: none; color: var(--label);
+  }
+  body .bento-grid.compact .bento-link i {
+    display: grid; place-items: center; width: 36px; height: 36px; margin: 0;
+    border: 1px solid var(--line-2); border-radius: 50%; font-size: 15px; color: var(--label);
+  }
+  body .bento-grid.compact .bento-link.btn i { color: var(--label); }
+  body .bento-grid.compact .bento:hover .bento-link i { border-color: var(--amber); background: var(--amber); color: #231600; }
+}
+
+/* ── Tablet: cifras en 2×2 con aire; servicios en 2 columnas ya vienen de global.css ── */
+@media (min-width: 768px) and (max-width: 1199px) {
+  body .figures-grid .fig-list { grid-template-columns: repeat(2, 1fr); gap: 36px 32px; }
+}
+
+/* ── Planes apilados en celular/tablet: cada card se separa de la que tapa ── */
+@media (max-width: 820px) {
+  body .pricing.plans-sticky .plan {
+    filter: brightness(calc(1 - var(--stack, 0) * .5));   /* la de atrás se oscurece al quedar tapada */
+    background: var(--bg-2);
+    border-color: color-mix(in srgb, var(--label) 22%, transparent);
+    box-shadow: 0 -16px 32px -12px rgba(0, 0, 0, .75);
+  }
+  :root:not([data-theme="dark"]) body .pricing.plans-sticky .plan { box-shadow: 0 -16px 32px -12px rgba(0, 0, 0, .16); }
+  body .pricing.plans-sticky .plan.is-featured { border-color: var(--amber); }
+}
+
+/* ── Interruptor de tema en el header (celular/tablet), al lado de la hamburguesa ── */
+.theme-btn-m { display: none; }
+@media (max-width: 820px) {
+  body .theme-btn-m { display: grid; order: 0; width: 44px; height: 44px; margin: 0 0 0 auto; }
+  body .theme-btn-m + .menu-btn { margin-left: 2px; }
+}
+
+/* ── Planes en fila (tablet/escritorio): al abrir "Ver lo que incluye" crece solo esa card ──
+   Sin estirar la fila; la bajada reserva dos líneas para que cerradas queden parejas. */
+@media (min-width: 821px) {
+  body .pricing { align-items: start; }
+  body .plan-for { min-height: calc(2 * 1.6em); }
+}
+
+/* ── Rendimiento: las entradas usan solo opacidad + desplazamiento (compuestas por GPU).
+   El desenfoque (filter: blur) obligaba a repintar en cada cuadro. Gana a public/styles/*.css. ── */
+html.js body [data-reveal], html.js body [data-reveal].is-visible { filter: none; }
+
+/* ── Rendimiento: el footer (lejos de la primera pantalla) se dibuja recién al acercarse ── */
+.wff { content-visibility: auto; contain-intrinsic-size: auto 1100px; }

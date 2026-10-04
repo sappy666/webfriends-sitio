@@ -1,17 +1,12 @@
+# Encabezado de /llms.txt. El resto (servicios, planes con precios, páginas y artículos del blog)
+# se genera solo desde los contenidos del sitio: src/pages/llms.txt.ts
 content: |
   # Webfriends Chile
 
-  > Agencia de marketing digital, desarrollo web y diseño UX/UI en Chile, con foco en SEO, Google Ads y sitios web para el sector salud.
+  > Agencia chilena de marketing digital fundada en 2019: Google Ads, SEO y GEO (posicionamiento en buscadores y en respuestas de IA), desarrollo de sitios y tiendas web, plataformas para centros de salud y diseño UX/UI. Google Partner con precios publicados en pesos chilenos.
 
-  ## Servicios
-  - [SEO](/seo): Posicionamiento orgánico en buscadores.
-  - [Google Ads](/google-ads): Campañas de pago por clic.
-  - [Sitios web](/sitios-web): Desarrollo de sitios y tiendas online.
-  - [UX/UI](/ux-ui): Diseño de producto y experiencia de usuario.
-  - [Salud](/salud): Soluciones web específicas para clínicas y centros de salud.
-
-  ## Otras páginas
-  - [Casos de éxito](/casos): Proyectos entregados a clientes.
-  - [Nosotros](/nosotros): Sobre la agencia.
-  - [Contacto](/contacto): Formulario y datos de contacto.
-  - [Blog](/blog): Artículos sobre SEO, Ads, desarrollo web y UX/UI.
+  - Más de $500M gestionados en campañas publicitarias (2019–2026), más de 150 plataformas desarrolladas y más de 500 clientes en Chile y Latinoamérica.
+  - Google Partner desde hace 7 años. Calificación 4,4 de 5 en Google (18 reseñas).
+  - Trabajo 100% remoto para todo Chile. Oficinas: Etchevers 210, Viña del Mar, y Av. Kennedy 7440, of. 701, Vitacura (Santiago).
+  - Contacto: contacto@webfriends.cl · +56 9 3197 1436 (también WhatsApp).
+  - Los precios de los planes son en pesos chilenos (CLP); los planes mensuales se informan + IVA.

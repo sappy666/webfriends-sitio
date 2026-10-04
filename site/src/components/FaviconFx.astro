@@ -1,0 +1,46 @@
+<script>
+// Favicon que se mueve de vez en cuando: cada 8–18 s la W gira una vuelta completa mientras el círculo pasa a ámbar (~1,2 s) y vuelve
+// al ícono normal. Chrome/Edge/Safari no animan favicons SVG, así que los cuadros se dibujan en un
+// canvas y se cambian por href. Sin animación si el usuario pide movimiento reducido.
+const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (link && !reduce) {
+  const original = link.href;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 64;
+  const g = canvas.getContext('2d');
+  const W: [number, number][] = [[15, 22], [23, 43], [32, 26], [41, 43], [49, 22]]; // mismo trazo que favicon.svg
+
+  // Mezcla de colores: t = 0 → negro con W blanca; t = 1 → ámbar de marca con W oscura.
+  const mix = (a: number[], b: number[], t: number) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * t)).join(',')})`;
+  const BLACK = [17, 17, 17], AMBER = [255, 176, 32], WHITE = [255, 255, 255], INK = [35, 22, 0];
+
+  const draw = (rot: number, t: number) => {
+    if (!g) return;
+    g.clearRect(0, 0, 64, 64);
+    g.fillStyle = mix(BLACK, AMBER, t);
+    g.beginPath(); g.arc(32, 32, 32, 0, Math.PI * 2); g.fill();
+    g.save();
+    g.translate(32, 32); g.rotate(rot); g.translate(-32, -32);
+    g.strokeStyle = mix(WHITE, INK, t); g.lineWidth = 6; g.lineCap = 'round'; g.lineJoin = 'round';
+    g.beginPath(); W.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke();
+    g.restore();
+    link.href = canvas.toDataURL('image/png');
+  };
+
+  // Giro completo de la W; el círculo pasa a ámbar a mitad del giro y vuelve al negro.
+  const DURATION = 1200, FRAME = 50; // ~20 cuadros por segundo: suficiente para la pestaña
+  const ease = (p: number) => (p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+  const play = () => {
+    const t0 = performance.now();
+    const timer = setInterval(() => {
+      const p = (performance.now() - t0) / DURATION;
+      if (p >= 1) { clearInterval(timer); link.href = original; schedule(); return; }
+      draw(ease(p) * Math.PI * 2, Math.sin(p * Math.PI));
+    }, FRAME);
+  };
+  const schedule = () => setTimeout(play, 8000 + Math.random() * 10000);
+  if (g) schedule();
+}
+</script>

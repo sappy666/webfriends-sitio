@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════════
+   TEMA CLARO — ajustes por componente
+   Los valores de color viven en los tokens de :root (global.css); aquí solo se corrige lo que
+   el tema claro no resuelve con tokens: rellenos ámbar, heroes (oscuros por diseño en el tema
+   oscuro), superficies y formularios. Todo va bajo :root[data-theme="light"], así que el tema
+   oscuro no se ve afectado. Especificidad alta a propósito: public/styles/*.css carga después.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Rellenos ámbar: ámbar de marca (--brand) con texto oscuro (--on-brand), 9.7:1 ──
+   En claro --amber es un ámbar oscuro para texto; como relleno se vería apagado. */
+:root[data-theme="light"] {
+  & ::selection { background: var(--brand); color: var(--on-brand); }
+
+  & .btn-accent { background: var(--brand); color: var(--on-brand); box-shadow: 0 8px 22px -10px rgba(200, 120, 0, .45); }
+  & .btn-accent:hover { background: var(--brand-press); box-shadow: 0 12px 28px -10px rgba(200, 120, 0, .5); }
+  & .plan-badge { background: var(--brand); color: var(--on-brand); box-shadow: none; }
+  & .bento-grid.compact .bento-link.btn { background: var(--brand); color: var(--on-brand); }
+  & .q-chips input:checked + span { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+  & .filter-chip[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+  & .pq-n { background: var(--brand); color: var(--on-brand); }
+  & .pq-svc:has(input:checked)::after { background: var(--brand); color: var(--on-brand); }
+  & .card-link:hover i, & .bento:hover .bento-link:not(.btn) i,
+  & body .bento-grid.compact .bento:hover .bento-link i,
+  & .osv-card:hover .osv-go, & .tst-btn:hover { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+  & .wa-float { background: var(--brand); box-shadow: 0 8px 24px -8px rgba(200, 120, 0, .5); }
+  & .wa-float svg { fill: var(--on-brand); }
+
+  /* Botón secundario: borde cálido, sin negro duro */
+  & .btn-soft { border-color: rgba(23, 20, 15, .14); }
+  & .btn-soft:hover { background: var(--card); border-color: rgba(23, 20, 15, .24); }
+}
+
+/* ── Superficies (nivel 3): tarjetas en marfil con borde y sombra cálidos ── */
+:root[data-theme="light"] body {
+  & :is(.plan, .bento, .tst-card, .osv-card) {
+    background: var(--card); border-color: var(--line); box-shadow: 0 1px 2px rgba(40, 30, 15, .03), 0 8px 30px rgba(40, 30, 15, .05);
+  }
+  & .bento-grid.compact .bento { background: var(--card); border-color: var(--line); }
+  & .plan.is-featured { border-color: var(--amber); box-shadow: 0 1px 2px rgba(40, 30, 15, .03), 0 14px 40px -12px rgba(200, 120, 0, .22); }
+  @media (hover: hover) {
+    & :is(.bento, .tst-card, .osv-card):hover { box-shadow: 0 2px 6px rgba(40, 30, 15, .04), 0 16px 40px rgba(40, 30, 15, .08); }
+  }
+  /* Planes apilados en celular: misma superficie, con sombra hacia arriba */
+  & .pricing.plans-sticky .plan { background: var(--card); border-color: var(--line-2); filter: brightness(calc(1 - var(--stack, 0) * .06)); }
+
+  /* Formularios: campo marfil con borde cálido (no blanco sobre blanco) */
+  & .field :is(input, textarea, select) { background: var(--card); border: 1px solid #CEC6BA; }
+  & .field :is(input, textarea, select):focus { border-color: var(--amber); box-shadow: 0 0 0 4px var(--amber-soft); background: var(--card); }
+
+  /* Bandas alternas (nivel 2) y líneas de sección */
+  & .dark-band { background: var(--bg-2); }
+  & .figures-grid { border-color: var(--line); }
+}
+
+/* ═══════ HERO DEL INICIO (claro): crema cálido con burbujas ámbar suaves ═══════
+   El WebGL (oscuro) se apaga en claro: lo reemplazan formas CSS de baja opacidad. */
+:root[data-theme="light"] #inicio {
+  --hb-txt: #171717; --hb-muted: #55514B;
+  background: linear-gradient(180deg, #F6F3EC 0%, #ECE6DB 100%);
+  color: var(--hb-txt);
+}
+:root[data-theme="light"] #inicio .hb-hl { color: #A65E00; }            /* titular grande: 4:1 sobre el crema */
+:root[data-theme="light"] #inicio .hb-btn-primary { box-shadow: 0 10px 28px -12px rgba(200, 120, 0, .55); }
+:root[data-theme="light"] #inicio .hb-stars { color: #B86A00; }
+:root[data-theme="light"] #inicio .hb-stars i { background: linear-gradient(90deg, #B86A00 50%, rgba(184, 106, 0, .3) 50%); -webkit-background-clip: text; background-clip: text; }
+:root[data-theme="light"] #inicio .hb-foot { color: rgba(23, 20, 15, .5); }
+:root[data-theme="light"] #inicio .hb-dot { box-shadow: none; }
+:root[data-theme="light"] #inicio .hb-canvas { background: none; }
+:root[data-theme="light"] #inicio .hb-canvas canvas { display: none; }
+:root[data-theme="light"] #inicio .hb-vignette { background: radial-gradient(circle at 50% 46%, transparent 0 40%, rgba(120, 90, 40, .07) 100%); }
+
+/* Burbujas: ámbar suave y difuminado, sin el borde encendido del tema oscuro */
+:root[data-theme="light"] #inicio .hb-canvas::before, :root[data-theme="light"] #inicio .hb-canvas::after,
+:root[data-theme="light"] #inicio .hb-vignette::before, :root[data-theme="light"] #inicio .hb-vignette::after {
+  content: ""; position: absolute; border-radius: 50%; box-shadow: none; filter: blur(6px);
+  background: radial-gradient(circle at 40% 35%, rgba(255, 186, 60, .5), rgba(255, 176, 32, .26) 45%, rgba(255, 176, 32, 0) 70%);
+}
+:root[data-theme="light"] #inicio .hb-canvas::before { width: 112vw; height: 112vw; left: -52vw; top: -16vw; }
+:root[data-theme="light"] #inicio .hb-canvas::after  { width: 92vw;  height: 92vw;  right: -44vw; bottom: -30vw; opacity: .8; }
+:root[data-theme="light"] #inicio .hb-vignette::before { width: 22vw; height: 22vw; right: 14vw; top: 22%; opacity: .9; }
+:root[data-theme="light"] #inicio .hb-vignette::after  { width: 15vw; height: 15vw; left: 10vw; bottom: 18%; opacity: .8; }
+@media (min-width: 768px) {
+  :root[data-theme="light"] #inicio .hb-canvas::before { width: 62vw; height: 62vw; left: -20vw; top: -18vw; }
+  :root[data-theme="light"] #inicio .hb-canvas::after  { width: 56vw; height: 56vw; right: -18vw; bottom: -22vw; }
+  :root[data-theme="light"] #inicio .hb-vignette::before { width: 12vw; height: 12vw; right: 24vw; top: 18%; }
+  :root[data-theme="light"] #inicio .hb-vignette::after  { width: 8vw;  height: 8vw;  left: 22vw; bottom: 16%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-theme="light"] #inicio .hb-canvas::before   { animation: wfLavaLight 19s ease-in-out infinite alternate; }
+  :root[data-theme="light"] #inicio .hb-canvas::after    { animation: wfLavaLight 23s ease-in-out -9s infinite alternate-reverse; }
+  :root[data-theme="light"] #inicio .hb-vignette::before { animation: wfBubbleLight 11s ease-in-out infinite alternate; }
+  :root[data-theme="light"] #inicio .hb-vignette::after  { animation: wfBubbleLight 8s ease-in-out -4s infinite alternate-reverse; }
+}
+@keyframes wfLavaLight {
+  0%   { transform: translate3d(0, 0, 0) scale(1, 1); }
+  50%  { transform: translate3d(3vw, 9vh, 0) scale(.96, 1.05); }
+  100% { transform: translate3d(-2vw, 16vh, 0) scale(1.03, .97); }
+}
+@keyframes wfBubbleLight {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-5vw, -14vh, 0) scale(.92, 1.08); }
+  100% { transform: translate3d(3vw, -26vh, 0) scale(1.06, .95); }
+}
+
+/* ═══════ HEROES INTERNOS (claro): mismos gradientes atmosféricos, en crema ═══════ */
+:root[data-theme="light"] body .hero {
+  --label: #171717; --label-2: #55514B; --label-3: #6B655C;
+  --line: rgba(23, 20, 15, .08); --line-2: rgba(23, 20, 15, .14); --fill: rgba(23, 20, 15, .04);
+  background:
+    linear-gradient(to bottom, transparent 62%, var(--bg) 100%),
+    radial-gradient(circle at 78% 38%, rgba(255, 176, 32, .22), transparent 38%),
+    radial-gradient(circle at 12% 62%, rgba(255, 176, 32, .09), transparent 32%),
+    linear-gradient(180deg, #F6F3EC 0%, #ECE6DB 100%);
+}
+:root[data-theme="light"] body .hero::before { background: radial-gradient(600px circle at var(--mx) var(--my), rgba(255, 170, 40, .12), transparent 60%); }
+:root[data-theme="light"] body .hero .hero-actions .btn:not(.btn-accent) { border-color: rgba(23, 20, 15, .16); color: #171717; }
+:root[data-theme="light"] body .hero .hero-actions .btn:not(.btn-accent):hover { background: rgba(23, 20, 15, .05); border-color: rgba(23, 20, 15, .28); }
+:root[data-theme="light"] body .hero .btn-accent { color: var(--on-brand); }
+
+/* ── Ritmo de secciones (nivel 2): bandas apenas distintas, sin franjas fuertes ── */
+:root[data-theme="light"] body :is(.figures-grid, .grad-cool) { background: var(--bg-2); }
+
+/* Servicios en celular: la flecha de la primera tarjeta no lleva relleno (como las demás) */
+@media (max-width: 767px) {
+  :root[data-theme="light"] body .bento-grid.compact .bento-link.btn { background: none; color: var(--label); }
+}
+
+/* ═══════ FOOTER (claro): tarjeta ámbar de marca con texto grafito ═══════
+   En oscuro sigue negro. Contraste del texto sobre #FFB020: 10:1 / 6.9:1 / 5.3:1.
+   "footer.wff.wff" sube la especificidad para ganarle a los estilos con alcance de Footer.astro. */
+:root[data-theme="light"] footer.wff.wff {
+  --f-bg: #FFB020; --f-txt: #171410; --f-txt-2: rgba(23, 20, 15, .82); --f-txt-3: rgba(23, 20, 15, .72);
+  --f-line: rgba(23, 20, 15, .18); --f-fill: rgba(23, 20, 15, .07);
+  --f-amber: #171410;   /* acentos (punto final, viñetas, @, foco) en grafito: ámbar sobre ámbar no se ve */
+}
+:root[data-theme="light"] footer.wff.wff .wff-card {
+  background:
+    radial-gradient(circle at 85% 18%, rgba(255, 236, 190, .55), transparent 42%),
+    linear-gradient(160deg, #FFB72E 0%, #FFB020 55%, #F7A40C 100%);
+}
+:root[data-theme="light"] footer.wff.wff .wff-brand img { filter: brightness(0); }   /* logo blanco → negro */
+:root[data-theme="light"] footer.wff.wff .wff-submit { background: #171410; color: #FFB020; }
+:root[data-theme="light"] footer.wff.wff .wff-submit:hover { background: #2B241A; color: #FFC85A; }
+:root[data-theme="light"] footer.wff.wff .wff-status[data-state="error"] { color: #7A1A00; }

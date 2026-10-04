@@ -1,0 +1,529 @@
+{
+  "spacing": {
+    "gutter": {
+      "$type": "dimension",
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      },
+      "$description": "Margen lateral del contenedor (.wrap). clamp(20px, 5vw, 32px)."
+    },
+    "container": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1120,
+        "unit": "px"
+      },
+      "$description": "Ancho máximo del contenido (--maxw)."
+    },
+    "section-y": {
+      "$type": "dimension",
+      "$value": {
+        "value": 104,
+        "unit": "px"
+      },
+      "$description": "Padding vertical de cada sección. clamp(56px, 7vw, 104px)."
+    },
+    "grid-gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      },
+      "$description": "Separación entre tarjetas de planes."
+    },
+    "gap-chips": {
+      "$type": "dimension",
+      "$value": {
+        "value": 7,
+        "unit": "px"
+      },
+      "$description": "Separación entre chips."
+    },
+    "card-pad-top": {
+      "$type": "dimension",
+      "$value": {
+        "value": 26,
+        "unit": "px"
+      },
+      "$description": "Aire entre la línea superior de una tarjeta de línea y su contenido."
+    },
+    "plan-pad-y": {
+      "$type": "dimension",
+      "$value": {
+        "value": 28,
+        "unit": "px"
+      },
+      "$description": "Padding vertical de la tarjeta de plan."
+    },
+    "plan-pad-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 26,
+        "unit": "px"
+      },
+      "$description": "Padding horizontal de la tarjeta de plan."
+    },
+    "btn-pad-y": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      },
+      "$description": "Padding vertical del botón."
+    },
+    "btn-pad-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 28,
+        "unit": "px"
+      },
+      "$description": "Padding horizontal del botón."
+    },
+    "btn-height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 52,
+        "unit": "px"
+      },
+      "$description": "Alto mínimo del botón."
+    },
+    "btn-height-sm": {
+      "$type": "dimension",
+      "$value": {
+        "value": 42,
+        "unit": "px"
+      },
+      "$description": "Alto mínimo del botón pequeño."
+    },
+    "field-pad-y": {
+      "$type": "dimension",
+      "$value": {
+        "value": 15,
+        "unit": "px"
+      },
+      "$description": "Padding vertical de campos."
+    },
+    "field-pad-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 17,
+        "unit": "px"
+      },
+      "$description": "Padding horizontal de campos."
+    },
+    "field-height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 52,
+        "unit": "px"
+      },
+      "$description": "Alto mínimo de campos."
+    },
+    "touch-min": {
+      "$type": "dimension",
+      "$value": {
+        "value": 44,
+        "unit": "px"
+      },
+      "$description": "Área táctil mínima de cualquier control."
+    }
+  },
+  "radius": {
+    "sm": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      },
+      "$description": "Esquinas pequeñas."
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      },
+      "$description": "Campos de formulario."
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": {
+        "value": 18,
+        "unit": "px"
+      },
+      "$description": "Paneles medianos."
+    },
+    "plan": {
+      "$type": "dimension",
+      "$value": {
+        "value": 22,
+        "unit": "px"
+      },
+      "$description": "Tarjeta de plan."
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      },
+      "$description": "Paneles grandes."
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 34,
+        "unit": "px"
+      },
+      "$description": "Tarjetas del blog."
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 44,
+        "unit": "px"
+      },
+      "$description": "Imágenes destacadas (.hero-img)."
+    },
+    "pill": {
+      "$type": "dimension",
+      "$value": {
+        "value": 999,
+        "unit": "px"
+      },
+      "$description": "Botones, chips, métricas, pestañas y etiquetas: todo lo que es pastilla."
+    }
+  },
+  "breakpoint": {
+    "mobile": {
+      "$type": "dimension",
+      "$value": {
+        "value": 640,
+        "unit": "px"
+      },
+      "$description": "Celular: acordeones, cards 2×2, sin métricas del hero."
+    },
+    "tablet": {
+      "$type": "dimension",
+      "$value": {
+        "value": 820,
+        "unit": "px"
+      },
+      "$description": "Planes plegables y apilados; pestañas a ancho completo."
+    },
+    "split": {
+      "$type": "dimension",
+      "$value": {
+        "value": 900,
+        "unit": "px"
+      },
+      "$description": "Hero con visual pasa a una columna."
+    },
+    "desktop": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1000,
+        "unit": "px"
+      },
+      "$description": "Etapas en fila y animación de encendido por scroll."
+    }
+  },
+  "font": {
+    "family": {
+      "sans": {
+        "$type": "fontFamily",
+        "$value": "Plus Jakarta Sans",
+        "$description": "Única familia del sitio (Google Fonts, 400–800)."
+      }
+    },
+    "weight": {
+      "400": {
+        "$type": "fontWeight",
+        "$value": 400
+      },
+      "500": {
+        "$type": "fontWeight",
+        "$value": 500
+      },
+      "600": {
+        "$type": "fontWeight",
+        "$value": 600
+      },
+      "700": {
+        "$type": "fontWeight",
+        "$value": 700
+      },
+      "800": {
+        "$type": "fontWeight",
+        "$value": 800
+      }
+    },
+    "size": {
+      "display-hero": {
+        "$type": "dimension",
+        "$value": {
+          "value": 89.6,
+          "unit": "px"
+        },
+        "$description": "Tamaño de display-hero"
+      },
+      "display-hero-split": {
+        "$type": "dimension",
+        "$value": {
+          "value": 70.4,
+          "unit": "px"
+        },
+        "$description": "Tamaño de display-hero-split"
+      },
+      "heading-section": {
+        "$type": "dimension",
+        "$value": {
+          "value": 67.2,
+          "unit": "px"
+        },
+        "$description": "Tamaño de heading-section"
+      },
+      "price": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        },
+        "$description": "Tamaño de price"
+      },
+      "numeral": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        },
+        "$description": "Tamaño de numeral"
+      },
+      "heading-card": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20.8,
+          "unit": "px"
+        },
+        "$description": "Tamaño de heading-card"
+      },
+      "lede": {
+        "$type": "dimension",
+        "$value": {
+          "value": 18.4,
+          "unit": "px"
+        },
+        "$description": "Tamaño de lede"
+      },
+      "body": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16.8,
+          "unit": "px"
+        },
+        "$description": "Tamaño de body"
+      },
+      "body-small": {
+        "$type": "dimension",
+        "$value": {
+          "value": 13.76,
+          "unit": "px"
+        },
+        "$description": "Tamaño de body-small"
+      },
+      "button": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16.8,
+          "unit": "px"
+        },
+        "$description": "Tamaño de button"
+      },
+      "meta": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12.16,
+          "unit": "px"
+        },
+        "$description": "Tamaño de meta"
+      },
+      "chip": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        },
+        "$description": "Tamaño de chip"
+      },
+      "eyebrow": {
+        "$type": "dimension",
+        "$value": {
+          "value": 10.88,
+          "unit": "px"
+        },
+        "$description": "Tamaño de eyebrow"
+      }
+    },
+    "line-height": {
+      "display-hero": {
+        "$type": "number",
+        "$value": 0.98
+      },
+      "display-hero-split": {
+        "$type": "number",
+        "$value": 0.98
+      },
+      "heading-section": {
+        "$type": "number",
+        "$value": 1
+      },
+      "price": {
+        "$type": "number",
+        "$value": 1.08
+      },
+      "numeral": {
+        "$type": "number",
+        "$value": 1.08
+      },
+      "heading-card": {
+        "$type": "number",
+        "$value": 1.08
+      },
+      "lede": {
+        "$type": "number",
+        "$value": 1.55
+      },
+      "body": {
+        "$type": "number",
+        "$value": 1.6
+      },
+      "body-small": {
+        "$type": "number",
+        "$value": 1.55
+      },
+      "button": {
+        "$type": "number",
+        "$value": 1
+      },
+      "meta": {
+        "$type": "number",
+        "$value": 1.4
+      },
+      "chip": {
+        "$type": "number",
+        "$value": 1.2
+      },
+      "eyebrow": {
+        "$type": "number",
+        "$value": 1
+      }
+    },
+    "letter-spacing": {
+      "display-hero": {
+        "$type": "dimension",
+        "$value": {
+          "value": -5.38,
+          "unit": "px"
+        },
+        "$description": "-0.06em"
+      },
+      "display-hero-split": {
+        "$type": "dimension",
+        "$value": {
+          "value": -4.22,
+          "unit": "px"
+        },
+        "$description": "-0.06em"
+      },
+      "heading-section": {
+        "$type": "dimension",
+        "$value": {
+          "value": -3.7,
+          "unit": "px"
+        },
+        "$description": "-0.055em"
+      },
+      "price": {
+        "$type": "dimension",
+        "$value": {
+          "value": -2.64,
+          "unit": "px"
+        },
+        "$description": "-0.055em"
+      },
+      "numeral": {
+        "$type": "dimension",
+        "$value": {
+          "value": -2,
+          "unit": "px"
+        },
+        "$description": "-0.05em"
+      },
+      "heading-card": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.73,
+          "unit": "px"
+        },
+        "$description": "-0.035em"
+      },
+      "lede": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$description": "0em"
+      },
+      "body": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.17,
+          "unit": "px"
+        },
+        "$description": "-0.01em"
+      },
+      "body-small": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.14,
+          "unit": "px"
+        },
+        "$description": "-0.01em"
+      },
+      "button": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.17,
+          "unit": "px"
+        },
+        "$description": "-0.01em"
+      },
+      "meta": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$description": "0em"
+      },
+      "chip": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$description": "0em"
+      },
+      "eyebrow": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.74,
+          "unit": "px"
+        },
+        "$description": "0.16em"
+      }
+    }
+  }
+}

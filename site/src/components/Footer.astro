@@ -9,7 +9,6 @@ const seoHref = slug('page-seo');
 const sitiosWebHref = slug('page-sitios-web');
 const uxUiHref = slug('page-ux-ui');
 const saludHref = slug('page-salud');
-const casosHref = slug('page-casos');
 const nosotrosHref = slug('page-nosotros');
 const contactoHref = slug('page-contacto');
 const terminosHref = slug('page-terminos');
@@ -52,7 +51,7 @@ const terminosHref = slug('page-terminos');
         <div>
           <h3 class="wff-label">Empresa</h3>
           <ul class="wff-links">
-            <li><a href={casosHref}>Casos de éxito</a></li>
+            <li><a href={`${nosotrosHref}#casos`}>Casos de éxito</a></li>
             <li><a href={slug('page-precios')}>Precios</a></li>
             <li><a href={nosotrosHref}>Nosotros</a></li>
             <li><a href="/blog">Blog</a></li>
@@ -85,7 +84,7 @@ const terminosHref = slug('page-terminos');
     <div class="wff-bar">
       <div class="wff-in wff-bar-in">
         <a class="wff-brand" href="/" aria-label="Webfriends, inicio">
-          <img src="/assets/img/webfriends-logo.png" alt="" width="778" height="74" loading="lazy">
+          <img src="/assets/img/webfriends-logo.webp" alt="" width="778" height="74" loading="lazy">
           <span class="wff-partner"><i aria-hidden="true">✦</i> Google Partner</span>
         </a>
         <p class="wff-copy">© 2026 Webfriends Chile — Todos los derechos reservados · <a href={terminosHref}>Términos</a> · <a href={`${terminosHref}#privacidad`}>Privacidad</a></p>

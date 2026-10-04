@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 
 export const GET: APIRoute = async ({ site }) => {
   const [entry] = await getCollection('robotsTxt');
-  const sitemapUrl = new URL('sitemap-index.xml', site).toString();
+  const sitemapUrl = new URL('sitemap.xml', site).toString();
   const body = `${entry.data.rules.trim()}\n\nSitemap: ${sitemapUrl}\n`;
 
   return new Response(body, {

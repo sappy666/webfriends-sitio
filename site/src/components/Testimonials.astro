@@ -59,9 +59,6 @@ const initials = (n: string) => n.split(' ').slice(0, 2).map((w) => w[0]).join('
           <figcaption>
             <span class="tst-avatar" aria-hidden="true">{initials(r.name)}</span>
             <span class="tst-who"><strong>{r.name}</strong><span>{r.role}</span></span>
-            <a class="tst-go" href={reviewsUrl} target="_blank" rel="noopener" aria-label={`Ver la reseña de ${r.name} en Google`}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
           </figcaption>
         </figure>
       ))}
@@ -76,21 +73,25 @@ const initials = (n: string) => n.split(' ').slice(0, 2).map((w) => w[0]).join('
   .tst-rating { display: inline-flex; align-items: baseline; gap: 8px; margin-top: 22px; color: var(--label-2); text-decoration: none; font-size: .85rem; }
   .tst-rating b { font-size: 1.4rem; color: var(--label); letter-spacing: -.02em; }
   .tst-stars { color: var(--amber); letter-spacing: 1px; }
-  .tst-stars i { font-style: normal; opacity: .35; }
+  /* Quinta estrella a medias: 4,4 se muestra como 4½, igual que en Google */
+  .tst-stars i {
+    font-style: normal; color: transparent;
+    background: linear-gradient(90deg, var(--amber) 50%, color-mix(in srgb, var(--amber) 35%, transparent) 50%);
+    -webkit-background-clip: text; background-clip: text;
+  }
   .tst-rating:hover span:last-child { color: var(--amber); }
   .tst-nav { display: flex; gap: 10px; margin-top: 26px; }
-  .tst-btn, .tst-go {
+  .tst-btn {
     width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; flex: none;
     border: 1px solid var(--line-2); background: none; color: var(--label); cursor: pointer;
     transition: border-color .3s, background .3s, color .3s, transform .4s var(--spring);
   }
-  .tst-btn:hover, .tst-go:hover { border-color: var(--amber); background: var(--amber); color: #231600; }
+  .tst-btn:hover { border-color: var(--amber); background: var(--amber); color: #231600; }
   .tst-btn:disabled { opacity: .3; pointer-events: none; }
-  .tst-go { width: 34px; height: 34px; color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, transparent); }
 
   .tst-track {
     display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 32px) / 3); gap: 16px;
-    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding: 4px 2px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; /* sin scroll-behavior: smooth: su ajuste inicial cuenta como scroll y anula el LCP; los botones ya usan behavior:"smooth" */ padding: 4px 2px;
     outline: none;
   }
   .tst-track::-webkit-scrollbar { display: none; }

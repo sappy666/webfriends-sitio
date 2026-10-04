@@ -1,43 +1,45 @@
 <script>
 // Cómo trabajamos (#arcList): la línea se llena con el scroll y cada etapa se ilumina en orden.
 // Se usa en el inicio y en /nosotros.
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-gsap.registerPlugin(ScrollTrigger);
+import { whenInteracted, loadScrollGsap } from '../scripts/when-interacted';
 
-// Mobile: la línea es vertical y cada etapa se ilumina al llegar a media pantalla.
-gsap.matchMedia().add('(max-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
-  const list = document.getElementById('arcList');
-  if (!list) return;
-  const steps = [...list.querySelectorAll<HTMLElement>('.arc-step')];
-  list.classList.add('arc-scroll');
-  steps.forEach((step) => {
-    step.removeAttribute('data-reveal');
-    ScrollTrigger.create({ trigger: step, start: 'top 62%', toggleClass: 'is-lit', end: 'max' });
+// GSAP y las mediciones de scroll arrancan tras la primera interacción (rendimiento).
+whenInteracted(async () => {
+  const { gsap, ScrollTrigger } = await loadScrollGsap();
+  // Mobile: la línea es vertical y cada etapa se ilumina al llegar a media pantalla.
+  gsap.matchMedia().add('(max-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
+    const list = document.getElementById('arcList');
+    if (!list) return;
+    const steps = [...list.querySelectorAll<HTMLElement>('.arc-step')];
+    list.classList.add('arc-scroll');
+    steps.forEach((step) => {
+      step.removeAttribute('data-reveal');
+      ScrollTrigger.create({ trigger: step, start: 'top 62%', toggleClass: 'is-lit', end: 'max' });
+    });
+    gsap.fromTo(list, { '--p': 0 }, {
+      '--p': 1, ease: 'none',
+      scrollTrigger: { trigger: list, start: 'top 62%', end: 'bottom 62%', scrub: 0.5 },
+    });
+    return () => { list.classList.remove('arc-scroll'); steps.forEach((s) => s.classList.remove('is-lit')); };
   });
-  gsap.fromTo(list, { '--p': 0 }, {
-    '--p': 1, ease: 'none',
-    scrollTrigger: { trigger: list, start: 'top 62%', end: 'bottom 62%', scrub: 0.5 },
-  });
-  return () => { list.classList.remove('arc-scroll'); steps.forEach((s) => s.classList.remove('is-lit')); };
-});
 
-// Escritorio: las etapas están en fila, así que se encienden según el avance del scroll.
-gsap.matchMedia().add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
-  const list = document.getElementById('arcList');
-  if (!list) return;
-  const steps = [...list.querySelectorAll<HTMLElement>('.arc-step')];
-  list.classList.add('arc-scroll');
-  steps.forEach((step) => step.removeAttribute('data-reveal'));
-  const light = (p: number) =>
-    steps.forEach((step, k) => step.classList.toggle('is-lit', p >= k / steps.length + 0.02));
-  gsap.fromTo(list, { '--p': 0 }, {
-    '--p': 1, ease: 'none',
-    scrollTrigger: {
-      trigger: list, start: 'top 85%', end: 'top 20%', scrub: 0.8,
-      onUpdate: (st) => light(st.progress), onRefresh: (st) => light(st.progress),
-    },
+  // Escritorio: las etapas están en fila, así que se encienden según el avance del scroll.
+  gsap.matchMedia().add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
+    const list = document.getElementById('arcList');
+    if (!list) return;
+    const steps = [...list.querySelectorAll<HTMLElement>('.arc-step')];
+    list.classList.add('arc-scroll');
+    steps.forEach((step) => step.removeAttribute('data-reveal'));
+    const light = (p: number) =>
+      steps.forEach((step, k) => step.classList.toggle('is-lit', p >= k / steps.length + 0.02));
+    gsap.fromTo(list, { '--p': 0 }, {
+      '--p': 1, ease: 'none',
+      scrollTrigger: {
+        trigger: list, start: 'top 85%', end: 'top 20%', scrub: 0.8,
+        onUpdate: (st) => light(st.progress), onRefresh: (st) => light(st.progress),
+      },
+    });
+    return () => { list.classList.remove('arc-scroll'); steps.forEach((s) => s.classList.remove('is-lit')); };
   });
-  return () => { list.classList.remove('arc-scroll'); steps.forEach((s) => s.classList.remove('is-lit')); };
 });
 </script>

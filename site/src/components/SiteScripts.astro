@@ -13,18 +13,32 @@ document.documentElement.classList.add('js');
   try{ stored = localStorage.getItem(THEME_KEY); }catch(e){}
   var meta = document.querySelector('meta[name="theme-color"]');
 
+  /* Todos los interruptores: el de escritorio (#themeBtn) y el del header en celular ([data-theme-toggle]). */
+  var themeBtns = [themeBtn].concat([].slice.call(document.querySelectorAll('[data-theme-toggle]')));
   function apply(dark){
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-    themeBtn.setAttribute("aria-checked", String(dark));
-    themeBtn.setAttribute("aria-label", dark ? "Activar tema claro" : "Activar tema oscuro");
-    if(meta) meta.setAttribute("content", dark ? "#000000" : "#F5F5F7");
+    themeBtns.forEach(function(b){
+      b.setAttribute("aria-checked", String(dark));
+      b.setAttribute("aria-label", dark ? "Activar tema claro" : "Activar tema oscuro");
+    });
+    if(meta) meta.setAttribute("content", dark ? "#000000" : "#F3F0E9");
   }
-  /* Oscuro por defecto: solo se usa claro si el usuario lo eligió. */
-  apply(stored !== "light");
-  themeBtn.addEventListener("click", function(){
-    var dark = document.documentElement.getAttribute("data-theme") !== "dark";
-    apply(dark);
-    try{ localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); }catch(e){}
+  /* Sin elección guardada se sigue el tema del sistema operativo (y sus cambios en vivo);
+     al tocar el interruptor, la elección del usuario manda y se recuerda. */
+  var sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+  var chosen = stored === "light" || stored === "dark";
+  apply(chosen ? stored === "dark" : sysDark.matches);
+  sysDark.addEventListener('change', function(e){
+    var s = null;
+    try{ s = localStorage.getItem(THEME_KEY); }catch(err){}
+    if (s !== "light" && s !== "dark") apply(e.matches);
+  });
+  themeBtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      var dark = document.documentElement.getAttribute("data-theme") !== "dark";
+      apply(dark);
+      try{ localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); }catch(e){}
+    });
   });
 
   /* ══════════════════════════════════════════════════════════
@@ -485,7 +499,11 @@ if (hasTabs) {
 (function(){
   var btn = document.getElementById('totopBtn');
   if (!btn) return;
-  function onScroll(){ btn.classList.toggle('show', window.scrollY > 500); }
+  var root = document.documentElement;
+  function onScroll(){
+    btn.classList.toggle('show', window.scrollY > 500);
+    root.classList.toggle('past-hero', window.scrollY > window.innerHeight * 0.6); // WhatsApp en celular (minimal.css)
+  }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
   btn.addEventListener('click', function(){

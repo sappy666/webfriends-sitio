@@ -1,8 +1,8 @@
 ---
 // Hero del home: fondo WebGL de "metaballs" (Three.js) que siguen al cursor.
 // Siempre oscuro, aunque el sitio esté en tema claro. El texto viene de src/content/site/page-home.yaml.
-interface Props { eyebrow: string; title: string; lede: string }
-const { eyebrow, title, lede } = Astro.props;
+interface Props { eyebrow: string; title: string }
+const { eyebrow, title } = Astro.props;
 
 // "Haz que te encuentren. Y convierte esa visibilidad en crecimiento."
 // → 1ª oración en una línea; del resto, las dos últimas palabras van destacadas en amarillo.
@@ -24,23 +24,18 @@ const restB = words.slice(-2).join(' ');
       {restA && <span>{restA}</span>}
       <span class="hb-hl">{restB}</span>
     </h1>
-    <p class="hb-lede">{lede}</p>
     <div class="hb-actions">
-      <a class="hb-btn hb-btn-primary" href="#contacto">Quiero crecer mi negocio <span aria-hidden="true">↗</span></a>
-      <a class="hb-btn hb-btn-ghost" href="#servicios">Conocer servicios <span aria-hidden="true">↓</span></a>
+      <a class="hb-btn hb-btn-primary" href="#contacto">Quiero crecer mi negocio <span aria-hidden="true">→</span></a>
     </div>
-    <dl class="hb-stats">
-      <div><dt>gestionados en campañas</dt><dd>$500M+</dd></div>
-      <div><dt>clientes atendidos</dt><dd>500+</dd></div>
-      <div><dt>Google Partner</dt><dd>7 años</dd></div>
-    </dl>
+    <a class="hb-rating" href="https://maps.google.com/?cid=6592386168463781065" target="_blank" rel="noopener">
+      <b>4,4</b>
+      <span class="hb-stars" aria-hidden="true">★★★★<i>★</i></span>
+      <span>18 reseñas en Google</span>
+    </a>
   </div>
 
-  <div class="hb-side" aria-hidden="true"><span>WEBFRIENDS®</span><span>AGENCIA DIGITAL · CHILE</span></div>
-
-  <div class="hb-foot">
-    <p class="hb-status"><span class="hb-dot"></span>Disponible para nuevos proyectos</p>
-    <p class="hb-hint" aria-hidden="true">Mueve el cursor <span>↗</span></p>
+  <div class="hb-foot" aria-hidden="true">
+    <p class="hb-hint">Mueve el cursor <span>↗</span></p>
   </div>
 </section>
 
@@ -61,6 +56,55 @@ const restB = words.slice(-2).join(' ');
       radial-gradient(circle closest-side, rgba(255, 176, 32, .36), rgba(120, 60, 0, .2) 55%, transparent 100%) 104% 104% / 50vmax 50vmax no-repeat,
       radial-gradient(circle closest-side, rgba(255, 176, 32, .3), rgba(120, 60, 0, .16) 55%, transparent 100%) 74% 72% / 15vmax 15vmax no-repeat;
   }
+  /* Táctil y celular (sin cursor que seguir): dos burbujas grandes tipo lámpara de lava, en CSS,
+     sin WebGL ni Three.js. Mismo aspecto que las de escritorio: interior oscuro y borde ámbar encendido. */
+  .hb-canvas.is-static { background: none; overflow: hidden; }
+  .hb-canvas.is-static::before, .hb-canvas.is-static::after {
+    content: ""; position: absolute; border-radius: 50%;
+    background: radial-gradient(circle at 62% 30%, #2a1404 0%, #0d0804 58%, #080808 72%);
+    box-shadow:
+      inset 18px 26px 60px -10px rgba(255, 176, 32, .55),
+      inset -10px -14px 50px -20px rgba(255, 140, 20, .35),
+      0 0 90px -20px rgba(255, 160, 30, .35);
+    will-change: transform;
+  }
+  .hb-canvas.is-static::before { width: 112vw; height: 112vw; left: -52vw; top: -16vw; }
+  .hb-canvas.is-static::after  { width: 92vw;  height: 92vw;  right: -44vw; bottom: -30vw; }
+  @media (min-width: 768px) {
+    .hb-canvas.is-static::before { width: 62vw; height: 62vw; left: -20vw; top: -18vw; }
+    .hb-canvas.is-static::after  { width: 56vw; height: 56vw; right: -18vw; bottom: -22vw; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hb-canvas.is-static::before { animation: hbLava 19s ease-in-out infinite alternate; }
+    .hb-canvas.is-static::after  { animation: hbLava 23s ease-in-out -9s infinite alternate-reverse; }
+  }
+  /* Dos burbujas chicas que juegan entre las grandes (usan los pseudo-elementos de la viñeta). */
+  .hb-canvas.is-static + .hb-vignette::before, .hb-canvas.is-static + .hb-vignette::after {
+    content: ""; position: absolute; border-radius: 50%;
+    background: radial-gradient(circle at 62% 30%, #2a1404 0%, #0d0804 58%, #080808 72%);
+    box-shadow: inset 8px 12px 26px -6px rgba(255, 176, 32, .6), 0 0 40px -10px rgba(255, 160, 30, .35);
+    will-change: transform;
+  }
+  .hb-canvas.is-static + .hb-vignette::before { width: 22vw; height: 22vw; right: 14vw; top: 22%; }
+  .hb-canvas.is-static + .hb-vignette::after  { width: 15vw; height: 15vw; left: 10vw; bottom: 18%; }
+  @media (min-width: 768px) {
+    .hb-canvas.is-static + .hb-vignette::before { width: 12vw; height: 12vw; right: 24vw; top: 18%; }
+    .hb-canvas.is-static + .hb-vignette::after  { width: 8vw;  height: 8vw;  left: 22vw; bottom: 16%; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hb-canvas.is-static + .hb-vignette::before { animation: hbBubble 11s ease-in-out infinite alternate; }
+    .hb-canvas.is-static + .hb-vignette::after  { animation: hbBubble 8s ease-in-out -4s infinite alternate-reverse; }
+  }
+  @keyframes hbBubble {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    50%  { transform: translate3d(-5vw, -14vh, 0) scale(.92, 1.08); }
+    100% { transform: translate3d(3vw, -26vh, 0) scale(1.06, .95); }
+  }
+  @keyframes hbLava {
+    0%   { transform: translate3d(0, 0, 0) scale(1, 1); }
+    50%  { transform: translate3d(3vw, 9vh, 0) scale(.96, 1.05); }
+    100% { transform: translate3d(-2vw, 16vh, 0) scale(1.03, .97); }
+  }
   .hb-canvas :global(canvas) { width: 100% !important; height: 100% !important; display: block; }
   .hb-vignette {
     position: absolute; inset: 0; z-index: 1; pointer-events: none;
@@ -77,36 +121,38 @@ const restB = words.slice(-2).join(' ');
   .hb-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--hb-yellow); box-shadow: 0 0 16px rgba(255,176,32,.55); flex: none; }
   .hb h1 {
     margin: 0 auto; max-width: 1180px; color: var(--hb-txt);
-    font-size: clamp(2.8rem, 6.35vw, 7rem); font-weight: 400; line-height: .92; letter-spacing: -.065em;
+    font-size: clamp(2.8rem, 5.9vw, 6.25rem); font-weight: 400; line-height: .94; letter-spacing: -.06em; text-wrap: balance;
   }
   .hb h1 span { display: block; }
   .hb-hl { color: var(--hb-yellow); }
-  .hb-lede {
-    max-width: 610px; margin: clamp(24px, 3vw, 40px) auto 0; color: var(--hb-muted);
-    font-size: clamp(.95rem, 1.1vw, 1.06rem); line-height: 1.55; letter-spacing: -.02em;
-  }
 
-  .hb-actions { margin-top: clamp(26px, 3vw, 40px); display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  /* Un solo CTA (ámbar) y, debajo, la calificación en Google. */
+  .hb-actions { margin-top: clamp(28px, 3vw, 44px); display: flex; justify-content: center; }
   .hb-btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 50px; padding: 0 22px;
-    border-radius: 999px; font-weight: 500; font-size: .8rem; text-decoration: none;
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 54px; padding: 0 28px;
+    border-radius: 999px; font-weight: 600; font-size: .95rem; letter-spacing: -.01em; text-decoration: none;
     transition: background-color .3s cubic-bezier(.16,1,.3,1), transform .3s cubic-bezier(.16,1,.3,1);
   }
+  .hb-btn span { transition: transform .3s cubic-bezier(.32,.72,0,1); }
   .hb-btn-primary { background: var(--hb-yellow); color: #1a1100; }
   .hb-btn-primary:hover { background: var(--hb-yellow-soft); transform: translateY(-2px); }
-  .hb-btn-ghost {
-    border: 1px solid rgba(255,255,255,.2); background: rgba(10,10,10,.25); color: var(--hb-txt);
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  }
-  .hb-btn-ghost:hover { background: rgba(255,255,255,.1); transform: translateY(-2px); }
-  .hb-btn:focus-visible { outline: 2px solid var(--hb-yellow); outline-offset: 3px; }
+  .hb-btn-primary:hover span { transform: translateX(3px); }
+  .hb-btn:focus-visible, .hb-rating:focus-visible { outline: 2px solid var(--hb-yellow); outline-offset: 3px; border-radius: 999px; }
 
-  .hb-stats {
-    display: flex; justify-content: center; gap: clamp(22px, 5vw, 64px); margin: clamp(36px, 5vw, 60px) 0 0;
+  /* Prueba social bajo el CTA: calificación pública en Google */
+  .hb-rating {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; min-height: 44px;
+    color: var(--hb-muted); text-decoration: none; font-size: .85rem;
   }
-  .hb-stats div { display: flex; flex-direction: column-reverse; gap: 4px; }
-  .hb-stats dd { margin: 0; font-size: clamp(1.15rem, 1.6vw, 1.4rem); font-weight: 400; letter-spacing: -.04em; color: var(--hb-txt); }
-  .hb-stats dt { font-size: .7rem; color: rgba(246, 246, 241, .45); }
+  .hb-rating b { font-size: 1.4rem; font-weight: 600; color: var(--hb-txt); letter-spacing: -.02em; }
+  .hb-stars { color: var(--hb-yellow); letter-spacing: 1px; }
+  /* Quinta estrella a medias: 4,4 se muestra como 4½, igual que en Google */
+  .hb-stars i {
+    font-style: normal; color: transparent;
+    background: linear-gradient(90deg, var(--hb-yellow) 50%, rgba(255, 176, 32, .35) 50%);
+    -webkit-background-clip: text; background-clip: text;
+  }
+  .hb-rating:hover span:last-child { color: var(--hb-yellow); }
 
   /* Entrada: fade + leve desplazamiento, escalonada y sin blur */
   @media (prefers-reduced-motion: no-preference) {
@@ -114,14 +160,12 @@ const restB = words.slice(-2).join(' ');
     .hb-content > :nth-child(2) { animation-delay: .08s; }
     .hb-content > :nth-child(3) { animation-delay: .16s; }
     .hb-content > :nth-child(4) { animation-delay: .24s; }
-    .hb-content > :nth-child(5) { animation-delay: .32s; }
   }
   @keyframes hbIn { from { opacity: 0; translate: 0 16px; } }
+  /* El titular (LCP) se ve desde el primer pintado: solo sube un poco, sin fundido. */
+  .hb-content > h1 { animation-name: hbRise; }
+  @keyframes hbRise { from { translate: 0 16px; } }
 
-  .hb-side {    position: absolute; z-index: 5; top: 50%; left: clamp(20px, 3vw, 52px);
-    transform: translateY(-50%) rotate(-90deg); transform-origin: left center;
-    display: flex; gap: 20px; font-size: .62rem; letter-spacing: .17em; color: rgba(255,255,255,.34);
-  }
   .hb-foot {
     position: absolute; z-index: 5; left: clamp(20px, 3vw, 52px); right: clamp(20px, 3vw, 52px); bottom: 26px;
     display: flex; align-items: center; justify-content: space-between;
@@ -129,27 +173,32 @@ const restB = words.slice(-2).join(' ');
   }
   .hb-foot p { margin: 0; display: flex; align-items: center; gap: 9px; }
 
-  .hb-foot .hb-hint { margin-right: 76px; } /* deja espacio al botón flotante de WhatsApp */
+  .hb-foot .hb-hint { margin-left: auto; margin-right: 76px; } /* deja espacio al botón flotante de WhatsApp */
   @media (hover: none) { .hb-foot .hb-hint { display: none; } }
-  @media (max-width: 900px) { .hb-side { display: none; } }
-  @media (max-width: 600px) {
-    .hb { padding: 104px 18px 76px; }
-    .hb-eyebrow { font-size: .64rem; margin-bottom: 22px; }
-    .hb h1 { font-size: clamp(2.4rem, 11.5vw, 3.6rem); line-height: .98; }
-    .hb-lede { font-size: .98rem; }
-    .hb-actions { flex-direction: column; }
-    .hb-btn { width: 100%; }
-    .hb-stats { gap: 18px; }
-    .hb-stats dd { font-size: 1.15rem; }
-    .hb-stats dt { font-size: .68rem; }
-    .hb-foot { bottom: 30px; justify-content: flex-start; right: 84px; }
-    .hb-foot .hb-hint { display: none; }
+  /* Tablet: titular contenido para que no se estire de lado a lado. */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .hb h1 { font-size: clamp(3.4rem, 7.4vw, 5.2rem); }
+    .hb h1 span { display: inline; }
+    .hb h1 span::after { content: " "; }
+    .hb h1 span:first-child { display: block; }
+  }
+  /* Celular: un solo mensaje, alineado a la izquierda, sin elementos flotando alrededor. */
+  @media (max-width: 767px) {
+    .hb { min-height: 100svh; grid-template-columns: minmax(0, 1fr); place-items: end stretch; padding: calc(var(--hdr-h) + 48px) var(--pad) 56px; }
+    .hb-content { width: 100%; text-align: left; }
+    .hb-eyebrow { font-size: .64rem; margin-bottom: 24px; }
+    .hb h1 { margin: 0; font-size: clamp(2.6rem, 11.6vw, 3.4rem); line-height: .98; letter-spacing: -.055em; }
+    .hb h1 span { display: inline; }
+    .hb h1 span::after { content: " "; }
+    .hb h1 span:first-child { display: block; }
+    .hb-actions { margin-top: 32px; }
+    .hb-rating { display: flex; justify-content: center; margin-top: 18px; }
+    .hb-btn { width: 100%; min-height: 56px; font-size: 1rem; }
+    .hb-foot { display: none; }
   }
 </style>
 
 <script>
-import * as THREE from 'three';
-
 const container = document.getElementById('hbCanvas');
 const section = container?.closest<HTMLElement>('.hb');
 
@@ -157,14 +206,40 @@ function webglOk() {
   try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; }
 }
 
-if (container && section && webglOk()) {
-  const isMobile = matchMedia('(hover: none), (max-width: 820px)').matches;
+// Siempre se parte con las burbujas de lava en CSS (livianas). Sin cursor (táctil) o en celular se quedan
+// así y Three.js ni se descarga.
+const touchOrSmall = matchMedia('(hover: none), (max-width: 767px)').matches;
+container?.classList.add('is-static');
+
+// Escritorio: el WebGL (Three.js + shader) arranca con la primera interacción (mover el mouse, scroll,
+// tecla), no en la carga: así no compite con el primer pintado. Aparece con un fundido sobre el CSS.
+// En tema claro no se usa (lo reemplazan las burbujas de light.css): arranca si el tema pasa a oscuro.
+const isLight = () => document.documentElement.getAttribute('data-theme') === 'light';
+if (container && section && !touchOrSmall) {
+  let booted = false, interacted = false;
+  const boot = () => {
+    if (booted || !interacted || isLight() || !webglOk()) return;
+    booted = true;
+    start(container, section);
+  };
+  const onInteract = () => {
+    interacted = true;
+    ['pointermove', 'scroll', 'wheel', 'keydown', 'pointerdown'].forEach((e) => removeEventListener(e, onInteract));
+    boot();
+  };
+  ['pointermove', 'scroll', 'wheel', 'keydown', 'pointerdown'].forEach((e) => addEventListener(e, onInteract, { passive: true }));
+  new MutationObserver(boot).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+}
+
+async function start(container: HTMLElement, section: HTMLElement) {
+  const THREE = await import('three');
+  const isMobile = matchMedia('(max-width: 820px)').matches;
   const isLowPower = isMobile || ((navigator.hardwareConcurrency || 8) <= 4);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const maxDpr = isMobile ? 1.35 : 1.8;
 
   const S = {
-    sphereCount: isMobile ? 3 : 5,
+    sphereCount: 4,
     mergeDistance: 1.45, smoothness: 0.38,
     cursorRadiusMin: 0.075, cursorRadiusMax: 0.14, mouseSmoothness: 0.075,
   };
@@ -184,8 +259,16 @@ if (container && section && webglOk()) {
   renderer.setSize(w, h);
   renderer.setClearColor(0x080808, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  container.appendChild(renderer.domElement);
-  renderer.domElement.addEventListener('webglcontextlost', () => { renderer.domElement.remove(); container.classList.add('is-fallback'); });
+  // Entra con un fundido sobre las burbujas CSS y luego éstas se retiran.
+  const cv = renderer.domElement;
+  cv.style.opacity = '0';
+  cv.style.transition = 'opacity .9s ease';
+  container.appendChild(cv);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    cv.style.opacity = '1';
+    setTimeout(() => container.classList.remove('is-static'), 900);
+  }));
+  cv.addEventListener('webglcontextlost', () => { cv.remove(); container.classList.add('is-static'); });
 
   const cursor = new THREE.Vector3();
   const target = new THREE.Vector2(0.5, 0.5);
@@ -199,10 +282,10 @@ if (container && section && webglOk()) {
       uCursorSphere: { value: new THREE.Vector3() },
       uCursorRadius: { value: S.cursorRadiusMin },
       uSphereCount: { value: S.sphereCount },
-      uFixedTopLeftRadius: { value: 0.72 },
-      uFixedBottomRightRadius: { value: 0.82 },
-      uSmallTopLeftRadius: { value: 0.27 },
-      uSmallBottomRightRadius: { value: 0.31 },
+      uFixedTopLeftRadius: { value: -0.2 }, // desactivada (radio negativo: nunca se dibuja)
+      uFixedBottomRightRadius: { value: 1.05 },
+      uSmallTopLeftRadius: { value: -0.2 },
+      uSmallBottomRightRadius: { value: -0.2 },
       uMergeDistance: { value: S.mergeDistance },
       uSmoothness: { value: S.smoothness },
       uAmbientIntensity: { value: 0.035 },
@@ -216,7 +299,7 @@ if (container && section && webglOk()) {
       uLightPosition: { value: new THREE.Vector3(0.8, 1.1, 1.0) },
       uContrast: { value: 1.75 },
       uFogDensity: { value: 0.08 },
-      uAnimationSpeed: { value: 0.85 },
+      uAnimationSpeed: { value: 0.42 },
       uMovementScale: { value: 1.35 },
       uMinMovementScale: { value: 0.7 },
       uMaxMovementScale: { value: 1.2 },
@@ -264,15 +347,19 @@ if (container && section && webglOk()) {
           if (i >= uSphereCount) break;
           float fi = float(i);
           float speed = .38 + fi * .11;
-          float radius = .13 + mod(fi, 3.0) * .055;
-          float orbit = (.34 + mod(fi, 3.0) * .15) * moveScale;
+          // Lámpara de lava: dos burbujas grandes (0 y 1) que suben y bajan despacio, y dos chicas (2 y 3)
+          // más rápidas que juegan entre ellas; todas se funden al tocarse.
+          bool big = fi < 2.0;
+          float radius = big ? .62 + fi * .18 : .2 + (fi - 2.0) * .09;
+          float orbit = (big ? .35 : .7) * moveScale;
           float phase = fi * PI * .42;
-          vec3 offset = vec3(sin(t*speed + phase) * orbit, cos(t*speed*.83 + phase*1.2) * orbit * .68, sin(t*speed*.55 + phase) * .25);
+          // Repartidas a lo ancho; el movimiento principal es vertical (suben y bajan) con un leve vaivén lateral.
+          vec3 offset = vec3((big ? (fi - .5) * 2.6 : (fi - 2.5) * 1.4) + sin(t*speed*.6 + phase) * orbit, sin(t*speed + phase*1.7) * (big ? 1.25 : 1.7), sin(t*speed*.5 + phase) * .2);
           vec3 toCursor = uCursorSphere - offset;
           float cursorDist = length(toCursor);
           if (cursorDist < uMergeDistance && cursorDist > 0.001) offset += normalize(toCursor) * (1.0 - cursorDist / uMergeDistance) * .28;
           float ball = sdSphere(pos - offset, radius);
-          float blend = mix(.05, uSmoothness, pow(max(0.0, 1.0 - cursorDist/uMergeDistance), 3.0));
+          float blend = mix(.45, max(uSmoothness, .55), pow(max(0.0, 1.0 - cursorDist/uMergeDistance), 3.0));
           result = smin(result, ball, blend);
         }
         float topGroup = smin(sdSphere(pos-tl, uFixedTopLeftRadius), sdSphere(pos-tls, uSmallTopLeftRadius), .36);
@@ -381,10 +468,11 @@ if (container && section && webglOk()) {
     const loop = () => { render(); raf = requestAnimationFrame(loop); };
     const sync = () => {
       cancelAnimationFrame(raf);
-      if (visible && !document.hidden) { clock.getDelta(); raf = requestAnimationFrame(loop); }
+      if (visible && !document.hidden && !isLight()) { clock.getDelta(); raf = requestAnimationFrame(loop); }
     };
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); }).observe(section);
     document.addEventListener('visibilitychange', sync);
+    new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
 }
 </script>

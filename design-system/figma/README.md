@@ -1,0 +1,1 @@
+Archivos para llevar el sistema a Figma. Variables nativas: importa `color.dark.tokens.json` (modo Oscuro), agrega `color.light.tokens.json` como modo Claro e importa `base.tokens.json` para espaciado, radios, breakpoints y tipografía. Tokens Studio: carga `tokens-studio.json` para crear además los 13 estilos de texto y las sombras.

@@ -1,13 +1,14 @@
 ---
 import '../styles/global.css';
 import '../styles/minimal.css';
+import '../styles/light.css';
 import Sprite from '../components/Sprite.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FloatButtons from '../components/FloatButtons.astro';
 import SiteScripts from '../components/SiteScripts.astro';
+import FaviconFx from '../components/FaviconFx.astro';
 import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
-import Preloader from '../components/Preloader.astro';
 import MobileNav from '../components/MobileNav.astro';
 
 interface Props {
@@ -34,7 +35,8 @@ const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}>
   <meta name="theme-color" content={themeColor}>
-  <script is:inline>(function(){try{var t=localStorage.getItem("wf-theme");document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark");}catch(e){}})();</script>
+  <!-- Tema antes de pintar: la elección guardada del usuario o, si no eligió, la del sistema operativo. -->
+  <script is:inline>(function(){var t=null;try{t=localStorage.getItem("wf-theme");}catch(e){}if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
   <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta name="description" content={description}>
@@ -47,14 +49,12 @@ const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.
   {ogImageUrl && ogImageAlt && <meta property="og:image:alt" content={ogImageAlt}>}
   <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'}>
   {ogImageUrl && ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt}>}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Fuente propia (ver @font-face en global.css): se precarga para que el titular se vea con ella desde el inicio -->
+  <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <LocalBusinessSchema />
   <slot name="head" />
 </head>
 <body>
-  <Preloader />
   <Sprite />
   <a class="skip" href="#contenido">Ir al contenido</a>
   <div class="readbar" aria-hidden="true"></div>
@@ -69,6 +69,7 @@ const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.
 
   <FloatButtons />
   <SiteScripts />
+  <FaviconFx />
   <MobileNav />
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
   <script>

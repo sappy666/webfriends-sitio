@@ -1,10 +1,12 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArcScroll from '../ArcScroll.astro';
 
 const page = (await getEntry('pages', 'page-nosotros'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
+const casos = await getCollection('casos');
+const rubrosIcons = ['#i-activity', '#i-briefcase', '#i-cart', '#i-graduation-cap'];
 const proceso = (await getEntry('procesoSeisEtapas', 'proceso-seis-etapas'))!.data.steps;
 const principiosIcons = [
   '<use href="#i-chart-bars"></use>',
@@ -39,7 +41,7 @@ const certificacionesIcons = [
         <a class="btn btn-accent" href="/contacto">Conversemos
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
         </a>
-        <a class="btn btn-soft" href="/casos">Ver casos</a>
+        <a class="btn btn-soft" href="#casos">Ver casos</a>
       </div>
 
     </div>
@@ -147,6 +149,65 @@ const certificacionesIcons = [
             <p>{card.description}</p>
           </article>
         ))}
+      </div>
+    </div>
+  </section>
+  <section id="casos" aria-labelledby="casos-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{sec('casos-h').eyebrow}</p>
+      <h2 id="casos-h" class="h-sec" data-reveal>{sec('casos-h').heading}</h2>
+      <p class="lede" data-reveal style="margin-top:18px">Cada caso describe el punto de partida, lo que ejecutamos y el resultado observable.</p>
+      <div class="case-detail-grid" data-reveal-group>
+        {casos.map((caso) => (
+          <article class="case-detail-card foil-card" data-reveal="scale">
+            <p class="case-detail-tag">{caso.data.tag}</p>
+            <h3>{caso.data.client}</h3>
+            <p class="case-detail-sector">{caso.data.sector}</p>
+            <p class="case-detail-block"><strong>El desafío.</strong> {caso.data.challenge}</p>
+            <ul class="case-detail-list">
+              {caso.data.checklist.map((item) => (
+                <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" aria-hidden="true"><use href="#i-check"></use></svg>{item}</li>
+              ))}
+            </ul>
+            <p class="case-detail-result"><strong>Resultado</strong> {caso.data.result}</p>
+            <div class="case-detail-cta">
+              <a href="/contacto">Quiero algo así <i aria-hidden="true">›</i></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="rubros" class="dark-band" aria-labelledby="rubros-h">
+    <div class="wrap">
+      <div class="hero-split-grid">
+        <div>
+          <p class="eyebrow" data-reveal>{sec('rubros-h').eyebrow}</p>
+          <h2 id="rubros-h" class="h-sec" data-reveal>{sec('rubros-h').heading}</h2>
+          <p class="lede" data-reveal style="margin-top:18px">No trabajamos todos los sectores. Estos son aquellos donde ya conocemos el comportamiento de búsqueda y la competencia.</p>
+        </div>
+
+        <div class="hero-img" data-reveal="scale">
+          <img src="/assets/img/casos.webp" alt="Rubros donde Webfriends tiene experiencia" width="1200" height="900" loading="lazy">
+        </div>
+      </div>
+
+      <div class="rubro-grid" data-reveal-group>
+        {sec('rubros-h').cards.map((card, i) => (
+          <div class="rubro-card foil-card" data-reveal="fade">
+            <span class="rubro-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href={rubrosIcons[i]}></use></svg></span>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+            <div class="chips">{card.chips.map((chip) => <span class="chip">{chip}</span>)}</div>
+          </div>
+        ))}
+      </div>
+
+      <div class="rubro-foot" data-reveal="fade">
+        <p>Cada rubro tiene desafíos distintos.<br>Nos adaptamos a tus objetivos.</p>
+        <a class="rubro-foot-link" href="/contacto">Conversemos sobre tu proyecto
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+        </a>
       </div>
     </div>
   </section>

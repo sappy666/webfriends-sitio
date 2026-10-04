@@ -1,0 +1,653 @@
+{
+  "global": {
+    "spacing": {
+      "gutter": {
+        "value": "32",
+        "type": "spacing",
+        "description": "Margen lateral del contenedor (.wrap). clamp(20px, 5vw, 32px)."
+      },
+      "container": {
+        "value": "1120",
+        "type": "spacing",
+        "description": "Ancho máximo del contenido (--maxw)."
+      },
+      "section-y": {
+        "value": "104",
+        "type": "spacing",
+        "description": "Padding vertical de cada sección. clamp(56px, 7vw, 104px)."
+      },
+      "grid-gap": {
+        "value": "14",
+        "type": "spacing",
+        "description": "Separación entre tarjetas de planes."
+      },
+      "gap-chips": {
+        "value": "7",
+        "type": "spacing",
+        "description": "Separación entre chips."
+      },
+      "card-pad-top": {
+        "value": "26",
+        "type": "spacing",
+        "description": "Aire entre la línea superior de una tarjeta de línea y su contenido."
+      },
+      "plan-pad-y": {
+        "value": "28",
+        "type": "spacing",
+        "description": "Padding vertical de la tarjeta de plan."
+      },
+      "plan-pad-x": {
+        "value": "26",
+        "type": "spacing",
+        "description": "Padding horizontal de la tarjeta de plan."
+      },
+      "btn-pad-y": {
+        "value": "14",
+        "type": "spacing",
+        "description": "Padding vertical del botón."
+      },
+      "btn-pad-x": {
+        "value": "28",
+        "type": "spacing",
+        "description": "Padding horizontal del botón."
+      },
+      "btn-height": {
+        "value": "52",
+        "type": "spacing",
+        "description": "Alto mínimo del botón."
+      },
+      "btn-height-sm": {
+        "value": "42",
+        "type": "spacing",
+        "description": "Alto mínimo del botón pequeño."
+      },
+      "field-pad-y": {
+        "value": "15",
+        "type": "spacing",
+        "description": "Padding vertical de campos."
+      },
+      "field-pad-x": {
+        "value": "17",
+        "type": "spacing",
+        "description": "Padding horizontal de campos."
+      },
+      "field-height": {
+        "value": "52",
+        "type": "spacing",
+        "description": "Alto mínimo de campos."
+      },
+      "touch-min": {
+        "value": "44",
+        "type": "spacing",
+        "description": "Área táctil mínima de cualquier control."
+      }
+    },
+    "radius": {
+      "sm": {
+        "value": "12",
+        "type": "borderRadius",
+        "description": "Esquinas pequeñas."
+      },
+      "field": {
+        "value": "14",
+        "type": "borderRadius",
+        "description": "Campos de formulario."
+      },
+      "md": {
+        "value": "18",
+        "type": "borderRadius",
+        "description": "Paneles medianos."
+      },
+      "plan": {
+        "value": "22",
+        "type": "borderRadius",
+        "description": "Tarjeta de plan."
+      },
+      "lg": {
+        "value": "24",
+        "type": "borderRadius",
+        "description": "Paneles grandes."
+      },
+      "xl": {
+        "value": "34",
+        "type": "borderRadius",
+        "description": "Tarjetas del blog."
+      },
+      "2xl": {
+        "value": "44",
+        "type": "borderRadius",
+        "description": "Imágenes destacadas (.hero-img)."
+      },
+      "pill": {
+        "value": "999",
+        "type": "borderRadius",
+        "description": "Botones, chips, métricas, pestañas y etiquetas: todo lo que es pastilla."
+      }
+    },
+    "typography": {
+      "display-hero": {
+        "type": "typography",
+        "description": "H1 del hero de páginas internas. clamp(2.8rem, 6vw, 5.6rem).",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Regular",
+          "fontSize": "89.6",
+          "lineHeight": "98%",
+          "letterSpacing": "-6%"
+        }
+      },
+      "display-hero-split": {
+        "type": "typography",
+        "description": "H1 del hero con visual al lado. clamp(2.5rem, 4.4vw, 4.4rem).",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Regular",
+          "fontSize": "70.4",
+          "lineHeight": "98%",
+          "letterSpacing": "-6%"
+        }
+      },
+      "heading-section": {
+        "type": "typography",
+        "description": "Título de sección (.h-sec), máx. 16ch. clamp(2.4rem, 4.6vw, 4.2rem).",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Regular",
+          "fontSize": "67.2",
+          "lineHeight": "100%",
+          "letterSpacing": "-5.5%"
+        }
+      },
+      "price": {
+        "type": "typography",
+        "description": "Precio del plan (.plan-price), cifras tabulares. clamp(1.85rem, …, 3rem).",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Regular",
+          "fontSize": "48",
+          "lineHeight": "108%",
+          "letterSpacing": "-5.5%"
+        }
+      },
+      "numeral": {
+        "type": "typography",
+        "description": "Número de etapa (.local-num), en amber.",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Regular",
+          "fontSize": "40",
+          "lineHeight": "108%",
+          "letterSpacing": "-5%"
+        }
+      },
+      "heading-card": {
+        "type": "typography",
+        "description": "Título de tarjeta, etapa, plan y artículo. clamp(1.08rem, …, 1.3rem).",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Medium",
+          "fontSize": "20.8",
+          "lineHeight": "108%",
+          "letterSpacing": "-3.5%"
+        }
+      },
+      "lede": {
+        "type": "typography",
+        "description": "Bajada bajo el título de sección, en label-3, máx. 52ch. clamp(1rem, 1.2vw, 1.15rem).",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Regular",
+          "fontSize": "18.4",
+          "lineHeight": "155%",
+          "letterSpacing": "0%"
+        }
+      },
+      "body": {
+        "type": "typography",
+        "description": "Texto corrido. clamp(.95rem, …, 1.05rem).",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Regular",
+          "fontSize": "16.8",
+          "lineHeight": "160%",
+          "letterSpacing": "-1%"
+        }
+      },
+      "body-small": {
+        "type": "typography",
+        "description": "Párrafos de tarjetas, extractos del blog, bullets de planes. clamp(.8rem, …, .86rem).",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Regular",
+          "fontSize": "13.76",
+          "lineHeight": "155%",
+          "letterSpacing": "-1%"
+        }
+      },
+      "button": {
+        "type": "typography",
+        "description": "Texto de botón; en btn-sm baja a body-small.",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "SemiBold",
+          "fontSize": "16.8",
+          "lineHeight": "100%",
+          "letterSpacing": "-1%"
+        }
+      },
+      "meta": {
+        "type": "typography",
+        "description": "Fecha y tiempo de lectura, notas pequeñas.",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Regular",
+          "fontSize": "12.16",
+          "lineHeight": "140%",
+          "letterSpacing": "0%"
+        }
+      },
+      "chip": {
+        "type": "typography",
+        "description": "Texto de chips/pills.",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Medium",
+          "fontSize": "12",
+          "lineHeight": "120%",
+          "letterSpacing": "0%"
+        }
+      },
+      "eyebrow": {
+        "type": "typography",
+        "description": "Etiqueta de sección en MAYÚSCULAS, label-3, con punto ámbar de 6px.",
+        "value": {
+          "fontFamily": "Plus Jakarta Sans",
+          "fontWeight": "Medium",
+          "fontSize": "10.88",
+          "lineHeight": "100%",
+          "letterSpacing": "16%",
+          "textCase": "uppercase"
+        }
+      }
+    }
+  },
+  "dark": {
+    "color": {
+      "bg": {
+        "value": "#000000",
+        "type": "color",
+        "description": "Fondo de página y de las tarjetas de plan (deben tapar la que queda detrás al apilarse)."
+      },
+      "bg-2": {
+        "value": "#0b0b0d",
+        "type": "color",
+        "description": "Fondo de bandas alternas (.dark-band) y del control segmentado."
+      },
+      "card": {
+        "value": "#1c1c1e",
+        "type": "color",
+        "description": "Superficie elevada: menú desplegable y tarjetas que conservan relleno. La capa minimal deja casi todo sin relleno."
+      },
+      "fill": {
+        "value": "#2c2c2e",
+        "type": "color",
+        "description": "Relleno terciario: campos de formulario y hover del botón suave."
+      },
+      "fill-2": {
+        "value": "#3a3a3c",
+        "type": "color",
+        "description": "Relleno secundario: detalles de fondo en controles."
+      },
+      "line": {
+        "value": "rgba(255,255,255,0.09)",
+        "type": "color",
+        "description": "Línea fina tenue: separadores internos de listas."
+      },
+      "line-2": {
+        "value": "rgba(255,255,255,0.17)",
+        "type": "color",
+        "description": "Línea fina principal: bordes de tarjetas, chips, botón suave, FAQ y separadores de sección."
+      },
+      "label": {
+        "value": "#f5f5f7",
+        "type": "color",
+        "description": "Texto principal y títulos sobre bg, bg-2 y card (18.9:1 en oscuro, 15.9:1 en claro)."
+      },
+      "label-2": {
+        "value": "#b4b4bc",
+        "type": "color",
+        "description": "Texto secundario: párrafos de tarjetas, descripciones, chips (9.9:1 en oscuro, 6.6:1 en claro sobre blanco)."
+      },
+      "label-3": {
+        "value": "#8e8e93",
+        "type": "color",
+        "description": "Metadatos cortos, lede, placeholders y pestañas inactivas (5.4:1 en oscuro; en claro 3.5:1 sobre bg: solo textos cortos, no cumple AA en cuerpo)."
+      },
+      "amber": {
+        "value": "#ffb020",
+        "type": "color",
+        "description": "Acento de marca: botón principal, números de etapas, punto de la etiqueta, plan destacado, hover de títulos. En claro como texto queda bajo 3:1 sobre bg: usarlo en rellenos y trazos, no en texto pequeño."
+      },
+      "amber-soft": {
+        "value": "rgba(255,176,32,0.15)",
+        "type": "color",
+        "description": "Fondo suave de acento: categoría del blog, check de planes, anillo de foco de campos."
+      },
+      "amber-press": {
+        "value": "#c97800",
+        "type": "color",
+        "description": "Hover/presionado del botón ámbar."
+      },
+      "accent": {
+        "value": "{color.amber}",
+        "type": "color",
+        "description": "Alias del ámbar de marca para componentes genéricos."
+      },
+      "on-amber": {
+        "value": "#231600",
+        "type": "color",
+        "description": "Texto sobre rellenos ámbar (botón principal, badge de plan). En claro, blanco sobre ámbar da 2.6:1: valor real del sitio, revisar si se prioriza el tema claro."
+      },
+      "btn-fg": {
+        "value": "#0b0b0d",
+        "type": "color",
+        "description": "Texto sobre el botón sólido de color label (btn-primary)."
+      },
+      "focus": {
+        "value": "#f5f5f7",
+        "type": "color",
+        "description": "Anillo de foco de teclado (2.5px, separado 3px) sobre cualquier superficie."
+      },
+      "green": {
+        "value": "#30d158",
+        "type": "color",
+        "description": "Estado positivo: indicadores de disponibilidad."
+      },
+      "ok-text": {
+        "value": "#30d158",
+        "type": "color",
+        "description": "Texto de confirmación de formularios."
+      },
+      "glass": {
+        "value": "rgba(28,28,30,0.8)",
+        "type": "color",
+        "description": "Superficie translúcida con desenfoque (menú y paneles flotantes)."
+      },
+      "glass-bar": {
+        "value": "rgba(6,6,8,0.9)",
+        "type": "color",
+        "description": "Barra de navegación translúcida."
+      }
+    },
+    "shadow": {
+      "1": {
+        "value": [
+          {
+            "x": "0",
+            "y": "1",
+            "blur": "2",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.5)",
+            "type": "dropShadow"
+          },
+          {
+            "x": "0",
+            "y": "4",
+            "blur": "12",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.4)",
+            "type": "dropShadow"
+          }
+        ],
+        "type": "boxShadow",
+        "description": "Botón sólido. La capa minimal quita la sombra a tarjetas y planes."
+      },
+      "2": {
+        "value": [
+          {
+            "x": "0",
+            "y": "2",
+            "blur": "6",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.5)",
+            "type": "dropShadow"
+          },
+          {
+            "x": "0",
+            "y": "12",
+            "blur": "32",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.5)",
+            "type": "dropShadow"
+          }
+        ],
+        "type": "boxShadow",
+        "description": "Hover del botón sólido."
+      },
+      "3": {
+        "value": [
+          {
+            "x": "0",
+            "y": "8",
+            "blur": "20",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.55)",
+            "type": "dropShadow"
+          },
+          {
+            "x": "0",
+            "y": "24",
+            "blur": "60",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.6)",
+            "type": "dropShadow"
+          }
+        ],
+        "type": "boxShadow",
+        "description": "Paneles flotantes (menú)."
+      }
+    }
+  },
+  "light": {
+    "color": {
+      "bg": {
+        "value": "#f5f5f7",
+        "type": "color",
+        "description": "Fondo de página y de las tarjetas de plan (deben tapar la que queda detrás al apilarse)."
+      },
+      "bg-2": {
+        "value": "#ffffff",
+        "type": "color",
+        "description": "Fondo de bandas alternas (.dark-band) y del control segmentado."
+      },
+      "card": {
+        "value": "#ffffff",
+        "type": "color",
+        "description": "Superficie elevada: menú desplegable y tarjetas que conservan relleno. La capa minimal deja casi todo sin relleno."
+      },
+      "fill": {
+        "value": "#f0f0f3",
+        "type": "color",
+        "description": "Relleno terciario: campos de formulario y hover del botón suave."
+      },
+      "fill-2": {
+        "value": "#e8e8ed",
+        "type": "color",
+        "description": "Relleno secundario: detalles de fondo en controles."
+      },
+      "line": {
+        "value": "rgba(0,0,0,0.07)",
+        "type": "color",
+        "description": "Línea fina tenue: separadores internos de listas."
+      },
+      "line-2": {
+        "value": "rgba(0,0,0,0.12)",
+        "type": "color",
+        "description": "Línea fina principal: bordes de tarjetas, chips, botón suave, FAQ y separadores de sección."
+      },
+      "label": {
+        "value": "#1d1d1f",
+        "type": "color",
+        "description": "Texto principal y títulos sobre bg, bg-2 y card (18.9:1 en oscuro, 15.9:1 en claro)."
+      },
+      "label-2": {
+        "value": "#5b5b63",
+        "type": "color",
+        "description": "Texto secundario: párrafos de tarjetas, descripciones, chips (9.9:1 en oscuro, 6.6:1 en claro sobre blanco)."
+      },
+      "label-3": {
+        "value": "#86868b",
+        "type": "color",
+        "description": "Metadatos cortos, lede, placeholders y pestañas inactivas (5.4:1 en oscuro; en claro 3.5:1 sobre bg: solo textos cortos, no cumple AA en cuerpo)."
+      },
+      "amber": {
+        "value": "#e08700",
+        "type": "color",
+        "description": "Acento de marca: botón principal, números de etapas, punto de la etiqueta, plan destacado, hover de títulos. En claro como texto queda bajo 3:1 sobre bg: usarlo en rellenos y trazos, no en texto pequeño."
+      },
+      "amber-soft": {
+        "value": "#fff4e0",
+        "type": "color",
+        "description": "Fondo suave de acento: categoría del blog, check de planes, anillo de foco de campos."
+      },
+      "amber-press": {
+        "value": "#c97800",
+        "type": "color",
+        "description": "Hover/presionado del botón ámbar."
+      },
+      "accent": {
+        "value": "{color.amber}",
+        "type": "color",
+        "description": "Alias del ámbar de marca para componentes genéricos."
+      },
+      "on-amber": {
+        "value": "#ffffff",
+        "type": "color",
+        "description": "Texto sobre rellenos ámbar (botón principal, badge de plan). En claro, blanco sobre ámbar da 2.6:1: valor real del sitio, revisar si se prioriza el tema claro."
+      },
+      "btn-fg": {
+        "value": "#ffffff",
+        "type": "color",
+        "description": "Texto sobre el botón sólido de color label (btn-primary)."
+      },
+      "focus": {
+        "value": "#1d1d1f",
+        "type": "color",
+        "description": "Anillo de foco de teclado (2.5px, separado 3px) sobre cualquier superficie."
+      },
+      "green": {
+        "value": "#34c759",
+        "type": "color",
+        "description": "Estado positivo: indicadores de disponibilidad."
+      },
+      "ok-text": {
+        "value": "#1e9e45",
+        "type": "color",
+        "description": "Texto de confirmación de formularios."
+      },
+      "glass": {
+        "value": "rgba(255,255,255,0.82)",
+        "type": "color",
+        "description": "Superficie translúcida con desenfoque (menú y paneles flotantes)."
+      },
+      "glass-bar": {
+        "value": "rgba(245,245,247,0.92)",
+        "type": "color",
+        "description": "Barra de navegación translúcida."
+      }
+    },
+    "shadow": {
+      "1": {
+        "value": [
+          {
+            "x": "0",
+            "y": "1",
+            "blur": "2",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.04)",
+            "type": "dropShadow"
+          },
+          {
+            "x": "0",
+            "y": "4",
+            "blur": "12",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.05)",
+            "type": "dropShadow"
+          }
+        ],
+        "type": "boxShadow",
+        "description": "Botón sólido. La capa minimal quita la sombra a tarjetas y planes."
+      },
+      "2": {
+        "value": [
+          {
+            "x": "0",
+            "y": "2",
+            "blur": "6",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.05)",
+            "type": "dropShadow"
+          },
+          {
+            "x": "0",
+            "y": "12",
+            "blur": "32",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.07)",
+            "type": "dropShadow"
+          }
+        ],
+        "type": "boxShadow",
+        "description": "Hover del botón sólido."
+      },
+      "3": {
+        "value": [
+          {
+            "x": "0",
+            "y": "8",
+            "blur": "20",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.07)",
+            "type": "dropShadow"
+          },
+          {
+            "x": "0",
+            "y": "24",
+            "blur": "60",
+            "spread": "0",
+            "color": "rgba(0,0,0,0.1)",
+            "type": "dropShadow"
+          }
+        ],
+        "type": "boxShadow",
+        "description": "Paneles flotantes (menú)."
+      }
+    }
+  },
+  "$themes": [
+    {
+      "id": "dark",
+      "name": "Oscuro",
+      "selectedTokenSets": {
+        "global": "enabled",
+        "dark": "enabled"
+      }
+    },
+    {
+      "id": "light",
+      "name": "Claro",
+      "selectedTokenSets": {
+        "global": "enabled",
+        "light": "enabled"
+      }
+    }
+  ],
+  "$metadata": {
+    "tokenSetOrder": [
+      "global",
+      "dark",
+      "light"
+    ]
+  }
+}

@@ -5,7 +5,6 @@ import GoogleAdsPage from '../components/pages/GoogleAdsPage.astro';
 import SitiosWebPage from '../components/pages/SitiosWebPage.astro';
 import UxUiPage from '../components/pages/UxUiPage.astro';
 import SaludPage from '../components/pages/SaludPage.astro';
-import CasosPage from '../components/pages/CasosPage.astro';
 import NosotrosPage from '../components/pages/NosotrosPage.astro';
 import ContactoPage from '../components/pages/ContactoPage.astro';
 import TerminosPage from '../components/pages/TerminosPage.astro';
@@ -29,7 +28,6 @@ const pageId = allPages.find((p) => p.data.urlSlug === Astro.params.slug)?.id;
 {pageId === 'page-sitios-web' && <SitiosWebPage />}
 {pageId === 'page-ux-ui' && <UxUiPage />}
 {pageId === 'page-salud' && <SaludPage />}
-{pageId === 'page-casos' && <CasosPage />}
 {pageId === 'page-nosotros' && <NosotrosPage />}
 {pageId === 'page-contacto' && <ContactoPage />}
 {pageId === 'page-terminos' && <TerminosPage />}

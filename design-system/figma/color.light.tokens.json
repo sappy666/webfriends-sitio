@@ -1,0 +1,289 @@
+{
+  "color": {
+    "bg": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9608,
+          0.9608,
+          0.9686
+        ],
+        "alpha": 1,
+        "hex": "#f5f5f7"
+      },
+      "$description": "Fondo de página y de las tarjetas de plan (deben tapar la que queda detrás al apilarse)."
+    },
+    "bg-2": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#ffffff"
+      },
+      "$description": "Fondo de bandas alternas (.dark-band) y del control segmentado."
+    },
+    "card": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#ffffff"
+      },
+      "$description": "Superficie elevada: menú desplegable y tarjetas que conservan relleno. La capa minimal deja casi todo sin relleno."
+    },
+    "fill": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9412,
+          0.9412,
+          0.9529
+        ],
+        "alpha": 1,
+        "hex": "#f0f0f3"
+      },
+      "$description": "Relleno terciario: campos de formulario y hover del botón suave."
+    },
+    "fill-2": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9098,
+          0.9098,
+          0.9294
+        ],
+        "alpha": 1,
+        "hex": "#e8e8ed"
+      },
+      "$description": "Relleno secundario: detalles de fondo en controles."
+    },
+    "line": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 0.07,
+        "hex": "#000000"
+      },
+      "$description": "Línea fina tenue: separadores internos de listas."
+    },
+    "line-2": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 0.12,
+        "hex": "#000000"
+      },
+      "$description": "Línea fina principal: bordes de tarjetas, chips, botón suave, FAQ y separadores de sección."
+    },
+    "label": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1137,
+          0.1137,
+          0.1216
+        ],
+        "alpha": 1,
+        "hex": "#1d1d1f"
+      },
+      "$description": "Texto principal y títulos sobre bg, bg-2 y card (18.9:1 en oscuro, 15.9:1 en claro)."
+    },
+    "label-2": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.3569,
+          0.3569,
+          0.3882
+        ],
+        "alpha": 1,
+        "hex": "#5b5b63"
+      },
+      "$description": "Texto secundario: párrafos de tarjetas, descripciones, chips (9.9:1 en oscuro, 6.6:1 en claro sobre blanco)."
+    },
+    "label-3": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5255,
+          0.5255,
+          0.5451
+        ],
+        "alpha": 1,
+        "hex": "#86868b"
+      },
+      "$description": "Metadatos cortos, lede, placeholders y pestañas inactivas (5.4:1 en oscuro; en claro 3.5:1 sobre bg: solo textos cortos, no cumple AA en cuerpo)."
+    },
+    "amber": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8784,
+          0.5294,
+          0
+        ],
+        "alpha": 1,
+        "hex": "#e08700"
+      },
+      "$description": "Acento de marca: botón principal, números de etapas, punto de la etiqueta, plan destacado, hover de títulos. En claro como texto queda bajo 3:1 sobre bg: usarlo en rellenos y trazos, no en texto pequeño."
+    },
+    "amber-soft": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          0.9569,
+          0.8784
+        ],
+        "alpha": 1,
+        "hex": "#fff4e0"
+      },
+      "$description": "Fondo suave de acento: categoría del blog, check de planes, anillo de foco de campos."
+    },
+    "amber-press": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7882,
+          0.4706,
+          0
+        ],
+        "alpha": 1,
+        "hex": "#c97800"
+      },
+      "$description": "Hover/presionado del botón ámbar."
+    },
+    "accent": {
+      "$type": "color",
+      "$value": "{color.amber}",
+      "$description": "Alias del ámbar de marca para componentes genéricos."
+    },
+    "on-amber": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#ffffff"
+      },
+      "$description": "Texto sobre rellenos ámbar (botón principal, badge de plan). En claro, blanco sobre ámbar da 2.6:1: valor real del sitio, revisar si se prioriza el tema claro."
+    },
+    "btn-fg": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#ffffff"
+      },
+      "$description": "Texto sobre el botón sólido de color label (btn-primary)."
+    },
+    "focus": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1137,
+          0.1137,
+          0.1216
+        ],
+        "alpha": 1,
+        "hex": "#1d1d1f"
+      },
+      "$description": "Anillo de foco de teclado (2.5px, separado 3px) sobre cualquier superficie."
+    },
+    "green": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.2039,
+          0.7804,
+          0.349
+        ],
+        "alpha": 1,
+        "hex": "#34c759"
+      },
+      "$description": "Estado positivo: indicadores de disponibilidad."
+    },
+    "ok-text": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1176,
+          0.6196,
+          0.2706
+        ],
+        "alpha": 1,
+        "hex": "#1e9e45"
+      },
+      "$description": "Texto de confirmación de formularios."
+    },
+    "glass": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 0.82,
+        "hex": "#ffffff"
+      },
+      "$description": "Superficie translúcida con desenfoque (menú y paneles flotantes)."
+    },
+    "glass-bar": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9608,
+          0.9608,
+          0.9686
+        ],
+        "alpha": 0.92,
+        "hex": "#f5f5f7"
+      },
+      "$description": "Barra de navegación translúcida."
+    }
+  }
+}

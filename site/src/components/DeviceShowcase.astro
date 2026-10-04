@@ -15,7 +15,7 @@ const base = `/assets/img/proj/${project}`;
   <figure class="dv-laptop">
     <div class="dv-lid">
       <div class="dv-screen">
-        <img src={`${base}-d.webp`} alt={altDesktop} width="1440" height="900" loading="eager" fetchpriority="high" decoding="async">
+        <img src={`${base}-d.webp`} alt={altDesktop} width="1440" height="900" loading="eager" fetchpriority="low" decoding="async">
       </div>
     </div>
     <div class="dv-base" aria-hidden="true"></div>
@@ -23,7 +23,7 @@ const base = `/assets/img/proj/${project}`;
 
   <figure class="dv-phone">
     <div class="dv-pscreen">
-      <img src={Astro.props.mobile ?? `${base}-m.webp`} alt={altMobile} width="780" height="1688" loading="eager" decoding="async">
+      <img src={Astro.props.mobile ?? `${base}-m.webp`} alt={altMobile} width="780" height="1688" loading="eager" fetchpriority="low" decoding="async">
     </div>
   </figure>
 

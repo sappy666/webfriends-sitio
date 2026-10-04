@@ -14,12 +14,16 @@ const sitiosWebHref = slug('page-sitios-web');
 const uxUiHref = slug('page-ux-ui');
 const saludHref = slug('page-salud');
 const nosotrosHref = slug('page-nosotros');
-const casosHref = slug('page-casos');
 ---
 <header class="hdr" id="hdr">
   <div class="wrap hdr-in">
-    <a class="logo" href="/" aria-current={currentPath === '/' ? 'page' : undefined}><span class="logo-mark" aria-hidden="true"><img class="logo-img-dark" src="/assets/img/webfriends-logo.png" alt="Webfriends"><img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.png" alt="Webfriends"></span></a>
+    <a class="logo" href="/" aria-current={currentPath === '/' ? 'page' : undefined}><span class="logo-mark" aria-hidden="true"><img class="logo-img-dark" src="/assets/img/webfriends-logo.webp" alt="Webfriends"><img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.webp" alt="Webfriends"></span></a>
 
+    <!-- Celular/tablet: tema al lado de la hamburguesa (el de escritorio vive dentro de #mainnav) -->
+    <button class="theme-btn theme-btn-m" type="button" data-theme-toggle role="switch" aria-checked="false" aria-label="Activar tema oscuro">
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><use href="#i-sun"></use></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-moon"></use></svg>
+    </button>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainnav" aria-label="Abrir menú">
       <svg class="ico-hub" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path class="bar" d="M4 7h16"/><path class="bar" d="M4 12h16"/><path class="bar" d="M4 17h16"/></svg>
       <svg class="ico-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><use href="#i-close"></use></svg>
@@ -128,7 +132,6 @@ const casosHref = slug('page-casos');
       </div>
 
       <a class="navlink" href={nosotrosHref} aria-current={currentPath === nosotrosHref ? 'page' : undefined}>Nosotros</a>
-      <a class="navlink" href={casosHref} aria-current={currentPath === casosHref ? 'page' : undefined}>Casos</a>
       <a class="navlink" href="/blog" aria-current={currentPath.startsWith('/blog') ? 'page' : undefined}>Blog</a>
       <button class="theme-btn" id="themeBtn" role="switch" aria-checked="false" aria-label="Activar tema oscuro">
         <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><use href="#i-sun"></use></svg>

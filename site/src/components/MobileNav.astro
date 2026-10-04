@@ -14,14 +14,13 @@ const links = [
   { label: 'Diseño UX/UI', href: slug('page-ux-ui') },
   { label: 'Salud', href: slug('page-salud') },
   { label: 'Precios', href: slug('page-precios') },
-  { label: 'Casos', href: slug('page-casos') },
   { label: 'Nosotros', href: slug('page-nosotros') },
   { label: 'Blog', href: '/blog' },
 ];
 ---
 <div class="mnav" id="mnav" aria-hidden="true">
   <div class="mnav-top">
-    <a class="mnav-logo" href="/" aria-label="Webfriends, inicio"><img class="mnav-logo-dark" src="/assets/img/webfriends-logo.png" alt="" width="778" height="74"><img class="mnav-logo-light" src="/assets/img/logotipo-negro-webfriends.png" alt="" width="778" height="74"></a>
+    <a class="mnav-logo" href="/" aria-label="Webfriends, inicio"><img class="mnav-logo-dark" src="/assets/img/webfriends-logo.webp" alt="" width="778" height="74"><img class="mnav-logo-light" src="/assets/img/logotipo-negro-webfriends.webp" alt="" width="778" height="74"></a>
     <button class="mnav-close" type="button" id="mnavClose" aria-label="Cerrar menú">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
     </button>
@@ -77,8 +76,8 @@ const links = [
     .mnav-top { display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
     /* Tema claro: el menú sigue al sitio */
     :root:not([data-theme="dark"]) .mnav {
-      --m-bg: #F5F5F7; --m-line: rgba(29, 29, 31, .12); --m-txt: #1D1D1F; --m-txt-2: rgba(29, 29, 31, .6);
-      --m-soft: rgba(29, 29, 31, .06); --m-track: rgba(29, 29, 31, .16); --m-accent: #C26A00;
+      --m-bg: #F3F0E9; --m-line: rgba(23, 20, 15, .12); --m-txt: #171717; --m-txt-2: rgba(23, 20, 15, .66);
+      --m-soft: rgba(23, 20, 15, .06); --m-track: rgba(23, 20, 15, .16); --m-accent: #9A5600;
     }
     .mnav-logo img { height: 15px; width: auto; display: block; }
     .mnav-logo-light { display: none !important; }
@@ -138,7 +137,13 @@ const links = [
 </style>
 
 <script>
-import { gsap } from 'gsap';
+import { whenInteracted } from '../scripts/when-interacted';
+
+// GSAP solo anima la apertura/cierre: se descarga en la primera interacción (el toque que abre
+// el menú ya la dispara), no en la carga de la página.
+let gsap: any = null;
+const loadGsap = () => import('gsap').then((mod) => (gsap = mod.gsap));
+whenInteracted(() => { loadGsap(); });
 
 const m = document.getElementById('mnav');
 const w = window as any;
@@ -147,16 +152,17 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (m) {
   const body = document.body;
   const $ = (s: string) => m.querySelectorAll<HTMLElement>(s);
-  let tl: gsap.core.Timeline | null = null;
+  let tl: any = null;
 
   const done = () => {
     m.classList.remove('is-open');
     m.setAttribute('aria-hidden', 'true');
     body.classList.remove('nav-open');
-    gsap.set([m, ...$('.mnav-list a, .mnav-list li, .mnav-theme, .mnav-cta, .mnav-foot, .mnav-top')], { clearProps: 'all' });
+    gsap?.set([m, ...$('.mnav-list a, .mnav-list li, .mnav-theme, .mnav-cta, .mnav-foot, .mnav-top')], { clearProps: 'all' });
   };
 
   w.wfNav = (op: boolean) => {
+    if (!gsap && !reduce) { loadGsap().then(() => w.wfNav(op)); return; }
     tl?.kill();
     if (op) {
       m.classList.add('is-open');

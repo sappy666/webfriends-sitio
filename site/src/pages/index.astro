@@ -16,11 +16,11 @@ const proceso = (await getEntry('procesoSeisEtapas', 'proceso-seis-etapas'))!.da
 const pages = await getCollection('pages');
 const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
 const serviceMeta = [
-  { num: '01 — WEB', pageId: 'page-sitios-web', linkLabel: 'Ver planes web' },
-  { num: '02 — SEO', pageId: 'page-seo', linkLabel: 'Ver SEO' },
-  { num: '03 — GOOGLE ADS', pageId: 'page-google-ads', linkLabel: 'Ver Google Ads' },
-  { num: '04 — HEALTH', pageId: 'page-salud', linkLabel: 'Ver soluciones para salud' },
-  { num: '05 — UX/UI', pageId: 'page-ux-ui', linkLabel: 'Ver diseño UX/UI' },
+  { name: 'Sitios y tiendas web', pageId: 'page-sitios-web', linkLabel: 'Ver planes web' },
+  { name: 'Posicionamiento SEO y GEO', pageId: 'page-seo', linkLabel: 'Ver SEO' },
+  { name: 'Google Ads', pageId: 'page-google-ads', linkLabel: 'Ver Google Ads' },
+  { name: 'Soluciones para salud', pageId: 'page-salud', linkLabel: 'Ver soluciones para salud' },
+  { name: 'Diseño UX/UI', pageId: 'page-ux-ui', linkLabel: 'Ver diseño UX/UI' },
 ];
 // Ilustración lineal de cada servicio (src/data/lineArt.ts), mismo orden que serviceMeta.
 const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => lineArt[k]);
@@ -35,7 +35,34 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
 
 
   <!-- ═══════ HERO ═══════ -->
-  <HeroBlobs eyebrow={page.heroEyebrow} title={page.heroH1} lede={page.heroLede} />
+  <HeroBlobs eyebrow={page.heroEyebrow} title={page.heroH1} />
+
+  <!-- ═══════ MÉTRICAS ═══════
+       Los valores finales están escritos en el HTML: nunca pueden verse en 0. -->
+  <section class="figures figures-grid" aria-labelledby="m-h">
+    <div class="wrap">
+      <h2 id="m-h" class="eyebrow fig-h">Resultados reales</h2>
+
+      <ol class="fig-list" id="figList">
+        <li class="fig" style="--i:0">
+          <span class="fig-n"><span data-count="500" data-prefix="$">$500</span><em>M+</em></span>
+          <span class="fig-l">en gestión publicitaria<i>Acumulado 2019–2026</i></span>
+        </li>
+        <li class="fig" style="--i:1">
+          <span class="fig-n"><span data-count="150">150</span><em>+</em></span>
+          <span class="fig-l">plataformas desarrolladas<i>Sitios, tiendas y sistemas</i></span>
+        </li>
+        <li class="fig" style="--i:2">
+          <span class="fig-n"><span data-count="500">500</span><em>+</em></span>
+          <span class="fig-l">clientes atendidos<i>En Chile y Latinoamérica</i></span>
+        </li>
+        <li class="fig" style="--i:3">
+          <span class="fig-n"><span data-count="7">7</span><em> años</em></span>
+          <span class="fig-l">como Google Partner<i>Credencial oficial verificable</i></span>
+        </li>
+      </ol>
+    </div>
+  </section>
 
   <!-- ═══════ MARCAS QUE CONFÍAN ═══════ -->
   <section class="proof-strip" aria-labelledby="proof-h">
@@ -73,42 +100,14 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
           <article class="bento foil-card" data-reveal="scale">
             <a class="bento-hit" href={slug(serviceMeta[i].pageId)} tabindex="-1" aria-hidden="true"></a>
             <div class="bento-txt">
-              <p class="bento-num">{serviceMeta[i].num}</p>
-              <p class="bento-hook">{card.title}</p>
-              <p class="bento-desc">{card.description}</p>
+              <h3 class="bento-hook">{serviceMeta[i].name}</h3>
+              <p class="bento-desc">{card.title} {card.description}</p>
               <a class={pos === 0 ? 'bento-link btn' : 'bento-link'} href={slug(serviceMeta[i].pageId)}>{serviceMeta[i].linkLabel} <i aria-hidden="true">→</i></a>
             </div>
             <svg class="bento-ill bento-line" viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={serviceArt[i]} />
           </article>
         ))}
       </div>
-    </div>
-  </section>
-
-  <!-- ═══════ MÉTRICAS ═══════
-       Los valores finales están escritos en el HTML: nunca pueden verse en 0. -->
-  <section class="figures figures-grid" aria-labelledby="m-h">
-    <div class="wrap">
-      <h2 id="m-h" class="sr-only">Cifras de Webfriends</h2>
-
-      <ol class="fig-list" id="figList">
-        <li class="fig" style="--i:0">
-          <span class="fig-n"><span data-count="500" data-prefix="$">$500</span><em>M+</em></span>
-          <span class="fig-l">en gestión publicitaria<i>Acumulado 2019–2026</i></span>
-        </li>
-        <li class="fig" style="--i:1">
-          <span class="fig-n"><span data-count="150">150</span><em>+</em></span>
-          <span class="fig-l">plataformas desarrolladas<i>Sitios, tiendas y sistemas</i></span>
-        </li>
-        <li class="fig" style="--i:2">
-          <span class="fig-n"><span data-count="500">500</span><em>+</em></span>
-          <span class="fig-l">clientes atendidos<i>En Chile y Latinoamérica</i></span>
-        </li>
-        <li class="fig" style="--i:3">
-          <span class="fig-n"><span data-count="7">7</span><em> años</em></span>
-          <span class="fig-l">como Google Partner<i>Credencial oficial verificable</i></span>
-        </li>
-      </ol>
     </div>
   </section>
 
@@ -195,7 +194,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
 
 
 
-
+
 <Fragment slot="scripts">
 <div class="recheck-overlay" id="recheckOverlay" role="dialog" aria-modal="true" aria-labelledby="recheck-h" hidden>
   <div class="recheck-modal">
@@ -205,8 +204,8 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
     <div class="recheck-grid">
       <div class="recheck-text">
         <span class="logo-mark" aria-hidden="true" style="height:18px;margin-bottom:20px">
-          <img class="logo-img-dark" src="/assets/img/webfriends-logo.png" alt="Webfriends" loading="lazy">
-          <img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.png" alt="Webfriends" loading="lazy">
+          <img class="logo-img-dark" src="/assets/img/webfriends-logo.webp" alt="Webfriends" loading="lazy">
+          <img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.webp" alt="Webfriends" loading="lazy">
         </span>
         <p class="eyebrow">Antes que te vayas</p>
         <h2 id="recheck-h">¿Tu web funciona <em>como debería</em>?</h2>
@@ -317,13 +316,11 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
 })();
 </script>
 <script>
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-gsap.registerPlugin(ScrollTrigger);
+import { loadScrollGsap } from '../scripts/when-interacted';
 
 // Al cambiar de pestaña el panel pasa de oculto a visible: hay que recalcular medidas.
 document.querySelectorAll('#planes [role="tab"]').forEach((tab) =>
-  tab.addEventListener('click', () => requestAnimationFrame(() => ScrollTrigger.refresh())),
+  tab.addEventListener('click', () => loadScrollGsap().then(({ ScrollTrigger }) => requestAnimationFrame(() => ScrollTrigger.refresh()))),
 );
 </script>
 <ArcScroll />
