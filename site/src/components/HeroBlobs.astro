@@ -1,6 +1,6 @@
 ---
-// Hero del home: fondo WebGL de "metaballs" (Three.js) que siguen al cursor.
-// Siempre oscuro, aunque el sitio esté en tema claro. El texto viene de src/content/site/page-home.yaml.
+// Hero del home: burbujas ámbar suaves en CSS (las mismas formas en tema claro y oscuro, cambia la paleta).
+// Sin JavaScript ni WebGL. El texto viene de src/content/site/page-home.yaml. Tema claro: src/styles/light.css.
 interface Props { eyebrow: string; title: string }
 const { eyebrow, title } = Astro.props;
 
@@ -34,9 +34,6 @@ const restB = words.slice(-2).join(' ');
     </a>
   </div>
 
-  <div class="hb-foot" aria-hidden="true">
-    <p class="hb-hint">Mueve el cursor <span>↗</span></p>
-  </div>
 </section>
 
 <style>
@@ -48,52 +45,27 @@ const restB = words.slice(-2).join(' ');
     display: grid; place-items: center; padding: 120px 20px 96px;
   }
   .hb-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-  /* Respaldo sin WebGL (o si falla al iniciar): burbujas estáticas en CSS, en las mismas posiciones. */
-  .hb-canvas:empty, .hb-canvas.is-fallback {
-    background:
-      radial-gradient(circle closest-side, rgba(255, 176, 32, .38), rgba(120, 60, 0, .22) 55%, transparent 100%) 0 0 / 46vmax 46vmax no-repeat,
-      radial-gradient(circle closest-side, rgba(255, 176, 32, .32), rgba(120, 60, 0, .18) 55%, transparent 100%) 18% 26% / 14vmax 14vmax no-repeat,
-      radial-gradient(circle closest-side, rgba(255, 176, 32, .36), rgba(120, 60, 0, .2) 55%, transparent 100%) 104% 104% / 50vmax 50vmax no-repeat,
-      radial-gradient(circle closest-side, rgba(255, 176, 32, .3), rgba(120, 60, 0, .16) 55%, transparent 100%) 74% 72% / 15vmax 15vmax no-repeat;
+  /* Burbujas: halos ámbar difuminados sobre el negro (mismas formas y movimiento que el tema claro). */
+  .hb-canvas { overflow: hidden; }
+  .hb-canvas::before, .hb-canvas::after, .hb-vignette::before, .hb-vignette::after {
+    content: ""; position: absolute; border-radius: 50%; filter: blur(6px); will-change: transform;
+    background: radial-gradient(circle at 40% 35%, rgba(255, 176, 32, .30), rgba(255, 150, 20, .13) 45%, rgba(255, 140, 20, 0) 70%);
   }
-  /* Táctil y celular (sin cursor que seguir): dos burbujas grandes tipo lámpara de lava, en CSS,
-     sin WebGL ni Three.js. Mismo aspecto que las de escritorio: interior oscuro y borde ámbar encendido. */
-  .hb-canvas.is-static { background: none; overflow: hidden; }
-  .hb-canvas.is-static::before, .hb-canvas.is-static::after {
-    content: ""; position: absolute; border-radius: 50%;
-    background: radial-gradient(circle at 62% 30%, #2a1404 0%, #0d0804 58%, #080808 72%);
-    box-shadow:
-      inset 18px 26px 60px -10px rgba(255, 176, 32, .55),
-      inset -10px -14px 50px -20px rgba(255, 140, 20, .35),
-      0 0 90px -20px rgba(255, 160, 30, .35);
-    will-change: transform;
-  }
-  .hb-canvas.is-static::before { width: 112vw; height: 112vw; left: -52vw; top: -16vw; }
-  .hb-canvas.is-static::after  { width: 92vw;  height: 92vw;  right: -44vw; bottom: -30vw; }
+  .hb-canvas::before { width: 112vw; height: 112vw; left: -52vw; top: -16vw; }
+  .hb-canvas::after  { width: 92vw;  height: 92vw;  right: -44vw; bottom: -30vw; opacity: .8; }
+  .hb-vignette::before { width: 22vw; height: 22vw; right: 14vw; top: 22%; opacity: .9; }
+  .hb-vignette::after  { width: 15vw; height: 15vw; left: 10vw; bottom: 18%; opacity: .8; }
   @media (min-width: 768px) {
-    .hb-canvas.is-static::before { width: 62vw; height: 62vw; left: -20vw; top: -18vw; }
-    .hb-canvas.is-static::after  { width: 56vw; height: 56vw; right: -18vw; bottom: -22vw; }
+    .hb-canvas::before { width: 62vw; height: 62vw; left: -20vw; top: -18vw; }
+    .hb-canvas::after  { width: 56vw; height: 56vw; right: -18vw; bottom: -22vw; }
+    .hb-vignette::before { width: 12vw; height: 12vw; right: 24vw; top: 18%; }
+    .hb-vignette::after  { width: 8vw;  height: 8vw;  left: 22vw; bottom: 16%; }
   }
   @media (prefers-reduced-motion: no-preference) {
-    .hb-canvas.is-static::before { animation: hbLava 19s ease-in-out infinite alternate; }
-    .hb-canvas.is-static::after  { animation: hbLava 23s ease-in-out -9s infinite alternate-reverse; }
-  }
-  /* Dos burbujas chicas que juegan entre las grandes (usan los pseudo-elementos de la viñeta). */
-  .hb-canvas.is-static + .hb-vignette::before, .hb-canvas.is-static + .hb-vignette::after {
-    content: ""; position: absolute; border-radius: 50%;
-    background: radial-gradient(circle at 62% 30%, #2a1404 0%, #0d0804 58%, #080808 72%);
-    box-shadow: inset 8px 12px 26px -6px rgba(255, 176, 32, .6), 0 0 40px -10px rgba(255, 160, 30, .35);
-    will-change: transform;
-  }
-  .hb-canvas.is-static + .hb-vignette::before { width: 22vw; height: 22vw; right: 14vw; top: 22%; }
-  .hb-canvas.is-static + .hb-vignette::after  { width: 15vw; height: 15vw; left: 10vw; bottom: 18%; }
-  @media (min-width: 768px) {
-    .hb-canvas.is-static + .hb-vignette::before { width: 12vw; height: 12vw; right: 24vw; top: 18%; }
-    .hb-canvas.is-static + .hb-vignette::after  { width: 8vw;  height: 8vw;  left: 22vw; bottom: 16%; }
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .hb-canvas.is-static + .hb-vignette::before { animation: hbBubble 11s ease-in-out infinite alternate; }
-    .hb-canvas.is-static + .hb-vignette::after  { animation: hbBubble 8s ease-in-out -4s infinite alternate-reverse; }
+    .hb-canvas::before   { animation: hbLava 19s ease-in-out infinite alternate; }
+    .hb-canvas::after    { animation: hbLava 23s ease-in-out -9s infinite alternate-reverse; }
+    .hb-vignette::before { animation: hbBubble 11s ease-in-out infinite alternate; }
+    .hb-vignette::after  { animation: hbBubble 8s ease-in-out -4s infinite alternate-reverse; }
   }
   @keyframes hbBubble {
     0%   { transform: translate3d(0, 0, 0) scale(1); }
@@ -105,7 +77,6 @@ const restB = words.slice(-2).join(' ');
     50%  { transform: translate3d(3vw, 9vh, 0) scale(.96, 1.05); }
     100% { transform: translate3d(-2vw, 16vh, 0) scale(1.03, .97); }
   }
-  .hb-canvas :global(canvas) { width: 100% !important; height: 100% !important; display: block; }
   .hb-vignette {
     position: absolute; inset: 0; z-index: 1; pointer-events: none;
     background:
@@ -166,15 +137,6 @@ const restB = words.slice(-2).join(' ');
   .hb-content > h1 { animation-name: hbRise; }
   @keyframes hbRise { from { translate: 0 16px; } }
 
-  .hb-foot {
-    position: absolute; z-index: 5; left: clamp(20px, 3vw, 52px); right: clamp(20px, 3vw, 52px); bottom: 26px;
-    display: flex; align-items: center; justify-content: space-between;
-    color: rgba(255,255,255,.48); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
-  }
-  .hb-foot p { margin: 0; display: flex; align-items: center; gap: 9px; }
-
-  .hb-foot .hb-hint { margin-left: auto; margin-right: 76px; } /* deja espacio al botón flotante de WhatsApp */
-  @media (hover: none) { .hb-foot .hb-hint { display: none; } }
   /* Tablet: titular contenido para que no se estire de lado a lado. */
   @media (min-width: 768px) and (max-width: 1199px) {
     .hb h1 { font-size: clamp(3.4rem, 7.4vw, 5.2rem); }
@@ -194,285 +156,6 @@ const restB = words.slice(-2).join(' ');
     .hb-actions { margin-top: 32px; }
     .hb-rating { display: flex; justify-content: center; margin-top: 18px; }
     .hb-btn { width: 100%; min-height: 56px; font-size: 1rem; }
-    .hb-foot { display: none; }
   }
 </style>
 
-<script>
-const container = document.getElementById('hbCanvas');
-const section = container?.closest<HTMLElement>('.hb');
-
-function webglOk() {
-  try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; }
-}
-
-// Siempre se parte con las burbujas de lava en CSS (livianas). Sin cursor (táctil) o en celular se quedan
-// así y Three.js ni se descarga.
-const touchOrSmall = matchMedia('(hover: none), (max-width: 767px)').matches;
-container?.classList.add('is-static');
-
-// Escritorio: el WebGL (Three.js + shader) arranca con la primera interacción (mover el mouse, scroll,
-// tecla), no en la carga: así no compite con el primer pintado. Aparece con un fundido sobre el CSS.
-// En tema claro no se usa (lo reemplazan las burbujas de light.css): arranca si el tema pasa a oscuro.
-const isLight = () => document.documentElement.getAttribute('data-theme') === 'light';
-if (container && section && !touchOrSmall) {
-  let booted = false, interacted = false;
-  const boot = () => {
-    if (booted || !interacted || isLight() || !webglOk()) return;
-    booted = true;
-    start(container, section);
-  };
-  const onInteract = () => {
-    interacted = true;
-    ['pointermove', 'scroll', 'wheel', 'keydown', 'pointerdown'].forEach((e) => removeEventListener(e, onInteract));
-    boot();
-  };
-  ['pointermove', 'scroll', 'wheel', 'keydown', 'pointerdown'].forEach((e) => addEventListener(e, onInteract, { passive: true }));
-  new MutationObserver(boot).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-}
-
-async function start(container: HTMLElement, section: HTMLElement) {
-  const THREE = await import('three');
-  const isMobile = matchMedia('(max-width: 820px)').matches;
-  const isLowPower = isMobile || ((navigator.hardwareConcurrency || 8) <= 4);
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const maxDpr = isMobile ? 1.35 : 1.8;
-
-  const S = {
-    sphereCount: 4,
-    mergeDistance: 1.45, smoothness: 0.38,
-    cursorRadiusMin: 0.075, cursorRadiusMax: 0.14, mouseSmoothness: 0.075,
-  };
-  const amber = new THREE.Color(0xffb020);
-
-  const size = () => ({ w: section.clientWidth, h: section.clientHeight });
-  let { w, h } = size();
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-  camera.position.z = 1;
-  const clock = new THREE.Clock();
-  let elapsed = 0;
-
-  const renderer = new THREE.WebGLRenderer({ antialias: !isLowPower, alpha: false, powerPreference: isMobile ? 'default' : 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, maxDpr));
-  renderer.setSize(w, h);
-  renderer.setClearColor(0x080808, 1);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  // Entra con un fundido sobre las burbujas CSS y luego éstas se retiran.
-  const cv = renderer.domElement;
-  cv.style.opacity = '0';
-  cv.style.transition = 'opacity .9s ease';
-  container.appendChild(cv);
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    cv.style.opacity = '1';
-    setTimeout(() => container.classList.remove('is-static'), 900);
-  }));
-  cv.addEventListener('webglcontextlost', () => { cv.remove(); container.classList.add('is-static'); });
-
-  const cursor = new THREE.Vector3();
-  const target = new THREE.Vector2(0.5, 0.5);
-  const mouse = new THREE.Vector2(0.5, 0.5);
-
-  const material = new THREE.ShaderMaterial({
-    uniforms: {
-      uTime: { value: 0 },
-      uResolution: { value: new THREE.Vector2(w, h) },
-      uMousePosition: { value: new THREE.Vector2(0.5, 0.5) },
-      uCursorSphere: { value: new THREE.Vector3() },
-      uCursorRadius: { value: S.cursorRadiusMin },
-      uSphereCount: { value: S.sphereCount },
-      uFixedTopLeftRadius: { value: -0.2 }, // desactivada (radio negativo: nunca se dibuja)
-      uFixedBottomRightRadius: { value: 1.05 },
-      uSmallTopLeftRadius: { value: -0.2 },
-      uSmallBottomRightRadius: { value: -0.2 },
-      uMergeDistance: { value: S.mergeDistance },
-      uSmoothness: { value: S.smoothness },
-      uAmbientIntensity: { value: 0.035 },
-      uDiffuseIntensity: { value: 0.62 },
-      uSpecularIntensity: { value: 1.6 },
-      uSpecularPower: { value: 8.0 },
-      uFresnelPower: { value: 1.35 },
-      uBackgroundColor: { value: new THREE.Color(0x080808) },
-      uSphereColor: { value: new THREE.Color(0x090909) },
-      uLightColor: { value: amber },
-      uLightPosition: { value: new THREE.Vector3(0.8, 1.1, 1.0) },
-      uContrast: { value: 1.75 },
-      uFogDensity: { value: 0.08 },
-      uAnimationSpeed: { value: 0.42 },
-      uMovementScale: { value: 1.35 },
-      uMinMovementScale: { value: 0.7 },
-      uMaxMovementScale: { value: 1.2 },
-      uCursorGlowIntensity: { value: 0.52 },
-      uCursorGlowRadius: { value: 1.35 },
-      uCursorGlowColor: { value: amber },
-      uLowPower: { value: isLowPower ? 1.0 : 0.0 },
-    },
-    vertexShader: /* glsl */`
-      varying vec2 vUv;
-      void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
-    `,
-    fragmentShader: /* glsl */`
-      precision highp float;
-      uniform float uTime; uniform vec2 uResolution; uniform vec2 uMousePosition;
-      uniform vec3 uCursorSphere; uniform float uCursorRadius; uniform int uSphereCount;
-      uniform float uFixedTopLeftRadius, uFixedBottomRightRadius, uSmallTopLeftRadius, uSmallBottomRightRadius;
-      uniform float uMergeDistance, uSmoothness, uAmbientIntensity, uDiffuseIntensity, uSpecularIntensity;
-      uniform float uSpecularPower, uFresnelPower, uContrast, uFogDensity, uAnimationSpeed, uMovementScale;
-      uniform float uMinMovementScale, uMaxMovementScale, uCursorGlowIntensity, uCursorGlowRadius, uLowPower;
-      uniform vec3 uBackgroundColor, uSphereColor, uLightColor, uLightPosition, uCursorGlowColor;
-      const float PI = 3.14159265359;
-      const float EPSILON = 0.001;
-
-      float smin(float a, float b, float k) { float h = max(k - abs(a - b), 0.0) / k; return min(a, b) - h*h*k*0.25; }
-      float sdSphere(vec3 p, float r) { return length(p) - r; }
-      vec3 screenToWorld(vec2 n) { vec2 uv = n * 2.0 - 1.0; uv.x *= uResolution.x / uResolution.y; return vec3(uv * 2.0, 0.0); }
-
-      float sceneSDF(vec3 pos) {
-        float result = 100.0;
-        vec3 tl = screenToWorld(vec2(0.07, 0.90));
-        vec3 tls = screenToWorld(vec2(0.22, 0.72));
-        vec3 br = screenToWorld(vec2(0.93, 0.10));
-        vec3 brs = screenToWorld(vec2(0.76, 0.28));
-        float t = uTime * uAnimationSpeed;
-        vec3 topDrift = vec3(sin(t * .55) * .22, cos(t * .43) * .16, 0.0);
-        vec3 bottomDrift = vec3(cos(t * .48) * .24, sin(t * .58) * .18, 0.0);
-        tl += topDrift;
-        tls += topDrift + vec3(sin(t * .8) * .12, cos(t * .7) * .10, 0.0);
-        br += bottomDrift;
-        brs += bottomDrift + vec3(cos(t * .75) * .14, sin(t * .65) * .12, 0.0);
-        float distCenter = length(uMousePosition - vec2(.5));
-        float moveScale = mix(uMinMovementScale, uMaxMovementScale, smoothstep(0.0, .7, distCenter)) * uMovementScale;
-        for (int i = 0; i < 8; i++) {
-          if (i >= uSphereCount) break;
-          float fi = float(i);
-          float speed = .38 + fi * .11;
-          // Lámpara de lava: dos burbujas grandes (0 y 1) que suben y bajan despacio, y dos chicas (2 y 3)
-          // más rápidas que juegan entre ellas; todas se funden al tocarse.
-          bool big = fi < 2.0;
-          float radius = big ? .62 + fi * .18 : .2 + (fi - 2.0) * .09;
-          float orbit = (big ? .35 : .7) * moveScale;
-          float phase = fi * PI * .42;
-          // Repartidas a lo ancho; el movimiento principal es vertical (suben y bajan) con un leve vaivén lateral.
-          vec3 offset = vec3((big ? (fi - .5) * 2.6 : (fi - 2.5) * 1.4) + sin(t*speed*.6 + phase) * orbit, sin(t*speed + phase*1.7) * (big ? 1.25 : 1.7), sin(t*speed*.5 + phase) * .2);
-          vec3 toCursor = uCursorSphere - offset;
-          float cursorDist = length(toCursor);
-          if (cursorDist < uMergeDistance && cursorDist > 0.001) offset += normalize(toCursor) * (1.0 - cursorDist / uMergeDistance) * .28;
-          float ball = sdSphere(pos - offset, radius);
-          float blend = mix(.45, max(uSmoothness, .55), pow(max(0.0, 1.0 - cursorDist/uMergeDistance), 3.0));
-          result = smin(result, ball, blend);
-        }
-        float topGroup = smin(sdSphere(pos-tl, uFixedTopLeftRadius), sdSphere(pos-tls, uSmallTopLeftRadius), .36);
-        float bottomGroup = smin(sdSphere(pos-br, uFixedBottomRightRadius), sdSphere(pos-brs, uSmallBottomRightRadius), .36);
-        result = smin(result, topGroup, .28);
-        result = smin(result, bottomGroup, .28);
-        return smin(result, sdSphere(pos-uCursorSphere, uCursorRadius), uSmoothness);
-      }
-
-      vec3 calcNormal(vec3 p) {
-        float e = .0015;
-        return normalize(vec3(
-          sceneSDF(p+vec3(e,0,0))-sceneSDF(p-vec3(e,0,0)),
-          sceneSDF(p+vec3(0,e,0))-sceneSDF(p-vec3(0,e,0)),
-          sceneSDF(p+vec3(0,0,e))-sceneSDF(p-vec3(0,0,e))));
-      }
-
-      float rayMarch(vec3 ro, vec3 rd) {
-        float t = 0.0;
-        for (int i = 0; i < 44; i++) {
-          if (uLowPower > .5 && i > 20) break;
-          float d = sceneSDF(ro + rd*t);
-          if (d < EPSILON) return t;
-          if (t > 5.0) break;
-          t += d * .9;
-        }
-        return -1.0;
-      }
-
-      vec3 shade(vec3 p, vec3 rd) {
-        vec3 n = calcNormal(p);
-        vec3 l = normalize(uLightPosition);
-        float diff = max(dot(n, l), 0.0);
-        vec3 v = -rd;
-        float spec = pow(max(dot(v, reflect(-l, n)), 0.0), uSpecularPower);
-        float fresnel = pow(1.0 - max(dot(v, n), 0.0), uFresnelPower);
-        vec3 c = uSphereColor + uLightColor * uAmbientIntensity + uLightColor * diff * uDiffuseIntensity
-               + uLightColor * spec * uSpecularIntensity * fresnel + uLightColor * fresnel * .32;
-        c = pow(max(c, 0.0), vec3(uContrast));
-        return c / (c + vec3(.75));
-      }
-
-      void main() {
-        vec2 uv = (gl_FragCoord.xy * 2.0 - uResolution.xy) / uResolution.y;
-        vec3 ro = vec3(uv * 2.0, -1.0);
-        vec3 rd = vec3(0.0, 0.0, 1.0);
-        float t = rayMarch(ro, rd);
-        vec3 color = uBackgroundColor;
-        float glow = pow(1.0 - smoothstep(0.0, uCursorGlowRadius, length(ro.xy - uCursorSphere.xy)), 2.0) * uCursorGlowIntensity;
-        color += uCursorGlowColor * glow * .12;
-        if (t > 0.0) {
-          vec3 s = shade(ro + rd*t, rd);
-          s = mix(s, uBackgroundColor, (1.0 - exp(-t*uFogDensity)) * .25);
-          color = s + uCursorGlowColor * glow * .18;
-        }
-        gl_FragColor = vec4(color, 1.0);
-      }
-    `,
-  });
-  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
-
-  const toWorld = (x: number, y: number) => new THREE.Vector3((x * 2 - 1) * (w / h) * 2, (y * 2 - 1) * 2, 0);
-  const fixed = () => [toWorld(.07, .90), toWorld(.22, .72), toWorld(.93, .10), toWorld(.76, .28)];
-  let anchors = fixed();
-
-  const setPointer = (clientX: number, clientY: number) => {
-    const r = section.getBoundingClientRect();
-    target.set((clientX - r.left) / r.width, 1 - (clientY - r.top) / r.height);
-    cursor.copy(toWorld(target.x, target.y));
-    let closest = 1000;
-    anchors.forEach((p) => { closest = Math.min(closest, cursor.distanceTo(p)); });
-    const prox = Math.max(0, 1 - closest / S.mergeDistance);
-    const smooth = prox * prox * (3 - 2 * prox);
-    material.uniforms.uCursorSphere.value.copy(cursor);
-    material.uniforms.uCursorRadius.value = S.cursorRadiusMin + (S.cursorRadiusMax - S.cursorRadiusMin) * smooth;
-  };
-  const centre = () => { const r = section.getBoundingClientRect(); setPointer(r.left + r.width / 2, r.top + r.height / 2); };
-  centre();
-  section.addEventListener('pointermove', (e) => setPointer(e.clientX, e.clientY), { passive: true });
-
-  const render = () => {
-    mouse.x += (target.x - mouse.x) * S.mouseSmoothness;
-    mouse.y += (target.y - mouse.y) * S.mouseSmoothness;
-    material.uniforms.uMousePosition.value.copy(mouse);
-    elapsed += Math.min(clock.getDelta(), 0.1);
-    material.uniforms.uTime.value = elapsed;
-    renderer.render(scene, camera);
-  };
-
-  new ResizeObserver(() => {
-    ({ w, h } = size());
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, maxDpr));
-    renderer.setSize(w, h);
-    material.uniforms.uResolution.value.set(w, h);
-    anchors = fixed();
-    if (reduce) render();
-  }).observe(section);
-
-  if (reduce) {
-    // Movimiento reducido: un solo cuadro estático.
-    elapsed = 2.0;
-    render();
-  } else {
-    // Solo anima mientras el hero está en pantalla y la pestaña visible.
-    let raf = 0, visible = true;
-    const loop = () => { render(); raf = requestAnimationFrame(loop); };
-    const sync = () => {
-      cancelAnimationFrame(raf);
-      if (visible && !document.hidden && !isLight()) { clock.getDelta(); raf = requestAnimationFrame(loop); }
-    };
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); }).observe(section);
-    document.addEventListener('visibilitychange', sync);
-    new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-  }
-}
-</script>
