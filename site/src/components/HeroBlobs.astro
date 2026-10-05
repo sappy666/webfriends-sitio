@@ -4,6 +4,17 @@
 interface Props { eyebrow: string; title: string }
 const { eyebrow, title } = Astro.props;
 
+// Línea superior del hero: rota entre estos servicios (el `eyebrow` del YAML se ve antes de que arranque).
+const ROTATING = [
+  'Marketing digital',
+  'Google Ads',
+  'Sitios web responsivos',
+  'Diseño UX/UI',
+  'Análisis SEO',
+  'GEO',
+  'Soluciones para centros médicos',
+];
+
 // "Haz que te encuentren. Y convierte esa visibilidad en crecimiento."
 // → 1ª oración en una línea; del resto, las dos últimas palabras van destacadas en amarillo.
 const dot = title.indexOf('. ');
@@ -18,7 +29,12 @@ const restB = words.slice(-2).join(' ');
   <div class="hb-vignette" aria-hidden="true"></div>
 
   <div class="hb-content">
-    <p class="hb-eyebrow"><span class="hb-dot"></span>{eyebrow}</p>
+    <p class="hb-eyebrow">
+      <span class="hb-dot"></span>
+      <!-- Rota entre los servicios (GSAP, script al final). Sin JS o con movimiento reducido queda el texto fijo. -->
+      <span class="hb-rot" id="hbRot" data-words={JSON.stringify(ROTATING)} aria-hidden="true"><span class="hb-rot-item">{eyebrow}</span></span>
+      <span class="sr-only">{ROTATING.join(', ')}</span>
+    </p>
     <h1>
       {first && <span>{first}</span>}
       {restA && <span>{restA}</span>}
@@ -144,9 +160,13 @@ const restB = words.slice(-2).join(' ');
     .hb h1 span::after { content: " "; }
     .hb h1 span:first-child { display: block; }
   }
+  /* Texto que rota: el ancho se anima entre palabras para que el punto no salte. */
+  .hb-rot { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; padding-block: .25em; margin-block: -.25em; }
+  .hb-rot-item { display: inline-block; will-change: transform, opacity; }
   /* Celular: un solo mensaje, alineado a la izquierda, sin elementos flotando alrededor. */
   @media (max-width: 767px) {
-    .hb { min-height: 100svh; grid-template-columns: minmax(0, 1fr); place-items: end stretch; padding: calc(var(--hdr-h) + 48px) var(--pad) 56px; }
+    /* Contenido centrado en la pantalla (antes iba anclado abajo y dejaba ~40% vacío arriba). */
+    .hb { min-height: 88svh; grid-template-columns: minmax(0, 1fr); place-items: center stretch; padding: calc(var(--hdr-h) + 40px) var(--pad) 48px; }
     .hb-content { width: 100%; text-align: left; }
     .hb-eyebrow { font-size: .64rem; margin-bottom: 24px; }
     .hb h1 { margin: 0; font-size: clamp(2.6rem, 11.6vw, 3.4rem); line-height: .98; letter-spacing: -.055em; }
@@ -158,4 +178,34 @@ const restB = words.slice(-2).join(' ');
     .hb-btn { width: 100%; min-height: 56px; font-size: 1rem; }
   }
 </style>
+
+<script>
+  // Línea superior del hero: cada servicio sale hacia arriba desvaneciéndose y entra el siguiente desde abajo;
+  // el ancho se anima entre palabras. Con movimiento reducido no rota (queda el texto del YAML).
+  import { gsap } from 'gsap';
+
+  const box = document.getElementById('hbRot');
+  const item = box?.querySelector<HTMLElement>('.hb-rot-item');
+  const words: string[] = box ? JSON.parse(box.dataset.words || '[]') : [];
+
+  if (box && item && words.length > 1 && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    let i = -1; // -1: aún se ve el texto del YAML; el primer cambio muestra words[0]
+    const HOLD = 2.4;
+
+    const next = () => {
+      i = (i + 1) % words.length;
+      const from = box.offsetWidth;
+      gsap.timeline({ onComplete: () => { gsap.delayedCall(HOLD, next); } })
+        .to(item, { autoAlpha: 0, yPercent: -60, duration: .45, ease: 'power2.in' })
+        .add(() => {
+          item.textContent = words[i];
+          gsap.set(box, { width: 'auto' });
+          const to = box.offsetWidth;
+          gsap.fromTo(box, { width: from }, { width: to, duration: .5, ease: 'power3.inOut', onComplete: () => { gsap.set(box, { width: 'auto' }); } });
+        })
+        .fromTo(item, { autoAlpha: 0, yPercent: 60 }, { autoAlpha: 1, yPercent: 0, duration: .6, ease: 'power3.out' });
+    };
+    gsap.delayedCall(1.6, next);
+  }
+</script>
 
