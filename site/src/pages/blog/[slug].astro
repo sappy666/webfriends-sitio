@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { authorOf, initials } from '../../data/authors';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -31,7 +32,7 @@ const SERVICE_LABEL: Record<string, string> = {
 };
 
 function fmtDate(d: Date) {
-  return d.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' }).replace('.', '');
+  return d.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }).replace('.', '');
 }
 
 const allPosts = await getCollection('blog');
@@ -42,10 +43,32 @@ const related = allPosts
 
 const pages = await getCollection('pages');
 const relatedServiceHref = `/${pages.find((p) => p.id === post.data.relatedService)!.data.urlSlug}`;
+
+const author = authorOf(post.data);
+// Datos estructurados del artículo (Google): autor, fecha y editor.
+const site = Astro.site ?? new URL(Astro.url.origin);
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  mainEntityOfPage: new URL(`/blog/${post.id}/`, site).toString(),
+  author: author.id === 'equipo'
+    ? { '@type': 'Organization', name: 'Webfriends', url: site.toString() }
+    : {
+        '@type': 'Person', name: author.name, jobTitle: author.role,
+        url: new URL(author.href!, site).toString(),
+        ...(author.linkedin ? { sameAs: [author.linkedin] } : {}),
+        worksFor: { '@type': 'Organization', name: 'Webfriends' },
+      },
+  publisher: { '@type': 'Organization', name: 'Webfriends', url: site.toString() },
+};
 ---
 <BaseLayout title={post.data.metaTitle || `${post.data.title} — Blog Webfriends`} description={post.data.description}>
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/post.css" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(articleLd)} />
   </Fragment>
 
   <div class="read-progress" id="readProgress" aria-hidden="true">
@@ -57,7 +80,7 @@ const relatedServiceHref = `/${pages.find((p) => p.id === post.data.relatedServi
       <a class="post-back" href="/blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg> Volver al blog</a>
       <div class="post-hero-meta">
         <span class="post-tag">{CATEGORY_LABEL[post.data.category]}</span>
-        <span class="post-date" style="color:var(--label-3);font-size:.8rem">{fmtDate(post.data.date)} · {post.data.readingTime}</span>
+        <span class="post-date" style="color:var(--label-3);font-size:.8rem">Por {author.href ? <a class="post-author-name" href={author.href}>{author.name}</a> : <span class="post-author-name">{author.name}</span>} · {fmtDate(post.data.date)} · {post.data.readingTime}</span>
         <button class="post-listen" id="postListen" type="button" aria-label="Escuchar artículo" aria-pressed="false">
           <svg class="ico-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-mic"></use></svg>
           <span class="post-listen-txt">Escuchar</span>
@@ -76,6 +99,15 @@ const relatedServiceHref = `/${pages.find((p) => p.id === post.data.relatedServi
       <h2 id="post-body-h" class="sr-only">Contenido del artículo</h2>
       <div class="post-body" data-reveal>
         <Content />
+        <aside class="post-author" aria-label="Autor del artículo">
+          <span class="post-author-avatar" aria-hidden="true">{initials(author.name)}</span>
+          <span>
+            <span class="post-author-by">Escrito por</span>
+            <strong>{author.href ? <a href={author.href}>{author.name}</a> : author.name}</strong>
+            <span class="post-author-role">{author.role} · Webfriends</span>
+            {author.href && <a class="post-author-more" href={author.href}>Ver perfil y más artículos →</a>}
+          </span>
+        </aside>
         <div class="post-foot">
           <span class="post-tag">{CATEGORY_LABEL[post.data.category]}</span>
           <a class="btn btn-soft" href={relatedServiceHref}>{SERVICE_LABEL[post.data.relatedService]}</a>

@@ -1,0 +1,152 @@
+---
+// Página de autor: presentación, CV corto, LinkedIn y artículos escritos.
+// Datos en src/data/authors.ts (solo se muestra lo que esté completo).
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PERSON_IDS, authorOf, initials, type AuthorId } from '../../data/authors';
+
+export function getStaticPaths() {
+  return PERSON_IDS.map((id) => ({ params: { id } }));
+}
+
+const id = Astro.params.id as AuthorId;
+const posts = (await getCollection('blog'))
+  .filter((p) => authorOf(p.data).id === id)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const author = authorOf({ category: '', author: id });
+
+const CATEGORY_LABEL: Record<string, string> = {
+  seo: 'SEO', ads: 'Google Ads', web: 'Desarrollo web', uxui: 'UX/UI', salud: 'Salud', marketing: 'Marketing',
+};
+const fmtDate = (d: Date) => d.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }).replace('.', '');
+
+const site = Astro.site ?? new URL(Astro.url.origin);
+const pageUrl = new URL(`/autor/${id}/`, site).toString();
+const profileLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  url: pageUrl,
+  mainEntity: {
+    '@type': 'Person',
+    name: author.name,
+    jobTitle: author.role,
+    url: pageUrl,
+    ...(author.bio ? { description: author.bio } : {}),
+    ...(author.linkedin ? { sameAs: [author.linkedin] } : {}),
+    worksFor: { '@type': 'Organization', name: 'Webfriends', url: site.toString() },
+  },
+};
+---
+<BaseLayout
+  title={`${author.name} — ${author.role} en Webfriends`}
+  description={author.bio ?? `Artículos de ${author.name}, ${author.role} en Webfriends: guías prácticas para hacer crecer tu negocio en digital.`}
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/blog.css" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(profileLd)} />
+  </Fragment>
+
+  <section class="hero author-hero">
+    <div class="wrap" data-hero-seq>
+      <a class="post-back" href="/blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg> Volver al blog</a>
+      <div class="author-head">
+        <span class="author-avatar" aria-hidden="true">{initials(author.name)}</span>
+        <div>
+          <p class="eyebrow">{author.role} · Webfriends</p>
+          <h1>{author.name}</h1>
+        </div>
+      </div>
+      {author.bio && <p class="lede">{author.bio}</p>}
+      {author.linkedin && (
+        <div class="hero-actions">
+          <a class="btn btn-soft" href={author.linkedin} target="_blank" rel="noopener me">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-linkedin"></use></svg>
+            Ver perfil en LinkedIn
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {(author.experience?.length || author.skills?.length) && (
+    <section class="author-cv" aria-labelledby="cv-h">
+      <div class="wrap">
+        <h2 id="cv-h" class="eyebrow">Trayectoria</h2>
+        {author.experience?.length && (
+          <ol class="cv-list">
+            {author.experience.map((j) => (
+              <li>
+                <span class="cv-period">{j.period}</span>
+                <span><strong>{j.title}</strong><span class="cv-place">{j.place}</span></span>
+              </li>
+            ))}
+          </ol>
+        )}
+        {author.skills?.length && (
+          <ul class="chips cv-skills" aria-label="Especialidades">
+            {author.skills.map((s) => <li class="chip">{s}</li>)}
+          </ul>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="author-posts" aria-labelledby="posts-h">
+    <div class="wrap">
+      <h2 id="posts-h" class="eyebrow">Artículos de {author.name} ({posts.length})</h2>
+      {posts.length === 0 && <p class="lede">Pronto publicará su primer artículo.</p>}
+      <div class="post-grid" data-reveal-group>
+        {posts.map((post) => (
+          <article class="post-card foil-card" data-reveal="scale">
+            <div class="post-meta">
+              <span class="post-cat">{CATEGORY_LABEL[post.data.category]}</span>
+              <span class="post-date">{fmtDate(post.data.date)} · {post.data.readingTime.replace(' de lectura', '')}</span>
+            </div>
+            <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+            <p>{post.data.excerpt}</p>
+            <span class="post-read" aria-hidden="true">Leer artículo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><use href="#i-arrow-right"></use></svg></span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .author-hero { text-align: left; }
+  /* "Volver al blog" (mismo estilo que en los artículos; esta página carga blog.css, no post.css) */
+  .post-back {
+    display: inline-flex; align-items: center; gap: 7px; color: var(--label-2); text-decoration: none;
+    font-size: var(--s--1); font-weight: 600; transition: color .3s, transform .3s;
+  }
+  .post-back svg { width: 14px; height: 14px; transform: rotate(180deg); }
+  .post-back:hover { color: var(--amber); transform: translateX(-3px); }
+  .author-hero .wrap { max-width: 760px; }
+  .author-head { display: flex; align-items: center; gap: 22px; margin: 28px 0 0; }
+  .author-avatar {
+    width: 84px; height: 84px; flex: none; border-radius: 50%; display: grid; place-items: center;
+    border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent); color: var(--amber);
+    font-size: 1.8rem; font-weight: 400; letter-spacing: -.02em;
+  }
+  .author-head .eyebrow { margin-bottom: 12px; }
+  .author-head h1 { margin: 0; text-align: left; }
+  .author-hero .lede { margin: 24px 0 0; text-align: left; }
+  .author-hero .hero-actions { justify-content: flex-start; margin-top: 28px; }
+  .author-hero .btn svg { margin-right: 4px; }
+
+  .author-cv .wrap, .author-posts .wrap { max-width: 1120px; }
+  .author-cv { padding-bottom: 0 !important; }
+  .cv-list { list-style: none; margin: 8px 0 0; padding: 0; max-width: 760px; }
+  .cv-list li { display: grid; grid-template-columns: 140px 1fr; gap: 20px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .cv-list li:last-child { border-bottom: 1px solid var(--line); }
+  .cv-period { color: var(--label-3); font-size: .9rem; font-variant-numeric: tabular-nums; }
+  .cv-list strong { display: block; font-weight: 500; color: var(--label); letter-spacing: -.02em; }
+  .cv-place { color: var(--label-3); font-size: .9rem; }
+  .cv-skills { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .author-posts .post-grid { margin-top: 28px; }
+  @media (max-width: 640px) {
+    .author-head { gap: 16px; }
+    .author-avatar { width: 64px; height: 64px; font-size: 1.4rem; }
+    .cv-list li { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>

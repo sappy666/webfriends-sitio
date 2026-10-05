@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { AUTHOR_IDS } from './data/authors';
 
 const cardItem = z.object({
   title: z.string(),
@@ -108,6 +109,8 @@ const blog = defineCollection({
     description: z.string(),
     excerpt: z.string(),
     category: z.enum(['seo', 'ads', 'web', 'uxui', 'salud', 'marketing']),
+    // Opcional: si no se indica, se usa el autor de la categoría (src/data/authors.ts).
+    author: z.enum(AUTHOR_IDS).optional(),
     previousSlugs: z.array(z.string()).default([]),
     date: z.coerce.date(),
     readingTime: z.string(),

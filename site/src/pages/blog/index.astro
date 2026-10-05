@@ -16,7 +16,7 @@ const CATEGORY_LABEL: Record<string, string> = {
 };
 
 function fmtDate(d: Date) {
-  return d.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' }).replace('.', '');
+  return d.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }).replace('.', '');
 }
 ---
 <BaseLayout

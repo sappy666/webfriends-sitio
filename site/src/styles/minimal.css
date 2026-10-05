@@ -115,6 +115,31 @@ body .hero.post-hero { padding-bottom: clamp(16px, 2vw, 28px) !important; }
 body .post-hero .wrap { text-align: left; }
 body .post-hero .wrap > :is(.post-back, .lede) { text-align: left; margin-inline: 0; }
 
+/* ── Autor del artículo: nombre en la línea de fecha + ficha al final del texto ── */
+.post-author-name { color: var(--label-2); font-weight: 500; text-decoration: none; }
+a.post-author-name:hover, .post-author strong a:hover { color: var(--amber); }
+.post-author strong a { color: inherit; text-decoration: none; }
+.post-author-more { margin-top: 4px; font-size: .82rem; color: var(--amber); text-decoration: none; }
+.post-author-more:hover { text-decoration: underline; }
+.post-author {
+  display: flex; align-items: center; gap: 14px; margin-top: 40px; padding: 18px 0;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.post-author-avatar {
+  width: 48px; height: 48px; flex: none; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent); color: var(--amber);
+  font-size: .95rem; font-weight: 500; letter-spacing: .02em;
+}
+.post-author > span:last-child { display: flex; flex-direction: column; line-height: 1.35; }
+.post-author-by { font-size: .62rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--label-3); }
+.post-author strong { color: var(--label); font-weight: 500; font-size: 1.05rem; letter-spacing: -.02em; }
+.post-author-role { color: var(--label-3); font-size: .85rem; }
+body .post-body .post-foot { margin-top: 24px; }
+/* Viñetas del artículo: el texto fluye en un solo bloque (con flex, un <strong> inicial quedaba en otra columna). */
+body .post-body ul li { display: block; position: relative; padding-left: 20px; }
+body .post-body ul li::before { position: absolute; left: 0; top: .1em; margin-top: 9px; }
+body .post-body h3 { font-size: var(--s-1); font-weight: 500; letter-spacing: -.03em; color: var(--label); margin: 32px 0 10px; }
+
 /* ── Tarjeta "lámina" (.foil-card): se inclina hacia el cursor (máx. 6°), reflejo cálido que lo sigue
    y un brillo diagonal que cruza al entrar. Todo muy tenue. Posición/ángulo por JS en BaseLayout. ── */
 .foil-card {
