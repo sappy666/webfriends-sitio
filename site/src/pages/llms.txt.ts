@@ -26,6 +26,7 @@ const OPTIONAL: [string, string, string][] = [
 ];
 const PLAN_SETS: [string, string][] = [
   ['desarrollo-web', 'Sitios web (pago único)'],
+  ['tienda-virtual', 'Tiendas virtuales (pago único)'],
   ['google-ads', 'Google Ads (mensual)'],
   ['seo', 'SEO y GEO (mensual)'],
   ['salud', 'Soluciones para salud'],

@@ -1,0 +1,55 @@
+id: tienda-virtual
+plans:
+  - name: Tienda Básica
+    tagline: Para empezar a vender en línea con un catálogo acotado.
+    price: $320.000
+    renewalTerms: "Pago único · Renovación $45.000 + IVA al año"
+    featured: false
+    badge: ""
+    features:
+      - label: Hasta 15 productos
+      - label: 1 GB de almacenamiento
+      - label: 3 correos corporativos
+      - label: Formulario de contacto
+      - label: Botón de WhatsApp
+      - label: Optimización de imágenes
+      - label: Webpay o Mercado Pago
+    ctaLabel: Contratar Tienda Básica
+    deliveryNote: Cancela cuando quieras
+  - name: Tienda Virtual
+    tagline: Para tiendas con más productos organizados por categoría.
+    price: $460.000
+    renewalTerms: "Pago único · Renovación $60.000 + IVA al año"
+    featured: true
+    badge: Más popular
+    features:
+      - label: Hasta 40 productos
+      - label: 2 GB de almacenamiento
+      - label: 5 correos corporativos
+      - label: Formulario de contacto
+      - label: Botón de WhatsApp
+      - label: Optimización de imágenes
+      - label: Webpay o Mercado Pago
+      - label: Categorías personalizadas
+    ctaLabel: Contratar Tienda Virtual
+    deliveryNote: Cancela cuando quieras
+  - name: Tienda Pro
+    tagline: Para catálogos grandes que necesitan filtros y navegación avanzada.
+    price: Desde $690.000
+    renewalTerms: "Pago único · Renovación $80.000 + IVA al año"
+    featured: false
+    badge: ""
+    features:
+      - label: Desde 100 productos
+      - label: 4 GB de almacenamiento
+      - label: 10 correos corporativos
+      - label: Formulario de contacto
+      - label: Botón de WhatsApp
+      - label: Optimización de imágenes
+      - label: Webpay o Mercado Pago
+      - label: Categorías personalizadas
+      - label: Filtros de búsqueda
+      - label: Mega menú
+      - label: Elementor Pro incluido
+    ctaLabel: Contratar Tienda Pro
+    deliveryNote: Cancela cuando quieras

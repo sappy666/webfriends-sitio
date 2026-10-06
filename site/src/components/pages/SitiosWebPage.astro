@@ -10,6 +10,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const page = (await getEntry('pages', 'page-sitios-web'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
 const webPlans = (await getEntry('planSets', 'desarrollo-web'))!.data.plans;
+const tiendaPlans = (await getEntry('planSets', 'tienda-virtual'))!.data.plans;
 const incluidoIcons = [
   '<path d="M12 20a8 8 0 118-8"/><path d="M12 12l4-3"/>',
   '<path d="M12 3l8 3v6c0 4.4-3.2 7.9-8 9-4.8-1.1-8-4.6-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
@@ -140,6 +141,19 @@ const tiendaIcons = ['#i-credit-card', '#i-package', '#i-truck', '#i-cart'];
           </div>
         ))}
       </div>
+
+      <div style="text-align:center;margin-top:clamp(64px,8vw,104px)">
+        <h3 id="tienda-planes-h" class="h-sec" data-reveal style="margin-inline:auto">Planes tienda virtual</h3>
+        <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">Elige la tienda que se ajuste a tus necesidades y vende las 24 horas.</p>
+      </div>
+      <div class="pricing" data-reveal-group aria-labelledby="tienda-planes-h" style="margin-top:44px">
+          {tiendaPlans.map((plan) => (
+            <PlanCard plan={plan} />
+          ))}
+      </div>
+      <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
+        ¿Necesitas un plan personalizado? <a href="/contacto" style="color:var(--amber);font-weight:700;text-decoration:none">Creamos una solución a medida</a>
+      </p>
     </div>
   </section>
   <OtherServices current="web" />
