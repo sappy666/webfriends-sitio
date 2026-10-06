@@ -190,6 +190,88 @@ body .foil-card::before, body .foil-card::after { display: block; }
 .line-art .acc { stroke: var(--amber); }
 .web-design-icon.web-design-icon { color: var(--label); }
 .google-ads-icon.google-ads-icon { color: var(--label); }
+.medical-platform-icon.medical-platform-icon { color: var(--label); }
+.seo-ranking-icon.seo-ranking-icon { color: var(--label); }
+.principles-team { display: block; width: 100%; height: auto; color: var(--label); overflow: visible; }
+.industry-cycle { display: block; width: 65%; max-width: 280px; height: auto; margin-inline: auto; color: var(--label); }
+.industry-cycle .ic-face { fill: var(--bg); }
+.industry-cycle .ic-ground, .industry-cycle .ic-detail { stroke: var(--line-2); }
+.industry-cycle text { fill: currentColor; stroke: none; text-anchor: middle; font: 13px sans-serif; letter-spacing: .4px; }
+.industry-cycle .ic-sector { opacity: 0; animation: ic-change 16s ease-in-out infinite; }
+.industry-cycle .ic-sector-0 { opacity: 1; }
+.industry-cycle .ic-sector-1, .industry-cycle .ic-dot-1 { animation-delay: -12s; }
+.industry-cycle .ic-sector-2, .industry-cycle .ic-dot-2 { animation-delay: -8s; }
+.industry-cycle .ic-sector-3, .industry-cycle .ic-dot-3 { animation-delay: -4s; }
+.industry-cycle .ic-dot { fill: currentColor; opacity: .2; animation: ic-indicator 16s ease-in-out infinite; }
+.industry-cycle .ic-dot-1 { animation-delay: -12s; }
+.industry-cycle .ic-dot-2 { animation-delay: -8s; }
+.industry-cycle .ic-dot-3 { animation-delay: -4s; }
+@keyframes ic-change {
+  0%, 20% { opacity: 1; transform: translateY(0); }
+  25% { opacity: 0; transform: translateY(-3px); }
+  26%, 94% { opacity: 0; transform: translateY(3px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes ic-indicator { 0%, 20%, 100% { opacity: 1; } 25%, 94% { opacity: .2; } }
+@media (prefers-reduced-motion: reduce) {
+  .industry-cycle .ic-sector, .industry-cycle .ic-dot { animation: none; }
+  .industry-cycle .ic-sector-0, .industry-cycle .ic-dot-0 { opacity: 1; }
+}
+.principles-team .pt-base { stroke: var(--line-2); }
+.principles-team .pt-face { fill: var(--bg); }
+.principles-team .pt-block { animation: pt-stack 9s cubic-bezier(.22, 1, .36, 1) infinite; }
+.principles-team .pt-block-0 { --pt-x: -46px; --pt-y: -20px; }
+.principles-team .pt-block-1 { --pt-x: 50px; --pt-y: -32px; animation-delay: .45s; }
+.principles-team .pt-block-2 { --pt-x: -50px; --pt-y: -44px; animation-delay: .9s; }
+.principles-team .pt-block-3 { --pt-x: 46px; --pt-y: -56px; animation-delay: 1.35s; }
+@keyframes pt-stack {
+  0%, 8% { opacity: 0; transform: translate(var(--pt-x), var(--pt-y)); }
+  14% { opacity: 1; }
+  32%, 74% { opacity: 1; transform: translate(0, 0); }
+  86%, 100% { opacity: 0; transform: translate(0, -8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .principles-team .pt-block { animation: none; }
+}
+.seo-ranking-icon .sr-result { opacity: .45; }
+.seo-ranking-icon .sr-promoted { animation: sr-rise 7s ease-in-out infinite; }
+.seo-ranking-icon .sr-first { animation: sr-first 7s ease-in-out infinite; }
+.seo-ranking-icon .sr-second { animation: sr-second 7s ease-in-out infinite; }
+@keyframes sr-rise {
+  0%, 15% { opacity: 1; transform: translateY(0); }
+  32%, 45% { opacity: 1; transform: translateY(-22px); }
+  62%, 88% { opacity: 1; transform: translateY(-44px); }
+  94% { opacity: 0; transform: translateY(-44px); }
+  95% { opacity: 0; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes sr-first {
+  0%, 45% { opacity: .45; transform: translateY(0); }
+  62%, 88% { opacity: .45; transform: translateY(22px); }
+  94% { opacity: 0; transform: translateY(22px); }
+  95% { opacity: 0; transform: translateY(0); }
+  100% { opacity: .45; transform: translateY(0); }
+}
+@keyframes sr-second {
+  0%, 15% { opacity: .45; transform: translateY(0); }
+  32%, 88% { opacity: .45; transform: translateY(22px); }
+  94% { opacity: 0; transform: translateY(22px); }
+  95% { opacity: 0; transform: translateY(0); }
+  100% { opacity: .45; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .seo-ranking-icon .sr-promoted { animation: none; transform: translateY(-44px); }
+  .seo-ranking-icon .sr-first, .seo-ranking-icon .sr-second { animation: none; transform: translateY(22px); }
+}
+.medical-platform-icon .mp-record { animation: mp-record 4s ease-in-out infinite; }
+.medical-platform-icon .mp-heartbeat { stroke-dasharray: 100; animation: mp-heartbeat 4s ease-in-out infinite; }
+.medical-platform-icon .mp-status { transform-box: fill-box; transform-origin: center; animation: mp-status 4s ease-in-out infinite; }
+@keyframes mp-record { 0% { opacity: 0; transform: translateY(3px); } 18%, 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
+@keyframes mp-heartbeat { 0%, 18% { opacity: 0; stroke-dashoffset: 100; } 22% { opacity: 1; } 72%, 90% { opacity: 1; stroke-dashoffset: 0; } 100% { opacity: 0; stroke-dashoffset: 0; } }
+@keyframes mp-status { 0%, 18% { opacity: .35; transform: scale(.8); } 38%, 70% { opacity: 1; transform: scale(1.15); } 55%, 90%, 100% { opacity: .5; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .medical-platform-icon .mp-record, .medical-platform-icon .mp-heartbeat, .medical-platform-icon .mp-status { animation: none; }
+}
 .google-ads-icon .ga-bar { transform-box: fill-box; transform-origin: center bottom; animation: ga-grow 4s ease-in-out infinite; }
 .google-ads-icon .ga-bar-2 { animation-delay: .15s; }
 .google-ads-icon .ga-bar-3 { animation-delay: .3s; }

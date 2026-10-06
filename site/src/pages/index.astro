@@ -2,6 +2,8 @@
 import { lineArt } from '../data/lineArt';
 import WebDesignIcon from '../components/WebDesignIcon.astro';
 import GoogleAdsIcon from '../components/GoogleAdsIcon.astro';
+import MedicalPlatformIcon from '../components/MedicalPlatformIcon.astro';
+import SeoRankingIcon from '../components/SeoRankingIcon.astro';
 import PlanCard from '../components/PlanCard.astro';
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -106,7 +108,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
               <p class="bento-desc">{card.title} {card.description}</p>
               <a class={pos === 0 ? 'bento-link btn' : 'bento-link'} href={slug(serviceMeta[i].pageId)}>{serviceMeta[i].linkLabel} <i aria-hidden="true">→</i></a>
             </div>
-            {serviceMeta[i].pageId === 'page-ux-ui' ? <WebDesignIcon class="bento-ill bento-line" /> : serviceMeta[i].pageId === 'page-google-ads' ? <GoogleAdsIcon class="bento-ill bento-line" /> : <svg class="bento-ill bento-line" viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={serviceArt[i]} />}
+            {serviceMeta[i].pageId === 'page-ux-ui' ? <WebDesignIcon class="bento-ill bento-line" /> : serviceMeta[i].pageId === 'page-google-ads' ? <GoogleAdsIcon class="bento-ill bento-line" /> : serviceMeta[i].pageId === 'page-salud' ? <MedicalPlatformIcon class="bento-ill bento-line" /> : serviceMeta[i].pageId === 'page-seo' ? <SeoRankingIcon class="bento-ill bento-line" /> : <svg class="bento-ill bento-line" viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={serviceArt[i]} />}
           </article>
         ))}
       </div>

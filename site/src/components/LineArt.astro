@@ -3,7 +3,9 @@
 import { lineArt } from '../data/lineArt';
 import WebDesignIcon from './WebDesignIcon.astro';
 import GoogleAdsIcon from './GoogleAdsIcon.astro';
+import MedicalPlatformIcon from './MedicalPlatformIcon.astro';
+import SeoRankingIcon from './SeoRankingIcon.astro';
 interface Props { name: string; class?: string }
 const { name, class: cls } = Astro.props;
 ---
-{name === 'uxui-1' ? <WebDesignIcon class={`line-art ${cls ?? ''}`} /> : name === 'ads' ? <GoogleAdsIcon class={`line-art ${cls ?? ''}`} /> : <svg class:list={['line-art', cls]} viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={lineArt[name] ?? ''} />}
+{name === 'uxui-1' ? <WebDesignIcon class={`line-art ${cls ?? ''}`} /> : name === 'ads' ? <GoogleAdsIcon class={`line-art ${cls ?? ''}`} /> : name === 'medical-1' ? <MedicalPlatformIcon class={`line-art ${cls ?? ''}`} /> : name === 'seo-1' ? <SeoRankingIcon class={`line-art ${cls ?? ''}`} /> : <svg class:list={['line-art', cls]} viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={lineArt[name] ?? ''} />}

@@ -2,6 +2,8 @@
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArcScroll from '../ArcScroll.astro';
+import PrinciplesTeam from '../PrinciplesTeam.astro';
+import IndustryCycle from '../IndustryCycle.astro';
 
 const page = (await getEntry('pages', 'page-nosotros'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
@@ -77,7 +79,7 @@ const certificacionesIcons = [
           <p class="lede" data-reveal style="margin-top:18px">No son eslóganes: son reglas que usamos para decidir cuando hay que elegir entre dos caminos.</p>
         </div>
         <div class="hero-img" data-reveal="scale">
-          <img src="/assets/img/nosotros.webp" alt="Cómo pensamos en Webfriends" width="1200" height="900" loading="lazy">
+          <PrinciplesTeam />
         </div>
       </div>
       <div class="cards cards-4" data-reveal-group style="margin-top:32px">
@@ -188,7 +190,7 @@ const certificacionesIcons = [
         </div>
 
         <div class="hero-img" data-reveal="scale">
-          <img src="/assets/img/casos.webp" alt="Rubros donde Webfriends tiene experiencia" width="1200" height="900" loading="lazy">
+          <IndustryCycle />
         </div>
       </div>
 

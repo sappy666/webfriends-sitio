@@ -1,0 +1,20 @@
+---
+const sectors = [
+  { name: 'Salud', icon: '<path d="M-7-23H7v16h16V7H7v16H-7V7h-16V-7h16z" />' },
+  { name: 'Servicios profesionales', icon: '<rect x="-30" y="-16" width="60" height="42" rx="4"/><path d="M-12-16v-9h24v9M-30-2q30 18 60 0M-5 3h10v8H-5z" />' },
+  { name: 'Comercio', icon: '<path d="M-26-9h52v36h-52zM-29-9l7-19h44l7 19M-29-9q7 12 14 0 7 12 15 0 7 12 15 0 7 12 14 0M-6 27V8H9v19" />' },
+  { name: 'Educación', icon: '<path d="m-35-10 35-18 35 18L0 8zM-22-3v20q22 17 44 0V-3M35-10v29m-3 0h6v9h-6z" />' },
+];
+---
+<svg class="industry-cycle" viewBox="120 0 240 240" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Ventana isométrica que alterna entre salud, servicios profesionales, comercio y educación">
+  <g transform="matrix(.866 .5 0 1 240 170)">
+    <rect class="ic-face" x="-65" y="-114" width="130" height="126" rx="8" />
+    <path class="ic-detail" d="M-65-93H65" />
+    <circle cx="-52" cy="-103" r="1.5" /><circle cx="-44" cy="-103" r="1.5" /><circle cx="-36" cy="-103" r="1.5" />
+    {sectors.map((sector, i) => (
+      <g class:list={['ic-sector', `ic-sector-${i}`]}>
+        <g transform="translate(0 -43)" set:html={sector.icon} />
+      </g>
+    ))}
+  </g>
+</svg>

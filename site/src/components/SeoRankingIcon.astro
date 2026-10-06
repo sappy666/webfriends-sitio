@@ -1,0 +1,19 @@
+---
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+---
+<svg class:list={['seo-ranking-icon', cls]} viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect x="28" y="14" width="104" height="22" rx="11" />
+  <circle cx="41" cy="24" r="4" /><path d="m44 27 3 3M56 25h58" />
+  <g class="sr-result sr-first">
+    <circle cx="38" cy="53" r="2" /><path d="M49 50h59m-59 6h42" />
+  </g>
+  <g class="sr-result sr-second">
+    <circle cx="38" cy="75" r="2" /><path d="M49 72h51m-51 6h35" />
+  </g>
+  <g class="sr-promoted">
+    <rect x="28" y="87" width="104" height="20" rx="4" />
+    <path d="m35 98 3 3 5-7M49 94h56m-56 6h40" />
+    <path d="M119 101v-8m-3 3 3-3 3 3" />
+  </g>
+</svg>

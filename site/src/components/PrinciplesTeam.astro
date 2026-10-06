@@ -1,0 +1,22 @@
+﻿---
+const blocks = [238, 202, 166, 130];
+const studs = [[-26, -15], [10, -15], [-10, 4], [26, 4]];
+---
+<svg class="principles-team" viewBox="0 0 480 360" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Cuatro bloques con encastres se apilan y forman una unidad que representa los principios de Webfriends">
+  <path class="pt-base" d="m240 208 108 62-108 62-108-62z" />
+  {blocks.map((y, i) => (
+    <g transform={`translate(240 ${y})`}>
+      <g class:list={['pt-block', `pt-block-${i}`]}>
+        <path class="pt-face" d="m-72 0 64-37 80 46-64 37z" />
+        <path class="pt-face" d="m-72 0 80 46v36l-80-46z" />
+        <path class="pt-face" d="m8 46 64-37v36L8 82z" />
+        {studs.map(([x, sy]) => (
+          <g transform={`translate(${x} ${sy})`}>
+            <path class="pt-face" d="M-9 0v7a9 5 0 0 0 18 0V0" />
+            <ellipse class="pt-face" rx="9" ry="5" />
+          </g>
+        ))}
+      </g>
+    </g>
+  ))}
+</svg>
