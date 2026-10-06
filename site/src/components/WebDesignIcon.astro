@@ -1,0 +1,18 @@
+---
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+---
+<svg class:list={['web-design-icon', cls]} viewBox="24 40 208 180" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <g class="wd-window">
+    <rect x="36" y="52" width="180" height="144" rx="10" />
+    <path d="M36 78h180" />
+    <circle cx="50" cy="65" r="2" /><circle cx="61" cy="65" r="2" /><circle cx="72" cy="65" r="2" />
+    <rect x="50" y="92" width="82" height="53" rx="1" />
+    <circle cx="70" cy="108" r="6" />
+    <path d="m50 145 29-24 17 14m-8-8 19-17 25 35M145 112h56m-56 14h40" />
+    <rect x="50" y="158" width="70" height="25" rx="1" />
+    <rect x="131" y="158" width="70" height="25" rx="1" />
+  </g>
+  <circle class="wd-ripple" cx="184" cy="174" r="9" opacity="0" />
+  <path class="wd-cursor" d="m184 174 6 35 9-10 8 13 6-4-8-13 13-3z" />
+</svg>

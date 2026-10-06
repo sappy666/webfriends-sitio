@@ -1,0 +1,15 @@
+---
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+---
+<svg class:list={['google-ads-icon', cls]} viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M24 20v78h116" />
+  <g class="ga-bars">
+    <rect class="ga-bar ga-bar-1" x="39" y="77" width="16" height="21" rx="1" />
+    <rect class="ga-bar ga-bar-2" x="72" y="62" width="16" height="36" rx="1" />
+    <rect class="ga-bar ga-bar-3" x="105" y="43" width="16" height="55" rx="1" />
+  </g>
+  <path class="ga-trend" pathLength="100" d="m35 65 29-21 21 8 43-32" />
+  <path class="ga-arrow" d="m115 19 13 1-2 13" />
+  <circle class="ga-pulse" cx="128" cy="20" r="7" opacity="0" />
+</svg>
