@@ -76,16 +76,28 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
         {[false, true].map((copy) => (
           <div class="proof-track" aria-hidden={copy ? "true" : undefined}>
             {[
-              { name: "CEAPSI", href: "https://ceapsi.cl/" },
-              { name: "Novamente", href: "https://www.novamente.cl/" },
-              { name: "Liv Salud", href: "https://livsalud.cl/" },
-              { name: "Punto Cero", href: "https://puntoceropatagonia.com/" },
-              { name: "Clinit", href: "https://clinit.cl/" },
-              { name: "Meni", href: "https://meni.cl/" },
-              { name: "Familia Salud", href: "https://familiasalud.cl/" },
-              { name: "Serviteclomas", href: "https://serviteclomas.cl/" },
-              { name: "Fortalece", href: "https://fortalececonsultora.cl/" },
-            ].map((b) => <a class="proof-item" href={b.href} target="_blank" rel="noopener" tabindex={copy ? -1 : undefined}>{b.name}</a>)}
+              { name: "CEAPSI", href: "https://ceapsi.cl/", logo: "ceapsi.png" },
+              { name: "Novamente", href: "https://www.novamente.cl/", logo: "novamente.png" },
+              { name: "Liv Salud", href: "https://livsalud.cl/", logo: "livsalud.png" },
+              { name: "Punto Cero", href: "https://puntoceropatagonia.com/", logo: "puntocero.png" },
+              { name: "Clinit", href: "https://clinit.cl/", logo: "clinit.png" },
+              { name: "Meni", href: "https://meni.cl/", logo: "meni.png" },
+              { name: "Familia Salud", href: "https://familiasalud.cl/", logo: "familiasalud.png" },
+              { name: "Serviteclomas", href: "https://serviteclomas.cl/", logo: "lomas-servitec.png" },
+              { name: "MirAndes", logo: "mirandes.png" },
+              { name: "MQ", logo: "mq.png" },
+              { name: "Mandala Spa", logo: "spamandala.png" },
+              { name: "Tianfu Festival", logo: "tianfu.png" },
+              { name: "Vidriería Las Condes", logo: "vlc.png" },
+            ].map((b) => b.href ? (
+              <a class:list={["proof-item", { "proof-client-logo": b.logo }]} href={b.href} target="_blank" rel="noopener" tabindex={copy ? -1 : undefined}>
+                {b.logo ? <img class:list={{ "proof-logo-original": b.logo === 'meni.png' }} src={`/assets/img/${b.logo}${b.logo === 'meni.png' ? '?v=2' : ''}`} alt={b.name} width="200" height="100" loading="lazy" decoding="async" /> : b.name}
+              </a>
+            ) : (
+              <span class="proof-item proof-client-logo">
+                <img src={`/assets/img/${b.logo}`} alt={b.name} width={b.logo === 'spamandala.png' ? 500 : 200} height={b.logo === 'spamandala.png' ? 168 : 100} loading="lazy" decoding="async" />
+              </span>
+            ))}
           </div>
         ))}
       </div>
