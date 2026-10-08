@@ -111,7 +111,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
       <h2 id="s-h" class="h-sec" data-reveal>{sec('s-h').heading}</h2>
       <p class="lede" data-reveal style="margin-top:18px">Puedes contratarlas por separado o como estrategia integral. Siempre partimos por medir dónde estás hoy.</p>
 
-      <div class="bento-grid compact" data-reveal-group>
+      <div id="services-carousel" class="bento-grid compact" data-reveal-group>
         {[2, 0, 1, 3, 4].map((i, pos) => ({ card: sec('s-h').cards[i], i, pos })).map(({ card, i, pos }) => (
           <article class="bento foil-card" data-reveal="scale">
             <a class="bento-hit" href={slug(serviceMeta[i].pageId)} tabindex="-1" aria-hidden="true"></a>
@@ -123,6 +123,11 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
             {serviceMeta[i].pageId === 'page-ux-ui' ? <WebDesignIcon class="bento-ill bento-line" /> : serviceMeta[i].pageId === 'page-google-ads' ? <GoogleAdsIcon class="bento-ill bento-line" /> : serviceMeta[i].pageId === 'page-salud' ? <MedicalPlatformIcon class="bento-ill bento-line" /> : serviceMeta[i].pageId === 'page-seo' ? <SeoRankingIcon class="bento-ill bento-line" /> : <svg class="bento-ill bento-line" viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={serviceArt[i]} />}
           </article>
         ))}
+      </div>
+      <div class="services-controls" aria-label="Navegación de servicios">
+        <button type="button" data-services-prev aria-label="Servicio anterior" aria-controls="services-carousel" disabled>←</button>
+        <span data-services-position aria-live="polite" aria-atomic="true">1 / 5</span>
+        <button type="button" data-services-next aria-label="Servicio siguiente" aria-controls="services-carousel">→</button>
       </div>
     </div>
   </section>
@@ -333,6 +338,42 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
 </script>
 <script>
 import { loadScrollGsap } from '../scripts/when-interacted';
+
+const services = document.getElementById('services-carousel');
+const previous = document.querySelector<HTMLButtonElement>('[data-services-prev]');
+const next = document.querySelector<HTMLButtonElement>('[data-services-next]');
+const position = document.querySelector('[data-services-position]');
+if (services && previous && next && position) {
+  const cards = Array.from(services.children) as HTMLElement[];
+  const target = (index: number) => Math.min(
+    cards[index].offsetLeft - cards[0].offsetLeft,
+    services.scrollWidth - services.clientWidth,
+  );
+  const update = () => {
+    let index = 0;
+    cards.forEach((_, i) => {
+      if (Math.abs(services.scrollLeft - target(i)) < Math.abs(services.scrollLeft - target(index))) index = i;
+    });
+    previous.disabled = services.scrollLeft <= 2;
+    next.disabled = services.scrollLeft >= services.scrollWidth - services.clientWidth - 2;
+    position.textContent = `${index + 1} / ${cards.length}`;
+  };
+  const move = (direction: number) => {
+    const indexes = cards.map((_, i) => i);
+    const index = direction > 0
+      ? indexes.find(i => target(i) > services.scrollLeft + 2)
+      : indexes.reverse().find(i => target(i) < services.scrollLeft - 2);
+    if (index !== undefined) services.scrollTo({
+      left: target(index),
+      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    });
+  };
+  previous.addEventListener('click', () => move(-1));
+  next.addEventListener('click', () => move(1));
+  services.addEventListener('scroll', update, { passive: true });
+  new ResizeObserver(update).observe(services);
+  update();
+}
 
 // Al cambiar de pestaña el panel pasa de oculto a visible: hay que recalcular medidas.
 document.querySelectorAll('#planes [role="tab"]').forEach((tab) =>

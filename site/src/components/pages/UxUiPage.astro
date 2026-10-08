@@ -35,7 +35,7 @@ const procesoIcons = ['#i-search', '#i-chart-bars', '#i-pencil', '#i-monitor', '
   ogImageAlt={page.ogImage?.alt}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css?v=6" />
+    <link rel="stylesheet" href="/styles/service.css?v=8" />
   </Fragment>
 
   <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
@@ -122,7 +122,7 @@ const procesoIcons = ['#i-search', '#i-chart-bars', '#i-pencil', '#i-monitor', '
               <span class="local-num">{String(i + 1).padStart(2, '0')}</span>
               <span class="local-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href={procesoIcons[i]}></use></svg></span>
             </div>
-            <h3><button type="button" class="step-toggle" aria-expanded="false" aria-controls={`step-body-${i}`}>{step.title}</button></h3>
+            <h3>{step.title}</h3>
             <div class="step-body" id={`step-body-${i}`}>
               <p>{step.description}</p>
               <div class="chips">{step.chips.map((chip) => <span class="chip">{chip}</span>)}</div>

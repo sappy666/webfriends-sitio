@@ -743,12 +743,26 @@ section{padding-block:clamp(72px,10vw,132px)}
   .cards .card:last-child{border-bottom:1px solid var(--line-2)}
 }
 
-/* Comercio electrónico y Google Mi Negocio: en celular, etapas como tarjetas fijas 2×2 sin pills. */
+/* Comercio electrónico y Google Mi Negocio: en celular, etapas como carrusel horizontal sin pills. */
 @media (max-width:640px){
-  .steps-centered .local-steps{display:grid!important;grid-template-columns:1fr 1fr;gap:10px!important}
-  .steps-centered .local-steps .local-step{display:flex;flex-direction:column;align-items:flex-start;padding:18px 14px!important}
+  .steps-centered .local-steps{display:flex!important;flex-direction:row;gap:12px!important;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;padding:2px 2px 14px;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--amber) transparent}
+  .steps-centered .local-steps .local-step{display:flex;flex-direction:column;align-items:flex-start;flex:0 0 84%;min-width:0;scroll-snap-align:start;padding:22px 20px!important}
   .steps-centered .local-steps .local-step-top{display:flex;gap:10px;margin-bottom:14px}
   .steps-centered .local-steps h3{margin-bottom:8px;font-size:1rem!important}
   .steps-centered .local-steps p{font-size:.84rem;margin-bottom:0}
   .steps-centered .local-steps .chips{display:none}
+}
+
+/* Etapas de servicios: carrusel táctil en móvil. */
+@media (max-width:640px){
+  .local-steps{flex-direction:row;gap:12px!important;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;scroll-padding-inline:2px;padding:2px 2px 14px;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--amber) transparent}
+  .local-steps .local-step{display:flex;flex-direction:column;align-items:flex-start;flex:0 0 84%;min-width:0;scroll-snap-align:start;padding:22px 20px!important;transform:none!important}
+  .local-steps .local-step-top{display:flex;gap:10px;margin-bottom:14px}
+  .local-steps h3{margin-bottom:8px}
+  .local-steps .step-body{display:block;padding-top:0}
+  .local-steps.cols-3-2 .local-step:nth-child(n+4){padding-top:22px}
+  .steps-centered .local-steps{scroll-snap-type:x proximity}
+}
+@media (max-width:640px) and (prefers-reduced-motion:reduce){
+  .local-steps{scroll-behavior:auto}
 }
