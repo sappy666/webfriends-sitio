@@ -76,14 +76,17 @@ const negocio = defineCollection({
   loader: glob({ pattern: 'negocio.yaml', base: './src/content/site' }),
   schema: z.object({
     name: z.string(),
+    alternateName: z.string().optional(),
     description: z.string(),
-    streetAddress: z.string(),
+    foundingYear: z.string(),
     addressLocality: z.string(),
     addressRegion: z.string(),
     addressCountry: z.string(),
     telephone: z.string(),
     email: z.string(),
-    areaServed: z.array(z.string()),
+    hours: z.object({ days: z.array(z.string()), opens: z.string(), closes: z.string() }),
+    areaServed: z.string(),
+    sameAs: z.array(z.string().url()).default([]),
   }),
 });
 

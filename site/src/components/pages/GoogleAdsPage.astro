@@ -3,6 +3,7 @@ import OtherServices from '../OtherServices.astro';
 import DeviceShowcase from '../DeviceShowcase.astro';
 import LitSteps from '../LitSteps.astro';
 import { getCollection, getEntry } from 'astro:content';
+import { serviceNode } from '../../data/schema';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqSchema from '../FaqSchema.astro';
 
@@ -37,6 +38,14 @@ const quoterExtras = adsPlans.slice(1).flatMap((p) =>
     .map((f) => ({ label: f.label })),
 );
 const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw', '#i-file-text'];
+// Servicio (JSON-LD). Esta página cobra por comisión (cotizador, src/data/adsFee.ts), no muestra
+// los precios fijos de los planes: por eso el marcado describe la comisión y no lleva ofertas.
+const service = serviceNode({
+  url: new URL('/google-ads/', Astro.site).toString(),
+  name: 'Gestión de campañas de Google Ads',
+  serviceType: 'Publicidad en buscadores (SEM)',
+  description: 'Creación, medición y optimización de campañas de Google Ads con seguimiento de conversiones, ejecutivo asignado e informe mensual. La gestión es el 30% de la inversión mensual hasta $1.000.000 y, sobre ese monto, una tarifa fija por tramo; el presupuesto de anuncios se paga aparte, directo a Google.',
+});
 ---
 
 <BaseLayout
@@ -44,6 +53,8 @@ const metodoIcons = ['#i-search', '#i-calendar', '#i-bar-chart', '#i-rotate-ccw'
   description={page.metaDescription}
   ogImage={page.ogImage?.image}
   ogImageAlt={page.ogImage?.alt}
+  crumb="Google Ads"
+  schema={[service]}
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/service.css?v=8" />

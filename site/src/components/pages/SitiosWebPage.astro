@@ -5,6 +5,7 @@ import PricingFx from '../PricingFx.astro';
 import LitSteps from '../LitSteps.astro';
 import PlanCard from '../PlanCard.astro';
 import { getEntry } from 'astro:content';
+import { serviceNode } from '../../data/schema';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const page = (await getEntry('pages', 'page-sitios-web'))!.data;
@@ -18,6 +19,14 @@ const incluidoIcons = [
   '<use href="#i-monitor"></use>',
 ];
 const tiendaIcons = ['#i-credit-card', '#i-package', '#i-truck', '#i-cart'];
+// Servicio (JSON-LD): planes web y de tienda que se muestran en la página (sin repetir nombres).
+const service = serviceNode({
+  url: new URL('/sitios-web/', Astro.site).toString(),
+  name: 'Diseño y desarrollo de sitios web y tiendas virtuales',
+  serviceType: 'Diseño y desarrollo web',
+  description: 'Sitios One Page, sitios de varias páginas y tiendas virtuales con Webpay o Mercado Pago. Hosting, certificado SSL y correos corporativos incluidos el primer año.',
+  plans: [...webPlans, ...tiendaPlans].filter((p, i, all) => all.findIndex((q) => q.name === p.name) === i),
+});
 ---
 
 <BaseLayout
@@ -25,6 +34,8 @@ const tiendaIcons = ['#i-credit-card', '#i-package', '#i-truck', '#i-cart'];
   description={page.metaDescription}
   ogImage={page.ogImage?.image}
   ogImageAlt={page.ogImage?.alt}
+  crumb="Sitios web"
+  schema={[service]}
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/service.css?v=8" />

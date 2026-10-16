@@ -5,6 +5,7 @@ import PricingFx from '../PricingFx.astro';
 import LitSteps from '../LitSteps.astro';
 import PlanCard from '../PlanCard.astro';
 import { getCollection, getEntry } from 'astro:content';
+import { serviceNode } from '../../data/schema';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqSchema from '../FaqSchema.astro';
 
@@ -22,6 +23,15 @@ const funcionesIcons = [
   '<use href="#i-pin"></use>',
 ];
 const flujoIcons = ['#i-search', '#i-check-circle', '#i-calendar', '#i-map-pin-check'];
+// Servicio (JSON-LD): mismos planes y precios que se muestran en la página.
+const service = serviceNode({
+  url: new URL('/salud/', Astro.site).toString(),
+  name: 'Plataformas web para centros médicos y dentales',
+  serviceType: 'Desarrollo web para centros de salud',
+  description: 'Sitios web para centros médicos y dentales con reserva de horas, fichas de especialistas, convenios y posicionamiento local por sede.',
+  audience: 'Centros médicos y dentales',
+  plans: saludPlans,
+});
 ---
 
 <BaseLayout
@@ -29,6 +39,8 @@ const flujoIcons = ['#i-search', '#i-check-circle', '#i-calendar', '#i-map-pin-c
   description={page.metaDescription}
   ogImage={page.ogImage?.image}
   ogImageAlt={page.ogImage?.alt}
+  crumb="Soluciones para salud"
+  schema={[service]}
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/service.css?v=8" />

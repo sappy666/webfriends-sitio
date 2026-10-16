@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { authorOf, initials } from '../../data/authors';
+import { ORG_ID, pageId } from '../../data/schema';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -45,30 +46,32 @@ const pages = await getCollection('pages');
 const relatedServiceHref = `/${pages.find((p) => p.id === post.data.relatedService)!.data.urlSlug}`;
 
 const author = authorOf(post.data);
-// Datos estructurados del artículo (Google): autor, fecha y editor.
+// Datos estructurados del artículo (Google): autor, fecha y editor. Va en el @graph del layout,
+// enlazado por @id a la organización y a la página.
 const site = Astro.site ?? new URL(Astro.url.origin);
+const postUrl = new URL(`/blog/${post.id}/`, site).toString();
 const articleLd = {
-  '@context': 'https://schema.org',
   '@type': 'BlogPosting',
+  '@id': `${postUrl}#article`,
   headline: post.data.title,
   description: post.data.description,
   datePublished: post.data.date.toISOString(),
-  mainEntityOfPage: new URL(`/blog/${post.id}/`, site).toString(),
+  inLanguage: 'es-CL',
+  mainEntityOfPage: { '@id': pageId(postUrl) },
   author: author.id === 'equipo'
-    ? { '@type': 'Organization', name: 'Webfriends', url: site.toString() }
+    ? { '@id': ORG_ID }
     : {
-        '@type': 'Person', name: author.name, jobTitle: author.role,
+        '@type': 'Person', '@id': `${new URL(author.href!, site)}#person`, name: author.name, jobTitle: author.role,
         url: new URL(author.href!, site).toString(),
         ...(author.linkedin ? { sameAs: [author.linkedin] } : {}),
-        worksFor: { '@type': 'Organization', name: 'Webfriends' },
+        worksFor: { '@id': ORG_ID },
       },
-  publisher: { '@type': 'Organization', name: 'Webfriends', url: site.toString() },
+  publisher: { '@id': ORG_ID },
 };
 ---
-<BaseLayout title={post.data.metaTitle || `${post.data.title} — Blog Webfriends`} description={post.data.description}>
+<BaseLayout title={post.data.metaTitle || `${post.data.title} — Blog Webfriends`} description={post.data.description} crumb={post.data.title} schema={[articleLd]}>
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/post.css" />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(articleLd)} />
   </Fragment>
 
   <div class="read-progress" id="readProgress" aria-hidden="true">

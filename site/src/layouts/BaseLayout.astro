@@ -8,7 +8,7 @@ import Footer from '../components/Footer.astro';
 import FloatButtons from '../components/FloatButtons.astro';
 import SiteScripts from '../components/SiteScripts.astro';
 import FaviconFx from '../components/FaviconFx.astro';
-import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import SiteSchema from '../components/SiteSchema.astro';
 import MobileNav from '../components/MobileNav.astro';
 
 interface Props {
@@ -18,6 +18,14 @@ interface Props {
   ogImage?: string | null;
   ogImageAlt?: string;
   noindex?: boolean;
+  /** Nombre corto de la página en las migas (JSON-LD). Por defecto, el título sin la marca. */
+  crumb?: string;
+  /** Tipo schema.org de la página (WebPage, AboutPage, ContactPage, CollectionPage, ProfilePage…). */
+  pageType?: string;
+  /** Propiedades extra del nodo de la página (p. ej. mainEntity). */
+  pageExtra?: Record<string, unknown>;
+  /** Nodos JSON-LD propios de la página (Service, BlogPosting…), dentro del mismo @graph. */
+  schema?: Record<string, unknown>[];
 }
 
 // Páginas sin imagen propia comparten una imagen de marca (1200×630) al compartirse en redes.
@@ -27,6 +35,18 @@ const ogImageAlt = ogImage ? Astro.props.ogImageAlt : DEFAULT_OG.alt;
 const currentPath = Astro.url.pathname;
 const canonicalUrl = new URL(currentPath, Astro.site ?? Astro.url.origin).toString();
 const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.origin).toString();
+
+// Migas para el JSON-LD: Inicio › (sección) › página. Blog y productos cuelgan de su listado.
+const { crumb, pageType, pageExtra, schema } = Astro.props;
+const abs = (path: string) => new URL(path, Astro.site ?? Astro.url.origin).toString();
+const parent = currentPath.startsWith('/blog/') && currentPath !== '/blog/' ? { name: 'Blog', url: abs('/blog/') }
+  : currentPath.startsWith('/producto/') ? { name: 'Tienda', url: abs('/tienda/') }
+  : null;
+const breadcrumbs = currentPath === '/' ? null : [
+  { name: 'Inicio', url: abs('/') },
+  ...(parent ? [parent] : []),
+  { name: crumb ?? title.split(/ [—|] /)[0], url: canonicalUrl },
+];
 ---
 <!DOCTYPE html>
 <html lang="es-CL">
@@ -51,7 +71,7 @@ const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.
   {ogImageUrl && ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt}>}
   <!-- Fuente propia (ver @font-face en global.css): se precarga para que el titular se vea con ella desde el inicio -->
   <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <LocalBusinessSchema />
+  <SiteSchema url={canonicalUrl} title={title} description={description} pageType={pageType} pageExtra={pageExtra} breadcrumbs={breadcrumbs} nodes={schema} />
   <slot name="head" />
 </head>
 <body>

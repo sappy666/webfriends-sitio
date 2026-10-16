@@ -12,6 +12,8 @@ const guias = (await getCollection('blog', (p) => /^guia-\d/.test(p.id))).sort((
   description={page.metaDescription}
   ogImage={page.ogImage?.image}
   ogImageAlt={page.ogImage?.alt}
+  crumb="Tutoriales"
+  pageType="CollectionPage"
 >
   <section class="hero grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px)">
     <div class="wrap" data-hero-seq>

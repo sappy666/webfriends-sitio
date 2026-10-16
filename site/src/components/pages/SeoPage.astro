@@ -5,6 +5,7 @@ import PricingFx from '../PricingFx.astro';
 import LitSteps from '../LitSteps.astro';
 import PlanCard from '../PlanCard.astro';
 import { getCollection, getEntry } from 'astro:content';
+import { serviceNode } from '../../data/schema';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqSchema from '../FaqSchema.astro';
 
@@ -28,6 +29,14 @@ const geoCards = [
   { title: 'Autoridad y menciones', text: 'Presencia consistente en directorios, medios y reseñas: las IA confían en lo que ven repetido en fuentes distintas.', icon: '<path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.5 5.7 21l1.5-7L2 9.3l7-.8z"/>' },
   { title: 'Medición en IA', text: 'Revisamos cada mes en qué respuestas apareces, frente a qué competidores y qué tráfico llega desde asistentes de IA.', icon: '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>' },
 ];
+// Servicio (JSON-LD): mismos planes y precios que se muestran en la página.
+const service = serviceNode({
+  url: new URL('/seo/', Astro.site).toString(),
+  name: 'Posicionamiento SEO y GEO',
+  serviceType: 'Posicionamiento en buscadores (SEO) y en respuestas de IA (GEO)',
+  description: 'SEO técnico, contenidos, autoridad y SEO local con Google Mi Negocio, más GEO para que el negocio pueda aparecer citado en respuestas de asistentes con IA. Auditoría inicial gratuita.',
+  plans: seoPlans,
+});
 ---
 
 <BaseLayout
@@ -35,6 +44,8 @@ const geoCards = [
   description={page.metaDescription}
   ogImage={page.ogImage?.image}
   ogImageAlt={page.ogImage?.alt}
+  crumb="Posicionamiento SEO y GEO"
+  schema={[service]}
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/service.css?v=8" />
@@ -54,7 +65,7 @@ const geoCards = [
         </div>
       </div>
 
-      <DeviceShowcase project="seo" name="Webfriends" altDesktop="Resultados de búsqueda de Google con Webfriends en el primer lugar para agencia de marketing digital" altMobile="Búsqueda en Google desde el celular con Webfriends en el primer resultado para agencia seo chile" cards={[{"value":"SEO técnico","label":"estructura e indexación"},{"value":"Google Mi Negocio","label":"ficha local optimizada"}]} />
+      <DeviceShowcase project="seo" name="Webfriends" altDesktop="Ilustración de una página de resultados de Google en el computador" altMobile="Ilustración de una búsqueda en Google desde el celular" cards={[{"value":"SEO técnico","label":"estructura e indexación"},{"value":"Google Mi Negocio","label":"ficha local optimizada"}]} />
     </div>
   </section>
   <section style="padding-block:0" aria-labelledby="stats-h">
@@ -117,7 +128,7 @@ const geoCards = [
       </div>
 
       <div class="hero-img" data-reveal="scale" style="max-width:880px;margin:48px auto 0">
-        <img src="/assets/img/seolocal.webp" alt="Ficha de Google Mi Negocio optimizada por Webfriends" width="1200" height="720" loading="lazy">
+        <img src="/assets/img/seolocal.webp" alt="Ilustración de una ficha de Google Mi Negocio en el celular y su panel de rendimiento en el computador" width="1200" height="800" loading="lazy">
       </div>
 
       <div class="local-steps" data-reveal-group>
@@ -154,7 +165,7 @@ const geoCards = [
         </div>
 
         <figure class="geo-phone" data-reveal="scale">
-          <img src="/assets/img/proj/geo-chatgpt.webp" alt="ChatGPT en el celular recomendando a Webfriends como agencia de SEO en Chile" width="640" height="1280" loading="lazy" decoding="async">
+          <img src="/assets/img/proj/geo-chatgpt.webp" alt="Ilustración de una respuesta de un asistente de IA en el celular" width="640" height="1280" loading="lazy" decoding="async">
         </figure>
       </div>
 

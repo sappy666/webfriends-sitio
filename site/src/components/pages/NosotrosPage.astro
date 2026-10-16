@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
+import { ORG_ID } from '../../data/schema';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArcScroll from '../ArcScroll.astro';
 import PrinciplesTeam from '../PrinciplesTeam.astro';
@@ -29,6 +30,9 @@ const certificacionesIcons = [
   description={page.metaDescription}
   ogImage={page.ogImage?.image}
   ogImageAlt={page.ogImage?.alt}
+  crumb="Nosotros"
+  pageType="AboutPage"
+  pageExtra={{ mainEntity: { '@id': ORG_ID } }}
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/casos.css" />

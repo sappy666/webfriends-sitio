@@ -4,6 +4,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PERSON_IDS, authorOf, initials, type AuthorId } from '../../data/authors';
+import { ORG_ID } from '../../data/schema';
 
 export function getStaticPaths() {
   return PERSON_IDS.map((id) => ({ params: { id } }));
@@ -22,28 +23,29 @@ const fmtDate = (d: Date) => d.toLocaleDateString('es-CL', { day: '2-digit', mon
 
 const site = Astro.site ?? new URL(Astro.url.origin);
 const pageUrl = new URL(`/autor/${id}/`, site).toString();
+// La página va como ProfilePage en el @graph del layout; la persona es su entidad principal.
 const profileLd = {
-  '@context': 'https://schema.org',
-  '@type': 'ProfilePage',
-  url: pageUrl,
   mainEntity: {
     '@type': 'Person',
+    '@id': `${pageUrl}#person`,
     name: author.name,
     jobTitle: author.role,
     url: pageUrl,
     ...(author.bio ? { description: author.bio } : {}),
     ...(author.linkedin ? { sameAs: [author.linkedin] } : {}),
-    worksFor: { '@type': 'Organization', name: 'Webfriends', url: site.toString() },
+    worksFor: { '@id': ORG_ID },
   },
 };
 ---
 <BaseLayout
   title={`${author.name} — ${author.role} en Webfriends`}
   description={author.bio ?? `Artículos de ${author.name}, ${author.role} en Webfriends: guías prácticas para hacer crecer tu negocio en digital.`}
+  crumb={author.name}
+  pageType="ProfilePage"
+  pageExtra={profileLd}
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/blog.css" />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(profileLd)} />
   </Fragment>
 
   <section class="hero author-hero">

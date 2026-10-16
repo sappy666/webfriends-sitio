@@ -1,0 +1,96 @@
+---
+// JSON-LD de cada página, como un solo @graph:
+//   Organization (#organization) + WebSite (#website) + la página (#webpage)
+//   + BreadcrumbList (si no es el inicio) + los nodos propios de la página (Service, BlogPosting…).
+// Los datos de la empresa vienen de src/content/site/negocio.yaml.
+import { getCollection } from 'astro:content';
+import { ORG_ID, WEBSITE_ID, pageId } from '../data/schema';
+
+interface Props {
+  url: string;
+  title: string;
+  description: string;
+  pageType?: string;
+  pageExtra?: Record<string, unknown>;
+  breadcrumbs?: { name: string; url: string }[] | null;
+  nodes?: Record<string, unknown>[];
+}
+
+const { url, title, description, pageType = 'WebPage', pageExtra = {}, breadcrumbs, nodes = [] } = Astro.props;
+const site = (Astro.site ?? new URL(Astro.url.origin)).toString();
+const isHome = url === site;
+const [{ data: n }] = await getCollection('negocio');
+
+const organization = {
+  '@type': 'Organization',
+  '@id': ORG_ID,
+  name: n.name,
+  ...(n.alternateName ? { alternateName: n.alternateName } : {}),
+  url: site,
+  logo: { '@type': 'ImageObject', url: new URL('/assets/img/logotipo-negro-webfriends.png', site).toString(), width: 722, height: 93 },
+  image: new URL('/assets/img/og-default.jpg', site).toString(),
+  description: n.description,
+  foundingDate: n.foundingYear,
+  email: n.email,
+  telephone: n.telephone,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: n.addressLocality,
+    addressRegion: n.addressRegion,
+    addressCountry: n.addressCountry,
+  },
+  areaServed: { '@type': 'Country', name: n.areaServed },
+  knowsAbout: ['Diseño y desarrollo de sitios web', 'Tiendas virtuales', 'SEO', 'SEO local', 'Generative Engine Optimization (GEO)', 'Google Ads', 'Diseño UX/UI', 'Sitios web para centros de salud'],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    telephone: n.telephone,
+    email: n.email,
+    areaServed: n.addressCountry,
+    availableLanguage: 'es',
+    hoursAvailable: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: n.hours.days,
+      opens: n.hours.opens,
+      closes: n.hours.closes,
+    },
+  },
+  ...(n.sameAs.length ? { sameAs: n.sameAs } : {}),
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': WEBSITE_ID,
+  url: site,
+  name: n.name,
+  inLanguage: 'es-CL',
+  publisher: { '@id': ORG_ID },
+};
+
+const crumbs = !isHome && breadcrumbs?.length ? breadcrumbs : null;
+const webpage = {
+  '@type': pageType,
+  '@id': pageId(url),
+  url,
+  name: title,
+  description,
+  inLanguage: 'es-CL',
+  isPartOf: { '@id': WEBSITE_ID },
+  ...(isHome ? { about: { '@id': ORG_ID } } : {}),
+  ...(crumbs ? { breadcrumb: { '@id': `${url}#breadcrumb` } } : {}),
+  ...pageExtra,
+};
+
+const breadcrumbList = crumbs && {
+  '@type': 'BreadcrumbList',
+  '@id': `${url}#breadcrumb`,
+  itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.url })),
+};
+
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [organization, website, webpage, ...(breadcrumbList ? [breadcrumbList] : []), ...nodes],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

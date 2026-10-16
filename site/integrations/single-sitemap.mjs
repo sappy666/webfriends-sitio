@@ -25,7 +25,9 @@ export default function singleSitemap() {
           const fm = readFileSync(join(blogDir, file), 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
           const data = fm ? load(fm[1]) : null;
           const d = data?.updated ?? data?.date;
-          if (d) lastmod[`blog/${file.replace(/\.(md|mdoc)$/, '')}/`] = new Date(d).toISOString().slice(0, 10);
+          // Nunca una fecha futura: un lastmod posterior al día de compilación no es válido.
+          const day = new Date(Math.min(+new Date(d), Date.now())).toISOString().slice(0, 10);
+          if (d) lastmod[`blog/${file.replace(/\.(md|mdoc)$/, '')}/`] = day;
         }
 
         const urls = [];

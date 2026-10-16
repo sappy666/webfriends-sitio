@@ -10,6 +10,7 @@ const page = (await getEntry('pages', 'page-terminos'))!.data;
   description={page.metaDescription}
   ogImage={page.ogImage?.image}
   ogImageAlt={page.ogImage?.alt}
+  crumb="Términos y condiciones"
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/casos.css" />

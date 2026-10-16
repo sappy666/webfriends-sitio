@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
+import { ORG_ID } from '../../data/schema';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqSchema from '../FaqSchema.astro';
 
@@ -16,6 +17,9 @@ const sec = (id: string) => page.sections.find((s) => s.id === id)!;
   description={page.metaDescription}
   ogImage={page.ogImage?.image}
   ogImageAlt={page.ogImage?.alt}
+  crumb="Contacto"
+  pageType="ContactPage"
+  pageExtra={{ mainEntity: { '@id': ORG_ID } }}
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/service.css?v=8" />

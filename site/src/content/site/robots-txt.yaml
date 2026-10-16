@@ -1,3 +1,6 @@
+# robots.txt (src/pages/robots.txt.ts agrega la línea Sitemap al final).
+# Los permisos de búsqueda y los de entrenamiento son decisiones distintas: bloquear un agente de
+# entrenamiento no saca al sitio de los buscadores, y permitirlo no mejora el posicionamiento.
 rules: |
   # Webfriends Chile — https://webfriends.cl
   # Todo el sitio es público e indexable. Las páginas que no deben indexarse llevan
@@ -6,13 +9,21 @@ rules: |
   User-agent: *
   Allow: /
 
-  # Buscadores y asistentes de IA: bienvenidos (resumen del sitio en /llms.txt)
-  User-agent: GPTBot
+  # Búsqueda en asistentes de IA: indexan el sitio para mostrarlo y citarlo en sus respuestas.
+  # OAI-SearchBot (ChatGPT Search), Claude-SearchBot (Claude), PerplexityBot (Perplexity).
+  # Google usa Googlebot tanto para la Búsqueda como para AI Overviews y AI Mode.
   User-agent: OAI-SearchBot
-  User-agent: ChatGPT-User
-  User-agent: ClaudeBot
   User-agent: Claude-SearchBot
   User-agent: PerplexityBot
+  Allow: /
+
+  # Entrenamiento de modelos: permitido (decisión de Webfriends, no un requisito de visibilidad).
+  # GPTBot (OpenAI), ClaudeBot (Anthropic), Google-Extended (Gemini), Applebot-Extended (Apple).
+  User-agent: GPTBot
+  User-agent: ClaudeBot
   User-agent: Google-Extended
   User-agent: Applebot-Extended
   Allow: /
+
+  # Visitas iniciadas por una persona desde el asistente (ChatGPT-User, Claude-User,
+  # Perplexity-User): quedan cubiertas por la regla general de arriba.

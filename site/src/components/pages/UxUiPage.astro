@@ -3,6 +3,7 @@ import OtherServices from '../OtherServices.astro';
 import DeviceShowcase from '../DeviceShowcase.astro';
 import LitSteps from '../LitSteps.astro';
 import { getCollection, getEntry } from 'astro:content';
+import { serviceNode } from '../../data/schema';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqSchema from '../FaqSchema.astro';
 
@@ -26,6 +27,13 @@ const entregablesIcons = [
   '<path d="M12 3l8 3v6c0 4.4-3.2 7.9-8 9-4.8-1.1-8-4.6-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
 ];
 const procesoIcons = ['#i-search', '#i-chart-bars', '#i-pencil', '#i-monitor', '#i-check-circle', '#i-arrow-up'];
+// Servicio (JSON-LD).
+const service = serviceNode({
+  url: new URL('/ux-ui/', Astro.site).toString(),
+  name: 'Diseño UX/UI',
+  serviceType: 'Diseño de experiencia e interfaz de usuario',
+  description: 'Investigación con usuarios, arquitectura de información, prototipos y sistemas de diseño accesibles para sitios y productos digitales.',
+});
 ---
 
 <BaseLayout
@@ -33,6 +41,8 @@ const procesoIcons = ['#i-search', '#i-chart-bars', '#i-pencil', '#i-monitor', '
   description={page.metaDescription}
   ogImage={page.ogImage?.image}
   ogImageAlt={page.ogImage?.alt}
+  crumb="Diseño UX/UI"
+  schema={[service]}
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/service.css?v=8" />

@@ -1,7 +1,9 @@
 import type { APIRoute } from 'astro';
 import { getCollection, getEntry } from 'astro:content';
 
-// /llms.txt (https://llmstxt.org): resumen del sitio para modelos de lenguaje.
+// /llms.txt (https://llmstxt.org): resumen del sitio para modelos de lenguaje. Es una propuesta
+// experimental y opcional: ningún buscador la exige (Google dice que no hace falta para sus funciones
+// de IA). No reemplaza al contenido de las páginas, al sitemap ni a robots.txt.
 // El encabezado se edita en src/content/site/llms-txt.yaml; el resto se arma solo desde los
 // contenidos (servicios, planes con precio, páginas y artículos), con URLs absolutas.
 
@@ -16,8 +18,8 @@ const SERVICES: [string, string, string][] = [
 const COMPANY: [string, string, string][] = [
   ['page-servicios', 'Servicios', 'Resumen de todos los servicios y cómo combinarlos en una estrategia integral.'],
   ['page-precios', 'Precios', 'Cotizador en línea con los precios publicados de cada servicio.'],
-  ['page-nosotros', 'Nosotros', 'Quiénes somos, cómo trabajamos, certificaciones y casos de éxito.'],
-  ['page-contacto', 'Contacto', 'Formulario, WhatsApp, teléfono y correo.'],
+  ['page-nosotros', 'Nosotros', 'Quiénes somos, cómo trabajamos, certificaciones y casos de éxito (CEAPSI, Liv Salud, NanoBioHealth, Punto Cero Patagonia).'],
+  ['page-contacto', 'Contacto', 'Formulario, WhatsApp, teléfono y correo; horario y preguntas frecuentes sobre cobertura.'],
 ];
 const OPTIONAL: [string, string, string][] = [
   ['page-tienda', 'Tienda', 'Planes de sitio web con precio cerrado para comprar en línea.'],

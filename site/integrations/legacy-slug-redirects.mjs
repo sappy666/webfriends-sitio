@@ -71,12 +71,10 @@ export default function legacySlugRedirects() {
             'RewriteRule ^(category|tag)(/.*)?$ /blog/ [R=301,L]',
             'RewriteRule ^(carrito|mi-cuenta|categoria-producto)(/.*)?$ /tienda/ [R=301,L]',
             '',
-            '# Caché del navegador. _astro/ lleva hash en el nombre: puede guardarse un año sin riesgo.',
-            '<IfModule mod_headers.c>',
-            '  <If "%{REQUEST_URI} =~ m#^/_astro/#">',
-            '    Header set Cache-Control "public, max-age=31536000, immutable"',
-            '  </If>',
-            '</IfModule>',
+            '# Página de casos retirada: los casos viven en Nosotros',
+            'RewriteRule ^casos/?$ /nosotros/#casos [R=301,NE,L]',
+            '',
+            '# Caché del navegador (los archivos de _astro/ tienen su propio .htaccess: un año).',
             '<IfModule mod_expires.c>',
             '  ExpiresActive On',
             '  ExpiresByType font/woff2 "access plus 1 year"',
@@ -87,6 +85,11 @@ export default function legacySlugRedirects() {
             '</IfModule>',
           ];
           writeFileSync(join(outDir, '.htaccess'), htaccess.join('\n') + '\n');
+          // _astro/ lleva hash en cada nombre de archivo: puede guardarse un año sin riesgo.
+          writeFileSync(
+            join(outDir, '_astro', '.htaccess'),
+            '<IfModule mod_headers.c>\n  Header set Cache-Control "public, max-age=31536000, immutable"\n</IfModule>\n',
+          );
         }
       },
     },

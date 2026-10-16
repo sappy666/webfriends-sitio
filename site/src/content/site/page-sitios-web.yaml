@@ -1,13 +1,13 @@
 urlSlug: sitios-web
 previousSlugs:
   - planes-web
-metaTitle: "Diseño y Desarrollo de Sitios Web | WebFriends Chile"
-metaDescription: "Desarrollamos sitios web intuitivos, autoadministrables y que se adaptan a la necesidad del cliente. Cotiza tu One Page, Multi Page o tienda virtual."
+metaTitle: "Diseño y desarrollo de sitios web en Chile — Webfriends"
+metaDescription: "One Page desde $190.000, sitios de 5 páginas y tiendas virtuales con Webpay o Mercado Pago. Hosting, SSL y correos incluidos el primer año."
 ogImage:
   image: /assets/img/web.webp
 heroEyebrow: Plataformas web
 heroH1: Sitios rápidos, seguros y fáciles de administrar
-heroLede: "Con hosting, certificado SSL y configuración SEO incluidos desde el primer día. Sin sorpresas en la renovación."
+heroLede: "Diseñamos y desarrollamos sitios y tiendas virtuales para empresas de todo Chile, con hosting, certificado SSL y configuración SEO incluidos desde el primer día. Sin sorpresas en la renovación."
 sections:
   - id: incluido-h
     eyebrow: Incluido
