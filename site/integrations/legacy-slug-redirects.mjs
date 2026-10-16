@@ -70,6 +70,21 @@ export default function legacySlugRedirects() {
             'RewriteRule ^tienda-virtual/?$ /producto/tienda-virtual/ [R=301,L]',
             'RewriteRule ^(category|tag)(/.*)?$ /blog/ [R=301,L]',
             'RewriteRule ^(carrito|mi-cuenta|categoria-producto)(/.*)?$ /tienda/ [R=301,L]',
+            '',
+            '# Caché del navegador. _astro/ lleva hash en el nombre: puede guardarse un año sin riesgo.',
+            '<IfModule mod_headers.c>',
+            '  <If "%{REQUEST_URI} =~ m#^/_astro/#">',
+            '    Header set Cache-Control "public, max-age=31536000, immutable"',
+            '  </If>',
+            '</IfModule>',
+            '<IfModule mod_expires.c>',
+            '  ExpiresActive On',
+            '  ExpiresByType font/woff2 "access plus 1 year"',
+            '  ExpiresByType image/webp "access plus 30 days"',
+            '  ExpiresByType image/png "access plus 30 days"',
+            '  ExpiresByType image/jpeg "access plus 30 days"',
+            '  ExpiresByType image/svg+xml "access plus 30 days"',
+            '</IfModule>',
           ];
           writeFileSync(join(outDir, '.htaccess'), htaccess.join('\n') + '\n');
         }

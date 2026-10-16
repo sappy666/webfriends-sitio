@@ -1198,7 +1198,7 @@ body.recheck-open{overflow:hidden}
 .figures-grid .fig:nth-child(odd) .fig-n{color:var(--amber)}
 .figures-grid .fig:nth-child(even) .fig-n{color:var(--label)}
 .figures-grid .fig-l{font-size:max(var(--s--1),.9rem);opacity:1;color:var(--label-2);font-weight:600}
-.figures-grid .fig-l i{font-size:.875rem;opacity:.7;transform:none;color:var(--label-3)}
+.figures-grid .fig-l i{font-size:.875rem;opacity:1;transform:none;color:var(--label-3)}
 @media (max-width:820px){
   .figures-grid .fig-list{grid-template-columns:repeat(2,1fr);gap:32px 20px}
 }

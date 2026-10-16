@@ -76,26 +76,25 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
         {[false, true].map((copy) => (
           <div class="proof-track" aria-hidden={copy ? "true" : undefined}>
             {[
-              { name: "CEAPSI", href: "https://ceapsi.cl/", logo: "ceapsi.png" },
-              { name: "Novamente", href: "https://www.novamente.cl/", logo: "novamente.png" },
-              { name: "Liv Salud", href: "https://livsalud.cl/", logo: "livsalud.png" },
-              { name: "Punto Cero", href: "https://puntoceropatagonia.com/", logo: "puntocero.png" },
-              { name: "Clinit", href: "https://clinit.cl/", logo: "clinit.png" },
-              { name: "Meni", href: "https://meni.cl/", logo: "meni.png" },
-              { name: "Familia Salud", href: "https://familiasalud.cl/", logo: "familiasalud.png" },
-              { name: "Serviteclomas", href: "https://serviteclomas.cl/", logo: "lomas-servitec.png" },
-              { name: "MirAndes", logo: "mirandes.png" },
-              { name: "MQ", logo: "mq.png" },
-              { name: "Mandala Spa", logo: "spamandala.png" },
-              { name: "Tianfu Festival", logo: "tianfu.png" },
-              { name: "Vidriería Las Condes", logo: "vlc.png" },
+              { name: "CEAPSI", href: "https://ceapsi.cl/", logo: "ceapsi.webp" },
+              { name: "Novamente", href: "https://www.novamente.cl/", logo: "novamente.webp" },
+              { name: "Liv Salud", href: "https://livsalud.cl/", logo: "livsalud.webp" },
+              { name: "Punto Cero", href: "https://puntoceropatagonia.com/", logo: "puntocero.webp" },
+              { name: "Clinit", href: "https://clinit.cl/", logo: "clinit.webp" },
+              { name: "Meni", href: "https://meni.cl/", logo: "meni.webp" },
+              { name: "Familia Salud", href: "https://familiasalud.cl/", logo: "familiasalud.webp" },
+              { name: "Serviteclomas", href: "https://serviteclomas.cl/", logo: "lomas-servitec.webp" },
+              { name: "MirAndes", logo: "mirandes.webp" },
+              { name: "MQ", logo: "mq.webp" },
+              { name: "Mandala Spa", logo: "spamandala.webp" },
+              { name: "Tianfu Festival", logo: "tianfu.webp" },
             ].map((b) => b.href ? (
               <a class:list={["proof-item", { "proof-client-logo": b.logo }]} href={b.href} target="_blank" rel="noopener" tabindex={copy ? -1 : undefined}>
-                {b.logo ? <img class:list={{ "proof-logo-original": b.logo === 'meni.png' }} src={`/assets/img/${b.logo}${b.logo === 'meni.png' ? '?v=2' : ''}`} alt={b.name} width="200" height="100" loading="lazy" decoding="async" /> : b.name}
+                {b.logo ? <img class:list={{ "proof-logo-original": b.logo === 'meni.webp' }} src={`/assets/img/${b.logo}`} alt={b.name} width="200" height="100" loading="lazy" decoding="async" /> : b.name}
               </a>
             ) : (
               <span class="proof-item proof-client-logo">
-                <img src={`/assets/img/${b.logo}`} alt={b.name} width={b.logo === 'spamandala.png' ? 500 : 200} height={b.logo === 'spamandala.png' ? 168 : 100} loading="lazy" decoding="async" />
+                <img src={`/assets/img/${b.logo}`} alt={b.name} width={b.logo === 'spamandala.webp' ? 500 : 200} height={b.logo === 'spamandala.webp' ? 168 : 100} loading="lazy" decoding="async" />
               </span>
             ))}
           </div>
@@ -225,8 +224,8 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
     <div class="recheck-grid">
       <div class="recheck-text">
         <span class="logo-mark" aria-hidden="true" style="height:18px;margin-bottom:20px">
-          <img class="logo-img-dark" src="/assets/img/webfriends-logo.webp" alt="Webfriends" loading="lazy">
-          <img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.webp" alt="Webfriends" loading="lazy">
+          <img class="logo-img-dark" src="/assets/img/webfriends-logo.webp" alt="" width="400" height="38" loading="lazy">
+          <img class="logo-img-light" src="/assets/img/logotipo-negro-webfriends.webp" alt="" width="400" height="52" loading="lazy">
         </span>
         <p class="eyebrow">Antes que te vayas</p>
         <h2 id="recheck-h">¿Tu web funciona <em>como debería</em>?</h2>
