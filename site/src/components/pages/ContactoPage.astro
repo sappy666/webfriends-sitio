@@ -22,7 +22,7 @@ const sec = (id: string) => page.sections.find((s) => s.id === id)!;
   pageExtra={{ mainEntity: { '@id': ORG_ID } }}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css?v=8" />
+    <link rel="stylesheet" href="/styles/service.css?v=9" />
   </Fragment>
 
   <section class="hero grid-bg" style="padding-block:clamp(44px,6vw,76px) clamp(20px,3vw,36px)">
@@ -75,6 +75,7 @@ const sec = (id: string) => page.sections.find((s) => s.id === id)!;
             <label for="msg">¿Qué necesitas?</label>
             <textarea id="msg" name="msg" placeholder="Una línea basta: nosotros te preguntamos el resto"></textarea>
           </div>
+          <div class="hp" aria-hidden="true"><label>No completar <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
 
           <button type="button" class="toggle-extra" id="toggleExtra" aria-expanded="false" aria-controls="extra">
             + Añadir teléfono y empresa (opcional)

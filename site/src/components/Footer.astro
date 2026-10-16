@@ -30,6 +30,7 @@ const terminosHref = slug('page-terminos');
           </ul>
           <label class="sr-only" for="ftrEmail">Correo electrónico</label>
           <input class="wff-input" id="ftrEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Escribe tu correo" required>
+          <div class="hp" aria-hidden="true"><label>No completar <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
           <button class="wff-submit" type="submit">Solicitar asesoría
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
           </button>
@@ -265,7 +266,8 @@ const terminosHref = slug('page-terminos');
 </style>
 
 <script>
-// Asesoría gratuita desde el footer: valida el correo y abre WhatsApp indicando la página de origen.
+// Asesoría gratuita desde el footer: valida el correo y lo envía a contacto@webfriends.cl
+// (window.wfSendMail, en SiteScripts.astro). Si el envío falla, ofrece WhatsApp.
 const lead = document.getElementById('ftrLead') as HTMLFormElement | null;
 if (lead) lead.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -278,10 +280,22 @@ if (lead) lead.addEventListener('submit', (e) => {
     return;
   }
   const w = window as any;
-  w.wfWhatsApp(`Hola Webfriends, les escribo desde ${w.wfPage()} del sitio.\nCorreo: ${email.value.trim()}`);
-  status.dataset.state = 'ok';
-  status.textContent = 'Te abrimos WhatsApp con tu solicitud: solo presiona enviar.';
-  lead.reset();
+  const msg = `Hola Webfriends, les escribo desde ${w.wfPage()} del sitio.\nCorreo: ${email.value.trim()}`;
+  const btn = lead.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+  btn.disabled = true;
+  delete status.dataset.state;
+  status.textContent = 'Enviando…';
+  w.wfSendMail(lead, 'footer').then((ok: boolean) => {
+    btn.disabled = false;
+    if (ok) {
+      status.dataset.state = 'ok';
+      status.textContent = '¡Listo! Te escribiremos a tu correo en menos de 24 horas hábiles.';
+      lead.reset();
+    } else {
+      status.dataset.state = 'error';
+      w.wfFallback(status, msg);
+    }
+  });
 });
 
 const wff = document.querySelector('.wff');

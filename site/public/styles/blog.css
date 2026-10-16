@@ -93,7 +93,7 @@ body,.card,.plan,.metric,.grouped,.contact-card,.client,.field input,.field text
 html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%;overflow-x:hidden;max-width:100%}
 body{
   margin:0;padding-top:88px;background:var(--bg);color:var(--label);
-  font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  font-family:"Plus Jakarta Sans","Jakarta Fallback","Jakarta Fallback Android",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
   font-size:var(--s-0);line-height:1.6;letter-spacing:-.01em;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }

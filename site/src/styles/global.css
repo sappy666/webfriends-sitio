@@ -11,6 +11,10 @@
 @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400 800;font-display:swap;
   src:url(/fonts/plus-jakarta-sans-latin-ext.woff2) format("woff2");
   unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+/* Respaldo con las medidas de Plus Jakarta Sans (calculadas desde el .woff2): mientras la fuente
+   descarga, el texto ocupa casi lo mismo y no salta al cambiar. Arial en Windows/Mac, Roboto en Android. */
+@font-face{font-family:"Jakarta Fallback";src:local("Arial");size-adjust:104.40%;ascent-override:99.42%;descent-override:21.26%;line-gap-override:0%}
+@font-face{font-family:"Jakarta Fallback Android";src:local("Roboto");size-adjust:103.60%;ascent-override:100.19%;descent-override:21.43%;line-gap-override:0%}
 :root{
   /* Tema claro: papel cálido, no blanco. Niveles: bg (página) → bg-2 (bandas alternas)
      → card (superficies) → brand (CTA). Valores oscuros en [data-theme="dark"]. */
@@ -108,7 +112,7 @@ body,.hdr,.card,.plan,.metric,.grouped,.contact-card,.client,.mega,.field input,
 html{scrollbar-gutter:stable;scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%;overflow-x:clip;max-width:100%}
 body{
   margin:0;padding-top:var(--hdr-h);background:var(--bg);color:var(--label);
-  font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  font-family:"Plus Jakarta Sans","Jakarta Fallback","Jakarta Fallback Android",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
   font-size:var(--s-0);line-height:1.6;letter-spacing:-.01em;
   -webkit-font-smoothing:antialiased;overflow-x:clip;
 }
@@ -119,6 +123,8 @@ img,svg{display:block;max-width:100%}
 
 :focus-visible{outline:2.5px solid var(--focus);outline-offset:3px;border-radius:10px}
 ::selection{background:var(--amber);color:#1a1200}
+/* Campo trampa de los formularios (contra bots): fuera de la vista, no display:none */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .skip{position:absolute;left:-9999px;top:0;z-index:999;background:var(--label);color:var(--btn-fg);padding:14px 22px;font-weight:600;border-radius:0 0 14px 0}
 .skip:focus{left:0}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

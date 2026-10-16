@@ -235,10 +235,40 @@ if (hasTabs) {
     var name = document.title.split(' — ')[0];
     return /^Webfriends/.test(name) ? 'el inicio' : 'la página «' + name + '»';
   };
-  window.wfWhatsApp = function(msg){
+  window.wfWhatsAppUrl = function(msg){
     var wa = document.querySelector('.wa-float');
     var base = wa ? wa.getAttribute('href').split('?')[0] : 'https://wa.me/56931971436';
-    window.open(base + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+    return base + '?text=' + encodeURIComponent(msg);
+  };
+  window.wfWhatsApp = function(msg){
+    window.open(window.wfWhatsAppUrl(msg), '_blank', 'noopener');
+  };
+
+  /* Envío por correo: los formularios de Contacto y del footer llegan a contacto@webfriends.cl
+     a través de public/api/contacto.php. Resuelve true si el correo salió. */
+  window.wfSendMail = function(form, kind){
+    var data = new FormData(form);
+    data.set('form', kind);
+    data.set('pagina', document.title + ' (' + location.pathname + ')');
+    data.set('e', String(Math.round(performance.now()))); // tiempo en la página, contra bots
+    return fetch('/api/contacto.php', { method: 'POST', body: data, credentials: 'same-origin' })
+      .then(function(r){ return r.ok ? r.json() : { ok: false }; })
+      .then(function(j){ return !!(j && j.ok); })
+      .catch(function(){ return false; });
+  };
+
+  /* Si el correo falla, se ofrece WhatsApp con la solicitud ya escrita (enlace, no ventana
+     emergente: después de esperar la respuesta el navegador bloquearía window.open). */
+  window.wfFallback = function(status, msg){
+    status.textContent = 'No pudimos enviar tu solicitud por correo. ';
+    var a = document.createElement('a');
+    a.href = window.wfWhatsAppUrl(msg);
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = 'Envíala por WhatsApp';
+    a.style.color = 'inherit';
+    status.appendChild(a);
+    status.appendChild(document.createTextNode(' o escríbenos a contacto@webfriends.cl.'));
   };
 
   /* Formulario con mensajes accionables */
@@ -264,10 +294,21 @@ if (hasTabs) {
       + (val('empresa') ? '\nEmpresa: ' + val('empresa') : '')
       + (interes ? '\nMe interesa: ' + interes : '')
       + (val('msg') ? '\nNecesito: ' + val('msg') : '');
-    window.wfWhatsApp(msg);
-    status.style.color = 'var(--ok-text)';
-    status.textContent = 'Te abrimos WhatsApp con tu solicitud: solo presiona enviar.';
-    form.reset();
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    status.style.color = '';
+    status.textContent = 'Enviando…';
+    window.wfSendMail(form, 'contacto').then(function(ok){
+      btn.disabled = false;
+      if (ok) {
+        status.style.color = 'var(--ok-text)';
+        status.textContent = '¡Listo! Recibimos tu solicitud y te responderemos a tu correo en menos de 24 horas hábiles.';
+        form.reset();
+      } else {
+        status.style.color = 'var(--amber)';
+        window.wfFallback(status, msg);
+      }
+    });
   });
 
   /* CTA de contacto → WhatsApp con un mensaje que dice solo desde qué página viene.
