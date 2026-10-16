@@ -15,6 +15,10 @@ const CATEGORY_LABEL: Record<string, string> = {
   marketing: 'Marketing',
 };
 
+// Artículos por página (también al filtrar). La 1ª página sale ya armada desde el servidor:
+// el resto viene oculto, así al entrar no se ven los 26 y luego se encogen a 9.
+const PAGE_SIZE = 9;
+
 function fmtDate(d: Date) {
   return d.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }).replace('.', '');
 }
@@ -26,6 +30,8 @@ function fmtDate(d: Date) {
 >
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/blog.css?v=2" />
+    <!-- Sin JavaScript no hay paginación: se muestran todos los artículos. -->
+    <noscript><style>.post-card.is-hidden{display:flex}</style></noscript>
   </Fragment>
 
   <section class="hero grid-bg" style="text-align:center">
@@ -74,10 +80,10 @@ function fmtDate(d: Date) {
 
       <p class="blog-empty" id="blogEmpty" hidden>No encontramos artículos con esos filtros.</p>
 
-      <div class="post-grid" id="postGrid" data-reveal-group>
-        {allPosts.map((post) => (
+      <div class="post-grid" id="postGrid" data-reveal-group data-page-size={PAGE_SIZE}>
+        {allPosts.map((post, i) => (
           <article
-            class="post-card"
+            class:list={['post-card', { 'is-hidden': i >= PAGE_SIZE }]}
             data-reveal="scale"
             data-category={post.data.category}
             data-date={post.data.date.toISOString().slice(0, 10)}
@@ -121,7 +127,7 @@ function fmtDate(d: Date) {
         let activeFilter = 'all';
         let activeQuery = '';
         let currentPage = 1;
-        const PAGE_SIZE = 9;
+        const PAGE_SIZE = Number(grid.dataset.pageSize) || 9;
 
         const pager = document.getElementById('blogPager') as HTMLElement | null;
         const pagerPages = document.getElementById('pagerPages') as HTMLElement | null;
@@ -167,32 +173,31 @@ function fmtDate(d: Date) {
           }
         }
 
-        function applyFilter() {
+        // Las que no van se ocultan al instante (antes se desvanecían ocupando espacio y parecía
+        // que había más); las que quedan entran con un fundido corto. Al cargar no se anima nada.
+        function applyFilter(animate = true) {
           const matches = matchingCards();
           const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
           if (currentPage > totalPages) currentPage = totalPages;
           const pageStart = (currentPage - 1) * PAGE_SIZE;
           const pageSet = matches.slice(pageStart, pageStart + PAGE_SIZE);
 
+          // El escalonado de entrada (--i × paso) se cuenta dentro de la página, no en toda la grilla:
+          // si no, la tarjeta 10 esperaba como décima y la página 2 tardaba más de un segundo en verse.
+          pageSet.forEach((card, idx) => card.style.setProperty('--i', String(idx)));
+          // Al filtrar o cambiar de página, escalonado más corto que el de la entrada inicial.
+          if (animate) grid!.style.setProperty('--rv-step', '35ms');
+
           cards.forEach((card) => {
             const match = pageSet.indexOf(card) !== -1;
-            if (reduce) {
-              card.classList.toggle('is-hidden', !match);
-              return;
-            }
-            if (match) {
-              card.classList.remove('is-hidden');
-              requestAnimationFrame(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'none';
-              });
-            } else {
-              card.style.opacity = '0';
-              card.style.transform = 'scale(.96)';
-              setTimeout(() => {
-                if (card.style.opacity === '0') card.classList.add('is-hidden');
-              }, 140);
-            }
+            card.classList.toggle('is-hidden', !match);
+            if (!match || !animate || reduce) return;
+            card.style.opacity = '0';
+            card.style.transform = 'scale(.96)';
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'none';
+            }));
           });
           if (empty) empty.hidden = matches.length !== 0;
           renderPager(totalPages);
@@ -239,7 +244,7 @@ function fmtDate(d: Date) {
           applyFilter();
         });
 
-        applyFilter();
+        applyFilter(false);
 
         // Dictado por voz en el buscador
         const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
