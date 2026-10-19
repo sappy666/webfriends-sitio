@@ -1,5 +1,6 @@
 ---
 title: "5 señales de que tu sitio web te está haciendo perder clientes"
+metaTitle: "5 señales de que tu sitio pierde clientes — Webfriends"
 description: "Desde tiempos de carga hasta formularios que nadie completa: los puntos que revisamos primero en una auditoría de sitio web."
 excerpt: "Desde tiempos de carga hasta formularios que nadie completa: los puntos que revisamos primero en una auditoría."
 category: web

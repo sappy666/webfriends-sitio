@@ -1,5 +1,6 @@
 ---
 title: "Qué mirar antes de rediseñar la interfaz de tu producto"
+metaTitle: "Qué revisar antes de rediseñar tu interfaz — Webfriends"
 description: "Investigación mínima viable para no rediseñar a ciegas ni gastar presupuesto de UX/UI en gustos personales."
 excerpt: "Investigación mínima viable para no rediseñar a ciegas ni gastar presupuesto en gustos personales."
 category: uxui

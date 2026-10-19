@@ -1,5 +1,6 @@
 ---
 title: "Cuánto cuesta un sitio web en Chile en 2026"
+metaTitle: "Cuánto cuesta un sitio web en Chile en 2026 — Webfriends"
 description: "Los factores que determinan el precio de un sitio web en Chile y por qué dos cotizaciones para 'lo mismo' pueden ser tan distintas."
 excerpt: "Los factores que realmente mueven el precio, y por qué dos cotizaciones para \"lo mismo\" pueden ser tan distintas."
 category: web

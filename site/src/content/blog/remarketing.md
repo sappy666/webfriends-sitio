@@ -1,5 +1,6 @@
 ---
 title: "Remarketing en Google Ads: cómo recuperar visitas que no compraron"
+metaTitle: "Remarketing en Google Ads: recupera visitas — Webfriends"
 description: "Cómo configurar campañas de remarketing en Google Ads para volver a impactar a quienes visitaron tu sitio y no completaron una compra o contacto."
 excerpt: "La mayoría de tus visitantes no convierte la primera vez. El remarketing bien configurado es la forma más rentable de volver a alcanzarlos."
 category: ads

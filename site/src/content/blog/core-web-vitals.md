@@ -1,5 +1,6 @@
 ---
 title: "Core Web Vitals: qué son y por qué le importan a Google"
+metaTitle: "Core Web Vitals: qué son y qué miden — Webfriends"
 description: "Qué miden LCP, INP y CLS, por qué Google los usa como factor de ranking, y cómo saber si tu sitio los está cumpliendo."
 excerpt: "Las tres métricas que Google usa para medir qué tan buena es la experiencia real de cargar y usar tu sitio."
 category: seo

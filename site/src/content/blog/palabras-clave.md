@@ -1,5 +1,6 @@
 ---
 title: "Cómo elegir palabras clave para tu negocio local en Chile"
+metaTitle: "Cómo elegir palabras clave para tu negocio — Webfriends"
 description: "La diferencia entre palabras clave de volumen e intención, y cómo elegir las correctas para un negocio local sin desperdiciar presupuesto."
 excerpt: "La diferencia entre volumen e intención, y cómo elegir las palabras clave correctas sin desperdiciar presupuesto."
 category: seo

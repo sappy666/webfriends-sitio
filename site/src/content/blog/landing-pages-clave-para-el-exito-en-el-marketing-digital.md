@@ -1,6 +1,6 @@
 ---
 title: "Landing Pages: Clave para el Éxito en el Marketing Digital"
-metaTitle: "Landing Pages: Clave para el Éxito en el Marketing Digital"
+metaTitle: "Landing pages: diseño y conversión — Webfriends"
 description: "Landing Pages que impulsan la conversión. Aprende estrategias, diseño y optimización para crear páginas de destino efectivas."
 excerpt: "Diseño, estructura, SEO y conversión: todo lo que necesita una landing page que vende."
 category: web

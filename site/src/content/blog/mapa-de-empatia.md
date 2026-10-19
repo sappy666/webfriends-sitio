@@ -1,5 +1,6 @@
 ---
 title: "Mapa de empatía: qué es y cómo hacerlo paso a paso"
+metaTitle: "Mapa de empatía: cómo hacerlo paso a paso — Webfriends"
 description: "Qué es un mapa de empatía, qué va en cada cuadrante (dice, piensa, hace, siente) y cómo construir uno en 6 pasos para entender de verdad a tus usuarios antes de diseñar."
 excerpt: "Los cuatro cuadrantes, cuándo usarlo y cómo construirlo en 6 pasos para diseñar desde lo que tus usuarios realmente viven."
 category: uxui

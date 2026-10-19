@@ -1,5 +1,6 @@
 ---
 title: "WhatsApp Business vs formulario web: qué canal conviene"
+metaTitle: "WhatsApp o formulario web: qué canal elegir — Webfriends"
 description: "Ventajas y límites de WhatsApp Business frente a un formulario de contacto, y cómo decidir cuál conviene más para tu negocio en Chile."
 excerpt: "No son excluyentes, pero cada uno cumple un rol distinto según el tipo de negocio y el momento del cliente."
 category: web

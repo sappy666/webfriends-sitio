@@ -1,6 +1,6 @@
 ---
 title: "Estrategias de marketing para definir tu oferta y captar clientes"
-metaTitle: "Estrategias de marketing para definir tu oferta y captar clientes - Webfriends Chile"
+metaTitle: "Estrategias de marketing para captar clientes — Webfriends"
 description: "Descubre las estrategias de marketing más efectivas para impulsar tus ventas. Aprende a aprovechar las tendencias y tecnologías emergentes."
 excerpt: "Especialización, diferenciación, segmentación y concentración: los principios para que tu negocio llame la atención."
 category: marketing

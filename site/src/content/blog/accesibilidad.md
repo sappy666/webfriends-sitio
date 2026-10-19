@@ -1,5 +1,6 @@
 ---
 title: "Checklist de accesibilidad web: lo mínimo que debe cumplir tu sitio"
+metaTitle: "Accesibilidad web: checklist para tu sitio — Webfriends"
 description: "Contraste, navegación por teclado y estructura semántica: los puntos de accesibilidad web que revisamos en cada proyecto según WCAG 2.1 AA."
 excerpt: "Contraste, navegación y estructura semántica: los puntos que revisamos en cada proyecto según WCAG 2.1 AA."
 category: uxui

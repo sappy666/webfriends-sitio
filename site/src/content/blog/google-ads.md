@@ -1,5 +1,6 @@
 ---
 title: "Cómo estructurar tus primeras campañas de Google Ads"
+metaTitle: "Cómo estructurar tus campañas de Google Ads — Webfriends"
 description: "La organización de cuentas, grupos de anuncios y palabras clave que evita quemar presupuesto en tus primeras campañas de Google Ads en Chile."
 excerpt: "La organización de cuentas, grupos de anuncios y palabras clave que evita quemar presupuesto los primeros meses."
 category: ads

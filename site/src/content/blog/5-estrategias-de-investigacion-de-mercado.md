@@ -1,5 +1,6 @@
 ---
 title: "5 estrategias de investigación de mercado para impulsar tu negocio"
+metaTitle: "5 estrategias de investigación de mercado — Webfriends"
 description: "Cinco formas prácticas de investigar tu mercado: Google Trends, Ubersuggest, tus mejores clientes y pruebas con anuncios en Meta y Google."
 excerpt: "Herramientas y métodos simples para entender qué busca tu cliente antes de invertir en marketing."
 category: marketing

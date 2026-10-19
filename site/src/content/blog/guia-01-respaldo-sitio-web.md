@@ -1,5 +1,6 @@
 ---
 title: "Guía 01 - Respaldo sitio web"
+metaTitle: "Cómo respaldar tu sitio web desde cPanel — Webfriends"
 description: "Paso a paso para respaldar un sitio web dinámico desde cPanel: comprimir los archivos de public_html y exportar la base de datos con phpMyAdmin."
 excerpt: "Cómo respaldar los archivos y la base de datos de tu sitio desde cPanel, paso a paso."
 category: web
