@@ -3,6 +3,7 @@ title: "Ficha clínica digital: qué exige la ley chilena a un centro de salud"
 description: "Qué exige la Ley 19.628 a una ficha clínica digital en Chile, y qué debe tener la plataforma de tu centro de salud para cumplirla."
 excerpt: "Qué pide la Ley 19.628 sobre datos personales y cómo se traduce en decisiones concretas para tu plataforma."
 category: salud
+author: luis
 date: 2026-10-24
 readingTime: "6 min de lectura"
 coverIcon: shield-check

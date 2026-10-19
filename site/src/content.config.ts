@@ -116,6 +116,8 @@ const blog = defineCollection({
     author: z.enum(AUTHOR_IDS).optional(),
     previousSlugs: z.array(z.string()).default([]),
     date: z.coerce.date(),
+    dateModified: z.coerce.date().optional(),
+    image: z.string().default('/assets/img/og-default.jpg'),
     readingTime: z.string(),
     coverIcon: z.string(),
     relatedService: z.enum(['page-seo', 'page-google-ads', 'page-sitios-web', 'page-ux-ui', 'page-salud']),

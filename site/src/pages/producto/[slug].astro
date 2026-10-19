@@ -36,7 +36,7 @@ const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug
         {p.deliveryNote && <p class="plan-fine" style="text-align:left">{p.deliveryNote}</p>}
       </div>
       <div class="prod-art" data-reveal="scale">
-        <img src={p.image} alt="" width="1321" height="1191" />
+        <img src={p.image} alt={`Ilustración del plan ${p.name} de Webfriends`} width="1321" height="1191" />
       </div>
     </div>
   </section>

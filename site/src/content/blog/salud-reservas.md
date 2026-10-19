@@ -3,6 +3,7 @@ title: "Reserva de horas online: lo que debe tener una plataforma de salud"
 description: "Agendamiento, convenios y privacidad de datos: los tres puntos que más preguntan los centros médicos en Chile sobre reserva de horas online."
 excerpt: "Agendamiento, convenios y privacidad de datos: los tres puntos que más preguntan los centros médicos."
 category: salud
+author: luis
 date: 2026-06-30
 readingTime: "5 min de lectura"
 coverIcon: shield-check

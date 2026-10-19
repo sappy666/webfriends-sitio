@@ -4,6 +4,7 @@ metaTitle: "Mejor Estrategia de Marketing este 2023 - Webfriends Chile"
 description: "Descubre las estrategias de marketing más efectivas para impulsar tus ventas. Aprende a aprovechar las tendencias y tecnologías emergentes."
 excerpt: "Especialización, diferenciación, segmentación y concentración: los principios para que tu negocio llame la atención."
 category: marketing
+author: luis
 previousSlugs:
   - /estrategias-de-marketing/
 date: 2023-06-01

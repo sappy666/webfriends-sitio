@@ -56,6 +56,8 @@ const articleLd = {
   headline: post.data.title,
   description: post.data.description,
   datePublished: post.data.date.toISOString(),
+  dateModified: (post.data.dateModified ?? post.data.date).toISOString(),
+  image: new URL(post.data.image, site).toString(),
   inLanguage: 'es-CL',
   mainEntityOfPage: { '@id': pageId(postUrl) },
   author: author.id === 'equipo'
@@ -69,7 +71,7 @@ const articleLd = {
   publisher: { '@id': ORG_ID },
 };
 ---
-<BaseLayout title={post.data.metaTitle || `${post.data.title} — Blog Webfriends`} description={post.data.description} crumb={post.data.title} schema={[articleLd]}>
+<BaseLayout title={post.data.metaTitle || `${post.data.title} — Blog Webfriends`} description={post.data.description} crumb={post.data.title} ogImage={post.data.image} schema={[articleLd]}>
   <Fragment slot="head">
     <link rel="stylesheet" href="/styles/post.css?v=2" />
   </Fragment>

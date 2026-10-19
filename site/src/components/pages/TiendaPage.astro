@@ -31,7 +31,7 @@ const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug
         {productos.map((p) => (
           <article class="shop-card" data-reveal="scale">
             <a class="shop-img" href={`/producto/${p.id}`} tabindex="-1" aria-hidden="true">
-              <img src={p.data.image} alt="" width="1321" height="1191" loading="lazy" />
+              <img src={p.data.image} alt={`Ilustración del plan ${p.data.name} de Webfriends`} width="1321" height="1191" loading="lazy" />
             </a>
             <h2><a href={`/producto/${p.id}`}>{p.data.name}</a></h2>
             <p class="shop-for">{p.data.tagline}</p>

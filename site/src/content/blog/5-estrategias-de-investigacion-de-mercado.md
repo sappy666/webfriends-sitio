@@ -3,6 +3,7 @@ title: "5 estrategias de investigación de mercado para impulsar tu negocio"
 description: "Cinco formas prácticas de investigar tu mercado: Google Trends, Ubersuggest, tus mejores clientes y pruebas con anuncios en Meta y Google."
 excerpt: "Herramientas y métodos simples para entender qué busca tu cliente antes de invertir en marketing."
 category: marketing
+author: luis
 previousSlugs:
   - /5-estrategias-de-investigacion-de-mercado/
 date: 2023-06-01
