@@ -7,7 +7,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const page = (await getEntry('pages', 'page-servicios'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
 const pages = await getCollection('pages');
-const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}/`;
 
 // Mismo orden que las tarjetas de "servicios-h" en page-servicios.yaml.
 const serviceMeta = [
@@ -50,7 +50,7 @@ const servicesLd = [
       <h1 style="max-width:17ch;margin:0 auto 22px">{page.heroH1}</h1>
       <p class="lede" style="margin:0 auto;text-align:center;max-width:54ch">{page.heroLede}</p>
       <div class="hero-actions">
-        <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
+        <a class="btn btn-accent" href="/contacto/">Pedir asesoría gratuita
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
         </a>
         <a class="btn btn-soft" href="#lista">Ver servicios</a>
@@ -78,7 +78,7 @@ const servicesLd = [
                 <a class="btn btn-soft" href={slug(serviceMeta[i].pageId)}>{serviceMeta[i].link}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
                 </a>
-                <a class="svc-quote" href="/contacto">Cotizar {card.title}</a>
+                <a class="svc-quote" href="/contacto/">Cotizar {card.title}</a>
               </div>
             </div>
           </article>

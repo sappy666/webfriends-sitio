@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 
 const pages = await getCollection('pages');
-const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}/`;
 
 const googleAdsHref = slug('page-google-ads');
 const seoHref = slug('page-seo');
@@ -56,7 +56,7 @@ const terminosHref = slug('page-terminos');
             <li><a href={`${nosotrosHref}#casos`}>Casos de éxito</a></li>
             <li><a href={slug('page-precios')}>Precios</a></li>
             <li><a href={nosotrosHref}>Nosotros</a></li>
-            <li><a href="/blog">Blog</a></li>
+            <li><a href="/blog/">Blog</a></li>
             <li><a href={slug('page-tienda')}>Tienda</a></li>
             <li><a href={slug('page-tutoriales')}>Tutoriales</a></li>
             <li><a href={contactoHref}>Contacto</a></li>

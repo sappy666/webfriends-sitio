@@ -8,6 +8,7 @@ author: luis
 previousSlugs:
   - /agencia-de-marketing-digital/
 date: 2023-06-01
+dateModified: 2026-10-19
 readingTime: "3 min de lectura"
 coverIcon: trending
 relatedService: page-google-ads
@@ -67,4 +68,10 @@ La agencia debe comunicarse de forma clara y transparente en todo momento, respo
 
 ## Contáctanos
 
-Si buscas una agencia de marketing digital en Chile, [conversemos](/contacto). Tenemos un equipo con experiencia en distintas áreas del marketing digital y estamos comprometidos con ayudar a nuestros clientes a crecer en línea.
+Si buscas una agencia de marketing digital en Chile, [conversemos](/contacto/). Tenemos un equipo con experiencia en distintas áreas del marketing digital y estamos comprometidos con ayudar a nuestros clientes a crecer en línea.
+
+## Qué pedir antes de firmar una propuesta
+
+Solicita un alcance por escrito: entregables, responsables, plazos y qué gastos se cobran por separado. Distingue los honorarios de gestión del presupuesto publicitario y acuerda quién conserva el acceso al dominio, al sitio y a las cuentas de anuncios y medición cuando termina el contrato.
+
+Define qué cuenta como resultado: un formulario enviado, un contacto calificado o una venta. Un reporte útil conecta acciones con resultados del negocio y explica sus límites de atribución. Desconfía de las promesas de posiciones garantizadas o de ventas sin conocer tu oferta y tu proceso comercial.

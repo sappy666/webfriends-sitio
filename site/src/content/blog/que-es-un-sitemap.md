@@ -7,19 +7,26 @@ category: seo
 previousSlugs:
   - /que-es-un-sitemap/
 date: 2023-06-01
+dateModified: 2026-10-19
 readingTime: "2 min de lectura"
 coverIcon: chart-bars
 relatedService: page-seo
 ---
 
-Un **sitemap**, o mapa del sitio, es un archivo que enumera las páginas de un sitio web, su organización y la relación entre ellas. Funciona como un plano para usuarios y motores de búsqueda, y facilita la navegación y la indexación del sitio.
+Un **sitemap XML** es un archivo que informa a los buscadores de las URLs importantes de un sitio y puede indicar cuándo cambió su contenido. Es distinto de un mapa HTML, que ofrece enlaces para que las personas naveguen.
 
-## ¿Por qué es importante?
+## Qué aporta y qué no garantiza
 
-- **Para los usuarios:** facilita encontrar información, mejora la experiencia de navegación y reduce la tasa de rebote.
-- **Para los motores de búsqueda:** permite un rastreo más eficiente, lo que mejora la indexación y el posicionamiento en los resultados (SEO).
-- **Para los desarrolladores:** ayuda a detectar errores de estructura y a planificar el crecimiento del sitio.
+El sitemap ayuda a descubrir páginas, especialmente si el sitio es grande o tiene poco enlazado. No sustituye los enlaces internos ni garantiza rastreo, indexación o posiciones. En un sitio pequeño y bien enlazado, los buscadores pueden encontrar las páginas sin depender de él.
 
-## Conclusión
+## Qué URLs incluir
 
-Un sitemap es una herramienta fundamental para cualquier sitio que quiera mejorar su visibilidad, su usabilidad y su posicionamiento en la web.
+Incluye las URLs canónicas de las páginas que quieres indexar, con su protocolo, dominio y barra final definitivos. Cada destino debe responder 200. Excluye redirecciones, errores 404 y páginas con `noindex`.
+
+En Webfriends el archivo está en [sitemap.xml](/sitemap.xml). La referencia a ese archivo también puede publicarse en [robots.txt](/robots.txt).
+
+## Cómo mantenerlo
+
+Actualiza `lastmod` cuando el contenido de una página cambie de forma significativa; no uses la fecha de cada compilación para aparentar que todos los artículos son nuevos. Comprueba que las URLs del sitemap coincidan con las etiquetas canonical.
+
+Puedes enviar el sitemap en Search Console y revisar los problemas detectados. Para entender sus límites, consulta la [documentación de Google sobre sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview).

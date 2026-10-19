@@ -8,6 +8,7 @@ import singleSitemap from './integrations/single-sitemap.mjs';
 export default defineConfig({
   site: process.env.SITE_URL || 'https://webfriends.cl',
   output: 'static',
+  trailingSlash: 'always',
   // CSS dentro del HTML: sin peticiones que bloqueen el primer pintado (PageSpeed).
   build: { inlineStylesheets: 'always' },
   integrations: [

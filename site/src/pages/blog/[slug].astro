@@ -43,7 +43,7 @@ const related = allPosts
   .slice(0, 2);
 
 const pages = await getCollection('pages');
-const relatedServiceHref = `/${pages.find((p) => p.id === post.data.relatedService)!.data.urlSlug}`;
+const relatedServiceHref = `/${pages.find((p) => p.id === post.data.relatedService)!.data.urlSlug}/`;
 
 const author = authorOf(post.data);
 // Datos estructurados del artículo (Google): autor, fecha y editor. Va en el @graph del layout,
@@ -82,10 +82,10 @@ const articleLd = {
 
   <section class="hero post-hero grid-bg">
     <div class="wrap" data-hero-seq>
-      <a class="post-back" href="/blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg> Volver al blog</a>
+      <a class="post-back" href="/blog/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg> Volver al blog</a>
       <div class="post-hero-meta">
         <span class="post-tag">{CATEGORY_LABEL[post.data.category]}</span>
-        <span class="post-date" style="color:var(--label-3);font-size:.8rem">Por {author.href ? <a class="post-author-name" href={author.href}>{author.name}</a> : <span class="post-author-name">{author.name}</span>} · {fmtDate(post.data.date)} · {post.data.readingTime}</span>
+        <span class="post-date" style="color:var(--label-3);font-size:.8rem">Por {author.href ? <a class="post-author-name" href={author.href}>{author.name}</a> : <span class="post-author-name">{author.name}</span>} · Publicado el <time datetime={post.data.date.toISOString()}>{fmtDate(post.data.date)}</time>{post.data.dateModified && post.data.dateModified > post.data.date && <> · Actualizado el <time datetime={post.data.dateModified.toISOString()}>{fmtDate(post.data.dateModified)}</time></>} · {post.data.readingTime}</span>
         <button class="post-listen" id="postListen" type="button" aria-label="Escuchar artículo" aria-pressed="false">
           <svg class="ico-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-mic"></use></svg>
           <span class="post-listen-txt">Escuchar</span>
@@ -126,7 +126,7 @@ const articleLd = {
       <h2 id="related-h" data-reveal>Sigue leyendo</h2>
       <div class="post-related-grid" data-reveal-group>
         {related.map((r) => (
-          <a class="post-related-card" data-reveal="scale" href={`/blog/${r.id}`}>
+          <a class="post-related-card" data-reveal="scale" href={`/blog/${r.id}/`}>
             <span class="post-cat">{CATEGORY_LABEL[r.data.category]}</span>
             <h3>{r.data.title}</h3>
           </a>

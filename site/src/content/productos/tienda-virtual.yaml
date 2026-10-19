@@ -22,3 +22,16 @@ features:
     description: "Filtros por precio, tipo o marca"
   - label: Despacho y retiro
     description: Zonas de envío con costo configurable y retiro en tienda
+details:
+  - heading: "Para vender con catálogo y pago integrado"
+    paragraphs:
+      - "Este plan permite presentar hasta 40 productos y sus variantes de talla o color, con stock por variante. Es una alternativa cuando necesitas que el cliente elija un producto y complete el pago, en lugar de consultar cada compra por mensaje. La integración publicada es con Webpay o Mercado Pago."
+      - "Cuenta los productos que necesitas cargar y define sus variantes antes de cotizar. Si tu catálogo supera el límite o requiere una conexión con otro sistema, informa esa necesidad para evaluar su alcance. No supongas que una integración adicional está incluida en el precio de esta ficha."
+  - heading: "Qué necesitas para cargar el catálogo"
+    paragraphs:
+      - "Prepara nombres, descripciones, fotografías, precios y stock de los productos. Para cada variante, indica qué cambia y cómo se identifica. Define también las categorías y los filtros que ayudarán a encontrar los artículos sin recorrer todo el catálogo."
+      - "Para despacho y retiro, detalla las zonas que atiendes, sus costos y el lugar de retiro. Estas decisiones deben ser coherentes con tu operación real. Revisa los datos de tu cuenta de pagos y las condiciones del proveedor elegido antes de configurar la integración."
+  - heading: "Qué revisar antes de empezar a vender"
+    paragraphs:
+      - "Comprueba el recorrido completo: elegir producto y variante, agregar al carrito, seleccionar despacho o retiro y completar una compra de prueba según el procedimiento del proveedor de pagos. Verifica también qué ocurre con el stock y qué mensajes recibe el comprador."
+      - "El dinero se abona directamente en tu cuenta, según las condiciones del proveedor de pagos. Confirma sus comisiones y requisitos por separado. El precio del desarrollo y la renovación anual del sitio son conceptos distintos; cualquier función adicional debe quedar detallada en la cotización."

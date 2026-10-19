@@ -566,3 +566,10 @@ html.js body [data-reveal], html.js body [data-reveal].is-visible { filter: none
 @media (max-width: 640px) and (prefers-reduced-motion: reduce) {
   body .osv-grid { scroll-behavior: auto; }
 }
+
+/* Editorial content on catalog and tutorial pages. */
+.reading-sections { margin-top: 32px; }
+.reading-section + .reading-section { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--line); }
+.reading-section h3 { font-size: var(--s-0); font-weight: 500; margin-bottom: 12px; }
+.reading-section p { color: var(--label-2); line-height: 1.7; }
+.reading-section p + p { margin-top: 16px; }

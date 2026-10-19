@@ -6,7 +6,7 @@ const page = (await getEntry('pages', 'page-tienda'))!.data;
 // Solo los productos visibles; los marcados "Ocultar de Google" no se listan.
 const productos = (await getCollection('productos', (p) => !p.data.hidden)).sort((a, b) => a.data.order - b.data.order);
 const pages = await getCollection('pages');
-const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug}`;
+const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug}/`;
 ---
 
 <BaseLayout
@@ -30,15 +30,15 @@ const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug
       <div class="shop-grid" data-reveal-group>
         {productos.map((p) => (
           <article class="shop-card" data-reveal="scale">
-            <a class="shop-img" href={`/producto/${p.id}`} tabindex="-1" aria-hidden="true">
+            <a class="shop-img" href={`/producto/${p.id}/`} tabindex="-1" aria-hidden="true">
               <img src={p.data.image} alt={`Ilustración del plan ${p.data.name} de Webfriends`} width="1321" height="1191" loading="lazy" />
             </a>
-            <h2><a href={`/producto/${p.id}`}>{p.data.name}</a></h2>
+            <h2><a href={`/producto/${p.id}/`}>{p.data.name}</a></h2>
             <p class="shop-for">{p.data.tagline}</p>
             <p class="shop-price">{p.data.price}</p>
             <p class="plan-renew">{p.data.renewalTerms}</p>
             <div class="shop-actions">
-              <a class="btn btn-accent btn-block" href={`/producto/${p.id}`}>Ver plan</a>
+              <a class="btn btn-accent btn-block" href={`/producto/${p.id}/`}>Ver plan</a>
             </div>
           </article>
         ))}
@@ -46,6 +46,18 @@ const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug
       <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
         ¿Necesitas algo distinto? <a href={`${preciosHref}?servicio=web`} style="color:var(--amber);font-weight:700;text-decoration:none">Arma tu cotización</a>
       </p>
+    </div>
+  </section>
+
+  <section aria-labelledby="elegir-plan-h">
+    <div class="wrap" style="max-width:880px">
+      <h2 id="elegir-plan-h" class="h-sec">Cómo elegir tu sitio web</h2>
+      <div class="reading-sections">
+        <div class="reading-section"><div><h3>Una oferta o varios servicios</h3><p>One Page Emprende reúne la información en una sola página con scroll. Es una opción para presentar una oferta puntual y recibir consultas. Sitio Emprende separa el contenido en cinco páginas: inicio, servicios, nosotros, contacto y una libre. Compara la estructura que necesita tu cliente para entender lo que haces antes de elegir por precio.</p></div></div>
+        <div class="reading-section"><div><h3>Consultas o compras en línea</h3><p>Si el siguiente paso es conversar contigo, revisa los planes con formulario y WhatsApp. Si necesitas catálogo, variantes y pago integrado, Tienda Virtual contempla hasta 40 productos y Webpay o Mercado Pago. Revisa cada ficha para conocer el almacenamiento, los correos y las funciones publicadas.</p></div></div>
+        <div class="reading-section"><div><h3>Desarrollo y renovación</h3><p>El pago inicial y la renovación anual son conceptos distintos. Las fichas muestran sus condiciones y un plazo estimado cuando está disponible. Antes de contratar, confirma el alcance, los materiales que debes entregar y los requerimientos adicionales de tu proyecto. Las funciones fuera del plan deben quedar acordadas en la propuesta.</p></div></div>
+        <div class="reading-section"><div><h3>Qué enviar para cotizar</h3><p>Cuéntanos qué vendes, a quién te diriges y qué acción debe permitir el sitio. Indica si ya tienes dominio, textos e imágenes y comparte ejemplos de la estructura que necesitas. Para una tienda, agrega el tamaño del catálogo, sus variantes y cómo resuelves los despachos. Esa información permite revisar qué plan se ajusta y qué requiere una cotización particular.</p><p>Puedes <a href="/precios/?servicio=web">armar una cotización</a> o revisar el <a href="/sitios-web/">servicio de sitios y tiendas web</a> para conocer el enfoque del proyecto.</p></div></div>
+      </div>
     </div>
   </section>
 </BaseLayout>

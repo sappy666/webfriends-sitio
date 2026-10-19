@@ -7,6 +7,7 @@ category: seo
 previousSlugs:
   - /que-es-seo/
 date: 2023-06-01
+dateModified: 2026-10-19
 readingTime: "2 min de lectura"
 coverIcon: search
 relatedService: page-seo
@@ -20,7 +21,7 @@ El SEO se ha vuelto una herramienta indispensable para el área de marketing de 
 
 El SEO Manager, o webmaster del sitio, desarrolla y ejecuta una estrategia de posicionamiento orgánico para que el sitio cumpla con los parámetros y directrices de Google y aparezca en las primeras posiciones.
 
-Cada año más personas usan Google para contratar un servicio, hacer una compra o averiguar sobre un producto. Por eso es clave identificar cuáles son las búsquedas más frecuentes de tu rubro y lograr que tu sitio se posicione lo mejor posible con esas palabras clave.
+Las personas usan los buscadores para contratar servicios, comprar o informarse sobre productos. Por eso es clave identificar cuáles son las búsquedas más frecuentes de tu rubro y lograr que tu sitio se posicione lo mejor posible con esas palabras clave.
 
 ## Posicionamiento web
 
@@ -35,6 +36,12 @@ El servicio de posicionamiento web busca aumentar la visibilidad de las páginas
 - Diseño responsivo, adaptado a celulares
 - Estrategia de enlaces internos y externos
 - Mapa del sitio (sitemap) para que Google encuentre todas tus páginas
-- Creación y difusión de contenidos en redes sociales
+- Contenidos útiles y enlaces que permitan descubrir las páginas importantes
 
-¿Quieres contratar un [servicio de posicionamiento SEO](/seo)? Conversemos.
+¿Quieres contratar un [servicio de posicionamiento SEO](/seo/)? Conversemos.
+
+## Por dónde empezar en un sitio existente
+
+Comprueba que las páginas principales respondan 200, tengan enlaces internos directos y usen una única versión canónica. Revisa títulos, encabezados y contenido según la intención de búsqueda; añadir palabras clave sin mejorar la respuesta no sustituye ese trabajo.
+
+Después utiliza Search Console para detectar problemas de indexación y entender qué consultas llevan visitas. Un sitemap ayuda a descubrir URLs, pero no garantiza que Google las indexe. La [guía de inicio SEO de Google](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) explica estos fundamentos.

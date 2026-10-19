@@ -7,7 +7,8 @@ category: web
 previousSlugs:
   - /landing-pages-clave-para-el-exito-en-el-marketing-digital/
 date: 2023-06-01
-readingTime: "3 min de lectura"
+dateModified: 2026-10-19
+readingTime: "4 min de lectura"
 coverIcon: monitor
 relatedService: page-sitios-web
 ---
@@ -55,4 +56,10 @@ Las landing pages son una herramienta poderosa. Su diseño, estructura, optimiza
 
 ## Contacta a un profesional del marketing digital
 
-¿Listo para llevar tu estrategia al siguiente nivel? [Conversemos](/contacto) y descubre cómo una buena landing page puede impulsar tus conversiones y tus ventas.
+¿Listo para llevar tu estrategia al siguiente nivel? [Conversemos](/contacto/) y descubre cómo una buena landing page puede impulsar tus conversiones y tus ventas.
+
+## Lista de revisión antes de activar una campaña
+
+Prueba el recorrido completo en un celular: anuncio, página, formulario y confirmación. Comprueba que la oferta y el precio coincidan, que los campos tengan etiquetas y que los errores indiquen cómo corregirlos. Revisa también que el contacto llegue a la persona que lo atenderá.
+
+Mide por separado el clic en un botón y el envío completado. Para evaluar una prueba A/B, define una conversión principal y evita cambiar oferta, audiencia y diseño al mismo tiempo. No declares una variante ganadora a partir de unos pocos contactos.

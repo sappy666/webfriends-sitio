@@ -18,7 +18,7 @@ const webPlans = (await getEntry('planSets', 'desarrollo-web'))!.data.plans;
 const adsPlans = (await getEntry('planSets', 'google-ads'))!.data.plans;
 const proceso = (await getEntry('procesoSeisEtapas', 'proceso-seis-etapas'))!.data.steps;
 const pages = await getCollection('pages');
-const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}/`;
 const serviceMeta = [
   { name: 'Sitios y tiendas web', pageId: 'page-sitios-web', linkLabel: 'Ver planes web' },
   { name: 'Posicionamiento SEO y GEO', pageId: 'page-seo', linkLabel: 'Ver SEO' },
@@ -167,7 +167,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
       </div>
 
       <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
-        ¿Necesitas algo distinto? <a href="/contacto" style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
+        ¿Necesitas algo distinto? <a href="/contacto/" style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
       </p>
     </div>
   </section>

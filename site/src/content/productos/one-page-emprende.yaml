@@ -18,3 +18,16 @@ features:
     description: "Con tu dominio: nombre@tuempresa.cl"
   - label: Formulario y WhatsApp
     description: Los mensajes llegan a tu correo y al chat, sin intermediarios
+details:
+  - heading: "Cuándo elegir una página única"
+    paragraphs:
+      - "Este plan encaja cuando necesitas presentar una oferta concreta y facilitar el contacto desde una sola vista. Por ejemplo, un profesional que ofrece un servicio o una campaña que dirige las visitas hacia una consulta. La estructura con scroll permite explicar el problema, presentar la solución y cerrar con el formulario o WhatsApp."
+      - "Si tu negocio tiene servicios que necesitan explicaciones independientes, compara este plan con Sitio Emprende. Una página única exige priorizar: reunir demasiadas ofertas distintas puede hacer más difícil entender qué debe hacer el visitante."
+  - heading: "Qué preparar para tu sitio"
+    paragraphs:
+      - "Reúne tu logo, los textos de la oferta, imágenes que puedas utilizar y los datos de contacto que se publicarán. Define también qué preguntas debe responder la página antes de que alguien te escriba: a quién ayudas, qué incluye el servicio y cómo empieza la contratación."
+      - "Confirma en la propuesta quién entrega cada material y desde qué momento se cuenta el plazo estimado. Si ya tienes un dominio, informa quién lo administra para coordinar su configuración. Antes de publicar, revisa los datos visibles y prueba el formulario con una consulta real."
+  - heading: "Cómo comparar el costo"
+    paragraphs:
+      - "Distingue el pago de desarrollo de la renovación anual indicada en esta ficha. Revisa también si necesitas cambios o funciones fuera del alcance de una sola página; deben quedar definidos en la cotización antes de comenzar."
+      - "El plan incorpora formulario y WhatsApp como vías de contacto. Una tienda con catálogo y pagos requiere otro alcance: consulta Tienda Virtual si necesitas que el cliente complete una compra en línea."

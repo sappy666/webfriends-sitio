@@ -6,7 +6,7 @@ import { load } from 'js-yaml';
 /**
  * Genera un único dist/sitemap.xml (sin índice ni partes) a partir de las páginas compiladas.
  * - Omite las páginas con <meta name="robots" content="noindex..."> (productos ocultos, etc.).
- * - Los artículos del blog llevan <lastmod> con su fecha (campo `updated` o `date` del frontmatter).
+ * - Los artículos del blog llevan <lastmod> con su fecha (campo `dateModified`, `updated` o `date` del frontmatter).
  * robots.txt apunta a este archivo (src/pages/robots.txt.ts).
  */
 export default function singleSitemap() {
@@ -24,7 +24,7 @@ export default function singleSitemap() {
         for (const file of readdirSync(blogDir).filter((f) => /\.(md|mdoc)$/.test(f))) {
           const fm = readFileSync(join(blogDir, file), 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
           const data = fm ? load(fm[1]) : null;
-          const d = data?.updated ?? data?.date;
+          const d = data?.dateModified ?? data?.updated ?? data?.date;
           // Nunca una fecha futura: un lastmod posterior al día de compilación no es válido.
           const day = new Date(Math.min(+new Date(d), Date.now())).toISOString().slice(0, 10);
           if (d) lastmod[`blog/${file.replace(/\.(md|mdoc)$/, '')}/`] = day;

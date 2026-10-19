@@ -4,7 +4,7 @@ description: "Qué exige la Ley 19.628 a una ficha clínica digital en Chile, y 
 excerpt: "Qué pide la Ley 19.628 sobre datos personales y cómo se traduce en decisiones concretas para tu plataforma."
 category: salud
 author: luis
-date: 2026-10-24
+date: 2026-10-19
 readingTime: "6 min de lectura"
 coverIcon: shield-check
 relatedService: page-salud

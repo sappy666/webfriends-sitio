@@ -91,9 +91,9 @@ function fmtDate(d: Date) {
           >
             <div class="post-meta">
               <span class="post-cat">{CATEGORY_LABEL[post.data.category]}</span>
-              <span class="post-date">{fmtDate(post.data.date)} · {post.data.readingTime.replace(' de lectura', '')}</span>
+              <span class="post-date">{post.data.dateModified && post.data.dateModified > post.data.date ? 'Actualizado el ' : ''}{fmtDate(post.data.dateModified ?? post.data.date)} · {post.data.readingTime.replace(' de lectura', '')}</span>
             </div>
-            <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+            <h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
             <p>{post.data.excerpt}</p>
             <span class="post-read" aria-hidden="true">Leer artículo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><use href="#i-arrow-right"></use></svg></span>
           </article>

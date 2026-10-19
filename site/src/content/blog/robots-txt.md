@@ -7,36 +7,38 @@ category: seo
 previousSlugs:
   - /robots-txt/
 date: 2023-06-01
+dateModified: 2026-10-19
 readingTime: "2 min de lectura"
 coverIcon: chart-bars
 relatedService: page-seo
 ---
 
-## ¿Qué es el robots.txt?
+## Qué es robots.txt
 
-El robots.txt es un archivo de texto que todo webmaster debe crear y subir a su servidor para indicarles a los motores de búsqueda qué contenido quiere que rastreen. Es un archivo público que entrega instrucciones de rastreo.
+Es un archivo de texto público que indica a los rastreadores compatibles qué rutas pueden solicitar. Se publica en la raíz del dominio, como [robots.txt](/robots.txt), y regula el rastreo; no protege información privada.
 
-## ¿Para qué sirve?
+## Disallow controla el rastreo, no la indexación
 
-Gestiona el tráfico de los rastreadores y evita que Google rastree determinadas páginas o directorios del sitio, lo que además ahorra tiempo a los crawlers.
+Una regla `Disallow` solicita que el rastreador no acceda a una ruta. Una URL bloqueada todavía puede aparecer en los resultados si Google la conoce por enlaces externos.
 
-Con el robots.txt puedes:
+Para excluir una página de los resultados, usa `noindex` en su HTML o en una cabecera HTTP y permite el rastreo para que Google pueda leer esa instrucción. Para proteger un área privada, exige autenticación.
 
-- Controlar el acceso a imágenes.
-- Controlar el acceso a páginas o directorios.
-- Controlar el acceso a archivos de recursos.
-- Indicar la URL de tu sitemap.xml.
-
-## ¿Qué es Disallow?
-
-La instrucción **Disallow** sirve para denegar el acceso a una página o directorio del sitio. Impide que los rastreadores de los buscadores recorran contenidos que no quieres que indexen. Por ejemplo:
+## Ejemplo básico
 
 ```txt
 User-agent: *
 Disallow: /admin/
-Sitemap: https://www.webfriends.cl/sitemap.xml
+Sitemap: https://webfriends.cl/sitemap.xml
 ```
 
-## Ojo al configurarlo
+Este ejemplo restringe el rastreo de `/admin/` e indica el sitemap. No convierte esa carpeta en privada. No copies la regla si esa ruta no corresponde a tu sitio.
 
-Es clave configurarlo bien: un error puede excluir sin querer secciones importantes del sitio que sí deberían rastrearse y aparecer en Google.
+## Qué revisar antes de publicarlo
+
+- Comprueba que el archivo esté en la raíz y responda correctamente.
+- Evita bloquear hojas de estilo y scripts necesarios para renderizar páginas públicas.
+- Verifica que ninguna regla bloquee las páginas que quieres posicionar.
+- Indica el sitemap con su URL absoluta y dominio canónico.
+- Revisa el efecto de los cambios con las herramientas de inspección de Search Console.
+
+Google detalla estas diferencias en su [introducción a robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro).

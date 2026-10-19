@@ -12,8 +12,8 @@ const p = producto.data;
 const otros = (await getCollection('productos', (o) => !o.data.hidden && o.id !== producto.id))
   .sort((a, b) => a.data.order - b.data.order);
 const pages = await getCollection('pages');
-const sitiosWebHref = `/${pages.find((x) => x.id === 'page-sitios-web')!.data.urlSlug}`;
-const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug}`;
+const sitiosWebHref = `/${pages.find((x) => x.id === 'page-sitios-web')!.data.urlSlug}/`;
+const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug}/`;
 ---
 
 <BaseLayout title={`${p.name} — Webfriends`} description={`${p.tagline} ${p.price}.`} noindex={p.hidden}>
@@ -28,7 +28,7 @@ const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug
           {p.renewalTerms && <p class="plan-renew">{p.renewalTerms}</p>}
         </div>
         <div class="hero-actions" style="justify-content:flex-start;margin-top:24px">
-          <a class="btn btn-accent" href="/contacto">Cotizar {p.name}
+          <a class="btn btn-accent" href="/contacto/">Cotizar {p.name}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
           </a>
           <a class="btn btn-soft" href={`${preciosHref}?servicio=web`}>Armar cotización</a>
@@ -58,6 +58,23 @@ const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug
     </section>
   )}
 
+  {p.details.length > 0 && (
+    <section aria-labelledby="elegir-h">
+      <div class="wrap" style="max-width:880px">
+        <h2 id="elegir-h" class="h-sec">Antes de elegir {p.name}</h2>
+        <div class="reading-sections">
+          {p.details.map((detail) => (
+            <div class="reading-section"><div>
+              <h3>{detail.heading}</h3>
+              {detail.paragraphs.map((text) => <p>{text}</p>)}
+            </div></div>
+          ))}
+        </div>
+        <p style="margin-top:32px">Revisa el <a href={sitiosWebHref}>servicio de sitios web</a> o <a href="/contacto/">consulta el alcance de tu proyecto</a> antes de contratar.</p>
+      </div>
+    </section>
+  )}
+
   {otros.length > 0 && (
     <section class="grad-cool" aria-labelledby="otros-h">
       <div class="wrap">
@@ -69,7 +86,7 @@ const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug
               <h3>{o.data.name}</h3>
               <p class="case-sector">{o.data.tagline}</p>
               <p class="case-result">{o.data.price}</p>
-              <a class="bento-link" href={`/producto/${o.id}`}>Ver plan <i aria-hidden="true">›</i></a>
+              <a class="bento-link" href={`/producto/${o.id}/`}>Ver plan <i aria-hidden="true">›</i></a>
             </article>
           ))}
         </div>

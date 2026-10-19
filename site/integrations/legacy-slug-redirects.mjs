@@ -53,6 +53,9 @@ export default function legacySlugRedirects() {
             .filter(([from]) => from && !seen.has(from) && seen.add(from))
             .map(([from, to]) => `RewriteRule ^${escape(from.slice(1))}/?$ ${slash(to)} [R=301,L]`);
           const htaccess = [
+            '# Disable directory listings; files and pages remain accessible.',
+            'Options -Indexes',
+            '',
             'DirectoryIndex index.html',
             'ErrorDocument 404 /404.html',
             '',

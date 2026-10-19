@@ -6,7 +6,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const page = (await getEntry('pages', 'page-precios'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
 const pages = await getCollection('pages');
-const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}/`;
 const plansOf = async (id: string) => (await getEntry('planSets', id))!.data.plans;
 
 // Precio del YAML (src/content/plan-sets) → número. "Desde $890.000" queda como mínimo; "A cotizar" queda en null.
@@ -116,7 +116,7 @@ const services = [
           </dl>
           <p class="q-renew">Valores + IVA. La inversión en anuncios la pagas directo a Google.</p>
           <p class="pq-quote" id="pqQuote" hidden></p>
-          <a class="btn btn-accent btn-block" id="pqCta" href="/contacto">Enviar cotización</a>
+          <a class="btn btn-accent btn-block" id="pqCta" href="/contacto/">Enviar cotización</a>
         </aside>
       </form>
       <script type="application/json" id="pqData" set:html={JSON.stringify(services)} />
@@ -180,7 +180,7 @@ if (form) {
     }
     // El link a contacto lo convierte en WhatsApp SiteScripts, con este detalle en el mensaje.
     const detail = msg.join('; ') + (media ? `; inversión en anuncios ${clp(media)}/mes` : '');
-    ($('pqCta') as HTMLAnchorElement).href = '/contacto' + (detail ? '?detalle=' + encodeURIComponent(detail) : '');
+    ($('pqCta') as HTMLAnchorElement).href = '/contacto/' + (detail ? '?detalle=' + encodeURIComponent(detail) : '');
   };
   // /precios?servicio=ads,seo llega con esos servicios ya elegidos (links desde cada página de servicio).
   (new URLSearchParams(location.search).get('servicio') ?? '').split(',').forEach((id) => {

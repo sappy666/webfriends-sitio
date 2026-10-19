@@ -22,3 +22,16 @@ features:
     description: "Metadatos, encabezados e indexación en Search Console"
   - label: Capacitación de 1 hora
     description: Para que edites textos e imágenes sin depender de nosotros
+details:
+  - heading: "Para negocios que necesitan explicar su oferta"
+    paragraphs:
+      - "Las cinco páginas permiten separar la presentación del negocio, sus servicios, el equipo y el contacto. La página libre puede destinarse a un contenido prioritario que se acuerde en el proyecto. Este formato resulta útil cuando una sola vista obliga a resumir demasiado la información que necesita tu cliente."
+      - "Antes de elegirlo, enumera los contenidos que deben tener una URL propia. Si necesitas muchas páginas de servicios o una integración particular, indícalo al cotizar para confirmar el alcance. Si tu oferta es única y breve, compara con One Page Emprende."
+  - heading: "Cómo preparar los contenidos"
+    paragraphs:
+      - "Organiza los textos por página y define qué acción quieres facilitar en cada una. Entrega datos de contacto vigentes, imágenes con permiso de uso y una explicación concreta de los servicios. Las preguntas frecuentes de tus clientes pueden ayudarte a identificar lo que falta explicar."
+      - "La capacitación de una hora está incluida para editar textos e imágenes. Antes de esa sesión, prepara una lista de cambios habituales y acuerda quién será responsable de mantener la información. El almacenamiento puede ampliarse después según las condiciones que se definan."
+  - heading: "Qué significa el setup SEO inicial"
+    paragraphs:
+      - "El alcance publicado contempla metadatos, encabezados e indexación en Search Console. Es una base técnica de lanzamiento; no equivale a una campaña continua de contenidos ni garantiza posiciones en Google. Si necesitas seguimiento y mejoras recurrentes, consulta el servicio SEO por separado."
+      - "Revisa el pago inicial y la renovación anual, y confirma cualquier requerimiento adicional en la propuesta. Prueba también los avisos de contacto y el acceso de las personas que administrarán el sitio antes de darlo por recibido."

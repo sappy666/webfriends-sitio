@@ -6,6 +6,7 @@ category: web
 previousSlugs:
   - /guia-01-respaldo-sitio-web/
 date: 2023-06-01
+dateModified: 2026-10-19
 readingTime: "2 min de lectura"
 coverIcon: monitor
 relatedService: page-sitios-web
@@ -22,8 +23,8 @@ Para tener un respaldo completo necesitas ambas.
 
 ## Respaldo de archivos físicos
 
-1. Ingresa a WHM y selecciona **List accounts**.
-2. Entra al cPanel del sitio que quieres respaldar.
+1. Accede al cPanel de tu hosting. Si administras cuentas desde WHM, selecciona la cuenta correspondiente.
+2. Confirma que estás en la cuenta del dominio que quieres respaldar.
 3. Ve a **Archivos > Administrador de archivos**.
 4. Selecciona la carpeta **public_html** en el panel derecho.
 5. En la barra superior, usa **Select all**.
@@ -45,3 +46,9 @@ Para tener un respaldo completo necesitas ambas.
 ## Conclusión
 
 Con el .zip de archivos y el SQL.zip de la base de datos ya tienes todo lo necesario para respaldar o migrar tu sitio web.
+
+## Verifica que el respaldo se pueda restaurar
+
+Guarda una copia fuera del hosting y prueba la restauración en un entorno separado antes de depender de ella. Incluye archivos de configuración y archivos ocultos, como `.htaccess`, cuando correspondan. No dejes copias descargables con credenciales o datos de clientes dentro de `public_html`.
+
+Un sitio estático puede no tener base de datos; WordPress normalmente necesita archivos y base de datos. Para respaldos parciales y restauración, cPanel dispone del [Asistente de copias de seguridad](https://docs.cpanel.net/cpanel/files/backup-wizard/). Confirma qué incluye tu copia y qué parte debe restaurar el proveedor.

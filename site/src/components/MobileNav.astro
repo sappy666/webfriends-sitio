@@ -4,7 +4,7 @@
 import { getCollection } from 'astro:content';
 
 const pages = await getCollection('pages');
-const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}/`;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const links = [
@@ -15,7 +15,7 @@ const links = [
   { label: 'Salud', href: slug('page-salud') },
   { label: 'Precios', href: slug('page-precios') },
   { label: 'Nosotros', href: slug('page-nosotros') },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Blog', href: '/blog/' },
 ];
 ---
 <div class="mnav" id="mnav" aria-hidden="true">
@@ -49,7 +49,7 @@ const links = [
       <span class="mnav-switch" aria-hidden="true"></span>
     </button>
 
-    <a class="mnav-cta" href="/contacto">Agendar reunión</a>
+    <a class="mnav-cta" href="/contacto/">Agendar reunión</a>
   </div>
 
   <div class="mnav-foot">

@@ -7,6 +7,7 @@ category: seo
 previousSlugs:
   - /que-son-los-breadcrumbs/
 date: 2023-06-01
+dateModified: 2026-10-19
 readingTime: "2 min de lectura"
 coverIcon: chart-bars
 relatedService: page-seo
@@ -29,3 +30,9 @@ Bien implementados, los breadcrumbs:
 - Muestran la posición actual en relación con los demás niveles del sitio.
 - Ocupan poco espacio visual y son relativamente fáciles de implementar.
 - Según expertos en usabilidad, prácticamente nunca generan problemas en las pruebas con usuarios.
+
+## Ejemplo de una jerarquía útil
+
+Una ruta como «Inicio > Blog > Qué es SEO» comunica la estructura del sitio. Los niveles anteriores deben enlazar a sus páginas reales; la página actual puede mostrarse como texto. En una interfaz visible, usa una región de navegación con un nombre accesible, como «Migas de pan».
+
+Si incorporas datos estructurados `BreadcrumbList`, representa esa misma jerarquía con nombres y URLs consistentes. El marcado no garantiza una presentación especial en Google. Revisa la [documentación de breadcrumbs de Google](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb) y valida el resultado tras publicarlo.

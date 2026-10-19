@@ -7,6 +7,7 @@ category: seo
 previousSlugs:
   - /importancia-del-seo/
 date: 2023-06-01
+dateModified: 2026-10-19
 readingTime: "2 min de lectura"
 coverIcon: search
 relatedService: page-seo
@@ -29,7 +30,7 @@ Estas prácticas se dividen principalmente en dos tipos: **on-page** (dentro del
 - Contenido semántico y de calidad
 - Velocidad de carga del sitio
 - Etiquetas ALT de imágenes
-- Mejora del porcentaje de rebote
+- Recorridos claros hacia consultas y conversiones
 - Metaetiquetas title y description
 - Experiencia de usuario
 
@@ -37,8 +38,14 @@ Estas prácticas se dividen principalmente en dos tipos: **on-page** (dentro del
 
 El posicionamiento orgánico aporta relevancia, calidad y tráfico a tu sitio, y es la forma de comunicarles a los buscadores de qué trata tu negocio y con qué palabras clave quieres que te encuentren.
 
-Los rastreadores usan las palabras clave para relacionarlas con las búsquedas de los usuarios. Si coinciden y tu SEO es de calidad, tu sitio tendrá un buen posicionamiento en Google y, por lo tanto, un buen flujo de visitas.
+Los rastreadores usan las palabras clave para relacionarlas con las búsquedas de los usuarios. La relevancia del contenido y su calidad ayudan a competir, pero no garantizan una posición ni un volumen de visitas.
 
 Estar en las primeras posiciones no solo da visibilidad: también aporta credibilidad e imagen a tu marca, lo que te ayuda a mantener una buena reputación online.
 
-¿Quieres contratar un servicio de posicionamiento SEO? Revisa nuestro [servicio de SEO](/seo).
+¿Quieres contratar un servicio de posicionamiento SEO? Revisa nuestro [servicio de SEO](/seo/).
+
+## Cómo evaluar si el trabajo SEO aporta al negocio
+
+Separa los problemas técnicos de los editoriales: primero comprueba que las páginas importantes respondan correctamente, sean rastreables y enlacen a su URL canónica. Luego revisa si el contenido responde a una necesidad concreta y permite dar el siguiente paso.
+
+Compara consultas, clics y páginas de entrada en Search Console con los contactos o ventas que registra tu negocio. Una subida de impresiones no implica por sí sola más ingresos. Define qué cambios se hicieron y compara períodos equivalentes antes de atribuirles una mejora.

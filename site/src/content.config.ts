@@ -160,6 +160,7 @@ const productos = defineCollection({
     order: z.number().default(0),
     hidden: z.boolean().default(false),
     features: z.array(z.object({ label: z.string(), description: z.string().optional() })).default([]),
+    details: z.array(z.object({ heading: z.string(), paragraphs: z.array(z.string()).min(1) })).default([]),
   }),
 });
 

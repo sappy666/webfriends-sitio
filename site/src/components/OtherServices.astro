@@ -10,7 +10,7 @@ const { current } = Astro.props;
 const home = (await getEntry('pages', 'page-home'))!.data;
 const cards = home.sections.find((s) => s.id === 's-h')!.cards;
 const pages = await getCollection('pages');
-const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}/`;
 
 // Mismo orden que las tarjetas del home.
 const all = [

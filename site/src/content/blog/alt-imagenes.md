@@ -7,6 +7,7 @@ category: seo
 previousSlugs:
   - /alt-imagenes/
 date: 2023-06-01
+dateModified: 2026-10-19
 readingTime: "2 min de lectura"
 coverIcon: search
 relatedService: page-seo
@@ -28,10 +29,16 @@ En el código HTML, el atributo ALT se ve así:
 
 En un uso normal del sitio, el texto ALT no es visible: solo se ve en el código fuente o con herramientas especiales, y aparece en pantalla si la imagen no carga. Un buen atributo ALT describe el contenido de la imagen con precisión y en pocas palabras.
 
-Todas las imágenes deberían tener una descripción apropiada, útil para las personas e informativa para los motores de búsqueda.
+Todas las imágenes deben declarar el atributo alt; las informativas necesitan una descripción y las puramente decorativas deben usarlo vacío.
 
 ## Optimización de las etiquetas ALT
 
 Se recomienda usar la palabra clave principal de la página en el atributo ALT cuando corresponda, para reforzar su enfoque. Al mismo tiempo, el texto debe describir con precisión la imagen. El atributo ALT **no** debe usarse para rellenar palabras clave: Google y otros buscadores lo consideran spam.
 
 Usar palabras clave en el ALT ayuda a posicionar en la búsqueda de imágenes, por lo que optimizarlo es una parte importante del SEO de imágenes y contribuye al posicionamiento en Google.
+
+## Imágenes decorativas y enlaces
+
+Una imagen puramente decorativa debe llevar `alt=""` para que el lector de pantalla pueda omitirla. Si una imagen funciona como único contenido de un enlace, el texto alternativo debe explicar su destino o función. Evita repetir una descripción que ya entrega el texto del mismo enlace.
+
+Revisa también las imágenes de productos y las capturas: describe lo que permite reconocerlas sin inventar detalles. La descripción se decide por el contexto, no por el nombre del archivo. Consulta las [recomendaciones de Google para imágenes](https://developers.google.com/search/docs/appearance/google-images).

@@ -5,7 +5,7 @@ interface Props { currentPath?: string }
 const { currentPath = '/' } = Astro.props;
 
 const pages = await getCollection('pages');
-const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}`;
+const slug = (id: string) => `/${pages.find((p) => p.id === id)!.data.urlSlug}/`;
 
 const contactoHref = slug('page-contacto');
 const googleAdsHref = slug('page-google-ads');
@@ -132,7 +132,7 @@ const nosotrosHref = slug('page-nosotros');
       </div>
 
       <a class="navlink" href={nosotrosHref} aria-current={currentPath === nosotrosHref ? 'page' : undefined}>Nosotros</a>
-      <a class="navlink" href="/blog" aria-current={currentPath.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+      <a class="navlink" href="/blog/" aria-current={currentPath.startsWith('/blog') ? 'page' : undefined}>Blog</a>
       <button class="theme-btn" id="themeBtn" role="switch" aria-checked="false" aria-label="Activar tema oscuro">
         <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><use href="#i-sun"></use></svg>
         <svg class="ico-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-moon"></use></svg>

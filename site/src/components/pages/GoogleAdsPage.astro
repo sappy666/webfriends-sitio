@@ -67,7 +67,7 @@ const service = serviceNode({
         <h1 style="max-width:15ch;margin:0 0 22px">{page.heroH1}</h1>
         <p class="lede" style="max-width:46ch">{page.heroLede}</p>
         <div class="hero-actions" style="justify-content:flex-start">
-          <a class="btn btn-accent" href="/contacto">Pedir asesoría gratuita
+          <a class="btn btn-accent" href="/contacto/">Pedir asesoría gratuita
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
           </a>
           <a class="btn btn-soft" href="#planes">Ver planes</a>
@@ -125,7 +125,7 @@ const service = serviceNode({
       <p class="lede" data-reveal style="margin-top:18px">Cada peso invertido tiene una razón y un número asociado. Esto es lo que ocurre desde que firmas.</p>
 
       <div class="local-cta" data-reveal>
-        <a class="btn btn-accent" href="/contacto">
+        <a class="btn btn-accent" href="/contacto/">
           Quiero invertir mejor
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </a>
@@ -190,12 +190,12 @@ const service = serviceNode({
           </dl>
           <p class="q-renew" id="qRenew"></p>
           <ul class="q-feats" id="qFeats"></ul>
-          <a class="btn btn-accent btn-block" id="qCta" href="/contacto">Cotizar</a>
+          <a class="btn btn-accent btn-block" id="qCta" href="/contacto/">Cotizar</a>
           <p class="plan-fine" id="qNote"></p>
         </aside>
       </form>
       <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
-        ¿Necesitas algo distinto? <a href="/contacto" style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
+        ¿Necesitas algo distinto? <a href="/contacto/" style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
       </p>
       <p data-reveal style="text-align:center;margin-top:10px;color:var(--label-3);font-size:var(--s--1)">
         Desde $1.000.001 la comisión es fija por tramo (de $250.000 a $480.000 + IVA). Para inversiones sobre $5.000.000 mensuales, cotizamos a medida.
@@ -254,7 +254,7 @@ if (form) {
     $('qFeats').innerHTML = plan.features.map((f) => `<li>${f}</li>`).join('');
     const cta = $('qCta') as HTMLAnchorElement;
     cta.textContent = plan.cta;
-    cta.href = `/contacto?plan=${encodeURIComponent(plan.name)}&presupuesto=${budget}`;
+    cta.href = `/contacto/?plan=${encodeURIComponent(plan.name)}&presupuesto=${budget}`;
     const range = form.budget as HTMLInputElement;
     range.style.setProperty('--fill', ((budget - +range.min) / (+range.max - +range.min)) * 100 + '%');
   };

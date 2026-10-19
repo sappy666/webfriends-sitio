@@ -32,13 +32,24 @@ const guias = (await getCollection('blog', (p) => /^guia-\d/.test(p.id))).sort((
               <p class="case-tag">Tutorial</p>
               <h2 style="font-size:var(--s-1)">{g.data.title}</h2>
               <p class="case-result">{g.data.excerpt}</p>
-              <a class="bento-link" href={`/blog/${g.id}`}>Ver tutorial <i aria-hidden="true">›</i></a>
+              <a class="bento-link" href={`/blog/${g.id}/`}>Ver tutorial <i aria-hidden="true">›</i></a>
             </article>
           ))}
         </div>
       ) : (
         <p class="lede" style="text-align:center;margin-inline:auto">Muy pronto publicaremos los primeros tutoriales.</p>
       )}
+    </div>
+  </section>
+
+  <section aria-labelledby="usar-guias-h">
+    <div class="wrap" style="max-width:880px">
+      <h2 id="usar-guias-h" class="h-sec">Qué guía necesitas y por dónde empezar</h2>
+      <div class="reading-sections">
+        <div class="reading-section"><div><h3>Respalda antes de cambiar tu sitio</h3><p>La guía de respaldo explica cómo guardar los archivos y la base de datos de un sitio dinámico desde cPanel. Úsala antes de una migración o de cambios que puedan afectar el funcionamiento. Necesitas acceso a la cuenta del hosting y saber qué dominio y base de datos corresponden al sitio.</p><p>Un respaldo debe poder recuperarse: guarda una copia fuera del servidor y prueba su restauración en un entorno separado. Si tu sitio es estático, puede no tener base de datos. Confirma su estructura antes de seguir pasos pensados para WordPress.</p></div></div>
+        <div class="reading-section"><div><h3>Comprueba los correos de tus formularios</h3><p>La guía de Brevo se dirige a sitios WordPress que utilizan WP Mail SMTP. Explica la conexión del servicio de envío y la autenticación del dominio. Necesitas acceso al panel de WordPress, a Brevo y a la configuración DNS del dominio, o la ayuda de quien la administra.</p><p>Al terminar, envía un correo de prueba y completa el formulario real. Revisa que el mensaje llegue a la casilla correcta y que puedas responder al remitente. Conserva el error exacto si el envío falla; facilita identificar si el problema está en la conexión, el dominio o el formulario.</p></div></div>
+        <div class="reading-section"><div><h3>Cómo trabajar con estas instrucciones</h3><p>Lee la guía completa antes de empezar, confirma que las herramientas coincidan con las de tu sitio y prepara los accesos necesarios. Los nombres de los menús pueden cambiar. Evita compartir contraseñas o claves API en capturas y registra los cambios para poder revisarlos después.</p><p>Si no tienes los accesos o no puedes identificar la configuración, <a href="/contacto/">cuéntanos qué necesitas resolver</a>. Para conceptos de posicionamiento, contenido y experiencia de usuario, consulta también el <a href="/blog/">blog de Webfriends</a>.</p></div></div>
+      </div>
     </div>
   </section>
 </BaseLayout>
