@@ -283,8 +283,8 @@ body.recheck-open{overflow:hidden}
   display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
   color:#FFC44D;background:rgba(255,176,32,.14);padding:5px 12px;border-radius:999px;margin-bottom:14px;
 }
-.mega-promo h3{font-size:1.45rem;font-weight:800;letter-spacing:-.035em;line-height:1.12;color:#fff}
-.mega-promo h3 em{font-style:italic;font-weight:700;color:#FFC44D}
+.mega-promo .mega-promo-title{font-size:1.45rem;font-weight:800;letter-spacing:-.035em;line-height:1.12;color:#fff}
+.mega-promo .mega-promo-title em{font-style:italic;font-weight:700;color:#FFC44D}
 .mega-promo-txt{font-size:.83rem;line-height:1.5;color:rgba(242,245,251,.72);margin-top:10px}
 .mega-promo .btn{position:relative;z-index:1;align-self:flex-start}
 

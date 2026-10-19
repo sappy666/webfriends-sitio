@@ -20,6 +20,19 @@ export default function singleSitemap() {
 
         // Fechas de los artículos: blog/<slug>/ → AAAA-MM-DD
         const lastmod = {};
+        // Explicit editorial dates: never substitute the build date.
+        const pageDir = join(process.cwd(), 'src/content/site');
+        for (const file of readdirSync(pageDir).filter((f) => /^page-.*\.yaml$/.test(f))) {
+          const data = load(readFileSync(join(pageDir, file), 'utf8'));
+          if (!data?.dateModified) continue;
+          const date = new Date(data.dateModified);
+          if (!Number.isFinite(+date) || +date > Date.now()) {
+            throw new Error(`Invalid or future dateModified in ${file}`);
+          }
+          const pathname = data.urlSlug ? `${data.urlSlug}/` : '';
+          lastmod[pathname] = date.toISOString().slice(0, 10);
+        }
+
         const blogDir = join(process.cwd(), 'src/content/blog');
         for (const file of readdirSync(blogDir).filter((f) => /\.(md|mdoc)$/.test(f))) {
           const fm = readFileSync(join(blogDir, file), 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);

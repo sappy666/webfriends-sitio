@@ -7,6 +7,8 @@ rules: |
   # <meta name="robots" content="noindex"> y no aparecen en el sitemap.
 
   User-agent: *
+  # Voluntary usage preferences for compatible crawlers.
+  Content-Signal: search=yes, ai-input=yes, ai-train=yes
   Allow: /
 
   # Búsqueda en asistentes de IA: indexan el sitio para mostrarlo y citarlo en sus respuestas.

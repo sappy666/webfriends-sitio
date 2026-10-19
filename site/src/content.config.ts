@@ -14,6 +14,7 @@ const pages = defineCollection({
   loader: glob({ pattern: 'page-*.yaml', base: './src/content/site' }),
   schema: z.object({
     urlSlug: z.string().optional(),
+    dateModified: z.coerce.date().optional(),
     previousSlugs: z.array(z.string()).default([]),
     metaTitle: z.string(),
     metaDescription: z.string(),

@@ -377,8 +377,8 @@ html.js [data-hero-seq] > * { filter: none; opacity: 1; animation-name: heroSeqR
       color: var(--label-3); font-weight: 500; letter-spacing: .16em; font-size: .62rem;
     }
     & .mega-promo-tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--amber); }
-    & .mega-promo h3 { color: var(--label); font-weight: 400; font-size: 1.32rem; letter-spacing: -.045em; line-height: 1.1; }
-    & .mega-promo h3 em { font-style: normal; font-weight: 400; color: var(--amber); }
+    & .mega-promo .mega-promo-title { color: var(--label); font-weight: 400; font-size: 1.32rem; letter-spacing: -.045em; line-height: 1.1; }
+    & .mega-promo .mega-promo-title em { font-style: normal; font-weight: 400; color: var(--amber); }
     & .mega-promo-txt { color: var(--label-3); }
     & .mega-promo .btn { font-weight: 500; box-shadow: none; }
 
