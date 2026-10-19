@@ -12,7 +12,7 @@ Sitio estático hecho con [Astro](https://astro.build). Se compila a HTML/CSS/JS
 | `npm run preview` | Sirve `dist/` en local para revisar la versión final. |
 | `npm run deploy` | Compila y sube `dist/` al hosting por FTPS. |
 
-`npm run deploy` necesita la contraseña FTP en la variable de entorno `FTP_PASS` (en Windows: `[Environment]::SetEnvironmentVariable("FTP_PASS", "...", "User")` y reiniciar la terminal). No sube `.htaccess`, porque el del servidor tiene configuración de PHP de cPanel.
+`npm run deploy` necesita la contraseña FTP en la variable de entorno `FTP_PASS` (en Windows: `[Environment]::SetEnvironmentVariable("FTP_PASS", "...", "User")` y reiniciar la terminal). Publica `_astro/.htaccess` para la caché de archivos con hash. No sube el `.htaccess` de la raíz, porque el del servidor tiene configuración de PHP de cPanel.
 
 ## Dónde editar
 

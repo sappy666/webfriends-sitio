@@ -1,7 +1,7 @@
 // Sube dist/ al hosting cPanel por FTPS (puerto 21, TLS explícito).
 // Uso: npm run deploy  (compila y sube). Requiere curl y la variable de entorno FTP_PASS.
 // Opcionales: FTP_USER (por defecto mramdohr@webfriends.cl) y FTP_HOST (ftp.webfriends.cl).
-// No sube .htaccess: el del servidor incluye la configuración de PHP que agrega cPanel.
+// Preserve the root cPanel .htaccess; upload _astro/.htaccess for asset caching.
 import { readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -15,13 +15,13 @@ if (!pass) {
 }
 
 const root = 'dist';
-const skip = new Set(['.htaccess']);
+const skip = new Set([join(root, '.htaccess')]);
 const files = [];
 const walk = (dir) => {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
     if (statSync(p).isDirectory()) walk(p);
-    else if (!skip.has(name)) files.push(p);
+    else if (!skip.has(p)) files.push(p);
   }
 };
 walk(root);

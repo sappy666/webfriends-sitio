@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ORG_ID, pageId } from '../../data/schema';
 
 export async function getStaticPaths() {
   const productos = await getCollection('productos');
@@ -9,6 +10,32 @@ export async function getStaticPaths() {
 
 const { producto } = Astro.props as { producto: CollectionEntry<'productos'> };
 const p = producto.data;
+const site = Astro.site ?? new URL(Astro.url.origin);
+const productUrl = new URL(`/producto/${producto.id}/`, site).toString();
+// Only publish offers for visible plans with an exact published CLP price.
+const price = /^\$\d{1,3}(?:\.\d{3})*$/.test(p.price.trim())
+  ? Number(p.price.replace(/[^\d]/g, ''))
+  : null;
+const productLd = !p.hidden && price !== null ? {
+  '@type': 'Product',
+  '@id': `${productUrl}#product`,
+  name: p.name,
+  description: p.description,
+  image: new URL(p.image, site).toString(),
+  url: productUrl,
+  mainEntityOfPage: { '@id': pageId(productUrl) },
+  brand: { '@id': ORG_ID },
+  offers: {
+    '@type': 'Offer',
+    '@id': `${productUrl}#offer`,
+    url: productUrl,
+    price,
+    priceCurrency: 'CLP',
+    seller: { '@id': ORG_ID },
+    description: p.renewalTerms,
+  },
+} : null;
+
 const otros = (await getCollection('productos', (o) => !o.data.hidden && o.id !== producto.id))
   .sort((a, b) => a.data.order - b.data.order);
 const pages = await getCollection('pages');
@@ -16,7 +43,7 @@ const sitiosWebHref = `/${pages.find((x) => x.id === 'page-sitios-web')!.data.ur
 const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug}/`;
 ---
 
-<BaseLayout title={`${p.name} — Webfriends`} description={`${p.tagline} ${p.price}.`} noindex={p.hidden}>
+<BaseLayout title={`${p.name} — Webfriends`} description={`${p.tagline} ${p.price}.`} noindex={p.hidden} schema={productLd ? [productLd] : []} pageExtra={productLd ? { mainEntity: { '@id': productLd['@id'] } } : {}}>
   <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
     <div class="wrap hero-split-grid" data-hero-seq>
       <div>

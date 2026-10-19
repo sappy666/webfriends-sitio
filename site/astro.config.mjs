@@ -9,8 +9,8 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://webfriends.cl',
   output: 'static',
   trailingSlash: 'always',
-  // CSS dentro del HTML: sin peticiones que bloqueen el primer pintado (PageSpeed).
-  build: { inlineStylesheets: 'always' },
+  // Shared CSS is emitted as hashed files for caching across pages.
+  build: { inlineStylesheets: 'never' },
   integrations: [
     singleSitemap(),   // un solo dist/sitemap.xml, sin páginas noindex
     legacySlugRedirects(),
