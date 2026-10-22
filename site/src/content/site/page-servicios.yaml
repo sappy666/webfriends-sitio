@@ -1,10 +1,10 @@
 urlSlug: servicios
-dateModified: 2026-10-19
+dateModified: 2026-10-22
 previousSlugs:
   - plataformas-web/soluciones-industrias
   - app-movil
 metaTitle: "Servicios de marketing digital y desarrollo web — Webfriends"
-metaDescription: "Diseño web, SEO y GEO, Google Ads, sitios para centros de salud y diseño UX/UI para empresas de todo Chile. Contrata un servicio o combínalos con un solo equipo."
+metaDescription: "Diseño web, SEO y GEO, Google Ads, sitios para centros de salud y diseño UX/UI para empresas de todo Chile. Contrata uno o combínalos con un solo equipo."
 heroEyebrow: Servicios
 heroH1: Todo lo que tu negocio necesita para crecer en digital
 heroLede: "Cinco servicios que funcionan por separado y rinden más juntos, para empresas de todo Chile. Un solo equipo y un reporte que muestra qué está funcionando."
@@ -41,5 +41,25 @@ sections:
         chips: []
       - title: Resultados ahora y a largo plazo
         description: "Los anuncios traen contactos desde el primer mes mientras el SEO construye tráfico que no depende del presupuesto."
+        chips: []
+    steps: []
+  - id: elegir-h
+    eyebrow: Por dónde empezar
+    heading: Qué servicio conviene según tu situación
+    cards:
+      - title: Aún no tienes sitio o el actual no convierte
+        description: "Parte por el sitio web. Los anuncios y el SEO traen visitas, pero es el sitio el que las convierte en contactos o ventas: si carga lento o no explica bien tu oferta, todo lo que inviertas después rinde menos."
+        chips: []
+      - title: Necesitas contactos este mes
+        description: "Google Ads es el canal más rápido. Tus anuncios aparecen cuando alguien busca lo que vendes, y con el seguimiento de conversiones sabes cuántas consultas trae cada campaña desde el primer mes."
+        chips: []
+      - title: Quieres depender menos de la publicidad
+        description: "El SEO y el GEO construyen tráfico orgánico que sigue llegando aunque pauses el presupuesto, y te ayudan a aparecer en las respuestas de los asistentes de IA. Toma meses, por eso conviene empezar antes de necesitarlo."
+        chips: []
+      - title: Tienes un centro médico o dental
+        description: "Las plataformas para salud suman agenda online, fichas de especialistas, convenios y posicionamiento local por sede, para que los pacientes encuentren tu centro y reserven sin llamar."
+        chips: []
+      - title: Tu producto digital ya tiene usuarios
+        description: "El diseño UX/UI parte con una auditoría y pruebas con usuarios para encontrar dónde se traban, antes de gastar presupuesto en rediseñar pantallas por intuición."
         chips: []
     steps: []

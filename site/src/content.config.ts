@@ -154,6 +154,11 @@ const productos = defineCollection({
     name: z.string(),
     tagline: z.string(),
     description: z.string(),
+    // SEO opcional: si faltan, se usa "<name> — Webfriends" y "<tagline> <price>."
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+    // Fecha del último cambio de la ficha; va al <lastmod> del sitemap.
+    dateModified: z.coerce.date().optional(),
     price: z.string(),
     renewalTerms: z.string(),
     deliveryNote: z.string().default(''),

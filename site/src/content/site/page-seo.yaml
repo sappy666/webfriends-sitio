@@ -1,13 +1,13 @@
 urlSlug: seo
-dateModified: 2026-10-19
+dateModified: 2026-10-22
 previousSlugs:
   - auditoria-seo
 metaTitle: "Posicionamiento SEO y GEO en Chile — Webfriends"
 metaDescription: "SEO técnico, contenidos, SEO local y GEO para empresas de todo Chile. Auditoría inicial gratuita y planes desde $290.000 + IVA publicados en la página."
 ogImage:
   image: /assets/img/seo.webp
-heroEyebrow: Posicionamiento SEO
-heroH1: Tráfico que no se apaga cuando pausas el presupuesto
+heroEyebrow: SEO y GEO en Chile
+heroH1: Posicionamiento SEO que no se apaga cuando pausas el presupuesto
 heroLede: "El SEO construye un activo: posiciones que siguen trayendo clientes mes a mes sin pagar por cada clic. Hacemos SEO técnico, contenidos, SEO local y GEO para empresas de todo Chile."
 sections:
   - id: capas-h

@@ -9,6 +9,7 @@ import { serviceNode } from '../../data/schema';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const page = (await getEntry('pages', 'page-sitios-web'))!.data;
+const contactoHref = `/${(await getEntry('pages', 'page-contacto'))!.data.urlSlug}/`;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
 const webPlans = (await getEntry('planSets', 'desarrollo-web'))!.data.plans;
 const tiendaPlans = (await getEntry('planSets', 'tienda-virtual'))!.data.plans;
@@ -126,7 +127,7 @@ const service = serviceNode({
         <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">Una tienda no es solo un catálogo: es un flujo de compra donde cada paso extra cuesta ventas.</p>
 
         <div class="local-cta" data-reveal style="justify-content:center">
-          <a class="btn btn-accent" href="/contacto/#planes">
+          <a class="btn btn-accent" href={contactoHref}>
             Quiero mi tienda online
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </a>

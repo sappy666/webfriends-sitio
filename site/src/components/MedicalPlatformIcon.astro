@@ -1,6 +1,8 @@
 ---
 interface Props { class?: string }
 const { class: cls } = Astro.props;
+// La línea se "dibuja" con una cortina (clipPath con scaleX) en vez de stroke-dashoffset, que no se compone en GPU.
+const clipId = `mp-clip-${Math.random().toString(36).slice(2, 8)}`;
 ---
 <svg class:list={['medical-platform-icon', cls]} viewBox="0 0 160 120" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
   <rect x="19" y="17" width="122" height="88" rx="6" />
@@ -13,6 +15,7 @@ const { class: cls } = Astro.props;
     <path d="M37 74v-3a9.5 9.5 0 0 1 19 0v3M37 83h19m-15 5h11M76 48h36m-36 8h24" />
   </g>
   <rect x="74" y="66" width="57" height="28" rx="3" />
-  <path class="mp-heartbeat" pathLength="100" d="M79 81h9l4-6 6 13 7-17 6 10h15" />
+  <clipPath id={clipId}><rect class="mp-heartbeat-wipe" x="77" y="68" width="40" height="24" /></clipPath>
+  <path class="mp-heartbeat" clip-path={`url(#${clipId})`} d="M79 81h9l4-6 6 13 7-17 6 10h15" />
   <circle class="mp-status" cx="126" cy="52" r="2.5" />
 </svg>

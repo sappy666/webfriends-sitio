@@ -1,10 +1,13 @@
 name: Sitio Emprende
 tagline: Para negocios que ya venden y necesitan explicar bien su oferta.
+metaTitle: "Sitio Emprende: sitio web de 5 páginas — Webfriends"
+metaDescription: "Sitio web de 5 páginas para negocios que ya venden, con setup SEO inicial, hosting el primer año, 5 correos y capacitación. Pago único de $260.000."
 description: "Un sitio de cinco páginas para presentar tu negocio con claridad: qué haces, para quién y cómo contactarte. Incluye setup SEO inicial y una capacitación para que edites tu sitio sin depender de nadie."
 price: $260.000
 renewalTerms: "Pago único · Renovación $45.000 + IVA al año"
 deliveryNote: "Entrega estimada: 3 semanas"
 image: /assets/img/web-1.webp
+dateModified: 2026-10-22
 order: 2
 hidden: false
 features:

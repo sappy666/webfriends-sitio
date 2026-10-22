@@ -1,10 +1,12 @@
 name: One Page Emprende
 tagline: Para partir con una landing enfocada en campañas.
+metaDescription: "Sitio de una sola página para una oferta puntual o una campaña de Google Ads, con hosting el primer año, 3 correos y WhatsApp. Pago único de $190.000."
 description: "Un sitio de una sola página, con todo el contenido en una vista con scroll. Ideal para una oferta puntual, un emprendimiento que parte o una campaña de Google Ads que necesita una página de destino rápida y efectiva."
 price: $190.000
 renewalTerms: "Pago único · Renovación $45.000 + IVA al año"
 deliveryNote: "Entrega estimada: 2 semanas"
 image: /assets/img/web-1.webp
+dateModified: 2026-10-22
 order: 1
 hidden: false
 features:

@@ -1,10 +1,13 @@
 name: Tienda Virtual
 tagline: Para vender en línea con pago integrado.
+metaTitle: "Tienda Virtual con Webpay o Mercado Pago — Webfriends"
+metaDescription: "Tienda en línea con hasta 40 productos, pago con Webpay o Mercado Pago, despacho y retiro configurables y hosting el primer año. Pago único de $460.000."
 description: "Una tienda en línea completa, con pago integrado con Webpay o Mercado Pago, despacho y retiro configurables y catálogo con variantes. El dinero de tus ventas llega directo a tu cuenta."
 price: $460.000
 renewalTerms: "Pago único · Renovación $60.000 + IVA al año"
 deliveryNote: "Entrega estimada: 4 semanas"
 image: /assets/img/web-1.webp
+dateModified: 2026-10-22
 order: 5
 hidden: false
 features:

@@ -103,4 +103,19 @@ const servicesLd = [
     </div>
   </section>
 
+  <section aria-labelledby="elegir-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{sec('elegir-h').eyebrow}</p>
+      <h2 id="elegir-h" class="h-sec" data-reveal>{sec('elegir-h').heading}</h2>
+      <div class="cards" data-reveal-group>
+        {sec('elegir-h').cards.map((card) => (
+          <article class="card" data-reveal>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>

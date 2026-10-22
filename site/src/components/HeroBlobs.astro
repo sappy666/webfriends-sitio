@@ -1,8 +1,11 @@
 ---
 // Hero del home: burbujas ámbar suaves en CSS (las mismas formas en tema claro y oscuro, cambia la paleta).
 // Sin JavaScript ni WebGL. El texto viene de src/content/site/page-home.yaml. Tema claro: src/styles/light.css.
+import { getEntry } from 'astro:content';
+
 interface Props { eyebrow: string; title: string }
 const { eyebrow, title } = Astro.props;
+const contactoHref = `/${(await getEntry('pages', 'page-contacto'))!.data.urlSlug}/`;
 
 // Línea superior del hero: rota entre estos servicios (el `eyebrow` del YAML se ve antes de que arranque).
 const ROTATING = [
@@ -41,7 +44,7 @@ const restB = words.slice(-2).join(' ');
       <span class="hb-hl">{restB}</span>
     </h1>
     <div class="hb-actions">
-      <a class="hb-btn hb-btn-primary" href="#contacto">Quiero crecer mi negocio <span aria-hidden="true">→</span></a>
+      <a class="hb-btn hb-btn-primary" href={contactoHref}>Quiero crecer mi negocio <span aria-hidden="true">→</span></a>
     </div>
     <a class="hb-rating" href="https://maps.google.com/?cid=6592386168463781065" target="_blank" rel="noopener">
       <b>4,4</b>

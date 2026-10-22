@@ -1,7 +1,7 @@
 ---
 title: "Guía rápida de SEO local para negocios en Chile"
 metaTitle: "SEO local para negocios en Chile — Webfriends"
-description: "Qué revisar en tu ficha de Google Mi Negocio y en tu sitio antes de invertir en cualquier otra estrategia de SEO local."
+description: "Qué revisar en tu ficha de Google Mi Negocio y en tu sitio web antes de invertir en cualquier otra estrategia de SEO local en Chile."
 excerpt: "Qué revisar primero en tu ficha de Google Mi Negocio y en tu sitio antes de invertir en cualquier otra estrategia."
 category: seo
 date: 2026-09-10

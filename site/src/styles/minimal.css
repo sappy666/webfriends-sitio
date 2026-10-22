@@ -280,26 +280,30 @@ body .foil-card::before, body .foil-card::after { display: block; }
   .seo-ranking-icon .sr-first, .seo-ranking-icon .sr-second { animation: none; transform: translateY(22px); }
 }
 .medical-platform-icon .mp-record { animation: mp-record 4s ease-in-out infinite; }
-.medical-platform-icon .mp-heartbeat { stroke-dasharray: 100; animation: mp-heartbeat 4s ease-in-out infinite; }
+.medical-platform-icon .mp-heartbeat { animation: mp-heartbeat 4s ease-in-out infinite; }
+.medical-platform-icon .mp-heartbeat-wipe { transform-box: fill-box; transform-origin: left center; animation: mp-wipe 4s ease-in-out infinite; }
 .medical-platform-icon .mp-status { transform-box: fill-box; transform-origin: center; animation: mp-status 4s ease-in-out infinite; }
 @keyframes mp-record { 0% { opacity: 0; transform: translateY(3px); } 18%, 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
-@keyframes mp-heartbeat { 0%, 18% { opacity: 0; stroke-dashoffset: 100; } 22% { opacity: 1; } 72%, 90% { opacity: 1; stroke-dashoffset: 0; } 100% { opacity: 0; stroke-dashoffset: 0; } }
+@keyframes mp-heartbeat { 0%, 18% { opacity: 0; } 22%, 90% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes mp-wipe { 0%, 18% { transform: scaleX(0); } 72%, 100% { transform: scaleX(1); } }
 @keyframes mp-status { 0%, 18% { opacity: .35; transform: scale(.8); } 38%, 70% { opacity: 1; transform: scale(1.15); } 55%, 90%, 100% { opacity: .5; transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) {
-  .medical-platform-icon .mp-record, .medical-platform-icon .mp-heartbeat, .medical-platform-icon .mp-status { animation: none; }
+  .medical-platform-icon .mp-record, .medical-platform-icon .mp-heartbeat, .medical-platform-icon .mp-heartbeat-wipe, .medical-platform-icon .mp-status { animation: none; }
 }
 .google-ads-icon .ga-bar { transform-box: fill-box; transform-origin: center bottom; animation: ga-grow 4s ease-in-out infinite; }
 .google-ads-icon .ga-bar-2 { animation-delay: .15s; }
 .google-ads-icon .ga-bar-3 { animation-delay: .3s; }
-.google-ads-icon .ga-trend { stroke-dasharray: 100; animation: ga-draw 4s ease-in-out infinite; }
+.google-ads-icon .ga-trend { animation: ga-draw 4s ease-in-out infinite; }
+.google-ads-icon .ga-trend-wipe { transform-box: fill-box; transform-origin: left center; animation: ga-wipe 4s ease-in-out infinite; }
 .google-ads-icon .ga-arrow { animation: ga-tip 4s ease-in-out infinite; }
 .google-ads-icon .ga-pulse { transform-origin: 128px 20px; animation: ga-pulse 4s ease-out infinite; }
 @keyframes ga-grow { 0%, 8% { opacity: 0; transform: scaleY(.05); } 35%, 88% { opacity: 1; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(1); } }
-@keyframes ga-draw { 0%, 20% { opacity: 0; stroke-dashoffset: 100; } 25% { opacity: 1; } 60%, 88% { opacity: 1; stroke-dashoffset: 0; } 100% { opacity: 0; stroke-dashoffset: 0; } }
+@keyframes ga-draw { 0%, 20% { opacity: 0; } 25%, 88% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ga-wipe { 0%, 20% { transform: scaleX(0); } 60%, 100% { transform: scaleX(1); } }
 @keyframes ga-tip { 0%, 55% { opacity: 0; } 65%, 88% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes ga-pulse { 0%, 62% { opacity: 0; transform: scale(.5); } 63% { opacity: .6; transform: scale(.5); } 85%, 100% { opacity: 0; transform: scale(1.8); } }
 @media (prefers-reduced-motion: reduce) {
-  .google-ads-icon .ga-bar, .google-ads-icon .ga-trend, .google-ads-icon .ga-arrow { animation: none; }
+  .google-ads-icon .ga-bar, .google-ads-icon .ga-trend, .google-ads-icon .ga-trend-wipe, .google-ads-icon .ga-arrow { animation: none; }
   .google-ads-icon .ga-pulse { display: none; }
 }
 .web-design-icon .wd-window { animation: wd-reveal 4s ease-in-out infinite; transform-origin: 128px 128px; }

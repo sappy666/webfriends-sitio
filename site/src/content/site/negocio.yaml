@@ -16,8 +16,11 @@ email: contacto@webfriends.cl
 # Horario publicado en /contacto
 hours: { days: [Monday, Tuesday, Wednesday, Thursday, Friday], opens: "09:00", closes: "18:30" }
 areaServed: Chile
-# Perfiles oficiales enlazados desde el footer
+# Perfiles oficiales (van en "sameAs" del JSON-LD). Los dos de Google son el Perfil de Empresa:
+# la ficha de Maps (la misma que enlazan las reseñas del sitio) y su entidad en Google (kgmid).
 sameAs:
   - https://www.linkedin.com/company/webfriends-chile
   - https://www.instagram.com/webfriendschile/
   - https://www.behance.net/webfriendscl
+  - https://maps.google.com/?cid=6592386168463781065
+  - https://www.google.com/search?kgmid=/g/11v19sg58g

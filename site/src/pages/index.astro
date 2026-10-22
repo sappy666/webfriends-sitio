@@ -238,7 +238,9 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
         </form>
         <p class="recheck-note">Gratis, en 1 minuto y sin compromiso.</p>
       </div>
-      <div class="recheck-report" aria-hidden="true">
+      <!-- Reporte de muestra (decorativo): va en <template> para que buscadores y motores de IA no lean
+           sus puntajes ficticios como contenido; se inserta al abrir el modal. -->
+      <div class="recheck-report" aria-hidden="true"><template id="recheckReportTpl">
         <div class="recheck-report-head">
           <span>Diagnóstico exprés</span>
           <b>tu-sitio.cl</b>
@@ -290,7 +292,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
           <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg> Metadatos SEO incompletos en páginas clave</li>
           <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg> Llamados a la acción poco visibles</li>
         </ul>
-      </div>
+      </template></div>
     </div>
   </div>
 </div>
@@ -306,6 +308,8 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
 
   function open(){
     if (shown) return;
+    var tpl = document.getElementById('recheckReportTpl');
+    if (tpl) tpl.replaceWith(tpl.content);
     overlay.hidden = false;
     requestAnimationFrame(function(){ overlay.classList.add('show'); });
     document.body.classList.add('recheck-open');

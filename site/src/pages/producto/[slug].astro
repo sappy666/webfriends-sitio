@@ -43,7 +43,7 @@ const sitiosWebHref = `/${pages.find((x) => x.id === 'page-sitios-web')!.data.ur
 const preciosHref = `/${pages.find((x) => x.id === 'page-precios')!.data.urlSlug}/`;
 ---
 
-<BaseLayout title={`${p.name} — Webfriends`} description={`${p.tagline} ${p.price}.`} noindex={p.hidden} schema={productLd ? [productLd] : []} pageExtra={productLd ? { mainEntity: { '@id': productLd['@id'] } } : {}}>
+<BaseLayout title={p.metaTitle ?? `${p.name} — Webfriends`} description={p.metaDescription ?? `${p.tagline} ${p.price}.`} noindex={p.hidden} schema={productLd ? [productLd] : []} pageExtra={productLd ? { mainEntity: { '@id': productLd['@id'] } } : {}}>
   <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
     <div class="wrap hero-split-grid" data-hero-seq>
       <div>

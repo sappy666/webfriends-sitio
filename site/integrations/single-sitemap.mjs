@@ -7,6 +7,7 @@ import { load } from 'js-yaml';
  * Genera un único dist/sitemap.xml (sin índice ni partes) a partir de las páginas compiladas.
  * - Omite las páginas con <meta name="robots" content="noindex..."> (productos ocultos, etc.).
  * - Los artículos del blog llevan <lastmod> con su fecha (campo `dateModified`, `updated` o `date` del frontmatter).
+ * - Páginas y productos lo toman de `dateModified` en su YAML; blog/ y autor/<id>/, del artículo más reciente que enlazan.
  * robots.txt apunta a este archivo (src/pages/robots.txt.ts).
  */
 export default function singleSitemap() {
@@ -33,6 +34,18 @@ export default function singleSitemap() {
           lastmod[pathname] = date.toISOString().slice(0, 10);
         }
 
+        // Fichas de producto: producto/<archivo>/ con su `dateModified`.
+        const productDir = join(process.cwd(), 'src/content/productos');
+        for (const file of readdirSync(productDir).filter((f) => /\.yaml$/.test(f))) {
+          const data = load(readFileSync(join(productDir, file), 'utf8'));
+          if (!data?.dateModified) continue;
+          const date = new Date(data.dateModified);
+          if (!Number.isFinite(+date) || +date > Date.now()) {
+            throw new Error(`Invalid or future dateModified in productos/${file}`);
+          }
+          lastmod[`producto/${file.replace(/\.yaml$/, '')}/`] = date.toISOString().slice(0, 10);
+        }
+
         const blogDir = join(process.cwd(), 'src/content/blog');
         for (const file of readdirSync(blogDir).filter((f) => /\.(md|mdoc)$/.test(f))) {
           const fm = readFileSync(join(blogDir, file), 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -47,8 +60,15 @@ export default function singleSitemap() {
         for (const { pathname } of pages) {
           const html = join(outDir, pathname, 'index.html');
           if (!existsSync(html)) continue; // 404, llms.txt, robots.txt y otros que no son páginas
-          if (/<meta name="robots" content="noindex/.test(readFileSync(html, 'utf8'))) continue;
-          urls.push({ loc: new URL(pathname, site).href, lastmod: lastmod[pathname] });
+          const source = readFileSync(html, 'utf8');
+          if (/<meta name="robots" content="noindex/.test(source)) continue;
+          let date = lastmod[pathname];
+          // Listados del blog (blog/ y autor/<id>/): la fecha del artículo más reciente que enlazan.
+          if (!date && /^(blog|autor\/[^/]+)\/$/.test(pathname)) {
+            const linked = [...source.matchAll(/href="\/(blog\/[^/"]+\/)"/g)].map((m) => lastmod[m[1]]);
+            date = linked.filter(Boolean).sort().at(-1);
+          }
+          urls.push({ loc: new URL(pathname, site).href, lastmod: date });
         }
         urls.sort((a, b) => a.loc.localeCompare(b.loc));
 
