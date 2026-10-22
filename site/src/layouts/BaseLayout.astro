@@ -9,6 +9,7 @@ import FloatButtons from '../components/FloatButtons.astro';
 import SiteScripts from '../components/SiteScripts.astro';
 import FaviconFx from '../components/FaviconFx.astro';
 import SiteSchema from '../components/SiteSchema.astro';
+import GoogleTagManager from '../components/GoogleTagManager.astro';
 import MobileNav from '../components/MobileNav.astro';
 
 interface Props {
@@ -73,8 +74,10 @@ const breadcrumbs = currentPath === '/' ? null : [
   <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <SiteSchema url={canonicalUrl} title={title} description={description} pageType={pageType} pageExtra={pageExtra} breadcrumbs={breadcrumbs} nodes={schema} />
   <slot name="head" />
+  <GoogleTagManager />
 </head>
 <body>
+  <GoogleTagManager noscript />
   <Sprite />
   <a class="skip" href="#contenido">Ir al contenido</a>
   <div class="readbar" aria-hidden="true"></div>

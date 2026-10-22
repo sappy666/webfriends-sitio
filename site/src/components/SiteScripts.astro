@@ -242,7 +242,20 @@ if (hasTabs) {
   };
   window.wfWhatsApp = function(msg){
     window.open(window.wfWhatsAppUrl(msg), '_blank', 'noopener');
+    window.wfTrack('whatsapp_click', { link_type: 'formulario' });
   };
+
+  /* Medición (Google Tag Manager): eventos en dataLayer para usar como activadores en GTM.
+     - generate_lead: un formulario envió el correo (form_kind = contacto, footer, etc.).
+     - whatsapp_click: se abrió WhatsApp, por un enlace (link_type = enlace) o desde un formulario. */
+  window.wfTrack = function(event, params){
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: event }, params || {}));
+  };
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href*="wa.me/"]');
+    if (a) window.wfTrack('whatsapp_click', { link_type: 'enlace' });
+  });
 
   /* Envío por correo: los formularios de Contacto y del footer llegan a contacto@webfriends.cl
      a través de public/api/contacto.php. Resuelve true si el correo salió. */
@@ -253,7 +266,11 @@ if (hasTabs) {
     data.set('e', String(Math.round(performance.now()))); // tiempo en la página, contra bots
     return fetch('/api/contacto.php', { method: 'POST', body: data, credentials: 'same-origin' })
       .then(function(r){ return r.ok ? r.json() : { ok: false }; })
-      .then(function(j){ return !!(j && j.ok); })
+      .then(function(j){
+        var ok = !!(j && j.ok);
+        if (ok) window.wfTrack('generate_lead', { form_kind: kind });
+        return ok;
+      })
       .catch(function(){ return false; });
   };
 

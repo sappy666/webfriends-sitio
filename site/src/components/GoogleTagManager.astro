@@ -1,0 +1,33 @@
+---
+// Google Tag Manager (contenedor GTM-PQCZLFV). Solo en el sitio compilado, no en `npm run dev`.
+// Para no competir con la primera carga, gtm.js se pide tras la primera interacción (scroll, toque,
+// rueda o tecla) o 4 s después de que la página terminó de cargar, lo que ocurra antes.
+// Los eventos que el sitio deja en dataLayer antes de eso (formularios, WhatsApp) quedan en cola
+// y GTM los procesa al cargar. Ver los push en src/components/SiteScripts.astro.
+interface Props { noscript?: boolean }
+const { noscript = false } = Astro.props;
+const id = 'GTM-PQCZLFV';
+const enabled = import.meta.env.PROD;
+---
+{enabled && !noscript && (
+  <script is:inline define:vars={{ id }}>
+    window.dataLayer = window.dataLayer || [];
+    var loaded = false, events = ['scroll', 'wheel', 'touchstart', 'pointerdown', 'keydown'];
+    function loadGtm() {
+      if (loaded) return;
+      loaded = true;
+      events.forEach(function (e) { removeEventListener(e, loadGtm); });
+      dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtm.js?id=' + id;
+      document.head.appendChild(s);
+    }
+    events.forEach(function (e) { addEventListener(e, loadGtm, { passive: true }); });
+    if (document.readyState === 'complete') setTimeout(loadGtm, 4000);
+    else addEventListener('load', function () { setTimeout(loadGtm, 4000); });
+  </script>
+)}
+{enabled && noscript && (
+  <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${id}`} height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+)}
