@@ -3,7 +3,7 @@
 //
 // Página de autor (/autor/<id>/): se genera para cada persona (no para "equipo"). Muestra solo
 // los campos que estén completos, así que se pueden ir llenando de a poco:
-//   bio        → párrafo corto de presentación
+//   bio        → párrafo corto de presentación (va en la página y en el JSON-LD, no en la meta description)
 //   linkedin   → URL completa del perfil
 //   experience → [{ title, place, period }] (lo más reciente primero)
 //   skills     → lista corta de especialidades
@@ -18,10 +18,15 @@ type Author = {
 };
 
 export const AUTHORS = {
-  macarena: { name: 'Macarena Ramdohr', role: 'Diseño UX/UI' },
+  macarena: {
+    name: 'Macarena Ramdohr',
+    role: 'Diseño UX/UI',
+    bio: 'Arquitecta de formación con una profunda pasión por el diseño, me he especializado en diseño UX/UI. Mi objetivo es crear productos digitales que no solo sean intuitivos y funcionales, sino que también reflejen una sensibilidad estética. Me enfoco en elevar la calidad visual y la experiencia de usuario a través de un diseño consciente, porque el diseño genera emociones, conecta personas y crea experiencias que perduran.',
+    skills: ['Diseño de experiencia de usuario (UX)', 'Diseño web', 'Diseño gráfico', 'Diseño de WordPress', 'Marketing digital', 'Marketing de redes sociales'],
+  },
   maite: { name: 'Maite Aranda', role: 'SEO' },
   luis: { name: 'Luis Quiroga', role: 'Google Ads' },
-  paolo: { name: 'Paolo Mori', role: 'Desarrollo web' },
+  paolo: { name: 'Paolo Mori Rojas', role: 'Desarrollo web' },
   equipo: { name: 'Equipo Webfriends', role: 'Marketing digital' },
 } satisfies Record<string, Author>;
 
