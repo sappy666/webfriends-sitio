@@ -29,6 +29,9 @@ const pages = defineCollection({
     heroEyebrow: z.string(),
     heroH1: z.string(),
     heroLede: z.string(),
+    heroCta1: z.string().optional(),
+    heroCta2: z.string().optional(),
+    heroNote: z.string().optional(),
     sections: z.array(
       z.object({
         id: z.string(),

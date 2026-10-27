@@ -5,47 +5,47 @@ metaTitle: "Plataformas web para centros médicos y dentales — Webfriends"
 metaDescription: "Sitios web para centros médicos y dentales en Chile, con reserva de horas online, fichas de especialistas y convenios con Fonasa e isapres a la vista."
 ogImage:
   image: /assets/img/salud.webp
-heroEyebrow: Sector salud
-heroH1: Plataformas para centros médicos y dentales
-heroLede: "Reserva de horas, fichas de especialistas y convenios. Sitios pensados para cómo busca y decide un paciente."
+heroEyebrow: Soluciones digitales para salud
+heroH1: Tu centro de salud, conectado con sus pacientes.
+heroLede: "Creamos sitios web para centros médicos y dentales, integramos tu sistema de reservas y conectamos SEO, campañas y analítica para facilitar el contacto y la solicitud de horas."
+heroCta1: Agendar asesoría
+heroCta2: Comparar planes
+heroNote: "Cuéntanos cómo funciona tu centro y te orientamos sobre las soluciones que necesitas."
 sections:
   - id: funciones-h
-    eyebrow: Funcionalidades
-    heading: Lo que un centro de salud necesita de verdad
+    eyebrow: Soluciones para tu centro
+    heading: Desde la primera búsqueda hasta la solicitud de hora.
     cards:
-      - title: Reserva de horas en línea
-        description: "Agendamiento conectado con la disponibilidad real de cada profesional, sin llamadas ni mensajes de ida y vuelta."
-        chips: []
-      - title: Fichas de especialistas
-        description: "Perfiles con especialidad, experiencia y horarios, optimizados para búsquedas del tipo \"dentista en mi comuna\"."
-        chips: []
-      - title: Convenios y previsión
-        description: "Isapres, Fonasa y convenios visibles desde el primer momento: es lo primero que consulta el paciente."
-        chips: []
-      - title: SEO local por sucursal
-        description: Cada sede con su propia ficha en Google Mi Negocio y su página optimizada para el mapa.
-        chips: []
+      - title: Atraer pacientes
+        description: "Ayuda a que encuentren tu centro, sus especialidades y sucursales cuando buscan atención."
+        chips: ["SEO y posicionamiento local", "Estrategia de palabras clave", "Campañas de marketing digital"]
+      - title: Facilitar las reservas
+        description: "Ofrece información clara y un recorrido simple para consultar profesionales y solicitar una hora."
+        chips: ["Diseño y desarrollo web", "Especialidades, profesionales y previsiones", "Integración con tu sistema de agendamiento"]
+      - title: Gestionar y mejorar
+        description: "Mantén la información actualizada y conoce cómo llegan las consultas para orientar las próximas acciones."
+        chips: ["Administración de contenidos", "Configuración de métricas y analítica", "Seguimiento de consultas y solicitudes"]
     steps: []
   - id: flujo-h
     eyebrow: El recorrido del paciente
-    heading: Dónde se pierden las horas agendadas
+    heading: Haz más simple el camino hacia una reserva.
     cards: []
     steps:
-      - title: Busca un especialista
-        description: "El paciente llega desde Google buscando una especialidad y una comuna. Si no apareces en el mapa, no existes."
-        chips: ["SEO local", "Google Mi Negocio"]
-      - title: Verifica su previsión
-        description: Si no encuentra rápido si aceptas su isapre, se va al siguiente resultado.
-        chips: ["Convenios visibles", "Fonasa e isapres"]
-      - title: Elige profesional y hora
-        description: Cada campo extra en el formulario de reserva cuesta agendamientos.
-        chips: ["Formulario corto", "Disponibilidad real"]
-      - title: Confirma y recuerda
-        description: Confirmación automática y recordatorio para reducir la inasistencia.
-        chips: [Confirmación, Recordatorios]
+      - title: Encuentra la especialidad
+        description: "No queda claro qué atención ofrece el centro o en qué sucursal está disponible."
+        chips: ["Organiza especialidades y sedes con información fácil de encontrar."]
+      - title: Resuelve sus dudas
+        description: "Falta información sobre profesionales, previsiones o modalidades de atención."
+        chips: ["Presenta los datos necesarios para decidir y un canal de consulta visible."]
+      - title: Solicita una hora
+        description: "El acceso a la agenda está oculto o el recorrido resulta confuso."
+        chips: ["Destaca la reserva y conecta con el sistema de agendamiento del centro."]
+      - title: Comprende qué sigue
+        description: "No sabe si su solicitud fue recibida o cómo se confirmará."
+        chips: ["Explica qué ocurre después y cómo contactar al centro si necesita ayuda."]
   - id: planes-h
-    eyebrow: Planes
-    heading: Planes para el sector salud
+    eyebrow: Inversión
+    heading: Una solución a la medida de tu centro.
     cards: []
     steps: []
   - id: faq-salud-h

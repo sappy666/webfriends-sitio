@@ -221,6 +221,17 @@ section{padding-block:clamp(72px,10vw,132px)}
 .hero h1{font-size:var(--s-4);max-width:16ch;margin:0 auto 24px;font-weight:800;letter-spacing:-.045em}
 .hero .lede{margin:0 auto;text-align:center;max-width:54ch}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px;justify-content:center}
+.hero-note{margin-top:18px;font-size:var(--s--1);color:var(--label-3);max-width:46ch;line-height:1.5}
+.card-svc{display:flex;flex-direction:column}
+.svc-list{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-direction:column;gap:8px}
+.svc-list li{font-size:var(--s--1);color:var(--label-2);padding-left:18px;position:relative;line-height:1.4}
+.svc-list li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0}
+.funciones-nota{margin-top:36px;font-size:var(--s--1);color:var(--label-3);max-width:68ch;line-height:1.5}
+.flujo-step .flujo-detail{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+.flujo-step .flujo-row{display:flex;flex-direction:column;gap:4px;margin:0;font-size:.9rem;color:var(--label-2);line-height:1.5}
+.flujo-label{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-bottom:2px;width:fit-content}
+.flujo-label-prob{background:color-mix(in srgb,var(--label-3) 18%,transparent);color:var(--label-3)}
+.flujo-label-sol{background:color-mix(in srgb,var(--amber) 18%,transparent);color:var(--amber)}
 .hero-split-grid{
   display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,56px);align-items:center;
 }
@@ -268,6 +279,7 @@ section{padding-block:clamp(72px,10vw,132px)}
 /* ═══════ TARJETAS ═══════ */
 .cards{display:grid;gap:14px;margin-top:48px}
 .cards-4{grid-template-columns:repeat(4,1fr)}
+.cards-3-eq{grid-template-columns:repeat(3,1fr)}
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);padding:30px;
   display:flex;flex-direction:column;gap:11px;box-shadow:var(--sh-1);
@@ -484,6 +496,7 @@ section{padding-block:clamp(72px,10vw,132px)}
 /* ═══════ RESPONSIVE ═══════ */
 @media (max-width:1000px){
   .cards-4{grid-template-columns:repeat(2,1fr)}
+  .cards-3-eq{grid-template-columns:repeat(2,1fr)}
   
   .contact-card{grid-template-columns:1fr}
   .ftr-grid{grid-template-columns:repeat(2,1fr)}
@@ -522,6 +535,7 @@ section{padding-block:clamp(72px,10vw,132px)}
   
   
   .cards-4{grid-template-columns:1fr}
+  .cards-3-eq{grid-template-columns:1fr}
   
   .row{grid-template-columns:36px 1fr;gap:14px;padding:20px}
   .segmented{width:100%}

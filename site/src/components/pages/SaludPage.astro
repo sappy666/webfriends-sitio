@@ -17,10 +17,9 @@ const page = (await getEntry('pages', 'page-salud'))!.data;
 const sec = (id: string) => page.sections.find((s) => s.id === id)!;
 const saludPlans = (await getEntry('planSets', 'salud'))!.data.plans;
 const funcionesIcons = [
-  '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-  '<circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><path d="M16 5.2a3.2 3.2 0 010 5.6M17 14.4a6.5 6.5 0 014.5 5.6"/>',
-  '<path d="M12 3l8 3v6c0 4.4-3.2 7.9-8 9-4.8-1.1-8-4.6-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
-  '<use href="#i-pin"></use>',
+  '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',
+  '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>',
+  '<path d="M3 3h18v18H3z" fill="none"/><path d="M7 17V13M12 17V7M17 17v-5"/>',
 ];
 const flujoIcons = ['#i-search', '#i-check-circle', '#i-calendar', '#i-map-pin-check'];
 // Servicio (JSON-LD): mismos planes y precios que se muestran en la página.
@@ -50,14 +49,15 @@ const service = serviceNode({
     <div class="wrap hero-split-grid" data-hero-seq>
       <div>
         <p class="eyebrow">{page.heroEyebrow}</p>
-        <h1 style="max-width:15ch;margin:0 0 22px">{page.heroH1}</h1>
-        <p class="lede" style="max-width:46ch">{page.heroLede}</p>
+        <h1 style="max-width:18ch;margin:0 0 22px">{page.heroH1}</h1>
+        <p class="lede" style="max-width:52ch">{page.heroLede}</p>
         <div class="hero-actions" style="justify-content:flex-start">
-          <a class="btn btn-accent" href="/contacto/">Cotizar mi plataforma
+          <a class="btn btn-accent" href="/contacto/">{page.heroCta1 ?? 'Agendar asesoría'}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
           </a>
-          <a class="btn btn-soft" href="#funciones">Ver funcionalidades</a>
+          <a class="btn btn-soft" href="#planes">{page.heroCta2 ?? 'Comparar planes'}</a>
         </div>
+        {page.heroNote && <p class="hero-note">{page.heroNote}</p>}
       </div>
 
       <DeviceShowcase project="odontosalud" name="OdontoSalud" cards={[{"value":"Reserva de horas","label":"integrada al sitio"},{"value":"Fonasa e isapres","label":"convenios visibles"}]} />
@@ -84,44 +84,50 @@ const service = serviceNode({
     <div class="wrap">
       <p class="eyebrow" data-reveal>{sec('funciones-h').eyebrow}</p>
       <h2 id="funciones-h" class="h-sec" data-reveal>{sec('funciones-h').heading}</h2>
-      <p class="lede" data-reveal style="margin-top:18px">Un sitio genérico no resuelve el flujo real de un paciente: buscar especialista, verificar convenio y agendar.</p>
-      <div class="cards cards-4" data-reveal-group>
+      <p class="lede" data-reveal style="margin-top:18px;max-width:60ch">Conectamos tu sitio web, las reservas y el marketing para que los pacientes encuentren la información que necesitan y tu equipo pueda gestionar su presencia digital.</p>
+      <div class="cards cards-3-eq" data-reveal-group>
         {sec('funciones-h').cards.map((card, i) => (
-          <article class="card" data-reveal data-parallax="soft">
-            <span class="card-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={funcionesIcons[i]} /></span>
+          <article class="card card-svc" data-reveal>
+            <span class="card-icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" set:html={funcionesIcons[i]} /></span>
             <h3>{card.title}</h3>
             <p>{card.description}</p>
+            {card.chips.length > 0 && (
+              <ul class="svc-list" aria-label={`Servicios: ${card.title}`}>
+                {card.chips.map((chip) => <li>{chip}</li>)}
+              </ul>
+            )}
           </article>
         ))}
       </div>
+      <p class="funciones-nota" data-reveal>El alcance de las integraciones, la administración y la medición se define según las herramientas y necesidades de cada centro.</p>
     </div>
   </section>
   <section id="flujo" class="dark-band" aria-labelledby="flujo-h">
     <div class="wrap">
       <p class="eyebrow" data-reveal>{sec('flujo-h').eyebrow}</p>
       <h2 id="flujo-h" class="h-sec" data-reveal>{sec('flujo-h').heading}</h2>
-      <p class="lede" data-reveal style="margin-top:18px">Analizamos el flujo completo, desde la búsqueda hasta la confirmación, y eliminamos los pasos que hacen abandonar.</p>
+      <p class="lede" data-reveal style="margin-top:18px;max-width:58ch">Antes de solicitar una hora, las personas necesitan encontrar la especialidad, resolver sus dudas y saber cómo reservar. Una experiencia clara facilita cada paso.</p>
 
       <div class="local-cta" data-reveal>
         <a class="btn btn-accent" href="/contacto/">
-          Quiero mi plataforma
+          Revisar el recorrido de mi centro
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </a>
-        <p class="local-cta-note">Menos pasos entre la búsqueda y la hora confirmada.</p>
+        <p class="local-cta-note">Conversemos sobre tu sitio y tu proceso actual de reservas.</p>
       </div>
 
       <div class="local-steps" data-reveal-group>
         {sec('flujo-h').steps.map((step, i) => (
-          <div class="local-step" data-reveal="fade">
+          <div class="local-step flujo-step" data-reveal="fade">
             {i > 0 && <span class="local-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span>}
             <div class="local-step-top">
               <span class="local-num">{String(i + 1).padStart(2, '0')}</span>
               <span class="local-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href={flujoIcons[i]}></use></svg></span>
             </div>
             <h3>{step.title}</h3>
-            <div class="step-body" id={`step-body-${i}`}>
-              <p>{step.description}</p>
-              <div class="chips">{step.chips.map((chip) => <span class="chip">{chip}</span>)}</div>
+            <div class="flujo-detail">
+              <p class="flujo-row"><span class="flujo-label flujo-label-prob" aria-label="Problema">Problema</span>{step.description}</p>
+              {step.chips[0] && <p class="flujo-row"><span class="flujo-label flujo-label-sol" aria-label="Solución">Solución</span>{step.chips[0]}</p>}
             </div>
           </div>
         ))}
@@ -132,17 +138,13 @@ const service = serviceNode({
     <div class="wrap" style="text-align:center">
       <p class="eyebrow" data-reveal>{sec('planes-h').eyebrow}</p>
       <h2 id="planes-h" class="h-sec" data-reveal style="margin-inline:auto">{sec('planes-h').heading}</h2>
-      <p class="lede" data-reveal style="margin:18px auto 0;text-align:center">Partimos del plan web y sumamos las funcionalidades clínicas que tu centro necesite.</p>
-    </div>
-    <div class="wrap">
-      <div class="pricing" data-reveal-group style="margin-top:44px">
-          {saludPlans.map((plan) => (
-            <PlanCard plan={plan} />
-          ))}
+      <p class="lede" data-reveal style="margin:18px auto 0;max-width:48ch">Cada centro tiene procesos y herramientas distintas. Cuéntanos cómo funciona el tuyo y te orientamos sobre lo que necesitas.</p>
+      <div data-reveal style="margin-top:36px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+        <a class="btn btn-accent" href="/contacto/">
+          Agendar asesoría
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+        </a>
       </div>
-      <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
-        ¿Necesitas algo distinto? <a href="/contacto/" style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
-      </p>
     </div>
   </section>
   <section id="faq-salud" aria-labelledby="faq-salud-h">
