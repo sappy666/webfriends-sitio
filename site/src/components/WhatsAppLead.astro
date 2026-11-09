@@ -1,0 +1,350 @@
+---
+// Chat corto que se abre al tocar el botón flotante de WhatsApp (.wa-float, en FloatButtons.astro).
+// Paso 1 pide nombre y celular; paso 2 el tema. Al elegir el tema, en el MISMO clic: se dispara el
+// correo a contacto@webfriends.cl (public/api/contacto.php, form=whatsapp) y se abre wa.me con el
+// mensaje ya redactado. El correo no se espera: si falla, WhatsApp se abre igual.
+//
+// Las claves de "temas" son las mismas que valida INTERESES en public/api/contacto.php. Si se agrega
+// una opción aquí, hay que agregarla allá o el correo se rechaza con 422.
+const temas = [
+  { key: 'web', label: 'Sitio o tienda web' },
+  { key: 'ads', label: 'Google Ads' },
+  { key: 'seo', label: 'Posicionamiento SEO' },
+  { key: 'uxui', label: 'Diseño UX/UI' },
+  { key: 'salud', label: 'Plataforma para salud' },
+  { key: 'general', label: 'Asesoría general' },
+];
+---
+
+<div class="wal" id="wal" hidden>
+  <div class="wal-card" role="dialog" aria-modal="true" aria-labelledby="walTitle">
+    <button class="wal-x" type="button" id="walClose" aria-label="Cerrar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+
+    <div class="wal-head">
+      <span class="wal-avatar" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+      </span>
+      <div>
+        <p class="wal-brand">Webfriends</p>
+        <p class="wal-reply">Respondemos en horario hábil</p>
+      </div>
+    </div>
+
+    <h2 id="walTitle" class="wal-title">Hola, déjanos tus datos para atenderte.</h2>
+
+    <form id="walForm" novalidate>
+      <div class="field">
+        <label for="walNombre">Nombre</label>
+        <input id="walNombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre" maxlength="100" required>
+      </div>
+      <div class="field">
+        <label for="walTel">Teléfono celular</label>
+        <input id="walTel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+56 9 1234 5678" maxlength="40" required>
+      </div>
+      <!-- Campo trampa: invisible para personas, lo rellenan los robots (lo revisa contacto.php). -->
+      <div class="wal-hp" aria-hidden="true">
+        <label for="walWebsite">No llenar este campo</label>
+        <input id="walWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="btn btn-accent wal-go" type="submit">Siguiente</button>
+    </form>
+
+    <div class="wal-step2" id="walStep2" hidden>
+      <p class="wal-ask">¿Sobre qué quieres conversar?</p>
+      <div class="wal-chips">
+        {temas.map((t) => (
+          <button class="wal-chip" type="button" data-tema={t.key} data-label={t.label}>{t.label}</button>
+        ))}
+      </div>
+    </div>
+
+    <p class="wal-status" id="walStatus" role="status" aria-live="polite"></p>
+
+    <p class="wal-legal">
+      Al continuar autorizo a Webfriends a utilizar mi nombre y teléfono para responder esta
+      solicitud. Más detalle en <a href="/terminos/#privacidad">privacidad</a>.
+    </p>
+  </div>
+</div>
+
+<style>
+  /* Paleta y tipografía salen de los tokens del sitio (global.css + light.css), así el panel
+     acompaña al tema claro y al oscuro sin reglas propias por tema. */
+  .wal {
+    position: fixed;
+    right: 20px;
+    bottom: 92px; /* deja libre el botón flotante de 56px + aire */
+    z-index: 201; /* .wa-float es 200 */
+    width: min(340px, calc(100vw - 32px));
+  }
+  .wal[hidden] { display: none; }
+
+  .wal-card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--line-2);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-3);
+    padding: 22px 20px 16px;
+    animation: walIn .32s var(--spring) backwards;
+  }
+  @keyframes walIn { from { opacity: 0; transform: translateY(14px) scale(.98); } }
+  @media (prefers-reduced-motion: reduce) { .wal-card { animation: none; } }
+
+  .wal-x {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--fill);
+    color: var(--label-2);
+    border: 0;
+    cursor: pointer;
+  }
+  .wal-x:hover { background: var(--fill-2); color: var(--label); }
+
+  .wal-head { display: flex; align-items: center; gap: 11px; margin-bottom: 14px; }
+  .wal-avatar {
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .wal-avatar svg { width: 21px; height: 21px; fill: #fff; }
+  .wal-brand { margin: 0; font-weight: 700; font-size: var(--s-0); color: var(--label); }
+  .wal-reply { margin: 2px 0 0; font-size: .74rem; color: var(--label-3); }
+
+  .wal-title {
+    margin: 0 0 16px;
+    font-size: var(--s-1);
+    line-height: 1.28;
+    color: var(--label);
+    max-width: 24ch;
+  }
+
+  .wal .field { margin-bottom: 12px; }
+  .wal .field input {
+    width: 100%;
+    padding: 12px 14px;
+    font: inherit;
+    color: var(--label);
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    border-radius: var(--r-sm);
+  }
+  .wal .field input:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
+  .wal .field input[aria-invalid="true"] { border-color: var(--amber); }
+
+  .wal-go {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+    margin-top: 4px;
+    border: 0;
+    border-radius: var(--r-sm);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .wal-go[disabled] { opacity: .6; cursor: default; }
+
+  /* Campo trampa: fuera de la vista pero no display:none, que algunos robots detectan. */
+  .wal-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .wal-ask { margin: 0 0 10px; font-size: var(--s--1); color: var(--label-2); font-weight: 600; }
+  .wal-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wal-chip {
+    font: inherit;
+    font-size: .82rem;
+    font-weight: 600;
+    padding: 9px 13px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: var(--fill);
+    color: var(--label);
+    cursor: pointer;
+    transition: background .18s var(--ease), transform .18s var(--spring);
+  }
+  .wal-chip:hover { background: var(--amber); color: #fff; border-color: transparent; }
+  .wal-chip:active { transform: scale(.96); }
+
+  .wal-status:empty { display: none; }
+  .wal-status { margin: 10px 0 0; font-size: var(--s--1); color: var(--amber); }
+
+  .wal-legal {
+    margin: 14px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: .72rem;
+    line-height: 1.45;
+    color: var(--label-3);
+  }
+  .wal-legal a { color: var(--label-2); text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .wal { right: 16px; bottom: 80px; }
+  }
+</style>
+
+<script>
+  /* Flujo: botón flotante → paso 1 (nombre + celular) → paso 2 (tema) → correo + WhatsApp.
+     Tres reglas que no se pueden relajar, en este orden dentro del clic del tema:
+       1. window.open va SÍNCRONO dentro del manejador; tras un await el navegador lo bloquea.
+       2. El fetch del correo va antes y no se espera (keepalive), así sobrevive al cambio de foco.
+       3. Nada de lo que escribe la persona entra con innerHTML ni va a dataLayer. */
+  (function () {
+    var panel = document.getElementById('wal');
+    var float = document.querySelector('.wa-float');
+    if (!panel || !float) return;
+
+    var form = document.getElementById('walForm');
+    var step2 = document.getElementById('walStep2');
+    var status = document.getElementById('walStatus');
+    var closeBtn = document.getElementById('walClose');
+    var nombreEl = document.getElementById('walNombre');
+    var telEl = document.getElementById('walTel');
+    var lead = { nombre: '', tel: '' };
+
+    /* wfTrack y wfWhatsAppUrl los define SiteScripts.astro, que se monta despues de este
+       componente. Solo se usan dentro de manejadores, asi que para entonces ya existen; aun asi
+       se envuelven; si ese script fallara, el enlace ya fue cancelado y sin esto la persona se
+       quedaria sin WhatsApp. La medicion es prescindible, el lead no. */
+    function track(ev, params) {
+      if (typeof window.wfTrack === 'function') window.wfTrack(ev, params);
+    }
+    function waUrl(msg) {
+      if (typeof window.wfWhatsAppUrl === 'function') return window.wfWhatsAppUrl(msg);
+      return float.getAttribute('href').split('?')[0] + '?text=' + encodeURIComponent(msg);
+    }
+
+    /* Chile: celular de 9 dígitos que parte con 9, con o sin +56. Devuelve solo dígitos con código
+       de país (569XXXXXXXX) para que el wa.me del correo sea válido, o null si no cuadra. */
+    function normalizarTel(raw) {
+      var d = String(raw).replace(/\D/g, '');
+      if (d.length === 9 && d.charAt(0) === '9') return '56' + d;
+      if (d.length === 11 && d.indexOf('569') === 0) return d;
+      return null;
+    }
+
+    function bonito(normalizado) {
+      // 569XXXXXXXX → +56 9 XXXX XXXX
+      return '+56 9 ' + normalizado.slice(3, 7) + ' ' + normalizado.slice(7);
+    }
+
+    function aviso(texto, campo) {
+      status.textContent = texto;
+      if (campo) {
+        campo.setAttribute('aria-invalid', 'true');
+        campo.focus();
+      }
+    }
+
+    function abrir() {
+      panel.hidden = false;
+      track('wf_cta_open', {});
+      if (nombreEl) nombreEl.focus();
+    }
+
+    function cerrar() {
+      panel.hidden = true;
+      float.focus();
+    }
+
+    // El botón flotante deja de ir directo al chat y abre el panel. stopPropagation evita que el
+    // listener global de SiteScripts registre un whatsapp_click que aún no ocurrió: si no, el
+    // abandono (aperturas − continuaciones) quedaría mal medido.
+    float.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      panel.hidden ? abrir() : cerrar();
+    });
+
+    closeBtn.addEventListener('click', cerrar);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) cerrar();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (panel.hidden) return;
+      if (!panel.contains(e.target) && e.target !== float && !float.contains(e.target)) cerrar();
+    });
+
+    // Paso 1 → paso 2
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      status.textContent = '';
+      nombreEl.removeAttribute('aria-invalid');
+      telEl.removeAttribute('aria-invalid');
+
+      var nombre = nombreEl.value.trim();
+      if (!nombre) return aviso('Falta tu nombre para poder responderte.', nombreEl);
+
+      var tel = normalizarTel(telEl.value);
+      if (!tel) return aviso('Revisa el celular: debe ser un número chileno, como +56 9 1234 5678.', telEl);
+
+      lead.nombre = nombre;
+      lead.tel = tel;
+      form.hidden = true;
+      step2.hidden = false;
+      var primero = step2.querySelector('.wal-chip');
+      if (primero) primero.focus();
+    });
+
+    // Paso 2: elegir tema dispara correo + WhatsApp en el mismo clic.
+    step2.addEventListener('click', function (e) {
+      var chip = e.target.closest && e.target.closest('.wal-chip');
+      if (!chip) return;
+
+      var tema = chip.getAttribute('data-tema');
+      var label = chip.getAttribute('data-label');
+
+      // Analítica: solo el tema, nunca nombre ni teléfono.
+      track('wf_cta_continue', { interes: tema });
+
+      // 1) Correo en segundo plano. No se espera: si falla, WhatsApp se abre igual.
+      var datos = new FormData();
+      datos.set('form', 'whatsapp');
+      datos.set('nombre', lead.nombre);
+      datos.set('tel', lead.tel);
+      datos.set('interes', tema);
+      datos.set('website', document.getElementById('walWebsite').value);
+      datos.set('pagina', document.title + ' (' + location.pathname + ')');
+      datos.set('e', String(Math.round(performance.now())));
+      fetch('/api/contacto.php', {
+        method: 'POST',
+        body: datos,
+        credentials: 'same-origin',
+        keepalive: true,
+      }).catch(function () {});
+
+      // 2) WhatsApp, síncrono dentro del clic.
+      var msg =
+        'Hola, mi nombre es ' + lead.nombre + ' y me interesa ' + label +
+        '. Pueden contactarme a este número: ' + bonito(lead.tel) + '. ¡Muchas gracias!';
+      window.open(waUrl(msg), '_blank', 'noopener');
+
+      cerrar();
+      form.hidden = false;
+      step2.hidden = true;
+      form.reset();
+    });
+  })();
+</script>

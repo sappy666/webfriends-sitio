@@ -9,6 +9,18 @@ rules: |
   User-agent: *
   # Voluntary usage preferences for compatible crawlers.
   Content-Signal: search=yes, ai-input=yes, ai-train=no
+  # Restos del WordPress antiguo: no existen y ya devuelven 404. Se bloquean solo
+  # para que los rastreadores dejen de pedirlas; esto NO las desindexa.
+  # Van ANTES de "Allow: /" a proposito: Google aplica la regla mas especifica,
+  # pero otros rastreadores aplican la primera que calza. Asi ambos coinciden.
+  # Ojo: NO bloquear /casos/ ni /robots-txt/, que redirigen 301 a su pagina nueva.
+  # Sin lineas en blanco dentro del grupo: cortan el registro y lo invalidan.
+  Disallow: /wp-admin/
+  Disallow: /wp-content/
+  Disallow: /wp-includes/
+  Disallow: /wp-json/
+  Disallow: /wp-login.php
+  Disallow: /xmlrpc.php
   Allow: /
 
   # --- Bots de CITACIÓN / búsqueda de IA: PERMITIDOS ---
