@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<title>La objeción primero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F3F0E9; --card:#F8F6F1; --fill:#EDE8DF; --line:rgba(23,20,15,.13);
+    --label:#171717; --label-2:#55514B; --label-3:#6B655C;
+    --amber:#9A5600; --brand:#FFB020;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{background:var(--bg); color:var(--label); font-family:"Plus Jakarta Sans",system-ui,sans-serif}
+  .wrap{max-width:1180px; margin:0 auto; padding:40px 40px 0}
+  .top{display:flex; align-items:center; gap:9px; margin-bottom:46px}
+  .dot{width:30px;height:30px;border-radius:50%;background:var(--brand)}
+  .top span{font-weight:700}
+
+  /* El titular ES la respuesta a la duda que frena; el chat va a su lado, abierto. */
+  .hero{display:grid; grid-template-columns:1fr 392px; gap:56px; align-items:start}
+  .eyebrow{font-size:.79rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--amber)}
+  h1{font-size:3.1rem; line-height:1.06; letter-spacing:-.045em; margin:16px 0 20px; max-width:13ch}
+  .lede{font-size:1.1rem; line-height:1.55; color:var(--label-2); max-width:44ch}
+  .fact{margin-top:26px; display:flex; gap:10px; align-items:center; font-size:.95rem; font-weight:600; color:var(--label)}
+  .tick{flex:none; width:22px; height:22px; border-radius:50%; border:1.5px solid var(--amber)}
+
+  .form{background:var(--card); border:1px solid var(--line); border-radius:24px; padding:26px 24px 22px}
+  .form p{font-size:1rem; font-weight:700; margin-bottom:4px}
+  .form .sub{font-size:.82rem; color:var(--label-3); font-weight:500; margin-bottom:18px}
+  label{display:block; font-size:.79rem; font-weight:600; color:var(--label-2); margin-bottom:6px}
+  .inp{height:50px; border:1px solid var(--line); border-radius:12px; background:var(--bg);
+       display:flex; align-items:center; padding:0 14px; color:var(--label-3); font-size:.95rem; margin-bottom:14px}
+  .btn{height:52px; border-radius:12px; background:var(--amber); color:#fff; font-weight:700;
+       display:flex; align-items:center; justify-content:center; font-size:1rem}
+  .legal{margin-top:12px; font-size:.79rem; line-height:1.45; color:var(--label-3)}
+
+  /* Las demás objeciones, como filas anchas que se abren. Cada una cierra con un hecho. */
+  .rows{margin-top:52px; border-top:1px solid var(--line)}
+  .row{display:flex; align-items:center; justify-content:space-between; gap:24px;
+       padding:21px 4px; border-bottom:1px solid var(--line)}
+  .row b{font-size:1.12rem; font-weight:600; letter-spacing:-.02em}
+  .row .ans{font-size:.95rem; color:var(--label-2); max-width:46ch; text-align:right}
+  .row .plus{flex:none; width:26px; height:26px; border-radius:50%; border:1px solid var(--line);
+             display:flex; align-items:center; justify-content:center; color:var(--label-3); font-size:1rem}
+  .open{background:var(--fill); margin:0 -16px; padding:21px 20px; border-radius:14px; border-bottom:0}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top"><span class="dot"></span><span>Webfriends</span></div>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Antes de hablar de precios</p>
+        <h1>No almacenamos fichas clínicas</h1>
+        <p class="lede">Tu sitio muestra especialidades, convenios y horas disponibles. La ficha del paciente se queda donde está hoy, en tu sistema clínico: nosotros no la tocamos ni la alojamos.</p>
+        <p class="fact"><span class="tick"></span>Integramos con tu agenda; no la reemplazamos.</p>
+      </div>
+      <div class="form">
+        <p>Hola, déjanos tus datos</p>
+        <p class="sub">Seguimos por WhatsApp. Respondemos en menos de 24 horas hábiles.</p>
+        <label>Nombre</label>
+        <div class="inp">Tu nombre</div>
+        <label>Teléfono celular</label>
+        <div class="inp">+56 9 1234 5678</div>
+        <div class="btn">Siguiente</div>
+        <p class="legal">Al continuar autorizo a Webfriends a usar mi nombre y teléfono para responder esta solicitud.</p>
+      </div>
+    </section>
+
+    <section class="rows">
+      <div class="row open">
+        <b>¿Se integra con el sistema que ya uso?</b>
+        <span class="ans">Depende del sistema. Si tiene API o permite exportar disponibilidad, sí. Lo revisamos antes de comprometer nada.</span>
+        <span class="plus">–</span>
+      </div>
+      <div class="row">
+        <b>¿Atienden fuera de Santiago y Viña?</b>
+        <span class="ans">Todo el trabajo es en línea, a cualquier región.</span>
+        <span class="plus">+</span>
+      </div>
+      <div class="row">
+        <b>¿Y si tengo varias sedes?</b>
+        <span class="ans">Una página por sede, con su propio posicionamiento local.</span>
+        <span class="plus">+</span>
+      </div>
+      <div class="row">
+        <b>¿Cuánto cuesta?</b>
+        <span class="ans">Desde $390.000. Los tres planes están publicados, en pesos.</span>
+        <span class="plus">+</span>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

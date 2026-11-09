@@ -55,6 +55,17 @@ Las cuatro son vinculantes y el trabajo futuro debe preservarlas:
 - Todo el contenido vive en `src/content/` como YAML/Markdown validado por `src/content.config.ts`: si un campo no cumple el esquema, el build falla.
 - Idioma `es-CL`, tuteo.
 
+**Decisión abierta — CRM.** Se menciona como cuarta pata de la oferta para salud (junto a sitios,
+Google Ads y SEO/GEO), pero **no existe como servicio**: no hay producto, alcance ni precio definidos,
+y no aparece en el repo. Hasta que se defina no se nombra en ninguna superficie pública. Lo que sí
+existe hoy es captura de contactos: formularios y WhatsApp que llegan por correo vía contacto.php.
+
+**Decisión abierta — IVA de los planes de implementación.** No está definido si los valores de los
+planes de salud ($390.000 / $590.000 / desde $890.000) son netos o finales. Mientras no se resuelva,
+las superficies nuevas muestran el alcance de cada plan sin el monto, y el valor se entrega en la
+cotización. Ojo: esto tensiona el diferenciador de precios publicados, que sigue vigente en /precios/,
+/tienda/ y /salud/.
+
 **Decisión abierta — panel de administración.** Hoy los textos y precios se editan en el repo. Hay intención de incorporar un CMS, y en la raíz del proyecto existe un andamiaje exploratorio con Keystatic, adaptador de Cloudflare y React que **no está conectado al sitio que se publica**. No está decidido si se adopta, ni cuál. Hasta que se decida, el contenido sigue siendo responsabilidad de quien maneja el repo.
 
 ## Brand Commitments

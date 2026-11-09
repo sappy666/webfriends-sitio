@@ -20,6 +20,11 @@ interface Props {
   ogImage?: string | null;
   ogImageAlt?: string;
   noindex?: boolean;
+  // Landing cerrada: sin cabecera, pie, menu movil ni boton flotante. Para trafico pagado,
+  // donde cada enlace de fuga es un clic ya pagado que se va a otra parte.
+  bare?: boolean;
+  // Canonical propio: una landing que duplica una pagina de servicio apunta a ella.
+  canonical?: string;
   /** Nombre corto de la página en las migas (JSON-LD). Por defecto, el título sin la marca. */
   crumb?: string;
   /** Tipo schema.org de la página (WebPage, AboutPage, ContactPage, CollectionPage, ProfilePage…). */
@@ -32,10 +37,10 @@ interface Props {
 
 // Páginas sin imagen propia comparten una imagen de marca (1200×630) al compartirse en redes.
 const DEFAULT_OG = { image: '/assets/img/og-default.jpg', alt: 'Webfriends, agencia de marketing digital en Chile' };
-const { title, description, themeColor = '#000000', ogImage, noindex = false } = Astro.props;
+const { title, description, themeColor = '#000000', ogImage, noindex = false, bare = false, canonical } = Astro.props;
 const ogImageAlt = ogImage ? Astro.props.ogImageAlt : DEFAULT_OG.alt;
 const currentPath = Astro.url.pathname;
-const canonicalUrl = new URL(currentPath, Astro.site ?? Astro.url.origin).toString();
+const canonicalUrl = new URL(canonical ?? currentPath, Astro.site ?? Astro.url.origin).toString();
 const ogImageUrl = new URL(ogImage || DEFAULT_OG.image, Astro.site ?? Astro.url.origin).toString();
 
 // Migas para el JSON-LD: Inicio › (sección) › página. Blog y productos cuelgan de su listado.
@@ -81,22 +86,22 @@ const breadcrumbs = currentPath === '/' ? null : [
   <GoogleTagManager noscript />
   <Sprite />
   <a class="skip" href="#contenido">Ir al contenido</a>
-  <div class="readbar" aria-hidden="true"></div>
+  {!bare && <div class="readbar" aria-hidden="true"></div>}
 
-  <Header currentPath={currentPath} />
+  {!bare && <Header currentPath={currentPath} />}
 
   <main id="contenido">
     <slot />
   </main>
 
-  <Footer />
+  {!bare && <Footer />}
 
-  <FloatButtons />
-  <WhatsAppLead />
+  {!bare && <FloatButtons />}
+  {!bare && <WhatsAppLead />}
   <SiteScripts />
   <FaviconFx />
-  <MobileNav />
-  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  {!bare && <MobileNav />}
+  {!bare && <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>}
   <script>
     // Destello ámbar que sigue al cursor (solo escritorio con mouse, sin "reducir movimiento").
     // Se mueve con un leve retardo (interpolación) para sentirse fluido; se apaga al salir de la ventana.

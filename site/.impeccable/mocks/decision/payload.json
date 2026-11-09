@@ -1,0 +1,46 @@
+{
+  "title": "Landing de salud · elige la composición",
+  "question": "El mundo visual de Webfriends se mantiene fijo: esto decide la composición. El dado repartió tres de siete estructuras. Bloquea una, pide otra mano o dirige la siguiente.",
+  "options": [
+    {
+      "id": "lado-a-lado",
+      "kind": "assigned",
+      "kicker": "THE ROLL",
+      "label": "Lado a lado",
+      "lineage": "comparación directa, a sangre",
+      "thesis": "El sitio que el centro tiene hoy, junto al que recibe, con el precio bajo cada uno.",
+      "palette": ["#F3F0E9", "#171717", "#FFB020", "#9A5600"],
+      "materials": ["crema papel cálido", "ámbar de marca", "tarjetas redondeadas"],
+      "viewport": "Dos columnas a sangre desde el borde superior: a la izquierda el sitio actual descrito en síntomas que el dueño reconoce, a la derecha lo que recibe, con el precio al pie de cada una. El chat de datos vive entre ambas, abierto, no detrás de un botón.",
+      "risk": "La comparación suena a reproche si la columna izquierda describe al visitante en vez de a su sitio.",
+      "html": ".impeccable/mocks/decision/lado-a-lado.html"
+    },
+    {
+      "id": "objecion-primero",
+      "kind": "dealt",
+      "label": "La objeción primero",
+      "lineage": "respuesta antes que oferta",
+      "thesis": "Responde la duda que frena al centro antes de ofrecerle nada.",
+      "palette": ["#F3F0E9", "#171717", "#FFB020", "#9A5600"],
+      "materials": ["crema papel cálido", "ámbar de marca", "filas que se abren"],
+      "viewport": "El titular es la respuesta a la duda que más frena —qué pasa con los datos de los pacientes—, con el chat de datos a su derecha. Debajo, las demás objeciones como filas anchas que se abren, cada una cerrando con un hecho verificable.",
+      "risk": "Abrir en una objeción puede leerse defensivo, y sembrar una duda que el visitante no traía.",
+      "html": ".impeccable/mocks/decision/objecion-primero.html"
+    },
+    {
+      "id": "ficha-del-centro",
+      "kind": "dealt",
+      "label": "La ficha del centro",
+      "lineage": "el formulario como documento",
+      "thesis": "La página compuesta como la ficha del propio centro: completarla es el contacto.",
+      "palette": ["#F3F0E9", "#171717", "#FFB020", "#9A5600"],
+      "materials": ["crema papel cálido", "ámbar de marca", "campos y casillas"],
+      "viewport": "Una ficha ocupa media página desde el inicio, con los campos del centro —sedes, especialidades, reservas en línea— marcables ahí mismo. Cada campo marcado ajusta el rango de precio a la vista; al cerrarla, esos datos viajan al chat de WhatsApp.",
+      "risk": "Una ficha pide más trabajo que dos campos, y el tráfico pagado perdona poco.",
+      "html": ".impeccable/mocks/decision/ficha-del-centro.html"
+    }
+  ],
+  "reroll": true,
+  "steer": true,
+  "buildPath": { "value": "code" }
+}

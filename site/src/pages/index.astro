@@ -82,7 +82,7 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
               { name: "Liv Salud", href: "https://livsalud.cl/", logo: "livsalud.webp" },
               { name: "Punto Cero", href: "https://puntoceropatagonia.com/", logo: "puntocero.webp" },
               { name: "Clinit", href: "https://clinit.cl/", logo: "clinit.webp" },
-              { name: "Meni", href: "https://meni.cl/", logo: "meni.webp" },
+              { name: "Meni", href: "https://meni.cl/", logo: "meni.webp", logoLight: "meni-negro.webp" },
               { name: "Familia Salud", href: "https://familiasalud.cl/", logo: "familiasalud.webp" },
               { name: "Serviteclomas", href: "https://serviteclomas.cl/", logo: "lomas-servitec.webp" },
               { name: "MirAndes", logo: "mirandes.webp" },
@@ -91,7 +91,12 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
               { name: "Tianfu Festival", logo: "tianfu.webp" },
             ].map((b) => b.href ? (
               <a class:list={["proof-item", { "proof-client-logo": b.logo }]} href={b.href} target="_blank" rel="noopener" tabindex={copy ? -1 : undefined}>
-                {b.logo ? <img class:list={{ "proof-logo-original": b.logo === 'meni.webp' }} src={`/assets/img/${b.logo}`} alt={b.name} width="200" height="100" loading="lazy" decoding="async" /> : b.name}
+                {b.logo ? (b.logoLight ? (
+                  <Fragment>
+                    <img class="proof-logo-original proof-logo-dark" src={`/assets/img/${b.logo}`} alt={b.name} width="200" height="100" loading="lazy" decoding="async" />
+                    <img class="proof-logo-original proof-logo-light" src={`/assets/img/${b.logoLight}`} alt="" width="200" height="100" loading="lazy" decoding="async" />
+                  </Fragment>
+                ) : <img src={`/assets/img/${b.logo}`} alt={b.name} width="200" height="100" loading="lazy" decoding="async" />) : b.name}
               </a>
             ) : (
               <span class="proof-item proof-client-logo">

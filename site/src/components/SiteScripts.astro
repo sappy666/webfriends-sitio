@@ -14,7 +14,8 @@ document.documentElement.classList.add('js');
   var meta = document.querySelector('meta[name="theme-color"]');
 
   /* Todos los interruptores: el de escritorio (#themeBtn) y el del header en celular ([data-theme-toggle]). */
-  var themeBtns = [themeBtn].concat([].slice.call(document.querySelectorAll('[data-theme-toggle]')));
+  /* filter: en una landing sin cabecera no existe #themeBtn, y apply() reventaba al escribirle. */
+  var themeBtns = [themeBtn].concat([].slice.call(document.querySelectorAll('[data-theme-toggle]'))).filter(Boolean);
   function apply(dark){
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
     themeBtns.forEach(function(b){
@@ -113,8 +114,11 @@ document.documentElement.classList.add('js');
     showAll:rvShowAll
   };
 
-  /* Barra translúcida al hacer scroll */
+  /* Cabecera, mega menú y menú móvil. Una landing cerrada (BaseLayout bare) no los trae,
+     así que todo este bloque va tras una guarda, como el control segmentado más abajo. */
   var hdr = document.getElementById('hdr'), tick = false;
+  var hasChrome = !!hdr;   /* no todas las páginas lo usan */
+if (hasChrome) {
   function onScroll(){ hdr.classList.toggle('stuck', window.scrollY > 12); tick = false; }
   window.addEventListener('scroll', function(){ if(!tick){ requestAnimationFrame(onScroll); tick = true; } }, {passive:true});
   onScroll();
@@ -163,6 +167,7 @@ document.documentElement.classList.add('js');
     if(e.target.closest('a')){ setNav(false); }
   });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') setNav(false); });
+}
 
   /* Control segmentado: mueve la pastilla y alterna paneles */
   var tabs = [document.getElementById('tab-web'), document.getElementById('tab-ads')];

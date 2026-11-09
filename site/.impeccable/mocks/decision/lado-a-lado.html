@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<title>Lado a lado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F3F0E9; --card:#F8F6F1; --fill:#EDE8DF; --line:rgba(23,20,15,.13);
+    --label:#171717; --label-2:#55514B; --label-3:#6B655C;
+    --amber:#9A5600; --brand:#FFB020; --on-brand:#231600;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{
+    background:var(--bg); color:var(--label);
+    font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+    display:grid; grid-template-columns:1fr 416px 1fr;
+  }
+  /* Las dos columnas van a sangre desde el borde superior: la comparación es la página. */
+  .col{padding:58px 48px 0; display:flex; flex-direction:column}
+  .col-hoy{background:var(--fill)}
+  .col-recibe{background:var(--card)}
+  .eyebrow{font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--label-3)}
+  .col-recibe .eyebrow{color:var(--amber)}
+  h2{font-size:2rem; line-height:1.1; letter-spacing:-.04em; margin:14px 0 28px; max-width:11ch}
+  ul{list-style:none; display:flex; flex-direction:column; gap:16px}
+  li{display:flex; gap:12px; font-size:1.02rem; line-height:1.45; color:var(--label-2)}
+  .mk{flex:none; width:19px; height:19px; margin-top:3px; border-radius:50%; border:1.5px solid var(--line)}
+  .col-recibe .mk{border-color:var(--amber)}
+  .col-recibe li{color:var(--label)}
+  .price{margin-top:auto; padding:22px 0 44px; border-top:1px solid var(--line)}
+  .price small{display:block; font-size:.78rem; color:var(--label-3); margin-bottom:6px}
+  .price b{font-size:1.9rem; font-weight:700; letter-spacing:-.035em}
+  .price .muted{color:var(--label-3); font-weight:500}
+
+  /* El chat de datos vive entre ambas columnas, abierto: es la acción, no un botón que baja. */
+  .mid{
+    background:var(--bg); border-left:1px solid var(--line); border-right:1px solid var(--line);
+    padding:46px 36px 0; display:flex; flex-direction:column; align-items:center; text-align:center;
+  }
+  .brandbar{display:flex; align-items:center; gap:9px; margin-bottom:30px}
+  .dot{width:30px;height:30px;border-radius:50%;background:var(--brand)}
+  .brandbar span{font-weight:700; font-size:1rem}
+  h1{font-size:2.05rem; line-height:1.14; letter-spacing:-.04em; max-width:15ch}
+  .lede{margin-top:14px; font-size:1rem; line-height:1.5; color:var(--label-2); max-width:26ch}
+  .form{
+    margin-top:28px; width:100%; background:var(--card); border:1px solid var(--line);
+    border-radius:22px; padding:22px 20px 20px; text-align:left;
+  }
+  .form p{font-size:.95rem; font-weight:600; margin-bottom:16px}
+  label{display:block; font-size:.76rem; font-weight:600; color:var(--label-2); margin-bottom:6px}
+  .inp{height:48px; border:1px solid var(--line); border-radius:12px; background:var(--bg);
+       display:flex; align-items:center; padding:0 14px; color:var(--label-3); font-size:.95rem; margin-bottom:14px}
+  .btn{height:50px; border-radius:12px; background:var(--amber); color:#fff; font-weight:700;
+       display:flex; align-items:center; justify-content:center; font-size:1rem}
+  .legal{margin-top:12px; font-size:.79rem; line-height:1.45; color:var(--label-3)}
+  .trust{margin-top:22px; display:flex; gap:18px; font-size:.79rem; color:var(--label-3); font-weight:600}
+</style>
+</head>
+<body>
+  <section class="col col-hoy">
+    <p class="eyebrow">Tu sitio hoy</p>
+    <h2>El paciente llega y se va</h2>
+    <ul>
+      <li><span class="mk"></span><span>La agenda está escondida o no existe: la hora se pide por teléfono, en horario hábil.</span></li>
+      <li><span class="mk"></span><span>Las previsiones y convenios no se ven, así que preguntan antes de reservar.</span></li>
+      <li><span class="mk"></span><span>Los especialistas no tienen ficha: nadie sabe a quién va a ver.</span></li>
+      <li><span class="mk"></span><span>En el celular cuesta leerlo, y la mitad de tus visitas llega de ahí.</span></li>
+    </ul>
+    <div class="price">
+      <small>Lo que cuesta no cambiarlo</small>
+      <b class="muted">Las horas que no se piden</b>
+    </div>
+  </section>
+
+  <section class="mid">
+    <div class="brandbar"><span class="dot"></span><span>Webfriends</span></div>
+    <h1>Tu centro, con la hora que se pide sola</h1>
+    <p class="lede">Plataformas para centros médicos y dentales. Precios publicados, en pesos.</p>
+    <div class="form">
+      <p>Déjanos tus datos y seguimos por WhatsApp</p>
+      <label>Nombre</label>
+      <div class="inp">Tu nombre</div>
+      <label>Teléfono celular</label>
+      <div class="inp">+56 9 1234 5678</div>
+      <div class="btn">Siguiente</div>
+      <p class="legal">Al continuar autorizo a Webfriends a usar mi nombre y teléfono para responder esta solicitud.</p>
+    </div>
+    <div class="trust"><span>Google Partner · 7 años</span><span>4,4 / 5 en Google</span></div>
+  </section>
+
+  <section class="col col-recibe">
+    <p class="eyebrow">Lo que recibes</p>
+    <h2>La reserva ocurre sin ti</h2>
+    <ul>
+      <li><span class="mk"></span><span>Reserva de horas en línea, integrada a la agenda que ya usas.</span></li>
+      <li><span class="mk"></span><span>Fonasa, isapres y convenios a la vista, antes de que pregunten.</span></li>
+      <li><span class="mk"></span><span>Ficha por especialista, con su hora disponible al lado.</span></li>
+      <li><span class="mk"></span><span>Hecho para el celular primero, y medido ahí.</span></li>
+    </ul>
+    <div class="price">
+      <small>Centro con Reservas · pago único</small>
+      <b>$590.000</b>
+    </div>
+  </section>
+</body>
+</html>

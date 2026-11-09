@@ -222,6 +222,12 @@ body .foil-card::before, body .foil-card::after { display: block; }
 :root:not([data-theme="dark"]) body .proof-client-logo img { filter: grayscale(1) brightness(0); }
 /* Meni incluye un fondo propio: conservar sus tonos para que se lea el nombre. */
 :root body .proof-client-logo img.proof-logo-original { filter: none; }
+/* Por lo mismo no sirve el filter de arriba, que aplana a silueta y borraría el nombre calado
+   dentro del círculo: Meni trae dos archivos, uno por tema, y aquí se muestra el que contrasta.
+   El claro va con alt vacío para que los lectores de pantalla no anuncien la marca dos veces. */
+:root body .proof-client-logo img.proof-logo-light { display: none; }
+:root:not([data-theme="dark"]) body .proof-client-logo img.proof-logo-dark { display: none; }
+:root:not([data-theme="dark"]) body .proof-client-logo img.proof-logo-light { display: block; }
 
 @media (prefers-reduced-motion: reduce) {
   body .proof-marquee { overflow: visible; }

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<title>La ficha del centro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F3F0E9; --card:#F8F6F1; --fill:#EDE8DF; --line:rgba(23,20,15,.13);
+    --label:#171717; --label-2:#55514B; --label-3:#6B655C;
+    --amber:#9A5600; --brand:#FFB020; --on-brand:#231600;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{background:var(--bg); color:var(--label); font-family:"Plus Jakarta Sans",system-ui,sans-serif}
+  .wrap{max-width:1240px; margin:0 auto; padding:36px 40px 0}
+  .top{display:flex; align-items:center; gap:9px; margin-bottom:34px}
+  .dot{width:30px;height:30px;border-radius:50%;background:var(--brand)}
+  .top span{font-weight:700}
+
+  .head{max-width:30ch; margin-bottom:28px}
+  .eyebrow{font-size:.79rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--amber)}
+  h1{font-size:2.5rem; line-height:1.08; letter-spacing:-.045em; margin:14px 0 12px}
+  .lede{font-size:1.05rem; line-height:1.5; color:var(--label-2); max-width:52ch}
+
+  /* La ficha ocupa media página desde el inicio: completarla ES el contacto. */
+  .sheet{
+    background:var(--card); border:1px solid var(--line); border-radius:26px;
+    display:grid; grid-template-columns:1fr 360px;
+  }
+  .fields{padding:30px 32px 28px; border-right:1px solid var(--line)}
+  .sheet-title{font-size:.79rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--label-3); margin-bottom:22px}
+  .field{padding:16px 0; border-bottom:1px solid var(--line)}
+  .field:last-child{border-bottom:0}
+  .field p{font-size:.95rem; font-weight:600; margin-bottom:11px}
+  .opts{display:flex; gap:9px; flex-wrap:wrap}
+  .opt{font-size:.9rem; font-weight:600; padding:9px 15px; border-radius:999px;
+       border:1px solid var(--line); background:var(--bg); color:var(--label-2)}
+  .opt.on{background:var(--brand); border-color:transparent; color:var(--on-brand)}
+
+  /* El rango de precio se ajusta a la vista con cada campo marcado. */
+  .side{padding:30px 28px 28px; display:flex; flex-direction:column}
+  .side small{font-size:.79rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--label-3)}
+  .amount{margin-top:12px; font-size:2.5rem; font-weight:700; letter-spacing:-.04em; line-height:1}
+  .plan{margin-top:7px; font-size:.95rem; color:var(--label-2)}
+  .incl{margin-top:20px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:10px}
+  .incl span{font-size:.92rem; color:var(--label-2); display:flex; gap:9px; align-items:flex-start}
+  .tick{flex:none; width:17px; height:17px; margin-top:3px; border-radius:50%; border:1.5px solid var(--amber)}
+  .btn{margin-top:auto; height:54px; border-radius:14px; background:var(--amber); color:#fff; font-weight:700;
+       display:flex; align-items:center; justify-content:center; font-size:1.02rem}
+  .legal{margin-top:11px; font-size:.79rem; line-height:1.4; color:var(--label-3)}
+  .trust{margin-top:22px; display:flex; gap:20px; font-size:.79rem; color:var(--label-3); font-weight:600}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top"><span class="dot"></span><span>Webfriends</span></div>
+
+    <div class="head">
+      <p class="eyebrow">Plataformas para salud</p>
+      <h1>Arma la ficha de tu centro</h1>
+      <p class="lede">Marca cómo funciona hoy. El valor se ajusta mientras respondes, y al cerrar seguimos por WhatsApp con tus respuestas ya puestas.</p>
+    </div>
+
+    <section class="sheet">
+      <div class="fields">
+        <p class="sheet-title">Ficha del centro</p>
+
+        <div class="field">
+          <p>¿Cuántas sedes atiende?</p>
+          <div class="opts">
+            <span class="opt on">Una</span>
+            <span class="opt">Dos o tres</span>
+            <span class="opt">Una red</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <p>¿Quieres reserva de horas en línea?</p>
+          <div class="opts">
+            <span class="opt on">Sí, integrada a mi agenda</span>
+            <span class="opt">No por ahora</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <p>¿Qué muestras a tus pacientes?</p>
+          <div class="opts">
+            <span class="opt on">Especialidades</span>
+            <span class="opt on">Convenios y previsión</span>
+            <span class="opt">Fichas de especialistas</span>
+            <span class="opt">Blog</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <p>¿Tienes sitio hoy?</p>
+          <div class="opts">
+            <span class="opt">Sí, y quiero rehacerlo</span>
+            <span class="opt on">No tengo</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="side">
+        <small>Tu configuración</small>
+        <p class="amount">$590.000</p>
+        <p class="plan">Centro con Reservas · pago único</p>
+        <div class="incl">
+          <span><span class="tick"></span>Reserva en línea y agenda por profesional</span>
+          <span><span class="tick"></span>Convenios y previsión a la vista</span>
+          <span><span class="tick"></span>Entrega estimada: 4 semanas</span>
+        </div>
+        <div class="btn">Seguir por WhatsApp</div>
+        <p class="legal">Al continuar autorizo a Webfriends a usar mi nombre y teléfono para responder esta solicitud.</p>
+        <div class="trust"><span>Google Partner · 7 años</span><span>4,4 / 5</span></div>
+      </aside>
+    </section>
+  </div>
+</body>
+</html>
