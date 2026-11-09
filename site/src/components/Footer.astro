@@ -105,7 +105,10 @@ const terminosHref = slug('page-terminos');
   .wff {
     /* Paleta propia: la tarjeta es oscura en ambos temas */
     --f-bg: #000000; --f-line: rgba(242, 245, 251, .08); --f-txt: #F2F5FB; --f-txt-2: rgba(242, 245, 251, .66);
-    --f-txt-3: rgba(242, 245, 251, .42); --f-amber: #FFB020; --f-fill: rgba(242, 245, 251, .06);
+    /* .5 y no menos: sobre --f-bg #000 compone #7a7b7e, 4.9:1. A .42 daba 3.71:1 y no cumplía
+       el 4.5:1 de texto normal, y de aquí cuelgan el marcador del correo, los títulos de
+       columna y el copyright. Sigue un escalón por debajo de --f-txt-2 (.66). */
+    --f-txt-3: rgba(242, 245, 251, .5); --f-amber: #FFB020; --f-fill: rgba(242, 245, 251, .06);
     padding: 16px; background: var(--bg);
   }
   .wff-card { position: relative; overflow: hidden; border-radius: 28px; background: var(--f-bg); color: var(--f-txt); isolation: isolate; border: 1px solid var(--f-line); }

@@ -683,6 +683,11 @@ section{padding-block:clamp(72px,10vw,132px)}
     transform:rotate(45deg);margin-top:-4px;transition:transform .3s var(--ease)
   }
   .local-steps .step-body{display:none;grid-column:1 / -1;padding-top:14px}
+  /* /salud/ usa .flujo-detail en vez de .step-body (su contenido va siempre visible, sin
+     acordeón). Necesita el mismo span: sin él cae en la columna 1, dimensionada por el número
+     de 1.7rem, y el par Problema/Solución queda estrujado. No renombrar a .step-body: eso
+     hereda el display:none de arriba y nada aplica .is-open a estos pasos. */
+  .local-steps .flujo-detail{grid-column:1 / -1;padding-top:14px}
   .local-steps .step-body p{margin-bottom:14px}
   .local-steps .is-open{border-color:var(--amber)!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--amber) 30%,transparent),0 12px 34px -14px color-mix(in srgb,var(--amber) 45%,transparent)}
   .local-steps .is-open .step-toggle::after{transform:rotate(-135deg);margin-top:4px;color:var(--amber)}

@@ -22,7 +22,7 @@ const sec = (id: string) => page.sections.find((s) => s.id === id)!;
   pageExtra={{ mainEntity: { '@id': ORG_ID } }}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css?v=9" />
+    <link rel="stylesheet" href="/styles/service.css?v=10" />
   </Fragment>
 
   <section class="hero grid-bg" style="padding-block:clamp(44px,6vw,76px) clamp(20px,3vw,36px)">
@@ -140,5 +140,33 @@ const sec = (id: string) => page.sections.find((s) => s.id === id)!;
       </div>
     </div>
   </section>
+
+  <script>
+    /* Preselecciona "¿Qué te interesa?" desde /contacto/?interes=<clave>. Las páginas de servicio
+       enlazan así para no volver a preguntar un dato que el visitante ya declaró al navegar
+       (ver CONTACTO_SALUD en SaludPage.astro). Solo acepta claves que el <select> ya ofrece, así
+       un parámetro inventado no cambia nada; el valor viaja igual por POST a contacto.php. */
+    (function () {
+      var sel = document.getElementById('interes');
+      if (!(sel instanceof HTMLSelectElement)) return;
+
+      var clave = new URLSearchParams(location.search).get('interes');
+      if (!clave) return;
+
+      var opcion = Array.prototype.find.call(sel.options, function (o) { return o.value === clave; });
+      if (!opcion || opcion.value === 'general') return;
+
+      sel.value = opcion.value;
+
+      /* Se le dice al visitante que su contexto llegó, en vez de dejar el cambio invisible en un
+         campo que en móvil queda bajo el pliegue. */
+      var aviso = document.createElement('p');
+      aviso.className = 'field-hint';
+      aviso.style.cssText = 'margin:-4px 0 16px;color:var(--label-2)';
+      aviso.textContent = 'Consulta sobre: ' + opcion.text + '. Puedes cambiarlo más abajo.';
+      var form = sel.form;
+      if (form) form.insertBefore(aviso, form.firstElementChild);
+    })();
+  </script>
 
 </BaseLayout>

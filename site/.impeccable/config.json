@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "plus jakarta sans",
+        "createdAt": "2026-11-09T16:33:09.362Z",
+        "reason": "marca: tipografia propia autoalojada (public/fonts/plus-jakarta-sans-latin.woff2, @font-face en global.css, precargada en BaseLayout), registrada en PRODUCT.md > Brand Commitments"
+      }
+    ]
+  }
+}

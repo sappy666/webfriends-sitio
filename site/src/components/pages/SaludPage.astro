@@ -22,7 +22,13 @@ const funcionesIcons = [
   '<path d="M3 3h18v18H3z" fill="none"/><path d="M7 17V13M12 17V7M17 17v-5"/>',
 ];
 const flujoIcons = ['#i-search', '#i-check-circle', '#i-calendar', '#i-map-pin-check'];
-// Servicio (JSON-LD): mismos planes y precios que se muestran en la página.
+
+// Destino de los CTA de esta página. Lleva el interés en la URL para que el formulario de
+// contacto llegue con "Plataforma para salud" ya elegido: el visitante ya declaró su rubro al
+// estar aquí, así que no se le vuelve a preguntar. Lo lee ContactoPage.astro.
+const CONTACTO_SALUD = '/contacto/?interes=salud#form';
+
+// Servicio (JSON-LD): mismos planes y precios que se muestran en la página (sección #planes).
 const service = serviceNode({
   url: new URL('/salud/', Astro.site).toString(),
   name: 'Plataformas web para centros médicos y dentales',
@@ -42,7 +48,7 @@ const service = serviceNode({
   schema={[service]}
 >
   <Fragment slot="head">
-    <link rel="stylesheet" href="/styles/service.css?v=9" />
+    <link rel="stylesheet" href="/styles/service.css?v=10" />
   </Fragment>
 
   <section class="hero hero-split grid-bg" style="padding-block:clamp(44px,6vw,80px) clamp(40px,5vw,64px);text-align:left">
@@ -52,7 +58,7 @@ const service = serviceNode({
         <h1 style="max-width:18ch;margin:0 0 22px">{page.heroH1}</h1>
         <p class="lede" style="max-width:52ch">{page.heroLede}</p>
         <div class="hero-actions" style="justify-content:flex-start">
-          <a class="btn btn-accent" href="/contacto/">{page.heroCta1 ?? 'Agendar asesoría'}
+          <a class="btn btn-accent" href={CONTACTO_SALUD}>{page.heroCta1 ?? 'Agendar asesoría'}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
           </a>
           <a class="btn btn-soft" href="#planes">{page.heroCta2 ?? 'Comparar planes'}</a>
@@ -109,7 +115,7 @@ const service = serviceNode({
       <p class="lede" data-reveal style="margin-top:18px;max-width:58ch">Antes de solicitar una hora, las personas necesitan encontrar la especialidad, resolver sus dudas y saber cómo reservar. Una experiencia clara facilita cada paso.</p>
 
       <div class="local-cta" data-reveal>
-        <a class="btn btn-accent" href="/contacto/">
+        <a class="btn btn-accent" href={CONTACTO_SALUD}>
           Revisar el recorrido de mi centro
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </a>
@@ -138,13 +144,17 @@ const service = serviceNode({
     <div class="wrap" style="text-align:center">
       <p class="eyebrow" data-reveal>{sec('planes-h').eyebrow}</p>
       <h2 id="planes-h" class="h-sec" data-reveal style="margin-inline:auto">{sec('planes-h').heading}</h2>
-      <p class="lede" data-reveal style="margin:18px auto 0;max-width:48ch">Cada centro tiene procesos y herramientas distintas. Cuéntanos cómo funciona el tuyo y te orientamos sobre lo que necesitas.</p>
-      <div data-reveal style="margin-top:36px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
-        <a class="btn btn-accent" href="/contacto/">
-          Agendar asesoría
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
-        </a>
+      <p class="lede" data-reveal style="margin:18px auto 0;max-width:52ch">Tres configuraciones según cómo atiende tu centro. Los valores son en pesos chilenos y la renovación anual va indicada en cada plan.</p>
+    </div>
+    <div class="wrap">
+      <div class="pricing" data-reveal-group style="margin-top:44px">
+        {saludPlans.map((plan) => (
+          <PlanCard plan={plan} href={CONTACTO_SALUD} />
+        ))}
       </div>
+      <p data-reveal style="text-align:center;margin-top:36px;color:var(--label-2)">
+        ¿Tu centro no calza con ninguno? <a href={CONTACTO_SALUD} style="color:var(--amber);font-weight:700;text-decoration:none">Cuéntanos tu caso</a>
+      </p>
     </div>
   </section>
   <section id="faq-salud" aria-labelledby="faq-salud-h">

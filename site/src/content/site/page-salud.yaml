@@ -1,10 +1,12 @@
 urlSlug: salud
-dateModified: 2026-10-19
+dateModified: 2026-11-09
 previousSlugs: []
 metaTitle: "Plataformas web para centros médicos y dentales — Webfriends"
 metaDescription: "Sitios web para centros médicos y dentales en Chile, con reserva de horas online, fichas de especialistas y convenios con Fonasa e isapres a la vista."
 ogImage:
+  # Sin alt, BaseLayout omite og:image:alt del todo: el respaldo solo aplica a la imagen por defecto.
   image: /assets/img/salud.webp
+  alt: Plataforma web para centros médicos y dentales, de Webfriends
 heroEyebrow: Soluciones digitales para salud
 heroH1: Tu centro de salud, conectado con sus pacientes.
 heroLede: "Creamos sitios web para centros médicos y dentales, integramos tu sistema de reservas y conectamos SEO, campañas y analítica para facilitar el contacto y la solicitud de horas."
