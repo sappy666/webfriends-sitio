@@ -156,6 +156,13 @@ if ($isHtml) {
     . $row('Telefono', '<a href="tel:+' . $esc($tel) . '" style="color:#171717">' . $esc(bonitoTel($tel)) . '</a>')
     . $row('Le interesa', $esc($interes))
     . '</table>'
+    // Contexto que aporta el origen del clic: el presupuesto armado en Precios, la URL del sitio
+    // en el inicio. Llega en 'msg' desde window.wfLead (src/components/WhatsAppLead.astro).
+    . ($msg !== ''
+      ? '<p style="margin:18px 0 0;padding:12px 14px;background:#EDE8DF;border-radius:12px;'
+        . 'color:#171717;font-size:14px;line-height:1.5"><strong style="color:#6B655C;'
+        . 'font-weight:600">Detalle:</strong> ' . $esc($msg) . '</p>'
+      : '')
     . '<p style="margin:22px 0 0"><a href="' . $esc($waReply) . '" style="display:inline-block;'
     . 'background:#FFB020;color:#231600;text-decoration:none;font-weight:700;font-size:15px;'
     . 'padding:13px 22px;border-radius:12px">Responder por WhatsApp</a></p>'

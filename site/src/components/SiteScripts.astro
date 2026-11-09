@@ -254,7 +254,9 @@ if (hasTabs) {
   };
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a[href*="wa.me/"]');
-    if (a) window.wfTrack('whatsapp_click', { link_type: 'enlace' });
+    // Solo los enlaces directos abren el chat sin pasar por el formulario; los demas los mide
+    // wf_cta_continue en WhatsAppLead.astro, al elegir el tema.
+    if (a && a.hasAttribute('data-wa-direct')) window.wfTrack('whatsapp_click', { link_type: 'enlace' });
   });
 
   /* Envío por correo: los formularios de Contacto y del footer llegan a contacto@webfriends.cl
@@ -282,6 +284,8 @@ if (hasTabs) {
     a.href = window.wfWhatsAppUrl(msg);
     a.target = '_blank';
     a.rel = 'noopener';
+    // Directo, sin volver a pedir datos: el formulario ya los capturo y el mensaje va escrito.
+    a.setAttribute('data-wa-direct', '');
     a.textContent = 'Envíala por WhatsApp';
     a.style.color = 'inherit';
     status.appendChild(a);
@@ -339,7 +343,11 @@ if (hasTabs) {
       var href = a.getAttribute('href');
       if (!contacto.test(href)) return;
       e.preventDefault();
-      window.wfWhatsApp('Hola Webfriends, les escribo desde ' + window.wfPage() + ' del sitio.');
+      // El detalle que arma la calculadora de Precios viaja como contexto para no perderlo.
+      var detalle = '';
+      try { detalle = new URL(href, location.origin).searchParams.get('detalle') || ''; } catch (err) {}
+      if (typeof window.wfLead === 'function') window.wfLead(detalle);
+      else window.wfWhatsApp('Hola Webfriends, les escribo desde ' + window.wfPage() + ' del sitio.');
     });
   })();
 
@@ -449,18 +457,6 @@ if (hasTabs) {
     }, { passive:true });
     window.addEventListener('resize', function(){ measure(); frame(); }, { passive:true });
     frame();
-  }
-
-  /* Campos opcionales del formulario, plegados por defecto.
-     Clarity muestra solo 0,23% de envíos: menos fricción inicial. */
-  var tEx = document.getElementById('toggleExtra'), exBox = document.getElementById('extra');
-  if (tEx && exBox) {
-    tEx.addEventListener('click', function(){
-      var open = exBox.hasAttribute('hidden');
-      if (open) { exBox.removeAttribute('hidden'); } else { exBox.setAttribute('hidden',''); }
-      tEx.setAttribute('aria-expanded', String(open));
-      tEx.textContent = open ? '− Ocultar campos opcionales' : '+ Añadir teléfono y empresa (opcional)';
-    });
   }
 
   /* ══════════════════════════════════════════════════════════

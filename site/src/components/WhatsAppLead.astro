@@ -220,7 +220,7 @@ const temas = [
     var closeBtn = document.getElementById('walClose');
     var nombreEl = document.getElementById('walNombre');
     var telEl = document.getElementById('walTel');
-    var lead = { nombre: '', tel: '' };
+    var lead = { nombre: '', tel: '', contexto: '' };
 
     /* wfTrack y wfWhatsAppUrl los define SiteScripts.astro, que se monta despues de este
        componente. Solo se usan dentro de manejadores, asi que para entonces ya existen; aun asi
@@ -256,11 +256,20 @@ const temas = [
       }
     }
 
-    function abrir() {
+    function abrir(contexto) {
+      lead.contexto = contexto || '';
       panel.hidden = false;
       track('wf_cta_open', {});
       if (nombreEl) nombreEl.focus();
     }
+
+    /* API para los demas puntos de entrada (SiteScripts.astro, index.astro). El contexto es el
+       detalle que aporta cada origen -el presupuesto armado en Precios, la URL del sitio en el
+       inicio- y se suma al mensaje de WhatsApp y al correo, para no perderlo al interponer el
+       formulario. */
+    window.wfLead = function (contexto) {
+      abrir(contexto);
+    };
 
     function cerrar() {
       panel.hidden = true;
@@ -273,10 +282,24 @@ const temas = [
     float.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
-      panel.hidden ? abrir() : cerrar();
+      panel.hidden ? abrir('') : cerrar();
     });
 
     closeBtn.addEventListener('click', cerrar);
+
+    /* Cualquier otro enlace a wa.me del sitio (Contacto, articulos, etc.) tambien pasa por el
+       formulario. Se exceptuan los marcados con data-wa-direct: hoy es el enlace de respaldo que
+       aparece cuando el correo de un formulario falla, donde los datos YA se pidieron y volver a
+       pedirlos perderia el mensaje escrito. */
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="wa.me/"]');
+      if (!a || a === float || a.hasAttribute('data-wa-direct')) return;
+      e.preventDefault();
+      // Corta los demas listeners de document: el de "clic fuera" (mas abajo) cerraria el panel en
+      // este mismo evento, y el de SiteScripts registraria un whatsapp_click que aun no ocurre.
+      e.stopImmediatePropagation();
+      abrir('');
+    });
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !panel.hidden) cerrar();
@@ -326,6 +349,7 @@ const temas = [
       datos.set('tel', lead.tel);
       datos.set('interes', tema);
       datos.set('website', document.getElementById('walWebsite').value);
+      if (lead.contexto) datos.set('msg', lead.contexto);
       datos.set('pagina', document.title + ' (' + location.pathname + ')');
       datos.set('e', String(Math.round(performance.now())));
       fetch('/api/contacto.php', {
@@ -338,7 +362,8 @@ const temas = [
       // 2) WhatsApp, síncrono dentro del clic.
       var msg =
         'Hola, mi nombre es ' + lead.nombre + ' y me interesa ' + label +
-        '. Pueden contactarme a este número: ' + bonito(lead.tel) + '. ¡Muchas gracias!';
+        '. Pueden contactarme a este número: ' + bonito(lead.tel) + '. ¡Muchas gracias!' +
+        (lead.contexto ? '\n\n' + lead.contexto : '');
       window.open(waUrl(msg), '_blank', 'noopener');
 
       cerrar();

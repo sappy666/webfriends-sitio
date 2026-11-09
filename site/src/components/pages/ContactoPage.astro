@@ -77,29 +77,24 @@ const sec = (id: string) => page.sections.find((s) => s.id === id)!;
           </div>
           <div class="hp" aria-hidden="true"><label>No completar <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
 
-          <button type="button" class="toggle-extra" id="toggleExtra" aria-expanded="false" aria-controls="extra">
-            + Añadir teléfono y empresa (opcional)
-          </button>
-          <div class="form-extra" id="extra" hidden>
-            <div class="field">
-              <label for="tel">Teléfono</label>
-              <input id="tel" name="tel" type="tel" autocomplete="tel" inputmode="tel">
-            </div>
-            <div class="field">
-              <label for="empresa">Empresa</label>
-              <input id="empresa" name="empresa" type="text" autocomplete="organization">
-            </div>
-            <div class="field">
-              <label for="interes">¿Qué te interesa?</label>
-              <select id="interes" name="interes">
-                <option value="general">Asesoría general</option>
-                <option value="ads">Google Ads</option>
-                <option value="seo">Posicionamiento SEO</option>
-                <option value="web">Sitio o tienda web</option>
-                <option value="salud">Plataforma para salud</option>
-                <option value="uxui">Diseño UX/UI</option>
-              </select>
-            </div>
+          <div class="field">
+            <label for="tel">Teléfono</label>
+            <input id="tel" name="tel" type="tel" autocomplete="tel" inputmode="tel">
+          </div>
+          <div class="field">
+            <label for="empresa">Empresa</label>
+            <input id="empresa" name="empresa" type="text" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="interes">¿Qué te interesa?</label>
+            <select id="interes" name="interes">
+              <option value="general">Asesoría general</option>
+              <option value="ads">Google Ads</option>
+              <option value="seo">Posicionamiento SEO</option>
+              <option value="web">Sitio o tienda web</option>
+              <option value="salud">Plataforma para salud</option>
+              <option value="uxui">Diseño UX/UI</option>
+            </select>
           </div>
           <button class="btn btn-accent btn-block" type="submit">
             Enviar solicitud

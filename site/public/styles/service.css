@@ -409,8 +409,6 @@ section{padding-block:clamp(72px,10vw,132px)}
 .direct svg{color:var(--amber);flex:none}
 .direct a .chev{margin-left:auto;color:var(--label-3)}
 .field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
-.form-extra[hidden]{display:none}
-.toggle-extra{background:none;border:0;color:var(--amber);font-family:inherit;font-weight:600;font-size:var(--s--1);cursor:pointer;padding:10px 0;min-height:44px}
 .field label{font-size:var(--s--1);color:var(--label-2);font-weight:600}
 .field input,.field textarea,.field select{
   background:var(--fill);border:1px solid transparent;border-radius:14px;padding:15px 17px;

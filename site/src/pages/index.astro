@@ -333,7 +333,11 @@ const serviceArt = ['web-1', 'seo-1', 'ads', 'medical-1', 'uxui-1'].map((k) => l
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var url = form.querySelector('input').value.trim();
-      window.wfWhatsApp('Hola Webfriends, les escribo desde el inicio del sitio.\nMi sitio: ' + url);
+      // La URL que escribio la persona viaja como contexto: el formulario de datos la conserva
+      // en el mensaje de WhatsApp y en el correo.
+      var ctx = url ? 'Mi sitio: ' + url : '';
+      if (typeof window.wfLead === 'function') window.wfLead(ctx);
+      else window.wfWhatsApp('Hola Webfriends, les escribo desde el inicio del sitio.\nMi sitio: ' + url);
       close();
     });
   }
