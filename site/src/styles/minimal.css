@@ -316,6 +316,23 @@ body .foil-card::before, body .foil-card::after { display: block; }
   .web-design-icon .wd-window, .web-design-icon .wd-cursor { animation: none; }
   .web-design-icon .wd-ripple { display: none; }
 }
+/* Sitios y tiendas web: la vitrina aparece, el cursor llega al botón de compra, lo aprieta y
+   queda la marca de comprado. Mismo compás de 4s que los otros cuatro servicios. */
+.web-store-icon .ws-window { animation: ws-reveal 4s ease-in-out infinite; transform-origin: 128px 128px; }
+.web-store-icon .ws-press { transform-origin: 166px 151px; animation: ws-press 4s ease-in-out infinite; }
+.web-store-icon .ws-cursor { fill: var(--card); animation: ws-point 4s ease-in-out infinite; }
+.web-store-icon .ws-ripple { animation: ws-click 4s ease-out infinite; transform-origin: 166px 151px; }
+.web-store-icon .ws-done { animation: ws-done 4s ease-out infinite; }
+@keyframes ws-reveal { 0% { opacity: 0; transform: translateY(6px); } 15%, 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
+@keyframes ws-press { 0%, 12% { opacity: 0; } 22%, 58% { opacity: 1; transform: translateY(0); } 62%, 66% { opacity: 1; transform: translateY(2px); } 72%, 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
+@keyframes ws-point { 0%, 20% { opacity: 0; transform: translate(16px, 16px); } 38%, 58% { opacity: 1; transform: translate(0, 0); } 62% { opacity: 1; transform: translate(0, 2px); } 68% { opacity: 1; transform: translate(0, 0); } 78%, 100% { opacity: 0; transform: translate(6px, 8px); } }
+@keyframes ws-click { 0%, 61% { opacity: 0; transform: scale(.3); } 62% { opacity: .7; transform: scale(.3); } 80%, 100% { opacity: 0; transform: scale(1.8); } }
+@keyframes ws-done { 0%, 70% { opacity: 0; } 78%, 90% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .web-store-icon .ws-window, .web-store-icon .ws-press, .web-store-icon .ws-cursor { animation: none; }
+  .web-store-icon .ws-ripple { display: none; }
+  .web-store-icon .ws-done { animation: none; opacity: 1; }
+}
 .svc-art .line-art { width: 100%; max-width: 300px; margin-inline: auto; }
 .svc-row:hover .line-art, .pq-svc:hover .line-art, .pq-svc:has(input:checked) .line-art { color: var(--label-2); }
 .pq-svc .line-art { width: 72px; }
