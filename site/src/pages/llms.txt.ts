@@ -18,7 +18,7 @@ const SERVICES: [string, string, string][] = [
 const COMPANY: [string, string, string][] = [
   ['page-servicios', 'Servicios', 'Resumen de todos los servicios y cómo combinarlos en una estrategia integral.'],
   ['page-precios', 'Precios', 'Cotizador en línea con los precios publicados de cada servicio.'],
-  ['page-nosotros', 'Nosotros', 'Quiénes somos, cómo trabajamos, certificaciones y casos de éxito (CEAPSI, Liv Salud, NanoBioHealth, Punto Cero Patagonia).'],
+  ['page-nosotros', 'Nosotros', 'Quiénes somos, cómo trabajamos, certificaciones y casos de éxito (CEAPSI, Liv Salud, Familia Salud, Punto Cero Patagonia).'],
   ['page-contacto', 'Contacto', 'Formulario, WhatsApp, teléfono y correo; horario y preguntas frecuentes sobre cobertura.'],
 ];
 const OPTIONAL: [string, string, string][] = [
