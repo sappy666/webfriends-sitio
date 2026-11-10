@@ -28,13 +28,15 @@ const casos = await getCollection('casos');
 const evidencia = [
   {
     ...casos.find((c) => c.id === 'ceapsi')!.data,
-    shot: 'ceapsi-d.webp',
+    shot: 'ceapsi-full.webp',
+    shotH: 3212,
     url: 'https://ceapsi.cl/',
     hecho: ['Sitio web', 'SEO / GEO', 'Google Ads'],
   },
   {
     ...casos.find((c) => c.id === 'liv-salud')!.data,
-    shot: 'livsalud-d.webp',
+    shot: 'livsalud-full.webp',
+    shotH: 3207,
     url: 'https://livsalud.cl/',
     hecho: ['Sitio web', 'Google Ads'],
   },
@@ -254,51 +256,18 @@ const faqs = [
         </ul>
       </div>
 
-      <!-- Composición de las tres áreas con el mismo peso. Se entiende por formas y etiquetas: sin
-           textos diminutos ni cifras. Todo es maqueta y va rotulado como tal. -->
-      <div class="lp-compo" aria-hidden="true" data-reveal>
-        <div class="lp-compo-card is-web">
-          <span class="lp-compo-tag">Sitio web</span>
-          <div class="lp-compo-pro">
-            <span class="lp-compo-av"></span>
-            <span class="lp-bar is-w70"></span>
-            <span class="lp-bar is-w40 is-acc"></span>
-          </div>
-          <!-- Las filas de la ficha: sin ellas la tarjeta quedaba con un hueco bajo el nombre. -->
-          <div class="lp-compo-rows">
-            <span><em></em><i class="lp-bar is-w75"></i></span>
-            <span><em></em><i class="lp-bar is-w55"></i></span>
-            <span><em></em><i class="lp-bar is-w85"></i></span>
-          </div>
-          <span class="lp-compo-btn">Reservar hora</span>
-        </div>
-
-        <div class="lp-compo-card is-seo">
-          <span class="lp-compo-tag">SEO / GEO</span>
-          <div class="lp-compo-res">
-            <span class="lp-bar is-w60 is-acc"></span>
-            <span class="lp-bar is-w90"></span>
-            <span class="lp-bar is-w75"></span>
-          </div>
-          <div class="lp-compo-ia">
-            <span class="lp-compo-spark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18" /></svg>
-            </span>
-            <span class="lp-bar is-w80"></span>
-            <span class="lp-bar is-w55"></span>
-          </div>
-        </div>
-
-        <div class="lp-compo-card is-ads">
-          <span class="lp-compo-tag">Google Ads</span>
-          <div class="lp-compo-ad">
-            <span class="lp-compo-pill">Anuncio</span>
-            <span class="lp-bar is-w65 is-acc"></span>
-            <span class="lp-bar is-w85"></span>
-          </div>
-        </div>
-      </div>
-      <p class="lp-compo-note">Composición ilustrativa de las tres soluciones. No representa resultados reales.</p>
+      <!-- La consulta: el final del recorrido que esta página propone. Sale del margen hasta el
+           borde de la pantalla y se desvanece por la izquierda y por abajo, de modo que no es una
+           foto puesta al lado del texto sino el fondo del que sale el texto. Sin `data-reveal` ni
+           animación de entrada: es la imagen grande del primer pantallazo y tiene que pintarse de
+           inmediato. -->
+      <figure class="lp-hero-art">
+        <img
+          src="/assets/img/centros-hero.webp"
+          alt="Un médico en su consulta revisa una ficha junto a una paciente, con un computador sobre el escritorio."
+          width="1400" height="1350" fetchpriority="high" decoding="async"
+        />
+      </figure>
     </div>
   </section>
 
@@ -573,8 +542,20 @@ const faqs = [
       <div class="lp-cases">
         {evidencia.map((c) => (
           <article class="lp-case" data-reveal>
-            <!-- Captura del sitio en producción, tomada del proyecto publicado. -->
-            <img class="lp-case-shot" src={`/assets/img/proj/${c.shot}`} alt={`Sitio de ${c.client} en escritorio`} width="1280" height="800" loading="lazy" decoding="async" />
+            <!-- Captura de la portada completa del sitio en producción. Dentro del marco se
+                 desplaza sola, de arriba abajo y de vuelta, como si alguien la estuviera
+                 recorriendo: en un recuadro fijo solo se veía el primer pantallazo. El
+                 movimiento es decorativo —la misma imagen, entera, sigue siendo el contenido— y
+                 se detiene al pasar el puntero por encima para poder mirar con calma. -->
+            <figure class="lp-case-shot">
+              <div class="lp-case-bar" aria-hidden="true">
+                <span class="lp-case-dots"><i /><i /><i /></span>
+                <span class="lp-case-url">{c.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</span>
+              </div>
+              <div class="lp-case-view">
+                <img class="lp-case-page" src={`/assets/img/proj/${c.shot}`} alt={`Portada del sitio de ${c.client} en escritorio`} width="960" height={c.shotH} loading="lazy" decoding="async" />
+              </div>
+            </figure>
             <div class="lp-case-body">
               <h3>{c.client}</h3>
               <p class="lp-case-sector">{c.sector}</p>
@@ -836,8 +817,11 @@ const faqs = [
   }
 
   /* Hero */
-  .lp-hero { padding-block: clamp(40px, 7vw, 92px) clamp(44px, 7vw, 84px); }
-  .lp-hero-in { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+  /* `overflow-x: clip` y no `hidden`: recorta lo que se sale por el costado sin convertir la
+     sección en un contenedor de scroll. */
+  .lp-hero { padding-block: clamp(40px, 7vw, 92px) clamp(44px, 7vw, 84px); overflow-x: clip; }
+  .lp-hero-in { display: grid; grid-template-columns: 1fr 1.06fr; gap: clamp(28px, 4vw, 52px); align-items: stretch; }
+  .lp-hero-copy { align-self: center; }
   .lp-hero-copy h1 { font-size: var(--s-3); line-height: 1.08; letter-spacing: -.045em; margin: 0; }
   /* Subrayado ambar bajo las dos promesas del titular. Va con text-decoration y no con un borde,
      para que siga al texto si la frase se parte en dos lineas. */
@@ -851,20 +835,24 @@ const faqs = [
   .lp-trust .is-partner { padding: 7px 13px; border: 1px solid var(--amber); border-radius: 999px; }
   .lp-trust .is-partner strong { color: var(--amber); }
 
-  /* Composición del hero. Todo son formas y etiquetas: nada de texto diminuto ni cifras. */
-  .lp-compo { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .lp-compo-card { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-  .lp-compo-card.is-web { grid-row: 1 / 3; }
-  .lp-compo-tag { font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--amber); }
-  .lp-compo-pro { display: grid; gap: 9px; justify-items: start; }
-  .lp-compo-av { width: 46px; height: 46px; border-radius: 50%; background: var(--fill); margin-bottom: 4px; }
-  .lp-compo-rows { display: grid; gap: 11px; padding-top: 14px; border-top: 1px solid var(--line); }
-  .lp-compo-rows span { display: flex; align-items: center; gap: 12px; }
-  .lp-compo-rows em { flex: none; width: 34px; height: 6px; border-radius: 3px; background: var(--line-2); }
-  .lp-compo-rows i { flex: 1; }
-  .lp-compo-btn { margin-top: auto; text-align: center; padding: 11px; border-radius: var(--r-sm); background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: .86rem; }
-  .lp-compo-res, .lp-compo-ia, .lp-compo-ad { display: grid; gap: 8px; justify-items: start; }
-  .lp-compo-ia { padding-top: 14px; border-top: 1px solid var(--line); }
+  /* Imagen del hero. Se sale de la caja hasta el borde derecho de la pantalla: el margen que
+     la separa del borde es la mitad del sobrante más el padding del contenedor, y `max()` evita
+     que el cálculo la encoja cuando la ventana es más angosta que la caja. */
+  .lp-hero-art { margin: 0; display: grid; margin-right: calc(-1 * max(0px, (100vw - 1180px) / 2) - clamp(20px, 5vw, 40px)); }
+  .lp-hero-art img {
+    display: block; width: 100%; height: 100%; min-height: clamp(400px, 42vw, 620px);
+    object-fit: cover; object-position: 52% center;
+    /* Dos máscaras que se cruzan: una difumina el canto izquierdo contra el texto y la otra el
+       inferior contra la cinta de logotipos. Sin contorno ni sombra: un borde dibujado sobre un
+       canto que se desvanece se ve roto. */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 27%), linear-gradient(180deg, transparent 0%, #000 9%), linear-gradient(0deg, transparent 0%, #000 13%);
+    -webkit-mask-composite: source-in, source-in;
+    mask-image: linear-gradient(90deg, transparent 0%, #000 27%), linear-gradient(180deg, transparent 0%, #000 9%), linear-gradient(0deg, transparent 0%, #000 13%);
+    mask-composite: intersect;
+  }
+
+  /* El destello y la etiqueta «Anuncio» siguen vivos: los usan las demostraciones de SEO / GEO
+     y de Ads más abajo. */
   .lp-compo-spark { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--amber); color: var(--amber); margin-bottom: 2px; }
   .lp-compo-spark svg { width: 13px; height: 13px; }
   .lp-compo-pill { display: inline-block; padding: 3px 8px; border: 1px solid var(--line-2); border-radius: 5px; font-size: .68rem; font-weight: 700; letter-spacing: .03em; color: var(--label-3); }
@@ -875,7 +863,6 @@ const faqs = [
   .lp-bar.is-w65 { width: 65%; } .lp-bar.is-w70 { width: 70%; } .lp-bar.is-w75 { width: 75%; }
   .lp-bar.is-w80 { width: 80%; } .lp-bar.is-w85 { width: 85%; } .lp-bar.is-w90 { width: 90%; }
   .lp-bar.is-w95 { width: 95%; }
-  .lp-compo-note { margin: 16px 0 0; font-size: .78rem; color: var(--label-3); }
 
   .lp-band { padding-block: clamp(60px, 8vw, 112px); background: var(--bg-2); border-block: 1px solid var(--line); }
   h2 { font-size: var(--s-2); letter-spacing: -.04em; margin: 0 0 clamp(16px, 2.5vw, 26px); max-width: 20ch; }
@@ -1030,7 +1017,32 @@ const faqs = [
   .lp-case { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(24px, 3vw, 40px); align-items: center; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: clamp(22px, 2.5vw, 32px); transition: border-color .35s; }
   .lp-case:hover { border-color: var(--amber); }
   .lp-case:nth-child(even) .lp-case-shot { order: 2; }
-  .lp-case-shot { display: block; width: 100%; height: auto; border: 1px solid var(--line-2); border-radius: var(--r-md); }
+  .lp-case-shot { margin: 0; overflow: hidden; border: 1px solid var(--line-2); border-radius: var(--r-md); background: var(--bg-2); box-shadow: var(--sh-2); }
+  /* Barra del navegador: tres puntos y el dominio real. Sitúa la captura como un sitio en vivo
+     sin inventar nada: la dirección es la misma a la que lleva el enlace de abajo. */
+  .lp-case-bar { display: flex; align-items: center; gap: 12px; padding: 9px 12px; background: var(--card); border-bottom: 1px solid var(--line-2); }
+  .lp-case-dots { display: flex; gap: 5px; flex: none; }
+  .lp-case-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line-2); }
+  .lp-case-url { flex: 1; min-width: 0; padding: 4px 12px; border-radius: 999px; background: var(--bg-2); font-size: .72rem; color: var(--label-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* `container-type: size` deja medir el alto del recuadro desde dentro: el recorrido termina
+     justo con el pie de la página alineado abajo, y vale para capturas de distinto largo sin
+     calcular nada a mano. */
+  .lp-case-view { position: relative; aspect-ratio: 16 / 10; overflow: hidden; container-type: size; }
+  .lp-case-page { position: absolute; top: 0; left: 0; width: 100%; height: auto; display: block; }
+  .lp-case.is-browsing .lp-case-page { animation: lp-browse 42s ease-in-out infinite; }
+  /* La segunda entra desfasada: en sincronia las dos capturas parecian un solo mecanismo. */
+  .lp-case:nth-child(even) .lp-case-page { animation-delay: -13s; }
+  /* Al pasar el puntero se congela: si algo llamó la atención, tiene que poder mirarse. */
+  .lp-case:hover .lp-case-page, .lp-case:focus-within .lp-case-page { animation-play-state: paused; }
+  @keyframes lp-browse {
+    0%, 6% { transform: translateY(0); }
+    52%, 60% { transform: translateY(calc(-100% + 100cqh)); }
+    100% { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lp-case.is-browsing .lp-case-page { animation: none; }
+  }
   .lp-case h3 { margin: 0 0 4px; font-size: var(--s-2); letter-spacing: -.035em; }
   .lp-case-sector { margin: 0 0 16px; font-size: .9rem; color: var(--label-3); }
   .lp-case-text { margin: 0 0 18px; font-size: 1rem; color: var(--label-2); line-height: 1.6; max-width: 44ch; }
@@ -1060,9 +1072,41 @@ const faqs = [
   :global(:root[data-theme="dark"]) .lp-track img { filter: grayscale(1) brightness(0) invert(1); }
 
   /* Testimonios. El componente ya es una <section> y hereda el padding global del sitio: aqui
-     solo va la linea que lo separa de los proyectos. Envolverlo en otra <section> con su propio
-     padding duplicaba el aire y dejaba la franja con el doble de alto que su contenido. */
-  .lp-tst { border-top: 1px solid var(--line); }
+     solo va la franja y los ajustes que le dan mas peso en esta pagina. Envolverlo en otra
+     <section> con su propio padding duplicaba el aire y dejaba la franja con el doble de alto
+     que su contenido.
+
+     En esta landing la prueba social es el argumento que cierra: la seccion pasa a tener
+     superficie propia, las tarjetas se levantan del fondo y la nota de Google deja de ser una
+     linea de 13px para convertirse en el dato que se ve primero. Todo va acotado a .lp-tst
+     para no tocar el inicio, que usa el mismo componente. */
+  .lp-tst { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+  /* Las tarjetas eran contorno sobre el mismo fondo: contra una superficie alterna no se leian
+     como piezas. Con superficie propia y sombra suave quedan por delante de la franja. */
+  .lp-tst :global(.tst-card) { background: var(--card); box-shadow: var(--sh-2); border-color: var(--line); }
+  .lp-tst :global(.tst-card:hover) { box-shadow: var(--sh-3); border-color: color-mix(in srgb, var(--amber) 55%, transparent); }
+  .lp-tst :global(.tst-card blockquote) { font-size: .98rem; line-height: 1.6; }
+
+  /* 4,4 de 5 con 18 resenas es el dato mas duro de esta seccion y estaba al tamano de un pie de
+     foto. Pasa a bloque con contorno ambar, del tamano de un boton, y sigue llevando al listado
+     real de Google. */
+  .lp-tst :global(.tst-rating) {
+    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 12px;
+    margin-top: 26px; padding: 12px 18px; min-height: 56px;
+    border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent); border-radius: var(--r-lg);
+    background: var(--card); font-size: .9rem;
+    transition: border-color .3s, box-shadow .3s;
+  }
+  .lp-tst :global(.tst-rating:hover) { border-color: var(--amber); box-shadow: var(--sh-2); }
+  .lp-tst :global(.tst-rating b) { font-size: 2rem; line-height: 1; }
+  .lp-tst :global(.tst-stars) { font-size: 1.05rem; }
+
+  .lp-tst :global(.tst-nav) { margin-top: 24px; }
+
+  @media (max-width: 640px) {
+    .lp-tst :global(.tst-rating) { width: 100%; justify-content: center; }
+  }
 
   /* Preguntas frecuentes */
   .lp-faq { padding-block: clamp(60px, 8vw, 112px); background: var(--bg-2); border-top: 1px solid var(--line); }
@@ -1179,7 +1223,17 @@ const faqs = [
     :global(body .totop) { bottom: 152px; }
     .lp-nav, .lp-head-cta { display: none; }
     .lp-menu { display: block; }
+    /* Apilada ocupa el ancho completo de la pantalla y solo se desvanece por abajo: el
+       degradado lateral, pensado para separarla del texto, aquí se comía media foto. */
     .lp-hero-in { grid-template-columns: 1fr; }
+    .lp-hero-art { margin-inline: calc(-1 * clamp(20px, 5vw, 40px)); }
+    .lp-hero-art img {
+      min-height: 320px;
+      -webkit-mask-image: linear-gradient(0deg, transparent 0%, #000 12%);
+      -webkit-mask-composite: source-over;
+      mask-image: linear-gradient(0deg, transparent 0%, #000 12%);
+      mask-composite: add;
+    }
     .lp-hero-copy h1 { font-size: var(--s-2); }
     /* El salto de línea del titular es para escritorio; en móvil estorba. */
     .lp-hero-copy h1 br { display: none; }
@@ -1211,19 +1265,6 @@ const faqs = [
 
   @media (max-width: 560px) {
     .lp-grid2 { grid-template-columns: 1fr; }
-    /* Apilada medía ~1200px, más que la pantalla, y es decorativa: aria-hidden. En fila de tres
-       dice lo mismo —tres soluciones del mismo peso— en una séptima parte del alto. */
-    .lp-compo { grid-template-columns: repeat(3, 1fr); gap: 8px; align-items: stretch; }
-    .lp-compo-card { grid-row: auto !important; padding: 12px 10px; gap: 9px; border-radius: var(--r-md); }
-    .lp-compo-tag { font-size: .56rem; letter-spacing: .03em; line-height: 1.25; }
-    .lp-compo-av { width: 24px; height: 24px; margin-bottom: 0; }
-    .lp-compo-rows, .lp-compo-pill { display: none; }
-    .lp-compo-ia { padding-top: 9px; }
-    .lp-compo-spark { width: 16px; height: 16px; }
-    .lp-compo-spark svg { width: 10px; height: 10px; }
-    .lp-compo-btn { padding: 8px 4px; font-size: .62rem; border-radius: var(--r-sm); }
-    .lp-bar { height: 5px; }
-    .lp-compo-note { margin-top: 12px; }
     .lp-form-card, .lp-demo-frame, .lp-demo-aside { padding: 22px 18px; }
     .lp-paths { grid-template-columns: 1fr; }
     .lp-sol { padding: 26px 22px 24px; }
@@ -1246,96 +1287,14 @@ const faqs = [
   }
 </style>
 
-<!-- Movimiento de la composicion del hero. Va en un <script> SIN atributos para que Astro lo
-     procese y pueda importar GSAP, que ya es dependencia del sitio (lo usan HeroBlobs, ArcScroll
-     y LitSteps). El de mas arriba lleva define:vars, asi que Astro lo trata como inline y ahi un
-     import no funcionaria. -->
+<!-- Movimiento de la demostracion de SEO / GEO. Va en un <script> SIN atributos para que Astro
+     lo procese y pueda importar GSAP, que ya es dependencia del sitio (lo usan HeroBlobs,
+     ArcScroll y LitSteps). El de mas arriba lleva define:vars, asi que Astro lo trata como inline
+     y ahi un import no funcionaria. -->
 <script>
   import { gsap } from 'gsap';
 
-  const compo = document.querySelector('.lp-compo');
   const conMovimiento = matchMedia('(prefers-reduced-motion: no-preference)').matches;
-
-  if (compo instanceof HTMLElement && conMovimiento) {
-    const q = gsap.utils.selector(compo);
-    const tarjetas = q('.lp-compo-card');
-
-    /* Todo se anima con .from(): el estado final es el que ya esta en el HTML, asi que si GSAP
-       no carga o algo falla, la composicion se ve completa igual. Nunca se deja una pieza
-       escondida esperando a que el script la muestre. */
-    const entrada = gsap.timeline({ delay: 0.35, defaults: { ease: 'power3.out' } });
-
-    entrada
-      // Las tres tarjetas llegan escalonadas, no de golpe.
-      .from(tarjetas, { y: 26, opacity: 0, duration: 0.7, stagger: 0.12 })
-
-      // SEO: los resultados se dibujan de izquierda a derecha, como una lista que carga.
-      .from(q('.is-seo .lp-compo-res .lp-bar'), {
-        scaleX: 0, transformOrigin: 'left center', opacity: 0, duration: 0.45, stagger: 0.09,
-      }, '-=0.35')
-      // El destello de IA gira al aparecer: es la pieza que distingue GEO de SEO.
-      .from(q('.lp-compo-spark'), { scale: 0, rotate: -180, duration: 0.6, ease: 'back.out(2)' }, '-=0.1')
-      .from(q('.is-seo .lp-compo-ia .lp-bar'), {
-        scaleX: 0, transformOrigin: 'left center', opacity: 0, duration: 0.4, stagger: 0.09,
-      }, '-=0.3')
-
-      // Ads: primero la etiqueta "Anuncio", despues el texto del aviso.
-      .from(q('.is-ads .lp-compo-pill'), { scale: 0.7, opacity: 0, duration: 0.4, ease: 'back.out(2)' }, '-=0.35')
-      .from(q('.is-ads .lp-compo-ad .lp-bar'), {
-        scaleX: 0, transformOrigin: 'left center', opacity: 0, duration: 0.4, stagger: 0.09,
-      }, '-=0.2')
-
-      // Web: la ficha se arma —foto, nombre, especialidad— y al final aparece el boton.
-      .from(q('.lp-compo-av'), { scale: 0, duration: 0.5, ease: 'back.out(1.7)' }, '-=0.35')
-      .from(q('.is-web .lp-compo-pro .lp-bar'), {
-        scaleX: 0, transformOrigin: 'left center', opacity: 0, duration: 0.4, stagger: 0.09,
-      }, '-=0.25')
-      .from(q('.lp-compo-rows span'), { x: -14, opacity: 0, duration: 0.45, stagger: 0.1 }, '-=0.2')
-      .from(q('.lp-compo-btn'), { y: 14, opacity: 0, duration: 0.5, ease: 'back.out(1.4)' }, '-=0.15');
-
-    /* Movimiento de fondo, permanente y lento: la composicion respira en vez de quedarse quieta.
-       Cada tarjeta flota con su propio ritmo para que no parezca un bloque.
-       Solo a partir de 561px: en el celular las tres van en una fila estrecha y los desfases
-       verticales las dejan desalineadas en vez de vivas. */
-    gsap.matchMedia().add('(min-width: 561px)', () => {
-      tarjetas.forEach((tarjeta, i) => {
-        gsap.to(tarjeta, {
-          y: i === 0 ? -9 : 9,
-          duration: 3.4 + i * 0.5,
-          delay: 1.6 + i * 0.25,
-          ease: 'sine.inOut',
-          repeat: -1,
-          yoyo: true,
-        });
-      });
-    });
-
-    // El destello de IA gira sin parar, muy despacio.
-    gsap.to(q('.lp-compo-spark svg'), { rotate: 360, duration: 14, ease: 'none', repeat: -1, delay: 1.6 });
-
-    // Cada tanto, el boton de reserva late: es la accion que la ficha propone.
-    gsap.timeline({ repeat: -1, repeatDelay: 3.4, delay: 3 })
-      .to(q('.lp-compo-btn'), { scale: 1.04, duration: 0.22, ease: 'power2.out' })
-      .to(q('.lp-compo-btn'), { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.45)' });
-
-    /* Parallax con el puntero, solo en dispositivos con mouse. Usa `x` y deja `y` libre para que
-       no choque con la flotacion de arriba. gsap.quickTo evita crear un tween por cada evento. */
-    if (matchMedia('(pointer: fine)').matches) {
-      const mueve = tarjetas.map((t, i) => ({
-        x: gsap.quickTo(t, 'x', { duration: 0.8, ease: 'power3.out' }),
-        rot: gsap.quickTo(t, 'rotate', { duration: 0.8, ease: 'power3.out' }),
-        f: i === 0 ? 1 : -0.7,
-      }));
-      compo.addEventListener('pointermove', (e) => {
-        const caja = compo.getBoundingClientRect();
-        const dx = (e.clientX - caja.left) / caja.width - 0.5;
-        mueve.forEach((m) => { m.x(dx * 16 * m.f); m.rot(dx * 1.2 * m.f); });
-      });
-      compo.addEventListener('pointerleave', () => {
-        mueve.forEach((m) => { m.x(0); m.rot(0); });
-      });
-    }
-  }
 
   /* La demostracion de SEO / GEO: primero cargan los resultados de busqueda, despues el destello
      "piensa" y la respuesta se escribe linea por linea con un cursor al final. Se repite en bucle
@@ -1391,6 +1350,21 @@ const faqs = [
      llega con esa casilla ya marcada, SIN borrar lo que la persona haya escrito. El CTA de la
      franja de datos no lleva data-need a propósito: ahí no se pide un servicio en particular.
      Sin JavaScript el ancla igual baja al formulario y la persona elige a mano. */
+  /* El recorrido de las capturas solo corre mientras el bloque esta en pantalla: una animacion
+     de 30 s pintando fuera de vista gasta bateria sin que nadie la vea. */
+  (function () {
+    var casos = document.querySelectorAll('.lp-case');
+    if (!casos.length) return;
+    if (!('IntersectionObserver' in window)) {
+      casos.forEach(function (c) { c.classList.add('is-browsing'); });
+      return;
+    }
+    var ojo = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) { e.target.classList.toggle('is-browsing', e.isIntersecting); });
+    }, { rootMargin: '120px' });
+    casos.forEach(function (c) { ojo.observe(c); });
+  })();
+
   (function () {
     document.addEventListener('click', function (e) {
       var a = e.target.closest && e.target.closest('[data-need]');
