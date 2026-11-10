@@ -20,4 +20,27 @@ export const lineArt: Record<string, string> = {
   'uxui-1': `<rect x="14" y="16" width="100" height="76" rx="8"/><rect x="26" y="28" width="34" height="24" rx="3"/><path d="M70 30h32M70 40h24M26 64h76M26 76h52"/>
    <rect x="96" y="58" width="50" height="46" rx="6" style="fill:var(--bg)"/><circle cx="111" cy="73" r="5"/><path d="M104 96l12-12 8 7 10-10 8 8"/>
    <path class="acc" d="M126 18l6 20 5-6 9 8 4-4-9-8 6-5z"/>`,
+
+  // Desafío 1: sitio lento o difícil de recorrer. Ventana con cronómetro y barra a medias.
+  'lento': `<rect x="10" y="22" width="106" height="78" rx="8"/><path d="M10 38h106"/><circle cx="22" cy="30" r="2.5"/><circle cx="31" cy="30" r="2.5"/>
+   <path d="M26 54h48M26 66h66M26 78h34"/>
+   <circle cx="124" cy="46" r="24" style="fill:var(--bg)"/><path d="M124 46V32m0 14 10 7M118 18h12m-6 0v4"/>
+   <path class="acc" d="M26 90h30"/>`,
+
+  // Desafío 2: cuesta encontrarlos. Lupa sobre un mapa con un punto fuera de foco.
+  'invisible': `<rect x="12" y="18" width="100" height="84" rx="8"/><path d="m12 44 26-10 26 10 26-10 22 8M50 24v62M78 34v62"/>
+   <circle cx="104" cy="74" r="22" style="fill:var(--bg)"/><circle cx="104" cy="74" r="15"/><path d="m115 85 14 14"/>
+   <path class="acc" d="M104 68a4 4 0 0 1 4 4c0 3-4 8-4 8s-4-5-4-8a4 4 0 0 1 4-4z"/>`,
+
+  // Desafío 3: impulsar un servicio concreto. Barras que suben hacia una diana.
+  'impulso': `<path d="M14 100h118M26 100V78M48 100V62M70 100V84"/>
+   <circle cx="110" cy="44" r="26"/><circle cx="110" cy="44" r="15"/>
+   <path d="M92 100V54"/>
+   <path class="acc" d="M110 44h-1m1 0 24-24m0 0h-9m9 0v9"/><circle class="acc" cx="110" cy="44" r="4"/>`,
+
+  // Vinculación con la agenda del centro: calendario y eslabón.
+  'agenda': `<rect x="12" y="24" width="76" height="72" rx="8"/><path d="M12 44h76M32 18v12M68 18v12"/>
+   <path d="M28 58h10m12 0h10M28 76h10m12 0h10"/>
+   <path d="M88 60h8"/><rect x="94" y="49" width="32" height="22" rx="11"/>
+   <rect class="acc" x="118" y="49" width="32" height="22" rx="11"/>`,
 };

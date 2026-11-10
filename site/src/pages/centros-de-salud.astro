@@ -1,421 +1,737 @@
 ---
-// Landing cerrada para campañas de Google Ads dirigidas a centros médicos y dentales.
-// Concepto: "La primera atención ocurre antes de la consulta."
+// Landing para campañas de Google Ads dirigidas a centros médicos y dentales.
+// Tres líneas con el mismo peso —web, SEO/GEO y Google Ads—, contratables por separado o juntas.
 //
-// Cerrada de verdad: sin menú, sin pie navegable y sin logotipo enlazado. En tráfico pagado cada
-// enlace de fuga es un clic ya comprado que se va a otra parte del sitio. Los únicos enlaces que
-// salen son el de WhatsApp, el correo y el legal, y ese último abre en pestaña nueva para no
-// perder lo que la persona ya escribió. La navegación interna son anclas: no sacan a nadie.
+// Segunda iteración: la sección suelta de problemas se eliminó y cada problema pasó a encabezar
+// su bloque de detalle, que es donde ya estaba la respuesta. Así se corta la repetición sin
+// perder el enfoque en lo que le pasa al centro.
+//
+// Sigue siendo cerrada: la navegación del encabezado son anclas, no rutas del sitio. Los únicos
+// enlaces que salen son los de los proyectos y las fuentes de los datos (pestaña nueva), el
+// correo, WhatsApp y el legal.
 //
 // noindex SIN canonical cruzado a /salud/: las dos señales juntas son contradictorias y Google
-// puede arrastrar el noindex a la página canónica, que es justo la que sí vende. Self-canonical.
+// puede arrastrar el noindex a la página canónica. Self-canonical.
 //
-// Sin montos mientras el IVA de los planes no esté definido, y sin CRM porque no existe como
-// servicio: ambas son decisiones abiertas registradas en PRODUCT.md.
-//
-// Imágenes: solo las que no traen cifras inventadas. Quedan fuera salud.webp ("+2.500 pacientes"),
-// geo-chatgpt.webp ("+320% tráfico") y google-partners.webp (panel con métricas falsas).
+// Sin precios ni planes: el objetivo de cada CTA es la cotización. Sin CRM, porque no existe
+// como servicio. Ambas son decisiones abiertas registradas en PRODUCT.md.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LineArt from '../components/LineArt.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FloatButtons from '../components/FloatButtons.astro';
+import WhatsAppLead from '../components/WhatsAppLead.astro';
 
-const faqs = (await getCollection('faqs', ({ data }) => data.category === 'salud')).sort(
-  (a, b) => a.data.order - b.data.order
-);
-
-// Casos reales y publicables del rubro (PRODUCT.md > Evidence on Hand).
+// Casos reales y publicables del rubro (PRODUCT.md > Evidence on Hand). Las capturas son de los
+// sitios en producción; `hecho` enumera solo lo que el caso documenta, sin atribuir de más.
 const casos = await getCollection('casos');
 const evidencia = [
-  { ...casos.find((c) => c.id === 'ceapsi')!.data, logo: 'ceapsi.webp', url: 'https://ceapsi.cl/' },
-  { ...casos.find((c) => c.id === 'liv-salud')!.data, logo: 'livsalud.webp', url: 'https://livsalud.cl/' },
+  {
+    ...casos.find((c) => c.id === 'ceapsi')!.data,
+    shot: 'ceapsi-d.webp',
+    url: 'https://ceapsi.cl/',
+    hecho: ['Sitio web', 'SEO / GEO', 'Google Ads'],
+  },
+  {
+    ...casos.find((c) => c.id === 'liv-salud')!.data,
+    shot: 'livsalud-d.webp',
+    url: 'https://livsalud.cl/',
+    hecho: ['Sitio web', 'Google Ads'],
+  },
 ];
 
-// Navegación interna. Son anclas: ayudan a recorrer la página sin sacar a nadie de ella.
-const indice = [
+// Navegación del encabezado. Son anclas: ayudan a recorrer la página sin sacar a nadie de ella.
+// Van en el mismo orden en que aparecen en la pagina.
+const nav = [
   { id: 'servicios', t: 'Servicios' },
-  { id: 'recorrido', t: 'El recorrido' },
-  { id: 'agendas', t: 'Integraciones' },
   { id: 'proyectos', t: 'Proyectos' },
-  { id: 'planes', t: 'Planes' },
-  { id: 'dudas', t: 'Dudas' },
+  { id: 'datos', t: 'Protección de datos' },
+  { id: 'dudas', t: 'Preguntas frecuentes' },
 ];
 
-// Las cuatro razones por las que alguien llega a esta landing. `interes` es la clave que valida
-// INTERESES en public/api/contacto.php, para que el asunto del correo diga lo que realmente pidió.
-const necesidades = [
-  { v: 'desde-cero', t: 'Crear mi sitio desde cero', interes: 'salud', frase: 'Quiero cotizar un sitio nuevo para mi centro' },
-  { v: 'actualizar', t: 'Actualizar el que ya tengo', interes: 'salud', frase: 'Quiero actualizar el sitio que ya tiene mi centro' },
-  { v: 'ads', t: 'Google Ads', interes: 'ads', frase: 'Me interesan campañas de Google Ads para mi centro' },
-  { v: 'seo', t: 'SEO y GEO', interes: 'seo', frase: 'Me interesa posicionamiento SEO y GEO para mi centro' },
-];
-
-// Franja de promesas: el campo ambar de marca con tinta oscura (--on-brand, 9,68:1). En la
-// referencia el texto iba blanco sobre violeta; sobre ambar el blanco da 1,7:1 y no se lee.
-const promesas = [
+// Las tres líneas. `v` es el valor del checkbox del formulario final, al que apunta cada CTA con
+// data-need. El nombre del servicio va primero y literal: se reconoce sin leer la tarjeta entera.
+const soluciones = [
   {
-    icon: 'i-calendar',
-    t: 'Mejora la calidad de tu agenda',
-    d: 'La hora se pide desde el sitio y entra en el sistema que tu equipo ya usa, sin pasar por recepción.',
-  },
-  {
-    icon: 'i-search',
-    t: 'Posiciona tu centro donde buscan',
-    d: 'Posicionamiento en Google y en respuestas de IA, con ficha de Google Mi Negocio por sucursal.',
-  },
-  {
-    icon: 'i-trending',
-    t: 'Genera pacientes nuevos, medidos',
-    d: 'Campañas que cumplen las políticas de Google para salud, con conversiones atribuidas a cada sede.',
-  },
-];
-
-// El camino: la plataforma primero (sin ella no hay dónde aterrizar), después que te encuentren
-// solos, después tráfico comprado, y al final la reserva, que es el resultado. Cada etapa lleva
-// al formulario con su opción marcada, porque un centro puede entrar en cualquier punto.
-const camino = [
-  {
+    v: 'web',
     art: 'web-1',
-    t: 'La plataforma',
-    d: 'El sitio donde todo aterriza: fichas de especialistas, convenios y previsión a la vista.',
-    ctas: [
-      { need: 'desde-cero', t: 'Crear desde cero' },
-      { need: 'actualizar', t: 'Actualizar el actual' },
-    ],
+    nombre: 'Sitios web',
+    t: 'Una web que facilite elegir y reservar.',
+    d: 'Creamos o actualizamos tu sitio para que sea rápido, claro y cómodo desde el celular.',
+    items: ['Creación o renovación', 'Fichas de profesionales', 'Acceso a tu agenda'],
+    cta: 'Cotizar sitio web',
   },
   {
+    v: 'seo',
     art: 'seo-1',
-    t: 'Que te encuentren solos',
-    d: 'SEO y GEO: posicionamiento en Google y en respuestas de IA, con ficha de Google Mi Negocio por sucursal. Tarda, pero no se apaga cuando paras.',
-    ctas: [{ need: 'seo', t: 'Cotizar SEO y GEO' }],
+    nombre: 'SEO / GEO',
+    t: 'Haz más fácil que encuentren tu centro.',
+    d: 'Trabajamos tu visibilidad orgánica en Google y la claridad de tu información para buscadores y respuestas de IA.',
+    items: ['Especialidades y sedes', 'Contenidos útiles', 'Estructura técnica'],
+    cta: 'Cotizar SEO / GEO',
   },
   {
+    v: 'ads',
     art: 'ads',
-    t: 'Que lleguen desde ya',
-    d: 'Google Ads para traer pacientes mientras el posicionamiento madura, cumpliendo las políticas de Google para salud.',
-    ctas: [{ need: 'ads', t: 'Cotizar Google Ads' }],
-  },
-  {
-    art: null,
-    icon: 'i-calendar',
-    t: 'Que reserven',
-    d: 'La hora entra en la agenda que tu equipo ya usa, y cada contacto queda atribuido a la sede y al canal que lo trajo.',
-    ctas: [],
-  },
-];
-
-const servicios = [
-  {
-    art: 'web-1',
-    need: 'desde-cero',
-    cta: 'Cotizar un sitio',
-    t: 'Sitios web para centros de salud',
-    d: 'Fichas de especialistas, convenios y previsión a la vista, y reserva de horas en los planes que la incluyen.',
-  },
-  {
-    art: 'ads',
-    need: 'ads',
+    nombre: 'Google Ads',
+    t: 'Conecta con quienes buscan atención.',
+    d: 'Creamos campañas orientadas a tus servicios y sedes, con seguimiento de los contactos que sea posible medir.',
+    items: ['Búsquedas relevantes', 'Campañas por servicio', 'Medición y ajustes'],
     cta: 'Cotizar Google Ads',
-    t: 'Google Ads',
-    d: 'Campañas que cumplen las políticas de Google para salud y aun así traen pacientes, con medición por sede.',
+  },
+];
+
+// Datos de terceros. Se publican con su fuente, su año y su alcance a la vista, porque ninguno es
+// de Webfriends ni de Chile: son referencias generales de comportamiento. `nota` solo aparece
+// cuando el dato necesita una aclaración de alcance para no leerse de más.
+const datos = [
+  {
+    n: '53 %',
+    d: 'De las visitas móviles se abandonaban cuando la página tardaba más de 3 segundos en cargar.',
+    fuente: 'Google/DoubleClick · 2017',
+    url: 'https://blog.google/products/adsense/the-ultimate-mobile-page-speed-infographic/',
+    nota: 'Dato general de navegación móvil.',
   },
   {
-    art: 'seo-1',
-    need: 'seo',
-    cta: 'Cotizar SEO y GEO',
-    t: 'SEO y GEO',
-    d: 'Posicionamiento en buscadores y en respuestas de IA, más la ficha de Google Mi Negocio por sucursal.',
+    n: '80 %',
+    d: 'De los pacientes encuestados querían agendar en cualquier momento desde casa o un dispositivo móvil.',
+    fuente: 'Experian Health · 2025 · EE. UU.',
+    url: 'https://www.experian.com/blogs/healthcare/qa-state-of-patient-access-2025-insights-and-challenges/',
+    nota: '',
   },
+  {
+    n: '3 de cada 4',
+    d: 'Personas encuestadas habían buscado online información sobre médicos, dentistas o atención médica.',
+    fuente: 'PatientPop · 2021 · EE. UU.',
+    url: 'https://www.prnewswire.com/news-releases/patientpop-third-annual-patient-perspective-survey-report-reveals-what-patients-want-in-2021-301320469.html',
+    nota: '',
+  },
+];
+
+// Clientes del rubro salud. Los archivos ya están en el repo y se usan en la cinta del inicio.
+// Van como logotipos sin enlace: en tráfico pagado cada enlace que sale es un clic comprado que
+// se va, y los dos proyectos de más arriba ya ofrecen la comprobación con su enlace.
+const clientes = [
+  { n: 'CEAPSI', logo: 'ceapsi.webp' },
+  { n: 'Liv Salud', logo: 'livsalud.webp' },
+  { n: 'Familia Salud', logo: 'familiasalud.webp' },
+  { n: 'Clinit', logo: 'clinit.webp' },
+  { n: 'Insignare', logo: 'insignare.webp' },
+  { n: 'Novamente', logo: 'novamente.webp' },
+  { n: 'MirAndes', logo: 'mirandes.webp' },
 ];
 
 // Sistemas de agenda con los que el centro puede llegar. Son marcas de terceros: se nombran para
 // decir con qué nos vinculamos (uso nominativo), sin implicar alianza ni certificación.
-// `logo` queda listo para cuando existan los archivos reales en public/assets/img/agendas/;
-// mientras tanto se compone el nombre en la tipografía del sitio, que es honesto y no inventa marca.
 const agendas = [
   { n: 'Medilink', logo: 'medilink.webp' },
   { n: 'AgendaPro', logo: 'agendapro.webp' },
   { n: 'Reservo', logo: 'reservo.webp' },
 ];
 
-const fricciones = [
-  { q: '¿Aceptan mi previsión?', d: 'Fonasa, isapres y convenios aparecen antes de preguntar, no después.' },
-  { q: '¿Quién atiende esta especialidad?', d: 'Cada profesional con su ficha, su especialidad y sus horas.' },
-  { q: '¿Cómo pido hora?', d: 'La solicitud se resuelve en el sitio, no en una conversación.' },
+// Opciones del formulario final. Selección múltiple; `interes` resuelve el asunto del correo
+// contra la lista cerrada INTERESES de public/api/contacto.php.
+const ayudas = [
+  { v: 'web', t: 'Sitio web', interes: 'salud' },
+  { v: 'seo', t: 'SEO / GEO', interes: 'seo' },
+  { v: 'ads', t: 'Google Ads', interes: 'ads' },
+  { v: 'privacidad', t: 'Revisión técnica de privacidad de mi sitio', interes: 'privacidad' },
+  { v: 'orientacion', t: 'Necesito orientación', interes: 'salud' },
 ];
 
-const pasos = [
-  { k: 'especialidad', t: 'Elige especialidad', d: 'El paciente parte por lo que necesita, no por el organigrama del centro. Las especialidades se listan con el profesional que las atiende.' },
-  { k: 'prevision', t: 'Revisa su previsión', d: 'Ve si su convenio aplica antes de avanzar, y deja de escribirle a recepción para preguntarlo.' },
-  { k: 'hora', t: 'Encuentra una hora', d: 'Disponibilidad real por profesional, legible desde el celular y conectada a la agenda que el centro ya usa.' },
+// Ley 21.719 sobre protección de datos personales.
+//
+// OJO, HAY QUE VERIFICAR ESTA FECHA ANTES DE PUBLICAR. Es la entrada en vigencia que aparece en
+// el texto legal consultado en la BCN, pero hay modificaciones legislativas en trámite que
+// podrían moverla. Por eso vive aquí como dato suelto y con su enlace a la fuente oficial: si
+// cambia, se corrige esta línea y nada más. No se usa para ninguna cuenta regresiva.
+const leyVigencia = '1 de diciembre de 2026';
+const leyFuente = 'https://www.bcn.cl/leychile/Navegar?idNorma=1209272';
+
+// Lo que se revisa es el sitio: cómo pide, recibe y transmite datos. No es una evaluación
+// jurídica ni cubre el tratamiento de datos dentro de la organización.
+const revisiones = [
+  'Formularios que soliciten solo la información necesaria.',
+  'Información de privacidad clara y accesible.',
+  'Gestión del consentimiento cuando corresponda.',
+  'Revisión de herramientas de medición y servicios externos.',
+];
+
+const faqs = [
+  {
+    q: '¿Puedo contratar solo uno de los servicios?',
+    a: 'Sí. Web, SEO / GEO y Google Ads se contratan por separado. Si más adelante quieres sumar otra línea, se agrega sobre lo que ya está hecho.',
+  },
+  {
+    q: '¿Pueden mejorar el sitio que ya tengo?',
+    a: 'Sí. Revisamos el sitio actual y te decimos qué conviene: corregir sobre lo existente, o rehacerlo cuando la base ya no lo permite.',
+  },
+  {
+    q: '¿Necesito cambiar mi sistema de agenda?',
+    a: 'No. Trabajamos sobre el sistema que tu equipo ya usa. Según lo que permita esa plataforma, la vinculación puede ser un enlace, una agenda incrustada o una integración técnica.',
+  },
+  {
+    q: '¿Cuál es la diferencia entre SEO / GEO y Google Ads?',
+    a: 'SEO / GEO trabaja la visibilidad no pagada: toma tiempo y se sostiene cuando paras de invertir. Google Ads es tráfico pagado: aparece desde el día uno y se detiene cuando se apaga la campaña.',
+  },
+  {
+    q: '¿Pueden trabajar con varias sucursales?',
+    a: 'Sí. Cada sede puede tener su propia página, su información local y su medición.',
+  },
+  {
+    q: '¿Cómo definen qué necesita mi centro?',
+    a: 'Partimos con una reunión en línea: revisamos tu sitio, tu presencia en Google y tu sistema de agenda, y te decimos por dónde conviene empezar. De ahí sale la cotización, con alcance y plazo.',
+  },
 ];
 ---
 
 <BaseLayout
   bare
   noindex
-  title="Plataformas web para centros médicos y dentales — Webfriends"
-  description="La primera atención ocurre antes de la consulta: ayuda a tus pacientes a encontrar su especialista, revisar convenios y solicitar una hora. Sitios web, Google Ads, SEO y GEO para centros de salud."
+  title="Sitios web, SEO / GEO y Google Ads para centros de salud — Webfriends"
+  description="Más visibilidad para tu centro y un camino más fácil hacia la consulta. Sitios web, SEO / GEO y Google Ads para clínicas y centros de salud de Chile."
 >
-  <section class="lp-hero">
-    <div class="lp-wrap">
+  <!-- Encabezado. La navegación son anclas de esta misma página: no hay rutas de salida. -->
+  <header class="lp-head">
+    <div class="lp-wrap lp-head-in">
       <!-- Sin href: el logotipo es la marca, no una puerta de salida. -->
       <span class="lp-brand">
         <img class="lp-brand-dark" src="/assets/img/webfriends-logo.webp" alt="Webfriends" width="481" height="61" />
         <img class="lp-brand-light" src="/assets/img/logotipo-negro-webfriends.webp" alt="Webfriends" width="400" height="52" />
-        <span class="lp-brand-tag">Centros médicos y dentales</span>
       </span>
 
-      <div class="lp-split">
-        <div class="lp-answer">
-          <h1>La primera atención ocurre antes de la consulta.</h1>
-          <p class="lp-lede">
-            Sitios web, Google Ads, SEO y GEO para centros médicos y dentales: tu paciente encuentra
-            su especialista, revisa convenios y solicita una hora sin escribirle a recepción.
-          </p>
-          <p class="lp-fact">
-            <span class="lp-tick" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7" /></svg>
-            </span>
-            Integramos la agenda que ya usas; no la reemplazamos.
-          </p>
-          <ul class="lp-trust">
-            <li>Google Partner hace 7 años</li>
-            <li>4,4 de 5 en Google</li>
-            <li>Respuesta en menos de 24 horas hábiles</li>
-          </ul>
-        </div>
+      <nav class="lp-nav" aria-label="Secciones de esta página">
+        <ul>
+          {nav.map((n) => <li><a href={`#${n.id}`}>{n.t}</a></li>)}
+        </ul>
+      </nav>
 
-        <!-- La acción, completa y operativa en el primer viewport: no un botón que baja a buscarla. -->
-        <div class="lp-form-card" id="cotizar">
-          <h2 id="lpFormTitle" class="lp-form-title">Cuéntanos de tu centro</h2>
-          <p class="lp-form-sub">Te respondemos por WhatsApp con el alcance y el valor, en menos de 24 horas hábiles.</p>
-          <form id="lpForm" aria-labelledby="lpFormTitle" novalidate>
-            <div class="field">
-              <label for="lpNombre">Nombre</label>
-              <input id="lpNombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre" maxlength="100" aria-describedby="lpStatus" required />
-            </div>
-            <div class="field">
-              <label for="lpTel">Teléfono celular</label>
-              <input id="lpTel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+56 9 1234 5678" maxlength="40" aria-describedby="lpStatus" required />
-            </div>
-            <fieldset class="lp-need">
-              <legend>¿Qué necesitas?</legend>
-              {necesidades.map((n, i) => (
-                <label class="lp-chip">
-                  <input type="radio" name="necesidad" value={n.v} checked={i === 0} />
-                  <span>{n.t}</span>
-                </label>
-              ))}
-            </fieldset>
-            <!-- Campo trampa: invisible para personas, lo rellenan los robots (lo revisa contacto.php). -->
-            <div class="lp-hp" aria-hidden="true">
-              <label for="lpWebsite">No llenar este campo</label>
-              <input id="lpWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
-            </div>
-            <button class="btn btn-accent lp-go" type="submit">Cotizar mi plataforma</button>
-            <p class="lp-status" id="lpStatus" role="status" aria-live="polite"></p>
-            <p class="lp-legal">
-              Al continuar autorizo a Webfriends a utilizar mi nombre y teléfono para responder esta solicitud. Más detalle en <a href="/terminos/#privacidad" target="_blank" rel="noopener">privacidad</a>.
-            </p>
-          </form>
+      <a class="btn btn-accent lp-head-cta" href="#cotizar">Cotizar solución</a>
+
+      <!-- Menú móvil: panel lateral que entra desde la derecha. El mecanismo sigue siendo
+           <details>, que es accesible por teclado y anunciable, y funciona aunque el JavaScript
+           no cargue; el script solo agrega el cierre animado, el bloqueo del scroll y el foco. -->
+      <details class="lp-menu">
+        <summary aria-label="Abrir menú">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </summary>
+        <span class="lp-menu-bg" aria-hidden="true"></span>
+        <div class="lp-menu-panel">
+          <div class="lp-menu-top">
+            <span class="lp-menu-rot">Menú</span>
+            <button class="lp-menu-x" type="button" aria-label="Cerrar menú">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
+            </button>
+          </div>
+          <ul>
+            {nav.map((n) => <li><a href={`#${n.id}`}>{n.t}</a></li>)}
+          </ul>
+          <a class="btn btn-accent lp-menu-cta" href="#cotizar">Cotizar solución</a>
         </div>
+      </details>
+    </div>
+  </header>
+
+  <section class="lp-hero">
+    <div class="lp-wrap lp-hero-in">
+      <div class="lp-hero-copy" data-reveal>
+        <h1><span class="lp-sub-ray">Más visibilidad</span> para tu centro.<br />Un camino <span class="lp-sub-ray">más fácil</span> hacia la consulta.</h1>
+        <p class="lp-lede">
+          Sitios web, SEO / GEO y Google Ads para clínicas y centros de salud. Trabajamos cada
+          solución por separado o conectadas según tus objetivos.
+        </p>
+        <div class="lp-hero-ctas">
+          <a class="btn btn-accent" href="#cotizar">Cotizar solución</a>
+          <a class="btn btn-soft" href="#servicios">Explorar servicios</a>
+        </div>
+        <ul class="lp-trust">
+          <li class="is-partner"><span><strong>Google Partner</strong> hace 7 años</span></li>
+          <li><span><strong>4,4 de 5</strong> en Google, con 18 reseñas</span></li>
+          <li><span>Respuesta en <strong>menos de 24 horas hábiles</strong></span></li>
+        </ul>
       </div>
-    </div>
-  </section>
 
-  <!-- Índice interno: todo son anclas, ninguna saca al visitante de la landing. -->
-  <nav class="lp-index" aria-label="Secciones de esta página">
-    <div class="lp-wrap">
-      <ul>
-        {indice.map((i) => <li><a href={`#${i.id}`}>{i.t}</a></li>)}
-      </ul>
-    </div>
-  </nav>
+      <!-- Composición de las tres áreas con el mismo peso. Se entiende por formas y etiquetas: sin
+           textos diminutos ni cifras. Todo es maqueta y va rotulado como tal. -->
+      <div class="lp-compo" aria-hidden="true" data-reveal>
+        <div class="lp-compo-card is-web">
+          <span class="lp-compo-tag">Sitio web</span>
+          <div class="lp-compo-pro">
+            <span class="lp-compo-av"></span>
+            <span class="lp-bar is-w70"></span>
+            <span class="lp-bar is-w40 is-acc"></span>
+          </div>
+          <!-- Las filas de la ficha: sin ellas la tarjeta quedaba con un hueco bajo el nombre. -->
+          <div class="lp-compo-rows">
+            <span><em></em><i class="lp-bar is-w75"></i></span>
+            <span><em></em><i class="lp-bar is-w55"></i></span>
+            <span><em></em><i class="lp-bar is-w85"></i></span>
+          </div>
+          <span class="lp-compo-btn">Reservar hora</span>
+        </div>
 
-  <section class="lp-promise" aria-labelledby="lp-promise-h">
-    <div class="lp-wrap">
-      <h2 id="lp-promise-h" class="sr-only">Lo que consigue tu centro</h2>
-      <ul class="lp-promise-grid">
-        {promesas.map((pr) => (
-          <li>
-            <span class="lp-promise-ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href={`#${pr.icon}`} /></svg>
+        <div class="lp-compo-card is-seo">
+          <span class="lp-compo-tag">SEO / GEO</span>
+          <div class="lp-compo-res">
+            <span class="lp-bar is-w60 is-acc"></span>
+            <span class="lp-bar is-w90"></span>
+            <span class="lp-bar is-w75"></span>
+          </div>
+          <div class="lp-compo-ia">
+            <span class="lp-compo-spark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18" /></svg>
             </span>
-            <h3>{pr.t}</h3>
-            <p>{pr.d}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section class="lp-band" id="servicios" aria-labelledby="lp-servicios-h">
-    <div class="lp-wrap">
-      <h2 id="lp-servicios-h">De no tener sitio a tener la agenda llena</h2>
-      <p class="lp-path-sub">
-        Las cuatro etapas, en el orden en que ocurren. No hace falta recorrerlas todas ni empezar
-        por la primera: si tu centro ya tiene sitio y solo necesita campañas, partimos por ahí.
-      </p>
-      <ol class="lp-path">
-        {camino.map((e, i) => (
-          <li class="lp-step">
-            <span class="lp-step-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-            <span class="lp-step-ico" aria-hidden="true">
-              {e.art
-                ? <LineArt name={e.art} class="lp-step-art" />
-                : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href={`#${e.icon}`} /></svg>}
-            </span>
-            <h3>{e.t}</h3>
-            <p>{e.d}</p>
-            {e.ctas.length > 0 && (
-              <span class="lp-step-ctas">
-                {e.ctas.map((c) => <a href="#cotizar" data-need={c.need}>{c.t}</a>)}
-              </span>
-            )}
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <section class="lp-demo" id="recorrido" aria-labelledby="lp-demo-h">
-    <div class="lp-wrap">
-      <h2 id="lp-demo-h">El recorrido de tu próximo paciente</h2>
-      <p class="lp-demo-sub">Las tres preguntas que intenta resolver solo, y dónde las responde la plataforma.</p>
-
-      <div class="lp-demo-split">
-        <div>
-          <ul class="lp-friction">
-            {fricciones.map((f) => (
-              <li>
-                <p class="lp-q">{f.q}</p>
-                <p class="lp-a">{f.d}</p>
-              </li>
-            ))}
-          </ul>
-
-          <!-- Demostración sin JavaScript: pestañas con radios y :checked. Operable con teclado. -->
-          <div class="lp-steps">
-            {pasos.map((p, i) => (
-              <Fragment>
-                <input class="lp-radio" type="radio" name="lp-paso" id={`paso-${p.k}`} checked={i === 0} />
-                <label class="lp-step-tab" for={`paso-${p.k}`}>
-                  <span class="lp-step-n">{String(i + 1).padStart(2, '0')}</span>
-                  {p.t}
-                </label>
-                <div class="lp-step-panel"><p>{p.d}</p></div>
-              </Fragment>
-            ))}
+            <span class="lp-bar is-w80"></span>
+            <span class="lp-bar is-w55"></span>
           </div>
         </div>
 
-        <figure class="lp-shot">
-          <img src="/assets/img/proj/odontosalud-d.webp" alt="Sitio de OdontoSalud en escritorio: especialidades, convenios con Fonasa e isapres y botón de reservar hora." width="1100" height="688" loading="lazy" decoding="async" />
-          <img class="lp-shot-m" src="/assets/img/proj/odontosalud-m.webp" alt="El mismo sitio en celular, con la reserva de hora a un toque." width="420" height="920" loading="lazy" decoding="async" />
-          <figcaption>OdontoSalud, clínica dental. El mismo recorrido en escritorio y en celular.</figcaption>
-        </figure>
+        <div class="lp-compo-card is-ads">
+          <span class="lp-compo-tag">Google Ads</span>
+          <div class="lp-compo-ad">
+            <span class="lp-compo-pill">Anuncio</span>
+            <span class="lp-bar is-w65 is-acc"></span>
+            <span class="lp-bar is-w85"></span>
+          </div>
+        </div>
       </div>
+      <p class="lp-compo-note">Composición ilustrativa de las tres soluciones. No representa resultados reales.</p>
     </div>
   </section>
 
-  <section class="lp-agendas" id="agendas" aria-labelledby="lp-agendas-h">
+  <!-- Cinta de clientes. Dos pistas idénticas en bucle: la segunda es decorativa y queda fuera
+       del árbol de accesibilidad para que un lector de pantalla no lea la lista dos veces.
+       Con prefers-reduced-motion la segunda desaparece y la primera se acomoda en una fila
+       estática: el contenido nunca depende del movimiento. -->
+  <section class="lp-logos" aria-labelledby="lp-logos-h">
     <div class="lp-wrap">
-      <h2 id="lp-agendas-h">Nos vinculamos con la agenda que ya usas</h2>
-      <p class="lp-agendas-sub">
-        No te pedimos cambiar de sistema. Nos conectamos con el que tu centro ya tiene —Medilink,
-        AgendaPro, Reservo u otro— para que la hora que el paciente pide en el sitio entre donde tu
-        equipo la gestiona todos los días.
-      </p>
-      <ul class="lp-agenda-row">
-        {agendas.map((a) => (
-          <li>{a.logo ? <img src={`/assets/img/agendas/${a.logo}`} alt={a.n} width="200" height="100" loading="lazy" decoding="async" /> : <span>{a.n}</span>}</li>
-        ))}
-        <li class="is-more"><span>y otros</span></li>
-      </ul>
-      <p class="lp-agendas-note">
-        Depende del sistema: si tiene API o permite exportar disponibilidad, se conecta. Lo revisamos
-        en la reunión inicial antes de comprometer nada. Las marcas nombradas pertenecen a sus
-        titulares y aparecen solo para indicar compatibilidad.
-      </p>
+      <h2 id="lp-logos-h" class="lp-logos-h">Centros de salud que confían en nosotros</h2>
+    </div>
+    <div class="lp-marquee">
+      {[false, true].map((copia) => (
+        <ul class="lp-track" aria-hidden={copia ? 'true' : undefined}>
+          {clientes.map((c) => (
+            <li><img src={`/assets/img/${c.logo}`} alt={copia ? '' : c.n} width="200" height="100" loading="lazy" decoding="async" /></li>
+          ))}
+        </ul>
+      ))}
     </div>
   </section>
 
-  <section class="lp-band" id="proyectos" aria-labelledby="lp-evidencia-h">
+  <section class="lp-band" id="servicios" aria-labelledby="lp-sol-h">
     <div class="lp-wrap">
-      <h2 id="lp-evidencia-h">Centros que ya trabajan así</h2>
-      <div class="lp-cases">
-        {evidencia.map((c) => (
-          <article class="lp-case">
-            <img class="lp-case-logo" src={`/assets/img/${c.logo}`} alt={c.client} width="200" height="100" loading="lazy" decoding="async" />
-            <p class="lp-case-tag">{c.tag}</p>
-            <p class="lp-case-sector">{c.sector}</p>
-            <p class="lp-case-text">{c.challenge}</p>
-            <ul>
-              {c.checklist.map((item) => <li>{item}</li>)}
-            </ul>
-            <p class="lp-case-result">{c.result}</p>
-            <!-- Abre en pestaña nueva a propósito: esta landing es cerrada y el visitante tiene
-                 que poder comprobar el trabajo sin perderla. El icono avisa que sale del sitio. -->
-            <a class="lp-case-link" href={c.url} target="_blank" rel="noopener">
-              Ver el sitio de {c.client}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M14 4h6v6" /><path d="M20 4 11 13" /><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
-              </svg>
-              <span class="sr-only">(se abre en una pestaña nueva)</span>
-            </a>
+      <h2 id="lp-sol-h">Tres servicios, uno o todos</h2>
+      <p class="lp-sub">Elige por dónde empezar. Cada uno funciona solo.</p>
+      <div class="lp-sol-grid">
+        {soluciones.map((s) => (
+          <article class="lp-sol" data-reveal>
+            <span class="lp-sol-art" aria-hidden="true"><LineArt name={s.art} class="lp-art" /></span>
+            <h3>{s.nombre}</h3>
+            <p class="lp-sol-d"><strong>{s.t}</strong> {s.d}</p>
+            <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
+            <a class="btn btn-soft lp-sol-cta" href="#cotizar" data-need={s.v}>{s.cta}</a>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="lp-plans" id="planes" aria-labelledby="lp-plans-h">
+  <section class="lp-connect" aria-labelledby="lp-conn-h">
     <div class="lp-wrap">
-      <h2 id="lp-plans-h">Tres alcances, según cómo atiende tu centro</h2>
-      <p class="lp-plans-sub">El valor depende del alcance y te lo entregamos en la cotización, junto con el plazo.</p>
-      <div class="lp-plan-grid">
-        <div class="lp-plan">
-          <h3>Centro Único</h3>
-          <p>Una consulta o una sede. Fichas de especialistas, convenios y previsión, formulario y
-            WhatsApp, y configuración de SEO local.</p>
-          <p class="lp-plan-note">Sin reserva de horas en línea.</p>
+      <h2 id="lp-conn-h">Tres soluciones. Una estrategia para tu centro.</h2>
+      <p class="lp-sub lp-sub-on">
+        Gana visibilidad, presenta tu atención con claridad y facilita el contacto o la reserva.
+      </p>
+      <div class="lp-conn" data-reveal>
+        <div class="lp-conn-src">
+          <article><h3>Búsqueda orgánica</h3><p>SEO / GEO</p></article>
+          <article><h3>Publicidad</h3><p>Google Ads</p></article>
         </div>
-        <div class="lp-plan is-featured">
-          <h3>Centro con Reservas</h3>
-          <p>Todo lo anterior más reserva de horas en línea, agenda por profesional, confirmación
-            automática y capacitación del equipo.</p>
-          <p class="lp-plan-note">Con reserva de horas en línea.</p>
+        <span class="lp-conn-join" aria-hidden="true"></span>
+        <article class="lp-conn-dest">
+          <h3>Tu sitio web</h3>
+          <p>Donde la persona conoce tu atención y da el paso: contacto o reserva.</p>
+        </article>
+      </div>
+      <p class="lp-conn-close">Empieza por lo que necesitas. Conecta más soluciones cuando tenga sentido.</p>
+    </div>
+  </section>
+
+  <!-- Detalle 1: SITIOS WEB. Dos columnas equilibradas; en móvil el mensaje va antes que la
+       demostración, por eso la demostración viene después en el orden del documento. -->
+  <section class="lp-deep" id="web" aria-labelledby="lp-web-h">
+    <div class="lp-wrap lp-deep-in">
+      <div class="lp-deep-copy" data-reveal>
+        <h2 id="lp-web-h"><span class="lp-deep-svc">Sitios web.</span> ¿Tu sitio demora o cuesta usarlo?</h2>
+        <p class="lp-deep-d">
+          Cuando encontrar una especialidad toma tres clics, la persona se va antes de llegar.
+          Creamos el sitio desde cero o renovamos el que ya tienes.
+        </p>
+        <ul class="lp-benes">
+          <li><strong>Elegir sin buscar.</strong> Especialidades, sedes y profesionales a la vista.</li>
+          <li><strong>Rápido en el celular.</strong> Donde ocurre la mitad de las visitas.</li>
+          <li><strong>Conectado a tu agenda.</strong> Sin cambiar de sistema.</li>
+        </ul>
+        <a class="btn btn-accent" href="#cotizar" data-need="web">Cotizar sitio web</a>
+      </div>
+
+      <div class="lp-demo" data-reveal>
+        <div class="lp-demo-frame">
+          <!-- Ficha de profesional: la pieza que la persona necesita leer para decidir. -->
+          <div class="lp-pro">
+            <span class="lp-pro-av" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5" /><path d="M4.5 20a7.5 7.5 0 0 1 15 0" /></svg>
+            </span>
+            <div class="lp-pro-id">
+              <p class="lp-pro-n">Dra. Nombre Apellido</p>
+              <p class="lp-pro-e">Traumatología</p>
+            </div>
+            <dl class="lp-pro-meta">
+              <div><dt>Modalidad</dt><dd>Presencial y telemedicina</dd></div>
+              <div><dt>Sede</dt><dd>Centro · Norte</dd></div>
+              <div><dt>Previsión</dt><dd>Fonasa · Isapres · Particular</dd></div>
+            </dl>
+            <span class="lp-pro-btn">Reservar hora</span>
+          </div>
+          <p class="lp-demo-cap">Ejemplo ilustrativo. Los datos no corresponden a una persona real.</p>
         </div>
-        <div class="lp-plan">
-          <h3>Red Multisede</h3>
-          <p>Para redes con varias sucursales: una página por sede, SEO local por sede y reportes
-            por punto de atención.</p>
-          <p class="lp-plan-note">Con reserva de horas en línea.</p>
+
+        <div class="lp-demo-aside">
+          <p class="lp-demo-h">Dos puntos de partida</p>
+          <div class="lp-paths">
+            <span><strong>Crear un sitio nuevo</strong>Cuando no hay sitio o la base ya no da más.</span>
+            <span><strong>Actualizar mi sitio</strong>Cuando funciona, pero cuesta usarlo.</span>
+          </div>
+
+          <p class="lp-demo-h is-second">Vinculación con tu agenda</p>
+          <ul class="lp-agenda-row">
+            {agendas.map((a) => (
+              <li><img src={`/assets/img/agendas/${a.logo}`} alt={a.n} width="200" height="100" loading="lazy" decoding="async" /></li>
+            ))}
+            <li class="is-more"><span>y otros</span></li>
+          </ul>
+          <p class="lp-note">
+            El tipo de conexión depende de cada plataforma: un enlace, una agenda incrustada o una
+            integración técnica. Lo revisamos antes de comprometer nada. No tenemos alianza
+            comercial con estas marcas, que pertenecen a sus titulares.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="lp-band" id="dudas" aria-labelledby="lp-rows-h">
+  <!-- Detalle 2: SEO / GEO -->
+  <section class="lp-deep is-alt" id="seo" aria-labelledby="lp-seo-h">
+    <div class="lp-wrap lp-deep-in">
+      <div class="lp-deep-copy" data-reveal>
+        <h2 id="lp-seo-h"><span class="lp-deep-svc">SEO / GEO.</span> ¿Tu centro es difícil de encontrar?</h2>
+        <p class="lp-deep-d">
+          Para aparecer en un buscador o en una respuesta de IA, la información de tu centro tiene
+          que estar escrita de forma que se entienda. Eso es lo que ordenamos.
+        </p>
+        <ul class="lp-benes">
+          <li><strong>Una página por especialidad y sede.</strong> Para que cada búsqueda tenga dónde llegar.</li>
+          <li><strong>Respuestas a lo que preguntan.</strong> Previsión, derivación, horarios.</li>
+          <li><strong>Estructura técnica ordenada.</strong> La que leen los buscadores y los modelos.</li>
+        </ul>
+        <p class="lp-note">
+          No prometemos primeros lugares ni apariciones garantizadas en IA: no dependen de nosotros.
+        </p>
+        <a class="btn btn-accent" href="#cotizar" data-need="seo">Cotizar SEO / GEO</a>
+      </div>
+
+      <div class="lp-demo" data-reveal>
+        <div class="lp-demo-frame">
+          <p class="lp-demo-h">Cómo se ordena tu información</p>
+          <ul class="lp-tree">
+            <li>Especialidad<span>traumatología, dental, nutrición</span></li>
+            <li>Profesional<span>ficha propia, con sus sedes</span></li>
+            <li>Sede<span>una página por punto de atención</span></li>
+            <li>Preguntas frecuentes<span>previsión, derivación, horarios</span></li>
+          </ul>
+        </div>
+
+        <div class="lp-demo-aside">
+          <p class="lp-demo-h">Dónde se nota</p>
+          <div class="lp-surf" aria-hidden="true">
+            <p class="lp-surf-t">Búsqueda</p>
+            <div class="lp-surf-box">
+              <span class="lp-bar is-w55 is-acc lp-busca"></span>
+              <span class="lp-bar is-w90 lp-busca"></span>
+              <span class="lp-bar is-w70 lp-busca"></span>
+            </div>
+          </div>
+          <!-- La respuesta se escribe sola: cada linea crece con un cursor al final, como un
+               modelo generando texto. El contenido final es el del HTML, asi que sin JavaScript
+               la caja se ve completa igual. -->
+          <div class="lp-surf" aria-hidden="true">
+            <p class="lp-surf-t">
+              <span class="lp-compo-spark lp-ia-spark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18" /></svg>
+              </span>
+              Respuesta de IA
+            </p>
+            <div class="lp-surf-box">
+              <span class="lp-ia-linea"><i class="lp-bar is-w85"></i><b class="lp-ia-cursor"></b></span>
+              <span class="lp-ia-linea"><i class="lp-bar is-w95"></i><b class="lp-ia-cursor"></b></span>
+              <span class="lp-ia-linea"><i class="lp-bar is-w60"></i><b class="lp-ia-cursor"></b></span>
+            </div>
+          </div>
+          <p class="lp-demo-cap">Representación ilustrativa de las dos superficies. No muestra a tu centro recomendado ni posiciones alcanzadas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detalle 3: GOOGLE ADS -->
+  <section class="lp-deep" id="ads" aria-labelledby="lp-ads-h">
+    <div class="lp-wrap lp-deep-in">
+      <div class="lp-deep-copy" data-reveal>
+        <h2 id="lp-ads-h"><span class="lp-deep-svc">Google Ads.</span> ¿Necesitas impulsar un servicio o una sede?</h2>
+        <p class="lp-deep-d">
+          En vez de una campaña para todo el centro, separamos por lo que de verdad se busca: una
+          especialidad, un servicio o la comuna de una sede.
+        </p>
+        <ul class="lp-benes">
+          <li><strong>Campañas por servicio y sede.</strong> Cada una con su propio mensaje.</li>
+          <li><strong>El anuncio y la página coinciden.</strong> Nadie aterriza en la portada a empezar de nuevo.</li>
+          <li><strong>Medición y ajuste.</strong> De los contactos que la plataforma permita medir.</li>
+        </ul>
+        <p class="lp-note">
+          Las campañas de salud deben cumplir las políticas de Google para el rubro, y las dejamos
+          conformes. No garantizamos una cantidad de pacientes.
+        </p>
+        <a class="btn btn-accent" href="#cotizar" data-need="ads">Cotizar Google Ads</a>
+      </div>
+
+      <div class="lp-demo is-single" data-reveal>
+        <div class="lp-demo-frame">
+          <ol class="lp-flow">
+            <li>
+              <p class="lp-flow-k">Busca</p>
+              <p class="lp-flow-q">dentista urgencia Viña del Mar</p>
+            </li>
+            <li>
+              <p class="lp-flow-k">Ve tu anuncio</p>
+              <div class="lp-flow-ad">
+                <span class="lp-compo-pill">Anuncio</span>
+                <p>Urgencia dental en Viña del Mar</p>
+                <span class="lp-bar is-w80" aria-hidden="true"></span>
+              </div>
+            </li>
+            <li>
+              <p class="lp-flow-k">Llega a</p>
+              <div class="lp-flow-land">
+                <p>Urgencia dental · Sede Viña</p>
+                <span class="lp-pro-btn">Reservar hora</span>
+              </div>
+            </li>
+          </ol>
+          <p class="lp-demo-cap">Ejemplo ilustrativo del recorrido de una campaña. No representa resultados reales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Franja de datos. Son estudios de terceros, no resultados de Webfriends: por eso cada cifra
+       lleva su fuente, su año, su país cuando corresponde y su alcance, todo visible y enlazado.
+       El CTA va sin data-need: aquí no se está pidiendo un servicio en particular. -->
+  <section class="lp-data" aria-labelledby="lp-data-h">
     <div class="lp-wrap">
-      <h2 id="lp-rows-h">Lo que suelen preguntarnos antes de decidir</h2>
+      <h2 id="lp-data-h">Antes de la consulta, cada paso cuenta.</h2>
+      <ul class="lp-data-grid">
+        {datos.map((d) => (
+          <li data-reveal>
+            <p class="lp-data-n">{d.n}</p>
+            <p class="lp-data-d">{d.d}</p>
+            <p class="lp-data-src">
+              <a href={d.url} target="_blank" rel="noopener">
+                {d.fuente}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 4h6v6" /><path d="M20 4 11 13" /><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
+                </svg>
+                <span class="sr-only">(se abre en una pestaña nueva)</span>
+              </a>
+              {d.nota && <span class="lp-data-nota">{d.nota}</span>}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <div class="lp-data-foot">
+        <p>Haz más fácil que te encuentren, conozcan tu atención y soliciten una hora.</p>
+        <a class="btn lp-data-cta" href="#cotizar">Cotizar una solución</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-cases-sec" id="proyectos" aria-labelledby="lp-proy-h">
+    <div class="lp-wrap">
+      <h2 id="lp-proy-h">Centros que ya trabajan así</h2>
+      <div class="lp-cases">
+        {evidencia.map((c) => (
+          <article class="lp-case" data-reveal>
+            <!-- Captura del sitio en producción, tomada del proyecto publicado. -->
+            <img class="lp-case-shot" src={`/assets/img/proj/${c.shot}`} alt={`Sitio de ${c.client} en escritorio`} width="1280" height="800" loading="lazy" decoding="async" />
+            <div class="lp-case-body">
+              <h3>{c.client}</h3>
+              <p class="lp-case-sector">{c.sector}</p>
+              <p class="lp-case-text">{c.challenge}</p>
+              <ul class="lp-case-tags">
+                {c.hecho.map((h) => <li>{h}</li>)}
+              </ul>
+              <!-- Abre en pestaña nueva a propósito: esta landing es cerrada y el visitante tiene
+                   que poder comprobar el trabajo sin perderla. El icono avisa que sale del sitio. -->
+              <a class="lp-case-link" href={c.url} target="_blank" rel="noopener">
+                Ver el sitio de {c.client}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 4h6v6" /><path d="M20 4 11 13" /><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
+                </svg>
+                <span class="sr-only">(se abre en una pestaña nueva)</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonios: el mismo componente del inicio, con las resenas publicas de Google. Va aqui
+       para que la prueba quede junta: proyectos con captura, despues lo que dicen los clientes. -->
+  <div class="lp-tst">
+    <Testimonials />
+  </div>
+
+  <!-- Protección de datos. Va antes de las preguntas frecuentes, como aspecto transversal: no
+       es un cuarto servicio y por eso no tiene tarjeta propia junto a web, SEO/GEO y Ads. Lo que
+       se ofrece es una revisión técnica del sitio, no asesoría jurídica ni certificación. -->
+  <section class="lp-ley" id="datos" aria-labelledby="lp-ley-h">
+    <div class="lp-wrap lp-ley-in">
+      <div class="lp-ley-copy" data-reveal>
+        <h2 id="lp-ley-h">La confianza también se construye cuidando los datos.</h2>
+        <!-- La etiqueta va bajo el titulo, no encima: el encabezado abre y esto lo sitúa. -->
+        <p class="lp-ley-tag">
+          <span class="lp-ley-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3 5 6v5.5c0 4.2 2.9 8.1 7 9.5 4.1-1.4 7-5.3 7-9.5V6l-7-3Z" /><path d="m9.2 12.2 2 2 3.6-3.8" />
+            </svg>
+          </span>
+          Protección de datos · Ley 21.719
+        </p>
+        <p class="lp-ley-d">
+          Los formularios, las reservas y las herramientas de medición pueden involucrar datos
+          personales. Revisa cómo los recibe y utiliza tu sitio, y qué ajustes técnicos necesita.
+        </p>
+        <a class="btn btn-accent" href="#cotizar" data-need="privacidad">Cotizar revisión técnica</a>
+      </div>
+
+      <div class="lp-ley-lista" data-reveal>
+        <p class="lp-ley-h3">Qué se revisa en el sitio</p>
+        <ul>
+          {revisiones.map((r) => <li>{r}</li>)}
+        </ul>
+        <p class="lp-ley-nota">
+          La revisión técnica del sitio no sustituye una evaluación jurídica ni acredita el
+          cumplimiento integral de la organización.
+        </p>
+        <p class="lp-ley-fecha">
+          Entrada en vigencia prevista en el texto legal consultado: {leyVigencia}.
+          <a href={leyFuente} target="_blank" rel="noopener">
+            Ver la ley en la BCN
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 4h6v6" /><path d="M20 4 11 13" /><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
+            </svg>
+            <span class="sr-only">(se abre en una pestaña nueva)</span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-faq" id="dudas" aria-labelledby="lp-faq-h">
+    <div class="lp-wrap">
+      <h2 id="lp-faq-h">Preguntas frecuentes</h2>
       <div class="lp-list">
         {faqs.map((f, i) => (
           <details class="lp-row" open={i === 0}>
             <summary>
-              <span>{f.data.question}</span>
+              <span>{f.q}</span>
               <span class="lp-chev" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
               </span>
             </summary>
-            <p>{f.data.answer}</p>
+            <p>{f.a}</p>
           </details>
         ))}
       </div>
-      <p class="lp-close">
-        ¿Prefieres escribir tú? <a href="https://wa.me/56931971436" data-wa-direct>+56 9 3197 1436</a>
-        o <a href="mailto:contacto@webfriends.cl">contacto@webfriends.cl</a>
-      </p>
+    </div>
+  </section>
+
+  <section class="lp-form-sec" id="cotizar" aria-labelledby="lpFormTitle">
+    <div class="lp-wrap lp-form-in">
+      <div class="lp-form-side" data-reveal>
+        <h2 id="lpFormTitle">¿Qué necesita mejorar tu centro?</h2>
+        <p class="lp-sub">Cuéntanos tu objetivo y conversemos sobre la solución.</p>
+        <p class="lp-form-alt">
+          <span class="lp-alt-q">¿Prefieres escribir tú?</span>
+          <a href="https://wa.me/56931971436" data-wa-direct>+56 9 3197 1436</a>
+          <!-- La conjuncion se oculta en el celular, donde los dos enlaces pasan a ser botones
+               apilados y un "o" suelto entre ellos queda huerfano. -->
+          <span class="lp-alt-o"> o </span>
+          <a href="mailto:contacto@webfriends.cl">contacto@webfriends.cl</a>
+        </p>
+      </div>
+
+      <div class="lp-form-card" data-reveal>
+        <form id="lpForm" novalidate>
+          <fieldset class="lp-need">
+            <legend>¿En qué te ayudamos?</legend>
+            <div class="lp-chips">
+              {ayudas.map((a) => (
+                <label class="lp-chip">
+                  <input type="checkbox" name="ayuda" value={a.v} />
+                  <span>{a.t}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div class="lp-grid2">
+            <div class="field">
+              <label for="lpNombre">Nombre</label>
+              <input id="lpNombre" name="nombre" type="text" autocomplete="name" maxlength="100" required />
+            </div>
+            <div class="field">
+              <label for="lpCentro">Clínica o centro</label>
+              <input id="lpCentro" name="empresa" type="text" autocomplete="organization" maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="lpMail">Correo</label>
+              <input id="lpMail" name="email" type="email" autocomplete="email" maxlength="254" required />
+            </div>
+            <div class="field">
+              <label for="lpTel">Teléfono <span>(opcional)</span></label>
+              <input id="lpTel" name="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="40" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="lpMsg">Tu objetivo <span>(opcional)</span></label>
+            <textarea id="lpMsg" name="msg" rows="2" maxlength="3000"></textarea>
+          </div>
+
+          <!-- Campo trampa: invisible para personas, lo rellenan los robots (lo revisa contacto.php). -->
+          <div class="lp-hp" aria-hidden="true">
+            <label for="lpWebsite">No llenar este campo</label>
+            <input id="lpWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button class="btn btn-accent lp-go" type="submit">Solicitar cotización</button>
+          <p class="lp-status" id="lpStatus" role="status" aria-live="polite"></p>
+          <p class="lp-legal">
+            Al enviar autorizo a Webfriends a utilizar mis datos para responder esta solicitud. Más
+            detalle en <a href="/terminos/#privacidad" target="_blank" rel="noopener">privacidad</a>.
+          </p>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -425,323 +741,897 @@ const pasos = [
     </div>
   </footer>
 
-  <!-- Barra fija: en una página larga la acción tiene que estar siempre a un toque. Es un ancla
-       al formulario de arriba, no un enlace que saque a nadie. -->
+  <!-- Barra fija de móvil: en una página larga la acción tiene que estar siempre a un toque. -->
   <div class="lp-sticky">
-    <p>Plataformas web para centros médicos y dentales</p>
-    <a class="btn btn-accent" href="#cotizar">Cotizar mi plataforma</a>
+    <a class="btn btn-accent" href="#cotizar">Cotizar solución</a>
   </div>
+
+  <!-- Botón flotante de WhatsApp con captura de datos. El layout los omite en modo `bare`, así
+       que se montan aquí a mano. Son los MISMOS componentes del resto del sitio: el panel pide
+       nombre y celular, manda el correo a contacto@webfriends.cl por contacto.php (form=whatsapp)
+       y abre el chat con el mensaje redactado, todo en el mismo clic.
+       No es una fuga: wa.me es la conversión que esta landing persigue. -->
+  <FloatButtons />
+  <WhatsAppLead />
 </BaseLayout>
 
 <style>
   /* Todo sale de los tokens del sitio: esta landing no inventa paleta ni tipografía. */
   .lp-wrap { max-width: 1180px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 40px); }
   :global(html) { scroll-behavior: smooth; }
-  /* Las anclas no quedan bajo la barra fija ni pegadas al borde. */
-  [id] { scroll-margin-top: 24px; }
+  /* Las anclas no quedan bajo el encabezado fijo. */
+  [id] { scroll-margin-top: 84px; }
 
-  .lp-hero { padding-block: clamp(24px, 3.5vw, 40px) clamp(40px, 5vw, 70px); }
-  .lp-brand { display: flex; align-items: center; gap: 14px; margin-bottom: clamp(26px, 4vw, 52px); }
+  /* El texto de apoyo sube a 1.02rem: antes quedaba por debajo del cuerpo y costaba leerlo. */
+  .lp-sub { margin: -8px 0 clamp(32px, 4.5vw, 54px); font-size: 1.02rem; color: var(--label-2); line-height: 1.6; max-width: 54ch; }
+  .lp-note { margin: 16px 0 0; font-size: .85rem; line-height: 1.55; color: var(--label-3); max-width: 60ch; }
+
+  /* Encabezado fijo */
+  .lp-head { position: sticky; top: 0; z-index: 40; background: var(--glass-bar); border-bottom: 1px solid var(--line-2); backdrop-filter: saturate(160%) blur(12px); }
+  .lp-head-in { display: flex; align-items: center; gap: clamp(16px, 3vw, 36px); min-height: 68px; }
+  .lp-brand { display: flex; align-items: center; flex: none; }
   .lp-brand img { height: 20px; width: auto; display: block; }
   /* El par claro/oscuro. Apunta a la clase y no a img: la regla con ámbito .lp-brand img queda
      en (0,3,1) y una global pelada perdía por un punto. */
   .lp-brand .lp-brand-light { display: none; }
   :global(:root:not([data-theme="dark"])) .lp-brand .lp-brand-dark { display: none; }
   :global(:root:not([data-theme="dark"])) .lp-brand .lp-brand-light { display: block; }
-  .lp-brand-tag { padding-left: 14px; border-left: 1px solid var(--line-2); font-size: .88rem; color: var(--label-3); }
 
-  .lp-split { display: grid; grid-template-columns: 1fr 392px; gap: clamp(32px, 5vw, 64px); align-items: start; }
-  .lp-answer h1 { font-size: var(--s-3); line-height: 1.05; letter-spacing: -.045em; max-width: 17ch; margin: 0; }
-  .lp-lede { margin-top: 20px; font-size: var(--s-1); line-height: 1.55; color: var(--label-2); max-width: 46ch; }
-  .lp-fact { margin-top: 24px; display: flex; align-items: center; gap: 11px; font-weight: 600; }
-  .lp-tick { flex: none; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--amber); color: var(--amber); display: grid; place-items: center; }
-  .lp-tick svg { width: 13px; height: 13px; }
-  .lp-trust { list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 22px; }
-  .lp-trust li { font-size: .82rem; font-weight: 600; color: var(--label-3); }
+  .lp-nav { margin-right: auto; }
+  .lp-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; }
+  .lp-nav a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: .92rem; font-weight: 600; color: var(--label-2); text-decoration: none; border-radius: var(--r-sm); transition: color .2s, background-color .2s; }
+  .lp-nav a:hover, .lp-nav a:focus-visible { color: var(--label); background: var(--fill); }
+  .lp-head-cta { min-height: 44px; margin: 0; flex: none; }
 
-  .lp-form-card { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: 26px 24px 22px; box-shadow: var(--sh-2); }
-  .lp-form-title { margin: 0; font-size: var(--s-0); font-weight: 700; letter-spacing: -.02em; }
-  .lp-form-sub { margin: 6px 0 20px; font-size: .84rem; line-height: 1.45; color: var(--label-3); }
-  .lp-form-card .field input { width: 100%; }
-  /* El borde de tema claro del sistema (#CEC6BA sobre --card) da 1,57:1 y desaparece. Aquí el
-     formulario no es un paso del embudo, es el embudo, así que usa un token con 5,3:1. */
-  :global(:root:not([data-theme="dark"])) .lp-form-card .field input { border-color: var(--label-3); }
+  .lp-menu { display: none; margin-left: auto; }
+  .lp-menu summary { list-style: none; display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid var(--line-2); border-radius: var(--r-sm); cursor: pointer; color: var(--label); }
+  .lp-menu summary::-webkit-details-marker { display: none; }
+  .lp-menu summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  .lp-menu summary svg { width: 22px; height: 22px; }
 
-  .lp-need { border: 0; padding: 0; margin: 0 0 16px; }
-  .lp-need legend { font-size: var(--s--1); font-weight: 600; color: var(--label-2); margin-bottom: 8px; padding: 0; }
-  .lp-chip { display: block; margin-bottom: 8px; cursor: pointer; }
-  .lp-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-  .lp-chip span { display: block; padding: 11px 14px; border: 1px solid var(--line-2); border-radius: var(--r-sm); font-size: .92rem; font-weight: 600; color: var(--label-2); transition: border-color .2s, background-color .2s, color .2s; }
-  .lp-chip input:checked + span { border-color: var(--amber); background: var(--fill); color: var(--label); }
-  .lp-chip input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 2px; }
+  /* Un elemento con backdrop-filter se convierte en el marco de referencia de sus descendientes
+     position:fixed. Con el filtro puesto, el velo y el panel se median contra los 68px del
+     encabezado en vez de contra la pantalla: el velo tapaba solo esa franja y el resto de la
+     pagina seguia recibiendo toques. Mientras el panel esta abierto el desenfoque no hace falta,
+     porque el velo ya cubre todo. */
+  .lp-head:has(.lp-menu[open]) { backdrop-filter: none; -webkit-backdrop-filter: none; }
 
-  .lp-go { width: 100%; justify-content: center; margin-top: 4px; border: 0; cursor: pointer; font: inherit; font-weight: 700; }
-  .lp-go[disabled] { opacity: .6; cursor: default; }
-  .lp-status:empty { display: none; }
-  .lp-status { margin: 12px 0 0; font-size: var(--s--1); color: var(--amber); }
-  .lp-legal { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: .79rem; line-height: 1.45; color: var(--label-3); }
-  .lp-legal a { color: var(--label-2); }
-  .lp-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  /* Velo: oscurece la página y recibe el toque para cerrar. */
+  .lp-menu-bg { position: fixed; inset: 0; z-index: 50; background: rgba(23, 23, 23, .5); backdrop-filter: blur(2px); opacity: 1; transition: opacity .3s var(--ease); }
+  @starting-style { .lp-menu[open] .lp-menu-bg { opacity: 0; } }
 
-  /* Índice interno */
-  .lp-index { border-block: 1px solid var(--line-2); background: var(--bg); position: sticky; top: 0; z-index: 30; backdrop-filter: saturate(140%) blur(8px); }
-  .lp-index ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-  .lp-index ul::-webkit-scrollbar { display: none; }
-  .lp-index a { display: block; padding: 14px 14px; font-size: .9rem; font-weight: 600; color: var(--label-2); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; min-height: 44px; }
-  .lp-index a:hover, .lp-index a:focus-visible { color: var(--label); border-bottom-color: var(--amber); }
+  /* El panel entra desde el borde derecho. 100dvh y no 100vh: en el celular la barra del
+     navegador aparece y desaparece, y con vh el panel quedaba más alto que la pantalla. */
+  .lp-menu-panel { position: fixed; top: 0; right: 0; z-index: 51; height: 100dvh; width: min(86vw, 340px);
+                   display: flex; flex-direction: column; background: var(--bg); border-left: 1px solid var(--line-2);
+                   box-shadow: -24px 0 60px rgba(0, 0, 0, .22); padding: 14px 20px calc(24px + env(safe-area-inset-bottom));
+                   transform: none; transition: transform .34s var(--ease); }
+  @starting-style { .lp-menu[open] .lp-menu-panel { transform: translateX(100%); } }
+  /* El cierre lo anima el script: <details> no renderiza sus hijos al cerrarse, así que sin esta
+     clase intermedia el panel desaparecería de golpe. */
+  .lp-menu.is-closing .lp-menu-panel { transform: translateX(100%); }
+  .lp-menu.is-closing .lp-menu-bg { opacity: 0; }
 
-  /* Franja de promesas: el unico campo saturado de la pagina. El ambar de marca ocupa la region
-     entera, con tinta --on-brand (9,68:1) y tarjetas de contorno, como en la referencia. */
-  .lp-promise { padding-block: clamp(40px, 6vw, 64px); background: linear-gradient(135deg, var(--brand) 0%, #F29F00 100%); color: var(--on-brand); }
-  .lp-promise-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .lp-promise-grid li { border: 1px solid rgba(35, 22, 0, .28); border-radius: var(--r-lg); padding: 28px 26px; text-align: center; }
-  .lp-promise-ico { display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto 16px; border-radius: 50%; border: 1px solid rgba(35, 22, 0, .3); }
-  .lp-promise-ico svg { width: 24px; height: 24px; }
-  .lp-promise-grid h3 { margin: 0 0 8px; font-size: var(--s-1); letter-spacing: -.03em; }
-  .lp-promise-grid p { margin: 0; line-height: 1.55; color: rgba(35, 22, 0, .78); }
+  /* El flotante de WhatsApp y el "volver arriba" viven en z-index 200, muy por encima del panel:
+     se apagan mientras esta abierto para que no floten sobre el menu. */
+  :global(html.wf-menu .wa-float), :global(html.wf-menu .totop) { opacity: 0; pointer-events: none; transition: opacity .2s var(--ease); }
 
-  .lp-band { padding-block: clamp(40px, 6vw, 72px); background: var(--bg-2); border-block: 1px solid var(--line); }
-  .lp-band h2, .lp-demo h2, .lp-plans h2, .lp-agendas h2 { font-size: var(--s-2); letter-spacing: -.04em; margin: 0 0 clamp(18px, 3vw, 30px); max-width: 22ch; }
+  .lp-menu-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; margin-bottom: 10px; border-bottom: 1px solid var(--line); }
+  .lp-menu-rot { font-size: .76rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--label-3); }
+  .lp-menu-x { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line-2); border-radius: 50%; background: none; color: var(--label); cursor: pointer; }
+  .lp-menu-x svg { width: 17px; height: 17px; }
+  .lp-menu-x:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
-  /* El camino: cuatro etapas en secuencia, no tarjetas sueltas. El conector las encadena. */
-  .lp-path-sub { margin: -14px 0 32px; color: var(--label-2); line-height: 1.6; max-width: 60ch; }
-  .lp-path { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; }
-  /* La línea que une las etapas, detrás de los números. */
-  .lp-path::before { content: ""; position: absolute; left: 21px; right: calc(25% - 21px); top: 21px; height: 1px; background: var(--line-2); }
-  .lp-step { position: relative; display: flex; flex-direction: column; }
-  .lp-step-num { width: 42px; height: 42px; flex: none; display: grid; place-items: center; border-radius: 50%;
-                 border: 1px solid var(--amber); background: var(--bg-2); color: var(--amber);
-                 font-size: .88rem; font-weight: 700; letter-spacing: -.02em; position: relative; z-index: 1; }
-  /* Alto fijo: los iconos de linea miden distinto que los del sprite, y sin esto los cuatro
-     titulos arrancaban a alturas distintas. */
-  .lp-step-ico { display: flex; align-items: center; height: 64px; margin: 18px 0 14px; color: var(--label-3); }
-  .lp-step-ico :global(.lp-step-art) { width: 84px; }
-  .lp-step-ico > svg { width: 34px; height: 34px; }
-  .lp-step h3 { margin: 0 0 8px; font-size: var(--s-1); letter-spacing: -.03em; }
-  .lp-step p { margin: 0 0 16px; color: var(--label-2); line-height: 1.55; }
-  .lp-step-ctas { margin-top: auto; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
-  .lp-step-ctas a { font-weight: 700; font-size: .92rem; color: var(--amber); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; min-height: 24px; }
+  .lp-menu ul { list-style: none; margin: 0; padding: 0; display: grid; }
+  .lp-menu li { border-bottom: 1px solid var(--line); }
+  .lp-menu-panel a { display: flex; align-items: center; min-height: 58px; font-size: 1.05rem; font-weight: 600; letter-spacing: -.02em; color: var(--label); text-decoration: none; }
+  .lp-menu-panel a:focus-visible { outline: 2px solid var(--amber); outline-offset: -2px; border-radius: 6px; }
+  .lp-menu-cta { margin: auto 0 0; justify-content: center; min-height: 54px; }
 
-  /* Recorrido */
-  .lp-demo { padding-block: clamp(40px, 6vw, 72px); }
-  .lp-demo-sub { margin: -14px 0 28px; color: var(--label-2); max-width: 56ch; }
-  .lp-demo-split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 52px); align-items: start; }
+  @media (prefers-reduced-motion: reduce) {
+    .lp-menu-panel, .lp-menu-bg { transition: none; }
+  }
 
-  .lp-friction { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-direction: column; gap: 1px; background: var(--line-2); border: 1px solid var(--line-2); border-radius: var(--r-md); overflow: hidden; }
-  .lp-friction li { background: var(--bg); padding: 18px 20px; }
-  .lp-q { margin: 0; font-size: var(--s-0); font-weight: 600; letter-spacing: -.02em; }
-  .lp-a { margin: 6px 0 0; color: var(--label-2); line-height: 1.5; }
+  /* Hero */
+  .lp-hero { padding-block: clamp(40px, 7vw, 92px) clamp(44px, 7vw, 84px); }
+  .lp-hero-in { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+  .lp-hero-copy h1 { font-size: var(--s-3); line-height: 1.08; letter-spacing: -.045em; margin: 0; }
+  /* Subrayado ambar bajo las dos promesas del titular. Va con text-decoration y no con un borde,
+     para que siga al texto si la frase se parte en dos lineas. */
+  .lp-sub-ray { text-decoration: underline; text-decoration-color: var(--amber); text-decoration-thickness: .075em; text-underline-offset: .14em; text-decoration-skip-ink: none; }
+  .lp-lede { margin-top: 20px; font-size: 1.06rem; line-height: 1.6; color: var(--label-2); max-width: 50ch; }
+  .lp-hero-ctas { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .lp-hero-ctas .btn { margin: 0; min-height: 54px; }
+  .lp-trust { list-style: none; margin: 30px 0 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .lp-trust li { display: flex; align-items: center; gap: 9px; font-size: .88rem; color: var(--label-2); line-height: 1.35; }
+  .lp-trust strong { color: var(--label); }
+  .lp-trust .is-partner { padding: 7px 13px; border: 1px solid var(--amber); border-radius: 999px; }
+  .lp-trust .is-partner strong { color: var(--amber); }
 
-  .lp-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 1px; background: var(--line-2); border: 1px solid var(--line-2); border-radius: var(--r-md); overflow: hidden; }
-  .lp-radio { position: absolute; opacity: 0; pointer-events: none; }
-  .lp-step-tab { grid-row: 1; background: var(--bg); padding: 16px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; font-size: .95rem; font-weight: 600; letter-spacing: -.02em; min-height: 44px; }
-  .lp-step-n { font-size: .79rem; font-weight: 700; color: var(--label-3); }
-  .lp-step-panel { grid-row: 2; grid-column: 1 / -1; background: var(--bg); padding: 0 18px 20px; display: none; }
-  .lp-step-panel p { margin: 0; color: var(--label-2); line-height: 1.6; }
-  .lp-radio:checked + .lp-step-tab { background: var(--fill); }
-  .lp-radio:checked + .lp-step-tab .lp-step-n { color: var(--amber); }
-  .lp-radio:checked + .lp-step-tab + .lp-step-panel { display: block; }
-  .lp-radio:focus-visible + .lp-step-tab { outline: 2px solid var(--amber); outline-offset: -3px; }
+  /* Composición del hero. Todo son formas y etiquetas: nada de texto diminuto ni cifras. */
+  .lp-compo { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .lp-compo-card { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .lp-compo-card.is-web { grid-row: 1 / 3; }
+  .lp-compo-tag { font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--amber); }
+  .lp-compo-pro { display: grid; gap: 9px; justify-items: start; }
+  .lp-compo-av { width: 46px; height: 46px; border-radius: 50%; background: var(--fill); margin-bottom: 4px; }
+  .lp-compo-rows { display: grid; gap: 11px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .lp-compo-rows span { display: flex; align-items: center; gap: 12px; }
+  .lp-compo-rows em { flex: none; width: 34px; height: 6px; border-radius: 3px; background: var(--line-2); }
+  .lp-compo-rows i { flex: 1; }
+  .lp-compo-btn { margin-top: auto; text-align: center; padding: 11px; border-radius: var(--r-sm); background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: .86rem; }
+  .lp-compo-res, .lp-compo-ia, .lp-compo-ad { display: grid; gap: 8px; justify-items: start; }
+  .lp-compo-ia { padding-top: 14px; border-top: 1px solid var(--line); }
+  .lp-compo-spark { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--amber); color: var(--amber); margin-bottom: 2px; }
+  .lp-compo-spark svg { width: 13px; height: 13px; }
+  .lp-compo-pill { display: inline-block; padding: 3px 8px; border: 1px solid var(--line-2); border-radius: 5px; font-size: .68rem; font-weight: 700; letter-spacing: .03em; color: var(--label-3); }
+  /* Las barras son el cuerpo del texto simulado: legibles como forma, ilegibles como palabra. */
+  .lp-bar { display: block; height: 8px; border-radius: 4px; background: var(--fill); }
+  .lp-bar.is-acc { background: var(--amber); opacity: .55; }
+  .lp-bar.is-w40 { width: 40%; } .lp-bar.is-w55 { width: 55%; } .lp-bar.is-w60 { width: 60%; }
+  .lp-bar.is-w65 { width: 65%; } .lp-bar.is-w70 { width: 70%; } .lp-bar.is-w75 { width: 75%; }
+  .lp-bar.is-w80 { width: 80%; } .lp-bar.is-w85 { width: 85%; } .lp-bar.is-w90 { width: 90%; }
+  .lp-bar.is-w95 { width: 95%; }
+  .lp-compo-note { margin: 16px 0 0; font-size: .78rem; color: var(--label-3); }
 
-  .lp-shot { margin: 0; position: relative; }
-  .lp-shot img { display: block; width: 100%; height: auto; border: 1px solid var(--line-2); border-radius: var(--r-md); }
-  /* .lp-shot .lp-shot-m y no .lp-shot-m a secas: la regla con ambito .lp-shot img queda en
-     (0,3,1) y le ganaba al 27%, dejando la captura de celular al 100% y desbordada. */
-  .lp-shot .lp-shot-m { position: absolute; right: -10px; bottom: 30px; width: 26%; border-radius: 14px; box-shadow: var(--sh-3); }
-  .lp-shot figcaption { margin-top: 14px; font-size: .82rem; color: var(--label-3); }
+  .lp-band { padding-block: clamp(60px, 8vw, 112px); background: var(--bg-2); border-block: 1px solid var(--line); }
+  h2 { font-size: var(--s-2); letter-spacing: -.04em; margin: 0 0 clamp(16px, 2.5vw, 26px); max-width: 20ch; }
 
-  /* Integraciones de agenda */
-  .lp-agendas { padding-block: clamp(36px, 5vw, 60px); }
-  .lp-agendas-sub { margin: -14px 0 26px; color: var(--label-2); line-height: 1.6; max-width: 62ch; }
-  .lp-agenda-row { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; }
-  .lp-agenda-row li { display: flex; align-items: center; justify-content: center; min-width: 150px; min-height: 68px; padding: 0 22px; border: 1px solid var(--line-2); border-radius: var(--r-md); background: var(--card); }
-  /* Mientras no existan los archivos, el nombre va compuesto: legible y sin inventar una marca. */
-  .lp-agenda-row span { font-size: var(--s-1); font-weight: 600; letter-spacing: -.03em; color: var(--label); }
+  /* Tres servicios con el mismo peso. El nombre va primero y literal. */
+  .lp-sol-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2vw, 24px); }
+  .lp-sol { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: 32px 28px 28px; transition: transform .35s var(--ease), border-color .35s, box-shadow .35s; }
+  .lp-sol:hover { transform: translateY(-4px); border-color: var(--amber); box-shadow: var(--sh-2); }
+  .lp-sol-art { display: block; height: 80px; margin-bottom: 20px; color: var(--label-3); }
+  .lp-sol-art :global(.lp-art) { width: 90px; }
+  /* El nombre del servicio ES el encabezado: se reconoce de un vistazo y la promesa abre el
+     cuerpo en negrita. Antes iba como etiqueta sobre el titulo, que es justo lo que el titulo
+     tiene que hacer solo. */
+  .lp-sol h3 { margin: 0 0 12px; font-size: var(--s-1); letter-spacing: -.03em; line-height: 1.2; color: var(--amber); }
+  .lp-sol-d { margin: 0 0 20px; font-size: .98rem; color: var(--label-2); line-height: 1.6; }
+  .lp-sol-d strong { color: var(--label); font-weight: 600; }
+  .lp-sol ul { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 9px; }
+  .lp-sol ul li { position: relative; padding-left: 20px; font-size: .94rem; color: var(--label-2); }
+  .lp-sol ul li::before { content: ""; position: absolute; left: 0; top: 8px; width: 9px; height: 5px; border-left: 1.5px solid var(--amber); border-bottom: 1.5px solid var(--amber); transform: rotate(-45deg); }
+  .lp-sol-cta { margin: auto 0 0; width: 100%; justify-content: center; min-height: 50px; }
+
+  /* Franja de datos. Campo ámbar plano con tinta --on-brand (9,68:1). Sin tarjetas: los datos se
+     separan con una línea, que es lo que pide una franja editorial compacta. */
+  .lp-data { padding-block: clamp(48px, 6vw, 80px); background: var(--brand); color: var(--on-brand); }
+  .lp-data h2 { max-width: 22ch; margin-bottom: clamp(26px, 3.5vw, 40px); }
+  .lp-data-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(22px, 3vw, 44px); }
+  /* El separador es una línea entre columnas, no un borde de tarjeta. */
+  .lp-data-grid li + li { border-left: 1px solid rgba(35, 22, 0, .25); padding-left: clamp(22px, 3vw, 44px); }
+  /* Tipografía fluida: el número manda sin romper la fila en pantallas intermedias. */
+  .lp-data-n { margin: 0 0 12px; font-size: clamp(2.4rem, 4.6vw, 3.6rem); font-weight: 700; letter-spacing: -.05em; line-height: 1; }
+  .lp-data-d { margin: 0 0 16px; font-size: 1rem; line-height: 1.55; color: rgba(35, 22, 0, .84); }
+  .lp-data-src { margin: 0; display: flex; flex-direction: column; gap: 4px; }
+  .lp-data-src a { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; min-height: 44px; font-size: .82rem; font-weight: 700; color: var(--on-brand); text-decoration: underline; text-underline-offset: 3px; }
+  .lp-data-src a svg { width: 13px; height: 13px; flex: none; }
+  .lp-data-src a:focus-visible { outline: 2px solid var(--on-brand); outline-offset: 3px; border-radius: 4px; }
+  .lp-data-nota { font-size: .82rem; line-height: 1.45; color: rgba(35, 22, 0, .72); }
+  .lp-data-foot { margin-top: clamp(30px, 4vw, 48px); padding-top: clamp(22px, 3vw, 32px); border-top: 1px solid rgba(35, 22, 0, .25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; }
+  .lp-data-foot p { margin: 0; font-size: 1.02rem; font-weight: 600; line-height: 1.5; max-width: 52ch; }
+  /* El botón invierte la franja: tinta oscura de fondo sobre el ámbar, 9,68:1 al revés. */
+  .lp-data-cta { margin: 0; flex: none; min-height: 52px; background: var(--on-brand); color: var(--brand); border: 0; font-weight: 700; }
+  .lp-data-cta:focus-visible { outline: 2px solid var(--on-brand); outline-offset: 3px; }
+
+  /* Secciones de detalle: dos columnas equilibradas, mismo espacio para las tres. */
+  .lp-deep { padding-block: clamp(60px, 8vw, 112px); border-top: 1px solid var(--line); }
+  /* Tras la franja ámbar el borde dibujaría una línea sobre el color: sobra. */
+  .lp-connect + .lp-deep { border-top: 0; }
+  .lp-deep.is-alt { background: var(--bg-2); }
+  /* `start` y no `center`: cuando una columna es más alta, centrar la otra la deja flotando en
+     medio de un hueco. Anclada arriba, el aire queda al final y se lee como margen. */
+  .lp-deep-in { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 68px); align-items: start; }
+  /* Alterna el lado en escritorio. En móvil el media query lo devuelve al orden del documento,
+     que ya es mensaje y después demostración. */
+  .lp-deep.is-alt .lp-deep-copy { order: 2; }
+  /* El servicio va DENTRO del encabezado, no como etiqueta encima: recorriendo los h2 se leen
+     los tres servicios, y la pregunta sigue siendo el gancho. */
+  .lp-deep-svc { color: var(--amber); }
+  .lp-deep-copy h2 { margin-bottom: 18px; max-width: 24ch; }
+  .lp-deep-d { margin: 0 0 24px; font-size: 1.02rem; color: var(--label-2); line-height: 1.65; max-width: 46ch; }
+  .lp-benes { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 14px; max-width: 46ch; }
+  .lp-benes li { position: relative; padding-left: 28px; font-size: .98rem; color: var(--label-2); line-height: 1.5; }
+  .lp-benes strong { display: block; color: var(--label); }
+  .lp-benes li::before { content: ""; position: absolute; left: 0; top: 7px; width: 12px; height: 7px; border-left: 2px solid var(--amber); border-bottom: 2px solid var(--amber); transform: rotate(-45deg); }
+  .lp-deep .btn { margin: 0; min-height: 54px; }
+  .lp-deep .lp-note + .btn { margin-top: 22px; }
+
+  /* Demostraciones. Dos piezas que llenan la columna: nada de media sección vacía. */
+  .lp-demo { display: grid; gap: 18px; }
+  .lp-demo.is-single { align-content: center; }
+  /* Sin caja propia: las piezas de adentro (ficha, arbol, recorrido, logotipos) ya tienen su
+     contorno, y envolverlas en otra tarjeta las dejaba anidadas una dentro de otra. */
+  .lp-demo-frame, .lp-demo-aside { display: grid; align-content: start; }
+  .lp-demo-aside { gap: 0; }
+  .lp-demo-h { margin: 0 0 14px; font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--label-3); }
+  .lp-demo-h.is-second { margin-top: 30px; }
+  .lp-surf + .lp-surf { margin-top: 20px; }
+  .lp-demo-cap { margin: 16px 0 0; font-size: .78rem; line-height: 1.45; color: var(--label-3); }
+
+  .lp-pro { display: grid; grid-template-columns: auto 1fr; gap: 0 16px; align-items: center; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: 26px 24px; }
+  .lp-pro-av { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: var(--fill); color: var(--label-3); }
+  .lp-pro-av svg { width: 30px; height: 30px; }
+  .lp-pro-n { margin: 0; font-size: var(--s-1); font-weight: 600; letter-spacing: -.03em; }
+  .lp-pro-e { margin: 3px 0 0; color: var(--amber); font-weight: 700; font-size: .9rem; }
+  .lp-pro-meta { grid-column: 1 / -1; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); display: grid; gap: 11px; }
+  .lp-pro-meta > div { display: flex; gap: 12px; justify-content: space-between; align-items: baseline; }
+  .lp-pro-meta dt { font-size: .84rem; color: var(--label-3); flex: none; }
+  .lp-pro-meta dd { margin: 0; font-size: .92rem; font-weight: 600; text-align: right; }
+  .lp-pro-btn { display: block; text-align: center; padding: 13px; border-radius: var(--r-sm); background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: .92rem; }
+  .lp-pro .lp-pro-btn { grid-column: 1 / -1; margin-top: 20px; }
+
+  /* Los dos puntos de partida van lado a lado: apilados estiraban la columna y abrían un hueco
+     frente al mensaje. */
+  .lp-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lp-paths span { display: block; padding: 14px 16px; border: 1px solid var(--line-2); border-radius: var(--r-sm); font-size: .9rem; color: var(--label-3); line-height: 1.45; }
+  .lp-paths strong { display: block; margin-bottom: 3px; font-size: .96rem; color: var(--label); }
+
+  .lp-agenda-row { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .lp-agenda-row li { display: flex; align-items: center; justify-content: center; flex: 1 1 110px; min-height: 56px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: var(--r-sm); }
   /* Los tres archivos son blancos sobre transparente, pensados para fondo oscuro: en tema claro
      se invierten a negro, igual que la cinta de clientes del inicio. Sin esto no se ven. */
-  .lp-agenda-row img { width: 100%; max-width: 132px; height: auto; display: block; }
+  .lp-agenda-row img { width: 100%; max-width: 96px; height: auto; display: block; }
   :global(:root:not([data-theme="dark"])) .lp-agenda-row img { filter: grayscale(1) brightness(0); }
-  .lp-agenda-row .is-more { background: none; border-style: dashed; }
-  .lp-agenda-row .is-more span { color: var(--label-3); font-weight: 500; font-size: var(--s-0); }
-  .lp-agendas-note { margin: 20px 0 0; font-size: .82rem; line-height: 1.55; color: var(--label-3); max-width: 76ch; }
+  .lp-agenda-row .is-more { border-style: dashed; }
+  .lp-agenda-row .is-more span { color: var(--label-3); font-size: .86rem; }
 
-  /* Proyectos */
-  .lp-cases { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .lp-case { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-md); padding: 26px 24px; }
-  .lp-case-logo { display: block; width: 120px; height: auto; margin-bottom: 16px; }
-  :global(:root:not([data-theme="dark"])) .lp-case-logo { filter: grayscale(1) brightness(0); }
-  :global(:root[data-theme="dark"]) .lp-case-logo { filter: grayscale(1) brightness(0) invert(1); }
-  .lp-case-tag { margin: 0 0 2px; font-size: .82rem; font-weight: 700; color: var(--amber); }
-  .lp-case-sector { margin: 0 0 14px; font-size: .88rem; color: var(--label-3); }
-  .lp-case-text { margin: 0 0 14px; color: var(--label-2); line-height: 1.55; }
-  .lp-case ul { margin: 0 0 14px; padding-left: 18px; color: var(--label-2); line-height: 1.7; }
-  .lp-case-result { margin: 0; padding-top: 14px; border-top: 1px solid var(--line); font-weight: 600; }
-  .lp-case-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; min-height: 44px; font-size: .92rem; font-weight: 700; color: var(--amber); text-decoration: none; }
+  .lp-tree { list-style: none; margin: 0; padding: 22px 24px; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); display: grid; gap: 16px; }
+  .lp-tree li { position: relative; font-weight: 600; font-size: 1rem; color: var(--label); line-height: 1.3; }
+  .lp-tree li { padding-left: 18px; }
+  .lp-tree li::before { content: ""; position: absolute; left: 0; top: 9px; width: 12px; height: 1px; background: var(--line-2); }
+  .lp-tree li span { display: block; font-weight: 400; font-size: .88rem; color: var(--label-3); margin-top: 4px; }
+
+  .lp-surf + .lp-surf { margin-top: 18px; }
+  .lp-surf-t { margin: 0 0 10px; display: flex; align-items: center; gap: 8px; font-size: .84rem; font-weight: 700; color: var(--label-2); }
+  .lp-surf-t .lp-compo-spark { margin: 0; }
+  .lp-surf-box { display: grid; gap: 8px; padding: 16px; border: 1px solid var(--line-2); border-radius: var(--r-sm); }
+  /* La linea es flexible para que el cursor viaje pegado al final de la barra mientras crece. */
+  .lp-ia-linea { display: flex; align-items: center; gap: 5px; }
+  .lp-ia-cursor { flex: none; width: 2px; height: 12px; border-radius: 1px; background: var(--amber); opacity: 0; }
+
+  .lp-flow { list-style: none; margin: 0; padding: 26px 24px; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); display: grid; gap: 0; }
+  .lp-flow li { position: relative; }
+  .lp-flow li + li { margin-top: 26px; }
+  /* La flecha que encadena los tres pasos. */
+  .lp-flow li + li::before { content: ""; position: absolute; left: 22px; top: -20px; width: 1px; height: 14px; background: var(--line-2); }
+  .lp-flow li + li::after { content: ""; position: absolute; left: 19px; top: -10px; width: 7px; height: 7px; border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); transform: rotate(45deg); }
+  .lp-flow-k { margin: 0 0 8px; font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--amber); }
+  .lp-flow-q { margin: 0; padding: 13px 18px; border: 1px solid var(--line-2); border-radius: 999px; font-size: .94rem; color: var(--label-2); }
+  .lp-flow-ad, .lp-flow-land { padding: 16px 18px; border: 1px solid var(--line-2); border-radius: var(--r-sm); display: grid; gap: 9px; justify-items: start; }
+  .lp-flow-ad p, .lp-flow-land p { margin: 0; font-size: .98rem; font-weight: 600; letter-spacing: -.02em; }
+  .lp-flow-land { background: var(--fill); }
+  .lp-flow-land .lp-pro-btn { width: 100%; }
+
+  /* Franja de estrategia. También ámbar, pero en degradado y mucho más compacta que la de datos:
+     son dos momentos distintos y quedan separados por las tres secciones de detalle. */
+  .lp-connect { padding-block: clamp(48px, 6vw, 84px); background: linear-gradient(135deg, var(--brand) 0%, #F29F00 100%); color: var(--on-brand); }
+  .lp-sub-on { color: rgba(35, 22, 0, .82); }
+  .lp-conn { display: grid; grid-template-columns: 1fr 72px 1.1fr; align-items: center; }
+  .lp-conn-src { display: grid; gap: 12px; }
+  .lp-conn article { border: 1px solid rgba(35, 22, 0, .3); border-radius: var(--r-md); padding: 20px 22px; }
+  .lp-conn h3 { margin: 0 0 5px; font-size: var(--s-1); letter-spacing: -.03em; }
+  .lp-conn p { margin: 0; font-weight: 600; color: rgba(35, 22, 0, .72); }
+  /* La llave que junta las dos entradas en el sitio: ninguna es previa a la otra. */
+  .lp-conn-join { position: relative; height: 100%; min-height: 80px; }
+  .lp-conn-join::before { content: ""; position: absolute; left: 12px; right: 12px; top: 25%; bottom: 25%; border: 1px solid rgba(35, 22, 0, .4); border-left: 0; border-radius: 0 10px 10px 0; }
+  .lp-conn-join::after { content: ""; position: absolute; right: 0; top: 50%; width: 12px; height: 1px; background: rgba(35, 22, 0, .4); }
+  .lp-conn-dest { background: rgba(255, 255, 255, .34); }
+  .lp-conn-dest p { font-weight: 400; line-height: 1.55; }
+  .lp-conn-close { margin: 26px 0 0; font-size: 1.02rem; font-weight: 600; line-height: 1.5; max-width: 54ch; }
+
+  /* Proyectos: la captura manda, el texto acompaña. */
+  .lp-cases-sec { padding-block: clamp(60px, 8vw, 112px); }
+  .lp-cases { display: grid; gap: clamp(20px, 3vw, 32px); }
+  .lp-case { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(24px, 3vw, 40px); align-items: center; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: clamp(22px, 2.5vw, 32px); transition: border-color .35s; }
+  .lp-case:hover { border-color: var(--amber); }
+  .lp-case:nth-child(even) .lp-case-shot { order: 2; }
+  .lp-case-shot { display: block; width: 100%; height: auto; border: 1px solid var(--line-2); border-radius: var(--r-md); }
+  .lp-case h3 { margin: 0 0 4px; font-size: var(--s-2); letter-spacing: -.035em; }
+  .lp-case-sector { margin: 0 0 16px; font-size: .9rem; color: var(--label-3); }
+  .lp-case-text { margin: 0 0 18px; font-size: 1rem; color: var(--label-2); line-height: 1.6; max-width: 44ch; }
+  .lp-case-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .lp-case-tags li { padding: 6px 12px; border: 1px solid var(--amber); border-radius: 999px; font-size: .8rem; font-weight: 700; color: var(--amber); }
+  .lp-case-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 18px; min-height: 44px; font-size: .94rem; font-weight: 700; color: var(--label); text-decoration: none; border-bottom: 1px solid var(--amber); }
   .lp-case-link svg { width: 15px; height: 15px; flex: none; transition: transform .25s var(--ease); }
   .lp-case-link:hover svg, .lp-case-link:focus-visible svg { transform: translate(2px, -2px); }
   .lp-case-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
 
-  /* Planes */
-  .lp-plans { padding-block: clamp(40px, 6vw, 72px); }
-  .lp-plans-sub { margin: -14px 0 26px; color: var(--label-2); max-width: 54ch; }
-  .lp-plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .lp-plan { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-md); padding: 24px 22px; }
-  .lp-plan.is-featured { border-color: var(--amber); }
-  .lp-plan h3 { margin: 0 0 10px; font-size: var(--s-1); letter-spacing: -.03em; }
-  .lp-plan p { margin: 0; color: var(--label-2); line-height: 1.55; }
-  .lp-plan-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: .85rem; font-weight: 600; color: var(--label); }
+  /* Cinta de clientes */
+  /* Va justo bajo el hero: es un golpe de credibilidad, no una sección. Por eso es baja. */
+  .lp-logos { padding-block: clamp(28px, 3.5vw, 44px) clamp(32px, 4vw, 52px); border-top: 1px solid var(--line); overflow: hidden; }
+  .lp-logos-h { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--label-3); max-width: none; margin: 0 0 clamp(20px, 2.5vw, 28px); }
+  /* La máscara difumina los bordes para que los logotipos no se corten en seco. */
+  .lp-marquee { display: flex; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .lp-track { list-style: none; margin: 0; padding: 0 clamp(32px, 5vw, 64px) 0 0; display: flex; flex: none; align-items: center; gap: clamp(32px, 5vw, 64px); animation: lp-slide 34s linear infinite; }
+  .lp-marquee:hover .lp-track, .lp-marquee:focus-within .lp-track { animation-play-state: paused; }
+  @keyframes lp-slide { to { transform: translateX(-100%); } }
+  .lp-track li { flex: none; }
+  /* Los archivos traen aire propio en el lienzo: a 38px la marca real quedaba diminuta. */
+  .lp-track img { display: block; width: auto; height: 58px; opacity: .85; transition: opacity .3s; }
+  .lp-track li:hover img { opacity: 1; }
+  /* Los archivos son blancos sobre transparente, pensados para fondo oscuro: en tema claro se
+     invierten a negro, igual que la cinta del inicio. Sin esto no se ven. */
+  :global(:root:not([data-theme="dark"])) .lp-track img { filter: grayscale(1) brightness(0); }
+  :global(:root[data-theme="dark"]) .lp-track img { filter: grayscale(1) brightness(0) invert(1); }
 
-  /* Dudas */
+  /* Testimonios. El componente ya es una <section> y hereda el padding global del sitio: aqui
+     solo va la linea que lo separa de los proyectos. Envolverlo en otra <section> con su propio
+     padding duplicaba el aire y dejaba la franja con el doble de alto que su contenido. */
+  .lp-tst { border-top: 1px solid var(--line); }
+
+  /* Preguntas frecuentes */
+  .lp-faq { padding-block: clamp(60px, 8vw, 112px); background: var(--bg-2); border-top: 1px solid var(--line); }
   .lp-list { border-top: 1px solid var(--line-2); }
   .lp-row { border-bottom: 1px solid var(--line-2); }
   .lp-row summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 2px; cursor: pointer; font-size: var(--s-1); font-weight: 600; letter-spacing: -.02em; list-style: none; min-height: 44px; }
   .lp-row summary::-webkit-details-marker { display: none; }
   .lp-row summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 6px; }
+  .lp-row summary span:first-child { transition: color .25s; }
+  .lp-row summary:hover span:first-child { color: var(--amber); }
   .lp-chev { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line-2); color: var(--label-2); display: grid; place-items: center; transition: transform .3s var(--ease), border-color .3s; }
   .lp-chev svg { width: 15px; height: 15px; }
   .lp-row[open] .lp-chev { transform: rotate(180deg); border-color: var(--amber); color: var(--amber); }
-  .lp-row p { margin: 0 0 22px; padding-right: 50px; color: var(--label-2); line-height: 1.6; max-width: 70ch; }
-  .lp-close { margin: clamp(24px, 4vw, 36px) 0 0; color: var(--label-3); }
-  .lp-close a { color: var(--amber); font-weight: 700; text-decoration: none; }
+  .lp-row p { margin: 0 0 22px; padding-right: 50px; font-size: 1rem; color: var(--label-2); line-height: 1.6; max-width: 72ch; }
+  .lp-row[open] p { animation: lp-open .4s var(--ease); }
+  @keyframes lp-open { from { opacity: 0; transform: translateY(-6px); } }
 
-  .lp-foot { padding-block: 24px 96px; }
+  /* Ley 21.719. Panel oscuro fijo en los dos temas: es una pausa de tono, no un servicio mas.
+     Sin sellos ni insignias, que parecerian una certificacion que nadie otorgo. */
+  .lp-ley { padding-block: clamp(44px, 6vw, 72px); }
+  .lp-ley-in { background: #1A1A18; color: #F3F0E9; border: 1px solid rgba(243, 240, 233, .14); border-radius: var(--r-lg); padding: clamp(28px, 4vw, 48px); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: start; max-width: 1180px; }
+  .lp-ley-tag { display: flex; align-items: center; gap: 10px; margin: 16px 0 18px; font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--brand); }
+  .lp-ley-ico { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 50%; border: 1px solid rgba(255, 176, 32, .45); }
+  .lp-ley-ico svg { width: 17px; height: 17px; }
+  .lp-ley-copy h2 { margin: 0; max-width: 18ch; color: #F3F0E9; }
+  .lp-ley-d { margin: 0 0 26px; font-size: 1.02rem; line-height: 1.65; color: rgba(243, 240, 233, .78); max-width: 46ch; }
+  .lp-ley-copy .btn { margin: 0; min-height: 52px; }
+
+  .lp-ley-h3 { margin: 0 0 14px; font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: rgba(243, 240, 233, .55); }
+  .lp-ley-lista ul { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 12px; }
+  .lp-ley-lista li { position: relative; padding-left: 28px; font-size: .98rem; line-height: 1.5; color: rgba(243, 240, 233, .9); }
+  .lp-ley-lista li::before { content: ""; position: absolute; left: 0; top: 7px; width: 12px; height: 7px; border-left: 2px solid var(--brand); border-bottom: 2px solid var(--brand); transform: rotate(-45deg); }
+  .lp-ley-nota { margin: 0; padding-top: 18px; border-top: 1px solid rgba(243, 240, 233, .16); font-size: .85rem; line-height: 1.55; color: rgba(243, 240, 233, .62); }
+  .lp-ley-fecha { margin: 14px 0 0; font-size: .85rem; line-height: 1.55; color: rgba(243, 240, 233, .62); }
+  .lp-ley-fecha a { display: inline-flex; align-items: center; gap: 6px; margin-left: 4px; min-height: 44px; color: var(--brand); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .lp-ley-fecha a svg { width: 12px; height: 12px; flex: none; }
+  .lp-ley-fecha a:focus-visible, .lp-ley-copy .btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+
+  /* Cierre: formulario liviano. Los servicios se eligen primero, que es la pregunta real. */
+  .lp-form-sec { padding-block: clamp(60px, 8vw, 104px); }
+  .lp-form-in { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(28px, 5vw, 56px); align-items: start; }
+  .lp-form-side h2 { max-width: 14ch; }
+  .lp-form-alt { margin: 22px 0 0; color: var(--label-3); }
+  .lp-form-alt a { color: var(--amber); font-weight: 700; text-decoration: none; }
+
+  .lp-form-card { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: 30px 28px 24px; }
+  .lp-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+  .lp-form-card .field { margin-bottom: 14px; }
+  .lp-form-card .field label span { font-weight: 400; color: var(--label-3); }
+  .lp-form-card .field input, .lp-form-card .field textarea { width: 100%; caret-color: var(--amber); }
+  /* El borde de tema claro del sistema (#CEC6BA sobre --card) da 1,57:1 y desaparece. Aquí el
+     formulario no es un paso del embudo, es el embudo, así que usa un token con 5,3:1. */
+  :global(:root:not([data-theme="dark"])) .lp-form-card .field input,
+  :global(:root:not([data-theme="dark"])) .lp-form-card .field textarea { border-color: var(--label-3); }
+
+  .lp-need { border: 0; padding: 0; margin: 0 0 22px; }
+  .lp-need legend { font-size: var(--s--1); font-weight: 600; color: var(--label-2); margin-bottom: 10px; padding: 0; }
+  /* En fila: cuatro opciones cortas ocupan menos y se recorren de un vistazo. */
+  .lp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lp-chip { cursor: pointer; }
+  .lp-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .lp-chip span { display: flex; align-items: center; min-height: 44px; padding: 10px 16px; border: 1px solid var(--line-2); border-radius: 999px; font-size: .92rem; font-weight: 600; color: var(--label-2); transition: border-color .2s, background-color .2s, color .2s; }
+  .lp-chip input:checked + span { border-color: var(--amber); background: var(--fill); color: var(--label); }
+  .lp-chip input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  .lp-go { width: 100%; justify-content: center; margin-top: 6px; border: 0; cursor: pointer; font: inherit; font-weight: 700; min-height: 54px; }
+  .lp-go[disabled] { opacity: .6; cursor: default; }
+  .lp-status:empty { display: none; }
+  /* Éxito y error no comparten color: en ámbar los dos, un envío fallido parecía logrado. */
+  .lp-status { margin: 14px 0 0; padding: 12px 14px; border-radius: var(--r-sm); font-size: var(--s--1); line-height: 1.5; border: 1px solid var(--line-2); color: var(--label-2); }
+  .lp-status.is-ok { border-color: #1E7A44; color: #166534; background: rgba(30, 122, 68, .08); }
+  .lp-status.is-err { border-color: #B42318; color: #B42318; background: rgba(180, 35, 24, .07); }
+  :global(:root[data-theme="dark"]) .lp-status.is-ok { color: #6EE7A0; border-color: #2F7D52; }
+  :global(:root[data-theme="dark"]) .lp-status.is-err { color: #FCA5A5; border-color: #9B3B33; }
+  .lp-legal { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: .79rem; line-height: 1.45; color: var(--label-3); }
+  .lp-legal a { color: var(--label-2); }
+  .lp-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .lp-foot { padding-block: 28px; border-top: 1px solid var(--line); }
   .lp-foot p { margin: 0; font-size: .79rem; color: var(--label-3); }
 
-  /* Barra fija con la acción */
-  .lp-sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 12px clamp(16px, 4vw, 40px); background: var(--glass-bar); border-top: 1px solid var(--line-2); backdrop-filter: saturate(160%) blur(12px); }
-  .lp-sticky p { margin: 0; font-weight: 600; color: var(--label-2); font-size: .92rem; }
-  .lp-sticky .btn { min-height: 46px; margin: 0; }
+  /* Barra fija: solo en móvil, donde el CTA del encabezado se esconde en el menú. Entra cuando
+     el botón del hero ya salió de pantalla, para no repetir la misma acción dos veces. */
+  .lp-sticky { display: none; transform: translateY(120%); transition: transform .28s var(--ease); position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; padding: 10px clamp(16px, 4vw, 40px); background: var(--glass-bar); border-top: 1px solid var(--line-2); backdrop-filter: saturate(160%) blur(12px); }
+  .lp-sticky .btn { width: 100%; justify-content: center; min-height: 50px; margin: 0; }
 
-  @media (max-width: 980px) {
-    .lp-demo-split, .lp-promise-grid { grid-template-columns: 1fr; }
-    /* Vertical: el conector pasa a ser una línea a la izquierda y las etapas se indentan. */
-    .lp-path { grid-template-columns: 1fr; gap: 0; }
-    .lp-path::before { left: 21px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
-    .lp-step { flex-direction: row; flex-wrap: wrap; gap: 0 18px; padding-bottom: 28px; }
-    .lp-step-num { grid-row: auto; }
-    .lp-step-ico { display: none; }
-    .lp-step h3, .lp-step p, .lp-step-ctas { width: calc(100% - 60px); margin-left: auto; }
-    .lp-step h3 { margin-top: 8px; }
-    .lp-step-ctas { flex-direction: row; flex-wrap: wrap; gap: 8px 18px; margin-top: 0; }
-    .lp-plan-grid { grid-template-columns: 1fr; }
-    .lp-cases, .lp-doors { grid-template-columns: 1fr; }
-    .lp-agenda-row li { flex: 1 1 140px; min-width: 0; }
+  /* Movimiento. Todo parte de un estado VISIBLE y la animación solo lo mejora: si el script no
+     corre, no hay IntersectionObserver o la persona pidió menos movimiento, la página se ve
+     completa igual. Nunca se oculta contenido a la espera de JavaScript. */
+  :global(html.wf-reveal) [data-reveal] { opacity: 0; transform: translateY(18px); }
+  :global(html.wf-reveal) [data-reveal].is-in { opacity: 1; transform: none; transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  /* Las piezas hermanas entran escalonadas, no todas de golpe. */
+  :global(html.wf-reveal) .lp-sol:nth-child(2), :global(html.wf-reveal) .lp-data-grid li:nth-child(2) { transition-delay: .09s; }
+  :global(html.wf-reveal) .lp-sol:nth-child(3), :global(html.wf-reveal) .lp-data-grid li:nth-child(3) { transition-delay: .18s; }
+  :global(html.wf-reveal) .lp-case:nth-child(2) { transition-delay: .09s; }
+
+  @media (max-width: 1040px) {
+    .lp-sol-grid { grid-template-columns: 1fr; }
+    .lp-sol-cta { width: auto; align-self: flex-start; }
+    /* El orden del documento ya es mensaje y después demostración: basta con soltar el order. */
+    .lp-deep-in, .lp-form-in { grid-template-columns: 1fr; align-items: start; }
+    .lp-deep.is-alt .lp-deep-copy { order: 0; }
+    .lp-deep-d, .lp-benes, .lp-case-text { max-width: 62ch; }
+    .lp-case { grid-template-columns: 1fr; }
+    .lp-case:nth-child(even) .lp-case-shot { order: 0; }
   }
 
   @media (max-width: 920px) {
-    .lp-split { grid-template-columns: 1fr; gap: 24px; }
-    .lp-answer h1 { font-size: var(--s-2); max-width: 20ch; }
-    .lp-lede { margin-top: 14px; font-size: var(--s-0); }
-    .lp-fact { margin-top: 18px; }
-    /* Las credenciales bajan tras el formulario: la regla del modo Persuade pide la acción dentro
-       de la primera pantalla, y en un teléfono de 667px de alto estos ~70px la empujaban fuera. */
-    .lp-answer { display: contents; }
-    .lp-form-card { order: 2; }
-    .lp-trust { order: 3; margin-top: 18px; }
-    .lp-steps { grid-template-columns: 1fr; gap: 1px; }
-    .lp-step-tab, .lp-step-panel { grid-row: auto; grid-column: 1; }
-    .lp-shot .lp-shot-m { right: 0; bottom: 24px; width: 30%; }
-    .lp-sticky p { display: none; }
-    .lp-sticky .btn { width: 100%; justify-content: center; }
+    /* La barra fija de abajo mide unos 71px: el flotante y el "volver arriba" suben por encima
+       para no quedar debajo de ella ni tapar su botón. */
+    /* Con :global(.wa-float) a secas quedaba empatado en especificidad con la regla de 640px de
+       global.css y perdia por orden. Con body delante gana por un punto. */
+    :global(body .wa-float) { bottom: 86px; }
+    :global(body .totop) { bottom: 152px; }
+    .lp-nav, .lp-head-cta { display: none; }
+    .lp-menu { display: block; }
+    .lp-hero-in { grid-template-columns: 1fr; }
+    .lp-hero-copy h1 { font-size: var(--s-2); }
+    /* El salto de línea del titular es para escritorio; en móvil estorba. */
+    .lp-hero-copy h1 br { display: none; }
+    .lp-hero-ctas .btn { flex: 1 1 200px; justify-content: center; }
+    /* Los datos se apilan con separadores horizontales, sin carrusel. */
+    .lp-data-grid { grid-template-columns: 1fr; gap: 0; }
+    .lp-data-grid li + li { border-left: 0; padding-left: 0; border-top: 1px solid rgba(35, 22, 0, .25); margin-top: 26px; padding-top: 26px; }
+    .lp-data-foot { flex-direction: column; align-items: flex-start; }
+    .lp-data-cta { width: 100%; justify-content: center; }
+    .lp-ley-in { grid-template-columns: 1fr; }
+    .lp-conn { grid-template-columns: 1fr; gap: 14px; }
+    /* En vertical la llave se vuelve una línea corta entre las entradas y el destino. */
+    .lp-conn-join { min-height: 28px; }
+    .lp-conn-join::before { left: 50%; right: auto; top: 0; bottom: 0; width: 1px; border: 0; border-left: 1px solid rgba(35, 22, 0, .4); border-radius: 0; }
+    .lp-conn-join::after { display: none; }
+    .lp-sticky { display: block; }
+    .lp-sticky.is-on { transform: none; }
+
+    /* Teléfono y correo dejan de ser texto subrayado de 19px y pasan a botones de 54px: en este
+       sitio los accesos de contacto se ampliaron a propósito tras el análisis de Clarity, y en
+       el celular una línea de texto es justo lo que nadie acierta. */
+    .lp-form-alt { display: grid; gap: 10px; }
+    .lp-alt-o { display: none; }
+    .lp-alt-q { margin-bottom: 2px; }
+    .lp-form-alt a { display: flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 18px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--label); }
+    .lp-form-alt a:first-of-type { border-color: var(--amber); color: var(--amber); }
+    .lp-foot { padding-bottom: 96px; }
   }
 
-  @media (max-width: 480px) {
-    .lp-brand { margin-bottom: 20px; }
-    .lp-hero { padding-block: 16px 32px; }
+  @media (max-width: 560px) {
+    .lp-grid2 { grid-template-columns: 1fr; }
+    /* Apilada medía ~1200px, más que la pantalla, y es decorativa: aria-hidden. En fila de tres
+       dice lo mismo —tres soluciones del mismo peso— en una séptima parte del alto. */
+    .lp-compo { grid-template-columns: repeat(3, 1fr); gap: 8px; align-items: stretch; }
+    .lp-compo-card { grid-row: auto !important; padding: 12px 10px; gap: 9px; border-radius: var(--r-md); }
+    .lp-compo-tag { font-size: .56rem; letter-spacing: .03em; line-height: 1.25; }
+    .lp-compo-av { width: 24px; height: 24px; margin-bottom: 0; }
+    .lp-compo-rows, .lp-compo-pill { display: none; }
+    .lp-compo-ia { padding-top: 9px; }
+    .lp-compo-spark { width: 16px; height: 16px; }
+    .lp-compo-spark svg { width: 10px; height: 10px; }
+    .lp-compo-btn { padding: 8px 4px; font-size: .62rem; border-radius: var(--r-sm); }
+    .lp-bar { height: 5px; }
+    .lp-compo-note { margin-top: 12px; }
+    .lp-form-card, .lp-demo-frame, .lp-demo-aside { padding: 22px 18px; }
+    .lp-paths { grid-template-columns: 1fr; }
+    .lp-sol { padding: 26px 22px 24px; }
+    .lp-sol-art { height: 62px; margin-bottom: 16px; }
+    .lp-sol-art :global(.lp-art) { width: 72px; }
+    .lp-pro-meta > div { flex-direction: column; gap: 2px; }
+    .lp-pro-meta dd { text-align: left; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     :global(html) { scroll-behavior: auto; }
-    .lp-chev, .lp-index a, .lp-chip span, .lp-case-link svg { transition: none; }
-    .lp-go:hover { transform: none; }
+    .lp-chev, .lp-nav a, .lp-chip span, .lp-case-link svg, .lp-sticky,
+    .lp-sol, .lp-case, .lp-row summary span:first-child { transition: none; }
+    .lp-sol:hover { transform: none; }
+    .lp-row[open] p { animation: none; }
+    /* Sin movimiento la cinta se vuelve una fila fija y centrada, y la copia sobra. */
+    .lp-marquee { -webkit-mask-image: none; mask-image: none; justify-content: center; }
+    .lp-track { animation: none; flex-wrap: wrap; justify-content: center; padding-right: 0; row-gap: 28px; }
+    .lp-track[aria-hidden] { display: none; }
   }
 </style>
 
-<script define:vars={{ necesidades }}>
-  /* Preselección: al pulsar "Cotizar Google Ads" en una tarjeta, el formulario de arriba llega
-     con esa opción ya marcada. Sin JavaScript el ancla igual baja al formulario, solo que la
-     persona elige a mano: mejora progresiva, no requisito. */
+<!-- Movimiento de la composicion del hero. Va en un <script> SIN atributos para que Astro lo
+     procese y pueda importar GSAP, que ya es dependencia del sitio (lo usan HeroBlobs, ArcScroll
+     y LitSteps). El de mas arriba lleva define:vars, asi que Astro lo trata como inline y ahi un
+     import no funcionaria. -->
+<script>
+  import { gsap } from 'gsap';
+
+  const compo = document.querySelector('.lp-compo');
+  const conMovimiento = matchMedia('(prefers-reduced-motion: no-preference)').matches;
+
+  if (compo instanceof HTMLElement && conMovimiento) {
+    const q = gsap.utils.selector(compo);
+    const tarjetas = q('.lp-compo-card');
+
+    /* Todo se anima con .from(): el estado final es el que ya esta en el HTML, asi que si GSAP
+       no carga o algo falla, la composicion se ve completa igual. Nunca se deja una pieza
+       escondida esperando a que el script la muestre. */
+    const entrada = gsap.timeline({ delay: 0.35, defaults: { ease: 'power3.out' } });
+
+    entrada
+      // Las tres tarjetas llegan escalonadas, no de golpe.
+      .from(tarjetas, { y: 26, opacity: 0, duration: 0.7, stagger: 0.12 })
+
+      // SEO: los resultados se dibujan de izquierda a derecha, como una lista que carga.
+      .from(q('.is-seo .lp-compo-res .lp-bar'), {
+        scaleX: 0, transformOrigin: 'left center', opacity: 0, duration: 0.45, stagger: 0.09,
+      }, '-=0.35')
+      // El destello de IA gira al aparecer: es la pieza que distingue GEO de SEO.
+      .from(q('.lp-compo-spark'), { scale: 0, rotate: -180, duration: 0.6, ease: 'back.out(2)' }, '-=0.1')
+      .from(q('.is-seo .lp-compo-ia .lp-bar'), {
+        scaleX: 0, transformOrigin: 'left center', opacity: 0, duration: 0.4, stagger: 0.09,
+      }, '-=0.3')
+
+      // Ads: primero la etiqueta "Anuncio", despues el texto del aviso.
+      .from(q('.is-ads .lp-compo-pill'), { scale: 0.7, opacity: 0, duration: 0.4, ease: 'back.out(2)' }, '-=0.35')
+      .from(q('.is-ads .lp-compo-ad .lp-bar'), {
+        scaleX: 0, transformOrigin: 'left center', opacity: 0, duration: 0.4, stagger: 0.09,
+      }, '-=0.2')
+
+      // Web: la ficha se arma —foto, nombre, especialidad— y al final aparece el boton.
+      .from(q('.lp-compo-av'), { scale: 0, duration: 0.5, ease: 'back.out(1.7)' }, '-=0.35')
+      .from(q('.is-web .lp-compo-pro .lp-bar'), {
+        scaleX: 0, transformOrigin: 'left center', opacity: 0, duration: 0.4, stagger: 0.09,
+      }, '-=0.25')
+      .from(q('.lp-compo-rows span'), { x: -14, opacity: 0, duration: 0.45, stagger: 0.1 }, '-=0.2')
+      .from(q('.lp-compo-btn'), { y: 14, opacity: 0, duration: 0.5, ease: 'back.out(1.4)' }, '-=0.15');
+
+    /* Movimiento de fondo, permanente y lento: la composicion respira en vez de quedarse quieta.
+       Cada tarjeta flota con su propio ritmo para que no parezca un bloque.
+       Solo a partir de 561px: en el celular las tres van en una fila estrecha y los desfases
+       verticales las dejan desalineadas en vez de vivas. */
+    gsap.matchMedia().add('(min-width: 561px)', () => {
+      tarjetas.forEach((tarjeta, i) => {
+        gsap.to(tarjeta, {
+          y: i === 0 ? -9 : 9,
+          duration: 3.4 + i * 0.5,
+          delay: 1.6 + i * 0.25,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+        });
+      });
+    });
+
+    // El destello de IA gira sin parar, muy despacio.
+    gsap.to(q('.lp-compo-spark svg'), { rotate: 360, duration: 14, ease: 'none', repeat: -1, delay: 1.6 });
+
+    // Cada tanto, el boton de reserva late: es la accion que la ficha propone.
+    gsap.timeline({ repeat: -1, repeatDelay: 3.4, delay: 3 })
+      .to(q('.lp-compo-btn'), { scale: 1.04, duration: 0.22, ease: 'power2.out' })
+      .to(q('.lp-compo-btn'), { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.45)' });
+
+    /* Parallax con el puntero, solo en dispositivos con mouse. Usa `x` y deja `y` libre para que
+       no choque con la flotacion de arriba. gsap.quickTo evita crear un tween por cada evento. */
+    if (matchMedia('(pointer: fine)').matches) {
+      const mueve = tarjetas.map((t, i) => ({
+        x: gsap.quickTo(t, 'x', { duration: 0.8, ease: 'power3.out' }),
+        rot: gsap.quickTo(t, 'rotate', { duration: 0.8, ease: 'power3.out' }),
+        f: i === 0 ? 1 : -0.7,
+      }));
+      compo.addEventListener('pointermove', (e) => {
+        const caja = compo.getBoundingClientRect();
+        const dx = (e.clientX - caja.left) / caja.width - 0.5;
+        mueve.forEach((m) => { m.x(dx * 16 * m.f); m.rot(dx * 1.2 * m.f); });
+      });
+      compo.addEventListener('pointerleave', () => {
+        mueve.forEach((m) => { m.x(0); m.rot(0); });
+      });
+    }
+  }
+
+  /* La demostracion de SEO / GEO: primero cargan los resultados de busqueda, despues el destello
+     "piensa" y la respuesta se escribe linea por linea con un cursor al final. Se repite en bucle
+     para que quien llegue a mitad de la seccion igual la vea. */
+  const seo = document.querySelector('#seo .lp-demo-aside');
+
+  if (seo instanceof HTMLElement && conMovimiento) {
+    const qs = gsap.utils.selector(seo);
+    const lineas = qs('.lp-ia-linea');
+    const cursores = qs('.lp-ia-cursor');
+
+    const ciclo = gsap.timeline({ repeat: -1, repeatDelay: 2.6, paused: true });
+
+    ciclo
+      .set(cursores, { autoAlpha: 0 })
+      // Los resultados de busqueda aparecen de izquierda a derecha.
+      .from(qs('.lp-busca'), {
+        scaleX: 0, transformOrigin: 'left center', opacity: 0, duration: 0.4, stagger: 0.13, ease: 'power2.out',
+      })
+      // El destello gira: el modelo esta resolviendo.
+      .to(qs('.lp-ia-spark'), { rotate: '+=360', duration: 0.95, ease: 'power2.inOut' }, '-=0.1');
+
+    // Cada linea se escribe con su cursor; al terminar, el cursor pasa a la siguiente.
+    lineas.forEach((linea, i) => {
+      const barra = linea.querySelector('.lp-bar');
+      const cursor = cursores[i];
+      ciclo
+        .set(cursor, { autoAlpha: 1 }, '>-0.05')
+        /* Se anima el ancho y no scaleX: la barra tiene que empujar al cursor, y una escala
+           horizontal no mueve al elemento siguiente. clearProps devuelve el % del CSS, para que
+           al redimensionar la ventana no quede un ancho en pixeles congelado. */
+        .from(barra, { width: 0, duration: 0.55 + i * 0.1, ease: 'none', clearProps: 'width' })
+        .set(cursor, { autoAlpha: 0 });
+    });
+
+    // El cursor parpadea mientras escribe, aparte del ciclo.
+    gsap.to(cursores, { opacity: 0.15, duration: 0.5, repeat: -1, yoyo: true, ease: 'steps(1)' });
+
+    /* Solo corre cuando la seccion esta a la vista: en una pagina larga no tiene sentido animar
+       algo que nadie mira. */
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((ents) => {
+        ents[0].isIntersecting ? ciclo.play() : ciclo.pause();
+      }, { threshold: 0.3 }).observe(seo);
+    } else {
+      ciclo.play();
+    }
+  }
+</script>
+
+<script define:vars={{ ayudas }}>
+  /* Preselección: al pulsar "Cotizar Google Ads" en cualquier tarjeta, el formulario de abajo
+     llega con esa casilla ya marcada, SIN borrar lo que la persona haya escrito. El CTA de la
+     franja de datos no lleva data-need a propósito: ahí no se pide un servicio en particular.
+     Sin JavaScript el ancla igual baja al formulario y la persona elige a mano. */
   (function () {
     document.addEventListener('click', function (e) {
       var a = e.target.closest && e.target.closest('[data-need]');
       if (!a) return;
-      var r = document.querySelector('input[name="necesidad"][value="' + a.getAttribute('data-need') + '"]');
-      if (r) r.checked = true;
+      var c = document.querySelector('input[name="ayuda"][value="' + a.getAttribute('data-need') + '"]');
+      if (c) c.checked = true;
     });
   })();
 
-  /* El envío de la landing. Mismas tres reglas que el chat flotante del sitio:
-       1. window.open va SÍNCRONO dentro del submit; tras un await el navegador lo bloquea.
-       2. El fetch del correo va antes y no se espera (keepalive), así sobrevive al cambio de foco.
-       3. Si el correo falla, WhatsApp se abre igual: nunca se pierde el contacto. */
+  /* Panel lateral. <details> deja de renderizar sus hijos apenas se le quita el atributo `open`,
+     asi que el cierre pasa por una clase intermedia: se anima la salida y recien despues se
+     cierra de verdad. Con movimiento reducido no hay espera. */
+  (function () {
+    var menu = document.querySelector('.lp-menu');
+    if (!menu) return;
+    var boton = menu.querySelector('summary');
+    var cerrar = menu.querySelector('.lp-menu-x');
+    var velo = menu.querySelector('.lp-menu-bg');
+    var quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var saliendo = null;
+
+    function abierto() { return menu.hasAttribute('open'); }
+
+    /* Bloquear el scroll quita la barra del navegador y la pagina salta esos pixeles hacia la
+       derecha. Se compensan con un relleno del mismo ancho. En un celular la barra no ocupa
+       espacio, asi que ahi el calculo da cero y no hace nada. */
+    function bloquear(si) {
+      var raiz = document.documentElement;
+      raiz.classList.toggle('wf-menu', si);
+      if (si) {
+        var barra = window.innerWidth - raiz.clientWidth;
+        if (barra > 0) raiz.style.paddingRight = barra + 'px';
+        raiz.style.overflow = 'hidden';
+      } else {
+        raiz.style.overflow = '';
+        raiz.style.paddingRight = '';
+      }
+    }
+
+    function cerrarPanel(devolverFoco) {
+      if (!abierto() || saliendo) return;
+      menu.classList.add('is-closing');
+      saliendo = setTimeout(function () {
+        menu.removeAttribute('open');
+        menu.classList.remove('is-closing');
+        bloquear(false);
+        saliendo = null;
+        if (devolverFoco && boton) boton.focus();
+      }, quieto ? 0 : 340);
+    }
+
+    /* El clic nativo del summary cerraria de golpe: se intercepta para que salga animado. */
+    if (boton) {
+      boton.addEventListener('click', function (e) {
+        if (!abierto()) return;
+        e.preventDefault();
+        cerrarPanel(true);
+      });
+    }
+
+    menu.addEventListener('toggle', function () {
+      if (!abierto()) return;
+      bloquear(true);
+      if (cerrar) cerrar.focus();
+    });
+
+    if (cerrar) cerrar.addEventListener('click', function () { cerrarPanel(true); });
+    if (velo) velo.addEventListener('click', function () { cerrarPanel(true); });
+
+    /* Elegir una seccion cierra el panel; el ancla se encarga del resto. */
+    menu.querySelectorAll('.lp-menu-panel a').forEach(function (a) {
+      a.addEventListener('click', function () { cerrarPanel(false); });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && abierto()) cerrarPanel(true);
+    });
+
+    /* El foco no debe escaparse a la pagina de atras mientras el panel esta abierto. */
+    document.addEventListener('focusin', function (e) {
+      if (!abierto() || saliendo) return;
+      if (!menu.contains(e.target) && cerrar) cerrar.focus();
+    });
+  })();
+
+  /* Aparición al entrar en pantalla. La clase wf-reveal se pone desde aquí: sin JavaScript
+     nunca llega, y entonces las reglas del estilo no aplican y todo se ve desde el primer
+     pintado. Se respeta prefers-reduced-motion consultándolo antes de armar nada. */
+  (function () {
+    var quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (quieto || !('IntersectionObserver' in window)) return;
+    var piezas = [].slice.call(document.querySelectorAll('[data-reveal]'));
+    if (!piezas.length) return;
+    document.documentElement.classList.add('wf-reveal');
+
+    function mostrar(el) { el.classList.add('is-in'); }
+
+    var obs = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        mostrar(en.target);
+        obs.unobserve(en.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    piezas.forEach(function (el) { obs.observe(el); });
+
+    /* Tres redes de seguridad, porque esconder contenido a la espera de JavaScript es justo lo
+       que dejó texto invisible a usuarios reales en el sitio anterior:
+         1. Lo que ya está en pantalla se muestra de inmediato, sin esperar al observador.
+         2. Un barrido manual por si el observador no dispara (pasa al redimensionar o al
+            capturar la página completa).
+         3. A los 4 segundos se muestra todo lo pendiente, pase lo que pase. */
+    function barrer() {
+      var alto = window.innerHeight || 0;
+      piezas.forEach(function (el) {
+        if (el.classList.contains('is-in')) return;
+        var r = el.getBoundingClientRect();
+        if (r.top < alto && r.bottom > 0) { mostrar(el); obs.unobserve(el); }
+      });
+    }
+    barrer();
+    window.addEventListener('load', barrer);
+    window.addEventListener('resize', barrer, { passive: true });
+    setTimeout(function () {
+      piezas.forEach(function (el) { mostrar(el); obs.unobserve(el); });
+    }, 4000);
+  })();
+
+  /* La barra fija aparece cuando el CTA del hero deja de verse: mientras está a la vista, la
+     barra repetiría el mismo botón. Sin JavaScript no aparece nunca, y el CTA del hero y el del
+     final siguen ahí: la acción nunca depende de esto. */
+  (function () {
+    var bar = document.querySelector('.lp-sticky');
+    var ancla = document.querySelector('.lp-hero-ctas');
+    var destino = document.getElementById('cotizar');
+    if (!bar || !ancla || !('IntersectionObserver' in window)) return;
+
+    /* La barra sobra en dos momentos: cuando el boton del hero esta a la vista (repetiria la
+       misma accion) y cuando el formulario ya esta en pantalla, donde ademas le tapaba 70px
+       justo mientras la persona lo llena. */
+    var heroVisible = true;
+    var formVisible = false;
+    function pintar() { bar.classList.toggle('is-on', !heroVisible && !formVisible); }
+
+    new IntersectionObserver(function (e) { heroVisible = e[0].isIntersecting; pintar(); }).observe(ancla);
+    if (destino) {
+      new IntersectionObserver(function (e) { formVisible = e[0].isIntersecting; pintar(); }, { threshold: 0.12 }).observe(destino);
+    }
+  })();
+
+  /* Envío real contra /api/contacto.php, la misma ruta que usan el formulario de contacto y el
+     del pie. No se simula nada: si el servidor responde error, se dice. */
   (function () {
     var form = document.getElementById('lpForm');
     if (!(form instanceof HTMLFormElement)) return;
     var nombreEl = document.getElementById('lpNombre');
-    var telEl = document.getElementById('lpTel');
+    var mailEl = document.getElementById('lpMail');
     var status = document.getElementById('lpStatus');
+    var boton = form.querySelector('button[type="submit"]');
+    var t0 = Date.now();
 
-    /* Chile: celular de 9 dígitos que parte con 9, con o sin +56. Devuelve 569XXXXXXXX. */
-    function normalizarTel(raw) {
-      var d = String(raw).replace(/\D/g, '');
-      if (d.length === 9 && d.charAt(0) === '9') return '56' + d;
-      if (d.length === 11 && d.indexOf('569') === 0) return d;
-      return null;
+    function decir(txt, clase) {
+      status.className = 'lp-status ' + clase;
+      status.textContent = txt;
     }
-    function bonito(t) { return '+56 9 ' + t.slice(3, 7) + ' ' + t.slice(7); }
     function track(ev, params) { if (typeof window.wfTrack === 'function') window.wfTrack(ev, params); }
-    function waUrl(msg) {
-      if (typeof window.wfWhatsAppUrl === 'function') return window.wfWhatsAppUrl(msg);
-      return 'https://wa.me/56931971436?text=' + encodeURIComponent(msg);
-    }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      status.textContent = '';
       nombreEl.removeAttribute('aria-invalid');
-      telEl.removeAttribute('aria-invalid');
+      mailEl.removeAttribute('aria-invalid');
 
       var nombre = nombreEl.value.trim();
       if (!nombre) {
-        status.textContent = 'Falta tu nombre para poder responderte.';
+        decir('Falta tu nombre para poder responderte.', 'is-err');
         nombreEl.setAttribute('aria-invalid', 'true');
         nombreEl.focus();
         return;
       }
-      var tel = normalizarTel(telEl.value);
-      if (!tel) {
-        status.textContent = 'Revisa el celular: debe ser un número chileno, como +56 9 1234 5678.';
-        telEl.setAttribute('aria-invalid', 'true');
-        telEl.focus();
+      var mail = mailEl.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) {
+        decir('Revisa el correo: ahí es donde te enviamos la cotización.', 'is-err');
+        mailEl.setAttribute('aria-invalid', 'true');
+        mailEl.focus();
         return;
       }
 
-      var sel = form.querySelector('input[name="necesidad"]:checked');
-      var elegida = necesidades.filter(function (n) { return sel && n.v === sel.value; })[0] || necesidades[0];
+      /* Selección múltiple. La primera marcada define el asunto del correo (lista cerrada
+         INTERESES de contacto.php); todas las marcadas se detallan en el cuerpo. */
+      var marcadas = [].slice.call(form.querySelectorAll('input[name="ayuda"]:checked'));
+      var elegidas = marcadas.map(function (c) {
+        return ayudas.filter(function (a) { return a.v === c.value; })[0];
+      }).filter(Boolean);
+      var principal = elegidas[0] || { interes: 'salud', t: 'Sin especificar' };
 
-      /* Los mismos nombres de evento que el resto del sitio usa como conversión, para que el
-         activador de Google Ads no dependa de uno que solo existe en esta página. */
-      track('wf_cta_continue', { interes: elegida.interes, necesidad: elegida.v, surface: 'landing-salud' });
-      track('generate_lead', { form_kind: 'landing-salud' });
+      var detalle = elegidas.length
+        ? elegidas.map(function (a) { return '· ' + a.t; }).join('\n')
+        : '· No indicó una línea en particular.';
+      var libre = document.getElementById('lpMsg').value.trim();
+      var cuerpo = 'Solicitud de cotización desde la landing de centros de salud (Google Ads).\n\n'
+        + 'Qué necesita:\n' + detalle
+        + (libre ? '\n\nObjetivo:\n' + libre : '');
 
       var datos = new FormData();
-      datos.set('form', 'whatsapp');
+      datos.set('form', 'contacto');
       datos.set('nombre', nombre);
-      datos.set('tel', tel);
-      datos.set('interes', elegida.interes);
-      datos.set('msg', 'Landing de centros de salud (Google Ads). ' + elegida.frase + '.');
+      datos.set('email', mail);
+      datos.set('tel', document.getElementById('lpTel').value.trim());
+      datos.set('empresa', document.getElementById('lpCentro').value.trim());
+      datos.set('interes', principal.interes);
+      datos.set('msg', cuerpo);
       datos.set('website', document.getElementById('lpWebsite').value);
       datos.set('pagina', document.title + ' (' + location.pathname + ')');
-      datos.set('e', String(Math.round(performance.now())));
-      fetch('/api/contacto.php', { method: 'POST', body: datos, credentials: 'same-origin', keepalive: true }).catch(function () {});
+      datos.set('e', String(Date.now() - t0));
 
-      var msg = 'Hola, mi nombre es ' + nombre + ' y administro un centro de salud. '
-        + elegida.frase + '. Pueden contactarme a este número: ' + bonito(tel) + '. ¡Muchas gracias!';
-      track('whatsapp_click', { link_type: 'formulario' });
-      window.open(waUrl(msg), '_blank', 'noopener');
+      boton.disabled = true;
+      decir('Enviando…', '');
 
-      status.textContent = 'Listo: abrimos WhatsApp. Si no se abrió, escríbenos al +56 9 3197 1436.';
-      form.reset();
+      /* Se exige el {"ok":true} que devuelve contacto.php, no solo un 200: así un 200 que no sea
+         del script (por ejemplo el archivo servido tal cual) nunca pasa por envío logrado. */
+      fetch('/api/contacto.php', { method: 'POST', body: datos, credentials: 'same-origin' })
+        .then(function (r) { return r.json().catch(function () { return {}; }); })
+        .then(function (j) {
+          if (!j || j.ok !== true) throw new Error(j && j.error ? j.error : 'desconocido');
+          track('generate_lead', { form_kind: 'landing-salud' });
+          track('wf_cta_continue', { interes: principal.interes, surface: 'landing-salud' });
+          decir('Listo. Recibimos tu solicitud y te respondemos en menos de 24 horas hábiles.', 'is-ok');
+          form.reset();
+        })
+        .catch(function (err) {
+          var motivo = String(err && err.message);
+          if (motivo === 'limit') {
+            decir('Recibimos varias solicitudes desde esta conexión. Espera un momento o escríbenos al +56 9 3197 1436.', 'is-err');
+          } else if (motivo === 'fast') {
+            decir('El envío salió demasiado rápido. Inténtalo otra vez, por favor.', 'is-err');
+          } else if (motivo === 'email') {
+            decir('El correo no fue aceptado. Revísalo e inténtalo de nuevo.', 'is-err');
+            mailEl.setAttribute('aria-invalid', 'true');
+            mailEl.focus();
+          } else {
+            decir('No pudimos enviar el formulario. Escríbenos a contacto@webfriends.cl o al +56 9 3197 1436 y lo resolvemos.', 'is-err');
+          }
+        })
+        .then(function () { boton.disabled = false; });
     });
   })();
 </script>

@@ -15,6 +15,7 @@ const MIN_FILL_MS = 3000;
 const INTERESES = [
   'general' => 'Asesoría general', 'ads' => 'Google Ads', 'seo' => 'Posicionamiento SEO',
   'web' => 'Sitio o tienda web', 'salud' => 'Plataforma para salud', 'uxui' => 'Diseño UX/UI',
+  'privacidad' => 'Revisión técnica de privacidad',
 ];
 
 header('Content-Type: application/json; charset=utf-8');
