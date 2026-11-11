@@ -339,7 +339,7 @@ const faqs = [
       <p class="lp-sub">Elige por dónde empezar. Cada uno funciona solo.</p>
       <div class="lp-sol-grid">
         {soluciones.map((s) => (
-          <article class="lp-sol" data-reveal>
+          <article class="lp-sol">
             <span class="lp-sol-art" aria-hidden="true"><LineArt name={s.art} class="lp-art" /></span>
             {s.badge && (
               <span class="lp-sol-badge">
@@ -606,6 +606,13 @@ const faqs = [
           </details>
         ))}
       </div>
+
+      <!-- Quien llega hasta aquí ya leyó todo y sigue con una duda: el paso siguiente es
+           preguntarla, no seguir leyendo. El formulario está justo debajo. -->
+      <div class="lp-faq-foot">
+        <p>¿Te quedó otra duda? Cuéntanos tu caso y la respondemos sin costo.</p>
+        <a class="btn btn-accent lp-faq-cta" href="#cotizar">Cotizar solución</a>
+      </div>
     </div>
   </section>
 
@@ -841,6 +848,8 @@ const faqs = [
      cuerpo en negrita. Antes iba como etiqueta sobre el titulo, que es justo lo que el titulo
      tiene que hacer solo. */
   .lp-sol h3 { margin: 0 0 12px; font-size: var(--s-1); letter-spacing: -.03em; line-height: 1.2; color: var(--amber); }
+  .lp-sol:nth-child(2) { z-index: 2; }
+  .lp-sol:nth-child(3) { z-index: 1; }
   .lp-sol-link { color: inherit; text-decoration: none; }
   /* El área pulsable cubre la tarjeta completa. */
   .lp-sol-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
@@ -1013,6 +1022,9 @@ const faqs = [
     transition: border-color .3s, box-shadow .3s;
   }
   .lp-tst :global(.tst-rating:hover) { border-color: var(--amber); box-shadow: var(--sh-2); }
+  /* El recuento de reseñas sale solo en esta landing; el inicio lo conserva. Se oculta con
+     display:none y no visualmente, para que tampoco lo lea un lector de pantalla. */
+  .lp-tst :global(.tst-rating span:last-child) { display: none; }
   .lp-tst :global(.tst-rating b) { font-size: 2rem; line-height: 1; }
   .lp-tst :global(.tst-stars) { font-size: 1.05rem; }
 
@@ -1024,6 +1036,9 @@ const faqs = [
 
   /* Preguntas frecuentes */
   .lp-faq { padding-block: clamp(60px, 8vw, 112px); background: var(--bg-2); border-top: 1px solid var(--line); }
+  .lp-faq-foot { margin-top: clamp(28px, 3.5vw, 40px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; }
+  .lp-faq-foot p { margin: 0; font-size: 1.02rem; font-weight: 600; line-height: 1.5; max-width: 46ch; }
+  .lp-faq-cta { margin: 0; flex: none; min-height: 52px; }
   .lp-list { border-top: 1px solid var(--line-2); }
   .lp-row { border-bottom: 1px solid var(--line-2); }
   .lp-row summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 2px; cursor: pointer; font-size: var(--s-1); font-weight: 600; letter-spacing: -.02em; list-style: none; min-height: 44px; }
@@ -1167,6 +1182,8 @@ const faqs = [
     /* Teléfono y correo dejan de ser texto subrayado de 19px y pasan a botones de 54px: en este
        sitio los accesos de contacto se ampliaron a propósito tras el análisis de Clarity, y en
        el celular una línea de texto es justo lo que nadie acierta. */
+    .lp-faq-foot { flex-direction: column; align-items: stretch; }
+    .lp-faq-cta { width: 100%; justify-content: center; }
     .lp-form-alt { display: grid; gap: 10px; }
     .lp-alt-o { display: none; }
     .lp-alt-q { margin-bottom: 2px; }
@@ -1197,6 +1214,60 @@ const faqs = [
     .lp-track[aria-hidden] { display: none; }
   }
 </style>
+
+<!-- Las tres tarjetas entran amontonadas en el centro y se ordenan con el scroll. Va en un
+     <script> SIN atributos para que Astro lo procese y pueda importar; usa el mismo cargador
+     diferido que el resto del sitio, así GSAP no compite con la primera carga. -->
+<script>
+  import { whenInteracted, loadScrollGsap } from '../scripts/when-interacted';
+
+  whenInteracted(async () => {
+    const grid = document.querySelector('.lp-sol-grid');
+    if (!(grid instanceof HTMLElement)) return;
+
+    const { gsap } = await loadScrollGsap();
+
+    /* Solo donde las tres van de verdad en fila. La cuadrícula pasa a una columna en 1040px,
+       así que el umbral es ese y no otro: por debajo, correr una tarjeta el ancho de sí misma
+       la sacaba de la pantalla. Y nunca con movimiento reducido. matchMedia de GSAP deshace lo
+       suyo al salir del rango, así que al girar el teléfono todo vuelve a su sitio solo. */
+    gsap.matchMedia().add(
+      '(min-width: 1041px) and (prefers-reduced-motion: no-preference)',
+      () => {
+        const cards = gsap.utils.toArray('.lp-sol', grid);
+        if (cards.length < 3) return;
+
+        /* Todo con .from(): el estado final es el que ya está en el HTML. Si GSAP no carga o
+           algo falla, las tarjetas se ven en su sitio, no escondidas esperando un script. */
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: grid,
+            start: 'top 90%',
+            end: 'top 45%',
+            scrub: 0.6,
+          },
+        });
+
+        cards.forEach((card, i) => {
+          const medio = i === 1;
+          /* xPercent y no píxeles: cada tarjeta se corre el ancho de sí misma hacia el centro,
+             sin medir nada. Así no hay valores que queden obsoletos al redimensionar la ventana
+             ni mediciones tomadas sobre un elemento ya transformado. Quedan amontonadas con el
+             desfase de la separación entre columnas, que es justo lo que deja ver que son tres. */
+          tl.fromTo(card, {
+            xPercent: medio ? 0 : (i === 0 ? 100 : -100),
+            y: medio ? 0 : 30,
+            rotate: medio ? 0 : (i === 0 ? -6 : 6),
+            scale: medio ? 0.95 : 0.88,
+            opacity: medio ? 1 : 0.55,
+          }, {
+            xPercent: 0, y: 0, rotate: 0, scale: 1, opacity: 1, ease: 'none',
+          }, 0);
+        });
+      },
+    );
+  });
+</script>
 
 <script define:vars={{ ayudas }}>
   /* Preselección: al pulsar "Cotizar Google Ads" en cualquier tarjeta, el formulario de abajo
