@@ -376,14 +376,21 @@ const faqs = [
       </div>
 
       <div class="lp-demo is-single" data-reveal>
-        <div class="lp-demo-aside">
-          <p class="lp-demo-h">Dos puntos de partida</p>
-          <div class="lp-paths">
-            <span><strong>Crear un sitio nuevo</strong>Cuando no hay sitio o la base ya no da más.</span>
-            <span><strong>Actualizar mi sitio</strong>Cuando funciona, pero cuesta usarlo.</span>
-          </div>
+        <!-- El sitio de OdontoSalud, cliente real del rubro: especialidades, convenios y reserva
+             de hora en la portada. Dice lo mismo que la ficha maquetada que había aquí, pero es
+             un sitio que existe. Los dos puntos de partida salieron: la entrada ya dice que
+             creamos desde cero o renovamos. -->
+        <div class="lp-dv">
+          <DeviceShowcase
+            project="odontosalud"
+            name="OdontoSalud"
+            altDesktop="Portada del sitio de la clínica dental OdontoSalud, con especialidades, convenios y reserva de hora"
+            altMobile="Sitio de OdontoSalud en el celular"
+          />
+        </div>
 
-          <p class="lp-demo-h is-second">Vinculación con tu agenda</p>
+        <div class="lp-demo-aside">
+          <p class="lp-demo-h">Vinculación con tu agenda</p>
           <ul class="lp-agenda-row">
             {agendas.map((a) => (
               <li><img src={`/assets/img/agendas/${a.logo}`} alt={a.n} width="200" height="100" loading="lazy" decoding="async" /></li>
@@ -401,7 +408,7 @@ const faqs = [
 
   <section class="lp-cases-sec" id="proyectos" aria-labelledby="lp-proy-h">
     <div class="lp-wrap">
-      <h2 id="lp-proy-h">Centros que ya trabajan así</h2>
+      <h2 id="lp-proy-h">Algunos de nuestros casos de éxito</h2>
       <div class="lp-cases">
         {evidencia.map((c) => (
           <article class="lp-case" data-reveal>
@@ -516,57 +523,60 @@ const faqs = [
 
 
 
+  <!-- Protección de datos. Va antes de las preguntas frecuentes, como aspecto transversal: no
+       es un cuarto servicio y por eso no tiene tarjeta propia junto a web, SEO/GEO y Ads. Lo que
+       se ofrece es una revisión técnica del sitio, no asesoría jurídica ni certificación. -->
+  <section class="lp-ley" id="datos" aria-labelledby="lp-ley-h">
+    <div class="lp-wrap">
+      <div class="lp-ley-in">
+        <div class="lp-ley-copy" data-reveal>
+          <h2 id="lp-ley-h">La confianza también se construye cuidando los datos.</h2>
+          <!-- La etiqueta va bajo el titulo, no encima: el encabezado abre y esto lo sitúa. -->
+          <p class="lp-ley-tag">
+            <span class="lp-ley-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 5 6v5.5c0 4.2 2.9 8.1 7 9.5 4.1-1.4 7-5.3 7-9.5V6l-7-3Z" /><path d="m9.2 12.2 2 2 3.6-3.8" />
+              </svg>
+            </span>
+            Protección de datos · Ley 21.719
+          </p>
+          <p class="lp-ley-d">
+            Los formularios, las reservas y las herramientas de medición pueden involucrar datos
+            personales. Revisa cómo los recibe y utiliza tu sitio, y qué ajustes técnicos necesita.
+          </p>
+          <a class="btn btn-accent" href="#cotizar" data-need="privacidad">Cotizar revisión técnica</a>
+        </div>
+
+        <div class="lp-ley-lista" data-reveal>
+          <p class="lp-ley-h3">Qué se revisa en el sitio</p>
+          <ul>
+            {revisiones.map((r) => <li>{r}</li>)}
+          </ul>
+          <p class="lp-ley-nota">
+            La revisión técnica del sitio no sustituye una evaluación jurídica ni acredita el
+            cumplimiento integral de la organización.
+          </p>
+          <p class="lp-ley-fecha">
+            Entrada en vigencia prevista en el texto legal consultado: {leyVigencia}.
+            <a href={leyFuente} target="_blank" rel="noopener">
+              Ver la ley en la BCN
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 4h6v6" /><path d="M20 4 11 13" /><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
+              </svg>
+              <span class="sr-only">(se abre en una pestaña nueva)</span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Testimonios: el mismo componente del inicio, con las resenas publicas de Google. Va aqui
        para que la prueba quede junta: proyectos con captura, despues lo que dicen los clientes. -->
   <div class="lp-tst">
     <Testimonials />
   </div>
 
-  <!-- Protección de datos. Va antes de las preguntas frecuentes, como aspecto transversal: no
-       es un cuarto servicio y por eso no tiene tarjeta propia junto a web, SEO/GEO y Ads. Lo que
-       se ofrece es una revisión técnica del sitio, no asesoría jurídica ni certificación. -->
-  <section class="lp-ley" id="datos" aria-labelledby="lp-ley-h">
-    <div class="lp-wrap lp-ley-in">
-      <div class="lp-ley-copy" data-reveal>
-        <h2 id="lp-ley-h">La confianza también se construye cuidando los datos.</h2>
-        <!-- La etiqueta va bajo el titulo, no encima: el encabezado abre y esto lo sitúa. -->
-        <p class="lp-ley-tag">
-          <span class="lp-ley-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3 5 6v5.5c0 4.2 2.9 8.1 7 9.5 4.1-1.4 7-5.3 7-9.5V6l-7-3Z" /><path d="m9.2 12.2 2 2 3.6-3.8" />
-            </svg>
-          </span>
-          Protección de datos · Ley 21.719
-        </p>
-        <p class="lp-ley-d">
-          Los formularios, las reservas y las herramientas de medición pueden involucrar datos
-          personales. Revisa cómo los recibe y utiliza tu sitio, y qué ajustes técnicos necesita.
-        </p>
-        <a class="btn btn-accent" href="#cotizar" data-need="privacidad">Cotizar revisión técnica</a>
-      </div>
-
-      <div class="lp-ley-lista" data-reveal>
-        <p class="lp-ley-h3">Qué se revisa en el sitio</p>
-        <ul>
-          {revisiones.map((r) => <li>{r}</li>)}
-        </ul>
-        <p class="lp-ley-nota">
-          La revisión técnica del sitio no sustituye una evaluación jurídica ni acredita el
-          cumplimiento integral de la organización.
-        </p>
-        <p class="lp-ley-fecha">
-          Entrada en vigencia prevista en el texto legal consultado: {leyVigencia}.
-          <a href={leyFuente} target="_blank" rel="noopener">
-            Ver la ley en la BCN
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M14 4h6v6" /><path d="M20 4 11 13" /><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
-            </svg>
-            <span class="sr-only">(se abre en una pestaña nueva)</span>
-          </a>
-        </p>
-      </div>
-    </div>
-  </section>
 
   <section class="lp-faq" id="dudas" aria-labelledby="lp-faq-h">
     <div class="lp-wrap">
@@ -880,14 +890,8 @@ const faqs = [
   .lp-demo-aside { display: grid; align-content: start; }
   .lp-demo-aside { gap: 0; }
   .lp-demo-h { margin: 0 0 14px; font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--label-3); }
-  .lp-demo-h.is-second { margin-top: 30px; }
 
 
-  /* Los dos puntos de partida van lado a lado: apilados estiraban la columna y abrían un hueco
-     frente al mensaje. */
-  .lp-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .lp-paths span { display: block; padding: 14px 16px; border: 1px solid var(--line-2); border-radius: var(--r-sm); font-size: .9rem; color: var(--label-3); line-height: 1.45; }
-  .lp-paths strong { display: block; margin-bottom: 3px; font-size: .96rem; color: var(--label); }
 
   .lp-agenda-row { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
   .lp-agenda-row li { display: flex; align-items: center; justify-content: center; flex: 1 1 110px; min-height: 56px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: var(--r-sm); }
@@ -1018,7 +1022,7 @@ const faqs = [
   /* Ley 21.719. Panel oscuro fijo en los dos temas: es una pausa de tono, no un servicio mas.
      Sin sellos ni insignias, que parecerian una certificacion que nadie otorgo. */
   .lp-ley { padding-block: clamp(44px, 6vw, 72px); }
-  .lp-ley-in { background: #1A1A18; color: #F3F0E9; border: 1px solid rgba(243, 240, 233, .14); border-radius: var(--r-lg); padding: clamp(28px, 4vw, 48px); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: start; max-width: 1180px; }
+  .lp-ley-in { background: #1A1A18; color: #F3F0E9; border: 1px solid rgba(243, 240, 233, .14); border-radius: var(--r-lg); padding: clamp(28px, 4vw, 48px); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: start; }
   .lp-ley-tag { display: flex; align-items: center; gap: 10px; margin: 16px 0 18px; font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--brand); }
   .lp-ley-ico { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 50%; border: 1px solid rgba(255, 176, 32, .45); }
   .lp-ley-ico svg { width: 17px; height: 17px; }
@@ -1155,7 +1159,6 @@ const faqs = [
   @media (max-width: 560px) {
     .lp-grid2 { grid-template-columns: 1fr; }
     .lp-form-card, .lp-demo-aside { padding: 22px 18px; }
-    .lp-paths { grid-template-columns: 1fr; }
     .lp-sol { padding: 26px 22px 24px; }
     .lp-sol-art { height: 62px; margin-bottom: 16px; }
     .lp-sol-art :global(.lp-art) { width: 72px; }
