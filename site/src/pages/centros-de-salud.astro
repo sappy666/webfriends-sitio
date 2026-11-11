@@ -18,17 +18,22 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LineArt from '../components/LineArt.astro';
-import Testimonials from '../components/Testimonials.astro';
 import DeviceShowcase from '../components/DeviceShowcase.astro';
 import FloatButtons from '../components/FloatButtons.astro';
 import WhatsAppLead from '../components/WhatsAppLead.astro';
 
 // Casos reales y publicables del rubro (PRODUCT.md > Evidence on Hand). Las capturas son de los
 // sitios en producción; `hecho` enumera solo lo que el caso documenta, sin atribuir de más.
+import { reviews, reviewsUrl, iniciales } from '../data/reviews';
+
 const casos = await getCollection('casos');
 const evidencia = [
   {
     ...casos.find((c) => c.id === 'ceapsi')!.data,
+    // El texto se reescribe aqui y no en casos/ceapsi.yaml: ese archivo tambien alimenta la
+    // pagina de Nosotros, donde la frase va bajo el titulo «El desafio» y tiene que leerse como
+    // un problema inicial. En esta landing lo que se cuenta es la oportunidad.
+    challenge: 'Un centro con muy buena reputación presencial, pero con una agenda que podía crecer bastante más de lo que estaba creciendo.',
     shot: 'ceapsi-full.webp',
     shotH: 3212,
     url: 'https://ceapsi.cl/',
@@ -36,6 +41,7 @@ const evidencia = [
   },
   {
     ...casos.find((c) => c.id === 'liv-salud')!.data,
+    challenge: 'Un sitio web que ha ido creciendo a medida que crece su red de atención.',
     shot: 'livsalud-full.webp',
     shotH: 3207,
     url: 'https://livsalud.cl/',
@@ -90,30 +96,27 @@ const soluciones = [
   },
 ];
 
-// Datos de terceros. Se publican con su fuente, su año y su alcance a la vista, porque ninguno es
-// de Webfriends ni de Chile: son referencias generales de comportamiento. `nota` solo aparece
-// cuando el dato necesita una aclaración de alcance para no leerse de más.
+// Datos de terceros, todos chilenos. Se publican con su fuente, su año, su muestra y su alcance
+// a la vista: ninguno es de Webfriends ni mide a un centro en particular. El orden sigue el
+// peso del dato: primero el que casi no admite discusión, y al final el hábito más nuevo.
 const datos = [
   {
-    n: '53 %',
-    d: 'De las visitas móviles se abandonaban cuando la página tardaba más de 3 segundos en cargar.',
-    fuente: 'Google/DoubleClick · 2017',
-    url: 'https://blog.google/products/adsense/the-ultimate-mobile-page-speed-infographic/',
-    nota: 'Dato general de navegación móvil.',
+    n: '99,1 %',
+    d: 'De los hogares conectados entra a internet desde el celular. Para la mitad, los datos móviles son su conexión más habitual.',
+    fuente: 'Subtel · XII Encuesta · 2025',
+    url: 'https://www.subtel.gob.cl/wp-content/uploads/2026/02/Informe-Final-Acceso-y-Uso-Internet-2025_03.pdf',
   },
   {
-    n: '80 %',
-    d: 'De los pacientes encuestados querían agendar en cualquier momento desde casa o un dispositivo móvil.',
-    fuente: 'Experian Health · 2025 · EE. UU.',
-    url: 'https://www.experian.com/blogs/healthcare/qa-state-of-patient-access-2025-insights-and-challenges/',
-    nota: '',
+    n: '70 %',
+    d: 'Pacientes llegan a la consulta después de haber buscado sus síntomas en internet.',
+    fuente: 'U. Austral · 2026',
+    url: 'https://www.biobiochile.cl/noticias/ciencia-y-tecnologia/pc-e-internet/2026/10/14/3-de-cada-10-chilenos-le-preguntan-a-la-inteligencia-artificial-por-sus-problemas-de-salud.shtml',
   },
   {
-    n: '3 de cada 4',
-    d: 'Personas encuestadas habían buscado online información sobre médicos, dentistas o atención médica.',
-    fuente: 'PatientPop · 2021 · EE. UU.',
-    url: 'https://www.prnewswire.com/news-releases/patientpop-third-annual-patient-perspective-survey-report-reveals-what-patients-want-in-2021-301320469.html',
-    nota: '',
+    n: '32,9 %',
+    d: 'De los adultos usa IA generativa, como ChatGPT o Gemini, para resolver dudas de salud.',
+    fuente: 'WIP Chile 5.0 · UC · 2026',
+    url: 'https://www.biobiochile.cl/noticias/ciencia-y-tecnologia/pc-e-internet/2026/10/14/3-de-cada-10-chilenos-le-preguntan-a-la-inteligencia-artificial-por-sus-problemas-de-salud.shtml',
   },
 ];
 
@@ -319,7 +322,7 @@ const faqs = [
        El CTA va sin data-need: aquí no se está pidiendo un servicio en particular. -->
   <section class="lp-data" aria-labelledby="lp-data-h">
     <div class="lp-wrap">
-      <h2 id="lp-data-h">Antes de la consulta, cada paso cuenta.</h2>
+      <h2 id="lp-data-h">Así busca atención la gente en Chile.</h2>
       <ul class="lp-data-grid">
         {datos.map((d) => (
           <li data-reveal>
@@ -333,7 +336,6 @@ const faqs = [
                 </svg>
                 <span class="sr-only">(se abre en una pestaña nueva)</span>
               </a>
-              {d.nota && <span class="lp-data-nota">{d.nota}</span>}
             </p>
           </li>
         ))}
@@ -440,7 +442,7 @@ const faqs = [
         </p>
         <ul class="lp-benes">
           <li><strong>Elegir sin buscar.</strong> Especialidades, sedes y profesionales a la vista.</li>
-          <li><strong>Rápido en el celular.</strong> Donde ocurre la mitad de las visitas.</li>
+          <li><strong>Rápido en el celular.</strong> Donde ocurre más de la mitad de las visitas.</li>
           <li><strong>Conectado a tu agenda.</strong> Sin cambiar de sistema.</li>
         </ul>
         <a class="btn btn-accent" href="#cotizar" data-need="web">Cotizar sitio web</a>
@@ -595,11 +597,42 @@ const faqs = [
 
 
 
-  <!-- Testimonios: el mismo componente del inicio, con las resenas publicas de Google. Va aqui
-       para que la prueba quede junta: proyectos con captura, despues lo que dicen los clientes. -->
-  <div class="lp-tst">
-    <Testimonials />
-  </div>
+  <!-- Testimonios. El inicio los muestra en un carrusel con flechas; aqui van en cinta continua,
+       como los logotipos, para que la prueba social se lea de un vistazo y no pieza por pieza.
+       Son las mismas reseñas públicas de Google, repetidas en dos pistas idénticas: la segunda
+       es decorativa y queda fuera del árbol de accesibilidad para que no se lean dos veces. -->
+  <section class="lp-tst" aria-labelledby="lp-tst-h">
+    <div class="lp-wrap lp-tst-head">
+      <h2 id="lp-tst-h">Lo que dicen quienes ya trabajan con nosotros.</h2>
+      <a class="lp-tst-rating" href={reviewsUrl} target="_blank" rel="noopener">
+        <b>4,4</b>
+        <span class="lp-stars" aria-hidden="true">
+          <span class="lp-stars-base"><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg></span>
+          <span class="lp-stars-on"><span><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg><svg viewBox="0 0 20 19" aria-hidden="true"><path d="m10 0 3.09 6.26 6.91 1-5 4.87 1.18 6.87L10 15.75 3.82 19 5 12.13 0 7.26l6.91-1z" /></svg></span></span>
+        </span>
+        <span class="lp-tst-src">Reseñas en Google</span>
+        <span class="sr-only">(se abre en una pestaña nueva)</span>
+      </a>
+    </div>
+
+    <div class="lp-tst-marquee">
+      {[false, true].map((copia) => (
+        <ul class="lp-tst-track" aria-hidden={copia ? 'true' : undefined}>
+          {reviews.map((r) => (
+            <li>
+              <figure class="lp-tst-card">
+                <blockquote>{r.quote}</blockquote>
+                <figcaption>
+                  <span class="lp-tst-av" aria-hidden="true">{iniciales(r.name)}</span>
+                  <span class="lp-tst-who"><strong>{r.name}</strong><span>{r.role}</span></span>
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </section>
 
 
   <section class="lp-faq" id="dudas" aria-labelledby="lp-faq-h">
@@ -900,7 +933,6 @@ const faqs = [
   .lp-data-src a { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; min-height: 44px; font-size: .82rem; font-weight: 700; color: var(--on-brand); text-decoration: underline; text-underline-offset: 3px; }
   .lp-data-src a svg { width: 13px; height: 13px; flex: none; }
   .lp-data-src a:focus-visible { outline: 2px solid var(--on-brand); outline-offset: 3px; border-radius: 4px; }
-  .lp-data-nota { font-size: .82rem; line-height: 1.45; color: rgba(35, 22, 0, .72); }
   .lp-data-foot { margin-top: clamp(30px, 4vw, 48px); padding-top: clamp(22px, 3vw, 32px); border-top: 1px solid rgba(35, 22, 0, .25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; }
   .lp-data-foot p { margin: 0; font-size: 1.02rem; font-weight: 600; line-height: 1.5; max-width: 52ch; }
   /* El botón invierte la franja: tinta oscura de fondo sobre el ámbar, 9,68:1 al revés. */
@@ -1016,45 +1048,31 @@ const faqs = [
   :global(:root:not([data-theme="dark"])) .lp-track img { filter: grayscale(1) brightness(0); }
   :global(:root[data-theme="dark"]) .lp-track img { filter: grayscale(1) brightness(0) invert(1); }
 
-  /* Testimonios. El componente ya es una <section> y hereda el padding global del sitio: aqui
-     solo va la franja y los ajustes que le dan mas peso en esta pagina. Envolverlo en otra
-     <section> con su propio padding duplicaba el aire y dejaba la franja con el doble de alto
-     que su contenido.
+  /* Testimonios en cinta. Dos pistas idénticas que se desplazan juntas: cuando la primera
+     termina de salir, la segunda ocupa su lugar y el bucle no tiene costura. El mismo
+     mecanismo de la cinta de logotipos, con tarjetas en vez de imágenes. */
+  .lp-tst { padding-block: clamp(60px, 8vw, 100px); background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
+  .lp-tst-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; margin-bottom: clamp(28px, 3.5vw, 44px); }
+  .lp-tst-head h2 { margin: 0; max-width: 20ch; }
+  .lp-tst-rating { display: inline-flex; align-items: center; gap: 10px; flex: none; padding: 12px 18px; min-height: 56px; border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent); border-radius: var(--r-lg); background: var(--card); color: var(--label-2); text-decoration: none; transition: border-color .3s, box-shadow .3s; }
+  .lp-tst-rating:hover { border-color: var(--amber); box-shadow: var(--sh-2); }
+  .lp-tst-rating b { font-size: 1.9rem; line-height: 1; letter-spacing: -.03em; color: var(--label); }
+  .lp-tst-src { font-size: .88rem; }
 
-     En esta landing la prueba social es el argumento que cierra: la seccion pasa a tener
-     superficie propia, las tarjetas se levantan del fondo y la nota de Google deja de ser una
-     linea de 13px para convertirse en el dato que se ve primero. Todo va acotado a .lp-tst
-     para no tocar el inicio, que usa el mismo componente. */
-  .lp-tst { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-
-  /* Las tarjetas eran contorno sobre el mismo fondo: contra una superficie alterna no se leian
-     como piezas. Con superficie propia y sombra suave quedan por delante de la franja. */
-  .lp-tst :global(.tst-card) { background: var(--card); box-shadow: var(--sh-2); border-color: var(--line); }
-  .lp-tst :global(.tst-card:hover) { box-shadow: var(--sh-3); border-color: color-mix(in srgb, var(--amber) 55%, transparent); }
-  .lp-tst :global(.tst-card blockquote) { font-size: .98rem; line-height: 1.6; }
-
-  /* 4,4 de 5 con 18 resenas es el dato mas duro de esta seccion y estaba al tamano de un pie de
-     foto. Pasa a bloque con contorno ambar, del tamano de un boton, y sigue llevando al listado
-     real de Google. */
-  .lp-tst :global(.tst-rating) {
-    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 12px;
-    margin-top: 26px; padding: 12px 18px; min-height: 56px;
-    border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent); border-radius: var(--r-lg);
-    background: var(--card); font-size: .9rem;
-    transition: border-color .3s, box-shadow .3s;
-  }
-  .lp-tst :global(.tst-rating:hover) { border-color: var(--amber); box-shadow: var(--sh-2); }
-  /* El recuento de reseñas sale solo en esta landing; el inicio lo conserva. Se oculta con
-     display:none y no visualmente, para que tampoco lo lea un lector de pantalla. */
-  .lp-tst :global(.tst-rating span:last-child) { display: none; }
-  .lp-tst :global(.tst-rating b) { font-size: 2rem; line-height: 1; }
-  .lp-tst :global(.tst-stars) { font-size: 1.05rem; }
-
-  .lp-tst :global(.tst-nav) { margin-top: 24px; }
-
-  @media (max-width: 640px) {
-    .lp-tst :global(.tst-rating) { width: 100%; justify-content: center; }
-  }
+  .lp-tst-marquee { display: flex; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .lp-tst-track { list-style: none; margin: 0; padding: 0 clamp(16px, 2vw, 22px) 0 0; display: flex; flex: none; align-items: stretch; gap: clamp(16px, 2vw, 22px); animation: lp-slide 68s linear infinite; }
+  .lp-tst-marquee:hover .lp-tst-track, .lp-tst-marquee:focus-within .lp-tst-track { animation-play-state: paused; }
+  .lp-tst-track li { flex: none; width: clamp(290px, 27vw, 360px); display: flex; }
+  .lp-tst-card { margin: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; width: 100%; padding: 24px 22px 20px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-2); }
+  .lp-tst-card blockquote { margin: 0; font-size: .95rem; line-height: 1.6; color: var(--label); }
+  /* Las comillas las pone el CSS y no el texto: así la cita se puede copiar sin arrastrarlas. */
+  .lp-tst-card blockquote::before { content: open-quote; }
+  .lp-tst-card blockquote::after { content: close-quote; }
+  .lp-tst-card figcaption { display: flex; align-items: center; gap: 12px; }
+  .lp-tst-av { width: 38px; height: 38px; flex: none; display: grid; place-items: center; border: 1px solid var(--line-2); border-radius: 50%; font-size: .78rem; font-weight: 700; color: var(--amber); }
+  .lp-tst-who { display: flex; flex-direction: column; min-width: 0; font-size: .84rem; line-height: 1.3; }
+  .lp-tst-who strong { font-weight: 600; color: var(--label); }
+  .lp-tst-who span { color: var(--label-3); }
 
   /* Preguntas frecuentes */
   .lp-faq { padding-block: clamp(60px, 8vw, 112px); background: var(--bg-2); border-top: 1px solid var(--line); }
@@ -1234,6 +1252,10 @@ const faqs = [
     .lp-marquee { -webkit-mask-image: none; mask-image: none; justify-content: center; }
     .lp-track { animation: none; flex-wrap: wrap; justify-content: center; padding-right: 0; row-gap: 28px; }
     .lp-track[aria-hidden] { display: none; }
+    /* La cinta de testimonios se detiene y queda desplazable con el dedo o el teclado. */
+    .lp-tst-marquee { -webkit-mask-image: none; mask-image: none; overflow-x: auto; }
+    .lp-tst-track { animation: none; }
+    .lp-tst-track[aria-hidden] { display: none; }
   }
 </style>
 
