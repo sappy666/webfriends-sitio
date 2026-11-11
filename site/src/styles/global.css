@@ -110,6 +110,7 @@ body,.hdr,.card,.plan,.metric,.grouped,.contact-card,.client,.mega,.field input,
 
 *,*::before,*::after{box-sizing:border-box}
 html{scrollbar-gutter:stable;scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%;overflow-x:clip;max-width:100%}
+html[data-bare] body{padding-top:0}
 body{
   margin:0;padding-top:var(--hdr-h);background:var(--bg);color:var(--label);
   font-family:"Plus Jakarta Sans","Jakarta Fallback","Jakarta Fallback Android",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
