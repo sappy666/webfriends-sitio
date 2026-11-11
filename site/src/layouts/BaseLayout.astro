@@ -25,6 +25,11 @@ interface Props {
   bare?: boolean;
   // Canonical propio: una landing que duplica una pagina de servicio apunta a ella.
   canonical?: string;
+  /** Tema fijo para esta página: ignora la preferencia guardada y la del sistema. Una landing
+      * de campaña se ve igual para todo el mundo, que es parte de lo que se está pagando. */
+  theme?: 'light' | 'dark';
+  // Cuando viene, el layout escribe data-theme en el <html> desde el servidor (correcto incluso
+  // sin JavaScript) y marca data-theme-lock para que SiteScripts no lo pise al cargar.
   /** Nombre corto de la página en las migas (JSON-LD). Por defecto, el título sin la marca. */
   crumb?: string;
   /** Tipo schema.org de la página (WebPage, AboutPage, ContactPage, CollectionPage, ProfilePage…). */
@@ -37,7 +42,7 @@ interface Props {
 
 // Páginas sin imagen propia comparten una imagen de marca (1200×630) al compartirse en redes.
 const DEFAULT_OG = { image: '/assets/img/og-default.jpg', alt: 'Webfriends, agencia de marketing digital en Chile' };
-const { title, description, themeColor = '#000000', ogImage, noindex = false, bare = false, canonical } = Astro.props;
+const { title, description, themeColor = '#000000', ogImage, noindex = false, bare = false, canonical, theme } = Astro.props;
 const ogImageAlt = ogImage ? Astro.props.ogImageAlt : DEFAULT_OG.alt;
 const currentPath = Astro.url.pathname;
 const canonicalUrl = new URL(canonical ?? currentPath, Astro.site ?? Astro.url.origin).toString();
@@ -56,14 +61,15 @@ const breadcrumbs = currentPath === '/' ? null : [
 ];
 ---
 <!DOCTYPE html>
-<html lang="es-CL">
+<html lang="es-CL" data-theme={theme} data-theme-lock={theme ? '' : undefined}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}>
   <meta name="theme-color" content={themeColor}>
-  <!-- Tema antes de pintar: la elección guardada del usuario o, si no eligió, la del sistema operativo. -->
-  <script is:inline>(function(){var t=null;try{t=localStorage.getItem("wf-theme");}catch(e){}if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
+  <!-- Tema antes de pintar: la elección guardada del usuario o, si no eligió, la del sistema
+       operativo. En una página con tema fijo no corre: el atributo ya viene del servidor. -->
+  {!theme && <script is:inline>(function(){var t=null;try{t=localStorage.getItem("wf-theme");}catch(e){}if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>}
   <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta name="description" content={description}>

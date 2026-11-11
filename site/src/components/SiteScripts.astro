@@ -24,23 +24,28 @@ document.documentElement.classList.add('js');
     });
     if(meta) meta.setAttribute("content", dark ? "#000000" : "#F3F0E9");
   }
-  /* Sin elección guardada se sigue el tema del sistema operativo (y sus cambios en vivo);
-     al tocar el interruptor, la elección del usuario manda y se recuerda. */
-  var sysDark = window.matchMedia('(prefers-color-scheme: dark)');
-  var chosen = stored === "light" || stored === "dark";
-  apply(chosen ? stored === "dark" : sysDark.matches);
-  sysDark.addEventListener('change', function(e){
-    var s = null;
-    try{ s = localStorage.getItem(THEME_KEY); }catch(err){}
-    if (s !== "light" && s !== "dark") apply(e.matches);
-  });
-  themeBtns.forEach(function(b){
-    b.addEventListener("click", function(){
-      var dark = document.documentElement.getAttribute("data-theme") !== "dark";
-      apply(dark);
-      try{ localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); }catch(e){}
+  /* Paginas con tema fijo (data-theme-lock, lo pone el layout): ni la preferencia guardada ni
+     la del sistema las cambian. Sin este freno, este bloque pisaba el tema del servidor apenas
+     cargaba el script. */
+  if (!document.documentElement.hasAttribute("data-theme-lock")) {
+    /* Sin elección guardada se sigue el tema del sistema operativo (y sus cambios en vivo);
+       al tocar el interruptor, la elección del usuario manda y se recuerda. */
+    var sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+    var chosen = stored === "light" || stored === "dark";
+    apply(chosen ? stored === "dark" : sysDark.matches);
+    sysDark.addEventListener('change', function(e){
+      var s = null;
+      try{ s = localStorage.getItem(THEME_KEY); }catch(err){}
+      if (s !== "light" && s !== "dark") apply(e.matches);
     });
-  });
+    themeBtns.forEach(function(b){
+      b.addEventListener("click", function(){
+        var dark = document.documentElement.getAttribute("data-theme") !== "dark";
+        apply(dark);
+        try{ localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); }catch(e){}
+      });
+    });
+  }
 
   /* ══════════════════════════════════════════════════════════
      MOTOR DE REVELADO — IntersectionObserver, una pasada por nodo
