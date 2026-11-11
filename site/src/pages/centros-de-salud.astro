@@ -47,8 +47,8 @@ const evidencia = [
 // Van en el mismo orden en que aparecen en la pagina.
 const nav = [
   { id: 'servicios', t: 'Servicios' },
-  { id: 'proyectos', t: 'Proyectos' },
   { id: 'datos', t: 'Protección de datos' },
+  { id: 'proyectos', t: 'Proyectos' },
   { id: 'dudas', t: 'Preguntas frecuentes' },
 ];
 
@@ -63,6 +63,7 @@ const soluciones = [
     d: 'Creamos o actualizamos tu sitio para que sea rápido, claro y cómodo desde el celular.',
     items: ['Creación o renovación', 'Fichas de profesionales', 'Acceso a tu agenda'],
     cta: 'Cotizar sitio web',
+    ver: 'Ver cómo lo hacemos',
   },
   {
     v: 'seo',
@@ -72,6 +73,7 @@ const soluciones = [
     d: 'Trabajamos tu visibilidad orgánica en Google y la claridad de tu información para buscadores y respuestas de IA.',
     items: ['Especialidades y sedes', 'Contenidos útiles', 'Estructura técnica'],
     cta: 'Cotizar SEO / GEO',
+    ver: 'Ver cómo lo hacemos',
   },
   {
     v: 'ads',
@@ -81,6 +83,7 @@ const soluciones = [
     d: 'Creamos campañas orientadas a tus servicios y sedes, con seguimiento de los contactos que sea posible medir.',
     items: ['Búsquedas relevantes', 'Campañas por servicio', 'Medición y ajustes'],
     cta: 'Cotizar Google Ads',
+    ver: 'Ver cómo lo hacemos',
     // Distintivo real: Webfriends es Google Partner desde hace 7 años. Va como texto y no como
     // la insignia oficial, que no tenemos en archivo.
     badge: 'Google Partner',
@@ -346,16 +349,72 @@ const faqs = [
                 {s.badge}
               </span>
             )}
-            <h3>{s.nombre}</h3>
+            <!-- El enlace va en el encabezado y su área se estira sobre toda la tarjeta: así
+                 la tarjeta entera es pulsable, pero el lector de pantalla anuncia «Sitios web» y
+                 no el párrafo completo. El botón de abajo es la señal visual del mismo enlace,
+                 por eso es un <span> y no otro enlace: dos destinos dentro de una tarjeta
+                 obligan a elegir dos veces. -->
+            <h3><a class="lp-sol-link" href={`#${s.v}`}>{s.nombre}</a></h3>
             <p class="lp-sol-d"><strong>{s.t}</strong> {s.d}</p>
             <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
-            <a class="btn btn-soft lp-sol-cta" href="#cotizar" data-need={s.v}>{s.cta}</a>
+            <span class="btn btn-soft lp-sol-cta">
+              {s.ver}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
+            </span>
           </article>
         ))}
       </div>
     </div>
   </section>
 
+
+  <!-- Protección de datos. Va antes de las preguntas frecuentes, como aspecto transversal: no
+       es un cuarto servicio y por eso no tiene tarjeta propia junto a web, SEO/GEO y Ads. Lo que
+       se ofrece es una revisión técnica del sitio, no asesoría jurídica ni certificación. -->
+  <section class="lp-ley" id="datos" aria-labelledby="lp-ley-h">
+    <div class="lp-wrap">
+      <div class="lp-ley-in">
+        <div class="lp-ley-copy" data-reveal>
+          <h2 id="lp-ley-h">La confianza también se construye cuidando los datos.</h2>
+          <!-- La etiqueta va bajo el titulo, no encima: el encabezado abre y esto lo sitúa. -->
+          <p class="lp-ley-tag">
+            <span class="lp-ley-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 5 6v5.5c0 4.2 2.9 8.1 7 9.5 4.1-1.4 7-5.3 7-9.5V6l-7-3Z" /><path d="m9.2 12.2 2 2 3.6-3.8" />
+              </svg>
+            </span>
+            Protección de datos · Ley 21.719
+          </p>
+          <p class="lp-ley-d">
+            Los formularios, las reservas y las herramientas de medición pueden involucrar datos
+            personales. Revisa cómo los recibe y utiliza tu sitio, y qué ajustes técnicos necesita.
+          </p>
+          <a class="btn btn-accent" href="#cotizar" data-need="privacidad">Cotizar revisión técnica</a>
+        </div>
+
+        <div class="lp-ley-lista" data-reveal>
+          <p class="lp-ley-h3">Qué se revisa en el sitio</p>
+          <ul>
+            {revisiones.map((r) => <li>{r}</li>)}
+          </ul>
+          <p class="lp-ley-nota">
+            La revisión técnica del sitio no sustituye una evaluación jurídica ni acredita el
+            cumplimiento integral de la organización.
+          </p>
+          <p class="lp-ley-fecha">
+            Entrada en vigencia prevista en el texto legal consultado: {leyVigencia}.
+            <a href={leyFuente} target="_blank" rel="noopener">
+              Ver la ley en la BCN
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 4h6v6" /><path d="M20 4 11 13" /><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
+              </svg>
+              <span class="sr-only">(se abre en una pestaña nueva)</span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Detalle 1: SITIOS WEB. Dos columnas equilibradas; en móvil el mensaje va antes que la
        demostración, por eso la demostración viene después en el orden del documento. -->
@@ -523,53 +582,6 @@ const faqs = [
 
 
 
-  <!-- Protección de datos. Va antes de las preguntas frecuentes, como aspecto transversal: no
-       es un cuarto servicio y por eso no tiene tarjeta propia junto a web, SEO/GEO y Ads. Lo que
-       se ofrece es una revisión técnica del sitio, no asesoría jurídica ni certificación. -->
-  <section class="lp-ley" id="datos" aria-labelledby="lp-ley-h">
-    <div class="lp-wrap">
-      <div class="lp-ley-in">
-        <div class="lp-ley-copy" data-reveal>
-          <h2 id="lp-ley-h">La confianza también se construye cuidando los datos.</h2>
-          <!-- La etiqueta va bajo el titulo, no encima: el encabezado abre y esto lo sitúa. -->
-          <p class="lp-ley-tag">
-            <span class="lp-ley-ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3 5 6v5.5c0 4.2 2.9 8.1 7 9.5 4.1-1.4 7-5.3 7-9.5V6l-7-3Z" /><path d="m9.2 12.2 2 2 3.6-3.8" />
-              </svg>
-            </span>
-            Protección de datos · Ley 21.719
-          </p>
-          <p class="lp-ley-d">
-            Los formularios, las reservas y las herramientas de medición pueden involucrar datos
-            personales. Revisa cómo los recibe y utiliza tu sitio, y qué ajustes técnicos necesita.
-          </p>
-          <a class="btn btn-accent" href="#cotizar" data-need="privacidad">Cotizar revisión técnica</a>
-        </div>
-
-        <div class="lp-ley-lista" data-reveal>
-          <p class="lp-ley-h3">Qué se revisa en el sitio</p>
-          <ul>
-            {revisiones.map((r) => <li>{r}</li>)}
-          </ul>
-          <p class="lp-ley-nota">
-            La revisión técnica del sitio no sustituye una evaluación jurídica ni acredita el
-            cumplimiento integral de la organización.
-          </p>
-          <p class="lp-ley-fecha">
-            Entrada en vigencia prevista en el texto legal consultado: {leyVigencia}.
-            <a href={leyFuente} target="_blank" rel="noopener">
-              Ver la ley en la BCN
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M14 4h6v6" /><path d="M20 4 11 13" /><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
-              </svg>
-              <span class="sr-only">(se abre en una pestaña nueva)</span>
-            </a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Testimonios: el mismo componente del inicio, con las resenas publicas de Google. Va aqui
        para que la prueba quede junta: proyectos con captura, despues lo que dicen los clientes. -->
@@ -829,12 +841,19 @@ const faqs = [
      cuerpo en negrita. Antes iba como etiqueta sobre el titulo, que es justo lo que el titulo
      tiene que hacer solo. */
   .lp-sol h3 { margin: 0 0 12px; font-size: var(--s-1); letter-spacing: -.03em; line-height: 1.2; color: var(--amber); }
+  .lp-sol-link { color: inherit; text-decoration: none; }
+  /* El área pulsable cubre la tarjeta completa. */
+  .lp-sol-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .lp-sol-link:focus-visible { outline: none; }
+  .lp-sol:has(.lp-sol-link:focus-visible) { outline: 2px solid var(--amber); outline-offset: 3px; }
   .lp-sol-d { margin: 0 0 20px; font-size: .98rem; color: var(--label-2); line-height: 1.6; }
   .lp-sol-d strong { color: var(--label); font-weight: 600; }
   .lp-sol ul { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 9px; }
   .lp-sol ul li { position: relative; padding-left: 20px; font-size: .94rem; color: var(--label-2); }
   .lp-sol ul li::before { content: ""; position: absolute; left: 0; top: 8px; width: 9px; height: 5px; border-left: 1.5px solid var(--amber); border-bottom: 1.5px solid var(--amber); transform: rotate(-45deg); }
-  .lp-sol-cta { margin: auto 0 0; width: 100%; justify-content: center; min-height: 50px; }
+  .lp-sol-cta { margin: auto 0 0; width: 100%; justify-content: center; min-height: 50px; gap: 8px; }
+  .lp-sol-cta svg { width: 15px; height: 15px; flex: none; transition: transform .25s var(--ease); }
+  .lp-sol:hover .lp-sol-cta svg { transform: translateY(2px); }
 
   /* Franja de datos. Campo ámbar plano con tinta --on-brand (9,68:1). Sin tarjetas: los datos se
      separan con una línea, que es lo que pide una franja editorial compacta. */
